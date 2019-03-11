@@ -1006,8 +1006,20 @@ components:
     FiltersImage:
       description: One or more filters.
       properties:
+        AccountAliases:
+          description: The account aliases of of the owners of the OMIs.
+          items: {type: string}
+          type: array
         AccountIds:
           description: The account IDs of the owners of the OMIs. By default, all the OMIs for which you have launch permissions are described.
+          items: {type: string}
+          type: array
+        ImageIds:
+          description: The IDs of the OMIs.
+          items: {type: string}
+          type: array
+        ImageNames:
+          description: The names of the OMIs, provided when they were created.
           items: {type: string}
           type: array
         PermissionsToLaunchAccountIds:
@@ -2489,8 +2501,8 @@ components:
     ResourceTag:
       description: Information about the tag.
       properties:
-        Key: {description: The key of the tag., type: string}
-        Value: {description: The value of the tag (up to 255 characters)., type: string}
+        Key: {description: 'The key of the tag, with a minimum of 1 character.', type: string}
+        Value: {description: 'The value of the tag, between 0 and 255 characters.', type: string}
       type: object
     ResponseContext:
       description: Information about the context of the response.
@@ -2708,10 +2720,10 @@ components:
     Tag:
       description: Information about the tag.
       properties:
-        Key: {description: The key of the tag., type: string}
+        Key: {description: 'The key of the tag, with a minimum of 1 character.', type: string}
         ResourceId: {description: The ID of the resource., type: string}
         ResourceType: {description: The type of the resource., type: string}
-        Value: {description: The value of the tag (up to 255 characters)., type: string}
+        Value: {description: 'The value of the tag, between 0 and 255 characters.', type: string}
       type: object
     UnlinkInternetServiceRequest:
       properties:
@@ -3066,8 +3078,21 @@ components:
         VpnConnectionId: {description: The ID of the VPN connection., type: string}
       type: object
   securitySchemes:
-    ApiKeyAuth: {description: Outscale Signature authorization v4, in: header, name: Authorization, type: apiKey}
-info: {title: Outscale API, version: 0.8, x-release_date: '2019-02-19'}
+    ApiKeyAuth: {description: 'Signatures of API Requests based on the Hash-based Message Authentication Code (HMAC) protocol, [more information](https://wiki.outscale.net/display/EN/About+Signatures+of+API+Requests).', in: header, name: Authorization, type: apiKey}
+info:
+  contact: {email: support@outscale.com}
+  description: 'Welcome to the Outscale API documentation.<br /><br />
+
+    The Outscale API enables you to manage your resources in the Outscale Cloud. This documentation describes the different actions available along with code examples.<br /><br />
+
+    Note that the Outscale Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the Outscale API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/Outscale+APIs+Reference).<br /><br />
+
+    You can also manage your resources using the [Cockpit](https://wiki.outscale.net/display/EN/About+Cockpit) web interface.'
+  license: {name: BSD 3 Clause, url: 'https://opensource.org/licenses/BSD-3-Clause'}
+  termsOfService: https://en.outscale.com/terms-of-service/
+  title: OUTSCALE API
+  version: '0.8'
+  x-release_date: '2019-03-11'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -3759,13 +3784,11 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags: [Subnet]
   /CreateTags:
-    description: 'Adds or replaces one or more tags for the specified resources. You can add up to 10 tags per resource.<br />
+    description: 'Adds one or more tags to the specified resources.<br />
 
-      A tag is a combination of a key and a value. The value is optional.<br />
+      If a tag with the same key already exists for the resource, the tag value is replaced.<br />
 
-      If a tag with the same key already exists for the resource, its value is updated.<br />
-
-      You can tag the following resources using their ID:<br /><br />
+      You can tag the following resources using their IDs:<br /><br />
 
       * Volumes (vol-xxxxxxxx)<br />
 
@@ -4543,9 +4566,7 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags: [Subnet]
   /DeleteTags:
-    description: 'Deletes the specified tags of a resource.<br />
-
-      Tags can be identified either by their key, or by their key and value.'
+    description: Deletes one or more tags from the specified resources.
     post:
       operationId: DeleteTags
       requestBody:
@@ -5518,7 +5539,7 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags: [Subnet]
   /ReadTags:
-    description: "Lists one or more network address translation (NAT) services.<br /><br />\n**[NOTE]**<br />  \nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
+    description: "Lists one or more tags for your resources.<br /><br />          \n**[NOTE]**<br />\nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
     post:
       operationId: ReadTags
       requestBody:
