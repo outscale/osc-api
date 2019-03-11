@@ -1,4 +1,4 @@
-# Ourscale API
+# Outscale API
 
 Copyright (C) 2019, Outscale
 
