@@ -35,7 +35,7 @@ components:
     BackendVmHealth:
       description: Information about the health of a back-end VM.
       properties:
-        Description: {description: A description of the state of the back-end VM., type: string}
+        Description: {description: The description of the state of the back-end VM., type: string}
         State: {description: The state of the back-end VM (`InService` \| `OutOfService` \| `Unknown`)., type: string}
         StateReason: {description: 'Information about the cause of `OutOfService` VMs.<br />
 
@@ -85,7 +85,7 @@ components:
         DeleteOnVmDeletion: {description: 'Set to `true` by default, which means that the volume is deleted when the VM is terminated. If set to `false`, the volume is not deleted when the VM is terminated.', type: boolean}
         Iops: {description: The number of I/O operations per second (IOPS). This parameter must be specified only if you create an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is 13 000., type: integer}
         SnapshotId: {description: The ID of the snapshot used to create the volume., type: string}
-        VolumeSize: {description: 'The size of the volume, in Gibibytes (GiB).<br />
+        VolumeSize: {description: 'The size of the volume, in gibibytes (GiB).<br />
 
             If you specify a snapshot ID, the volume size must be at least equal to the snapshot size.<br />
 
@@ -323,7 +323,7 @@ components:
         Description: {description: A description for the NIC., type: string}
         DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
         PrivateIps:
-          description: "The private IP address of the NIC.<br /><br />                        \n- This IP address must be in the IP range of the Subnet you specify with the `SubnetId` attribute.<br />\n- If you do not specify a private IP address, Outscale selects one in the IP range of the Subnet."
+          description: "The private IP address of the NIC.<br /><br />                        \nThis IP address must be in the IP range of the Subnet you specify with the `SubnetId` attribute.<br />\nIf you do not specify a private IP address, Outscale selects one in the IP range of the Subnet."
           items: {$ref: '#/components/schemas/PrivateIpLight'}
           type: array
         SecurityGroupIds:
@@ -429,7 +429,7 @@ components:
         Description: {description: A description for the snapshot., type: string}
         DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
         FileLocation: {description: The pre-signed URL of the snapshot you want to import from the OSU bucket., type: string}
-        SnapshotSize: {description: 'The size of the snapshot created in your account, in Gibibytes (GiB). This size must be exactly the same as the source snapshot one. The maximum allowed size is 14,901 GiB.', type: integer}
+        SnapshotSize: {description: 'The size of the snapshot created in your account, in gibibytes (GiB). This size must be exactly the same as the source snapshot one. The maximum allowed size is 14,901 GiB.', type: integer}
         SourceRegionName: {description: 'The name of the source Region, which must be the same as the Region of your account.', type: string}
         SourceSnapshotId: {description: The ID of the snapshot you want to copy., type: string}
         VolumeId: {description: The ID of the volume you want to create a snapshot of., type: string}
@@ -514,7 +514,7 @@ components:
         SubnetId: {description: The ID of the Subnet in which you want to create the VM., type: string}
         UserData: {description: 'Data or a script used to add a specific configuration to the VM when creating it. If you are not using a command line tool, this must be Base64-encoded.', type: string}
         VmInitiatedShutdownBehavior: {description: 'The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.', type: string}
-        VmType: {description: 'The type of VM (`m1.small` by default).<br />
+        VmType: {description: 'The type of VM (`t2.small` by default).<br />
 
             For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).', type: string}
       required: [ImageId]
@@ -531,7 +531,7 @@ components:
       properties:
         DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
         Iops: {description: The number of I/O operations per second (IOPS). This parameter must be specified only if you create an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is 13 000., type: integer}
-        Size: {description: 'The size of the volume, in Gibibytes (GiB). The maximum allowed size for a volume is 14,901 GiB.', type: integer}
+        Size: {description: 'The size of the volume, in gibibytes (GiB). The maximum allowed size for a volume is 14,901 GiB.', type: integer}
         SnapshotId: {description: The ID of the snapshot from which you want to create the volume., type: string}
         SubregionName: {description: The Subregion in which you want to create the volume., type: string}
         VolumeType: {description: 'The type of volume you want to create (`io1` \| `gp2` \| `standard`). If not specified, a `standard` volume is created.<br />
@@ -923,6 +923,40 @@ components:
         Details: {description: The details of the error., type: string}
         Type: {description: The type of the error., type: string}
       type: object
+    FiltersApiLog:
+      description: One or more filters.
+      properties:
+        QueryAccessKeys:
+          description: One or more API keys used for the query.
+          items: {type: string}
+          type: array
+        QueryApiNames:
+          description: The name of one or more API services used for the query.
+          items: {type: string}
+          type: array
+        QueryCallNames:
+          description: The name of one or more calls.
+          items: {type: string}
+          type: array
+        QueryDateAfter: {description: The logs of the queries made after the date and time you specify (in ISO 8601 base or extended format)., format: date, type: string}
+        QueryDateBefore: {description: The logs of the queries made before the date and time you specify (in ISO 8601 base or extended format)., format: date, type: string}
+        QueryIpAddresses:
+          description: One or more IP addresses used for the query.
+          items: {type: string}
+          type: array
+        QueryUserAgents:
+          description: One or more user agents used for the HTTP request.
+          items: {type: string}
+          type: array
+        RequestIds:
+          description: One or more request IDs.
+          items: {type: string}
+          type: array
+        ResponseStatusCodes:
+          description: One or more HTTP codes provided by the responses.
+          items: {type: integer}
+          type: array
+      type: object
     FiltersClientGateway:
       description: One or more filters.
       properties:
@@ -1007,11 +1041,39 @@ components:
       description: One or more filters.
       properties:
         AccountAliases:
-          description: The account aliases of of the owners of the OMIs.
+          description: The account aliases of the owners of the OMIs.
           items: {type: string}
           type: array
         AccountIds:
           description: The account IDs of the owners of the OMIs. By default, all the OMIs for which you have launch permissions are described.
+          items: {type: string}
+          type: array
+        Architectures:
+          description: The architectures of the OMIs (`i386` \| `x86_64`).
+          items: {type: string}
+          type: array
+        BlockDeviceMappingDeviceNames:
+          description: The device names for the volumes.
+          items: {type: string}
+          type: array
+        BlockDeviceMappingSnapshotIds:
+          description: The IDs of the snapshots used to create the volumes.
+          items: {type: string}
+          type: array
+        BlockDeviceMappingVolumeSizes:
+          description: The sizes of the volumes, in gibibytes (GiB).
+          items: {type: integer}
+          type: array
+        BlockDeviceMappingVolumeTypes:
+          description: The types of volumes (`standard` \| `gp2` \| `io1`).
+          items: {type: string}
+          type: array
+        Descriptions:
+          description: The descriptions of the OMIs, provided when they were created.
+          items: {type: string}
+          type: array
+        FileLocations:
+          description: The locations where the OMI files are stored on Object Storage Unit (OSU).
           items: {type: string}
           type: array
         ImageIds:
@@ -1027,6 +1089,14 @@ components:
           items: {type: string}
           type: array
         PermissionsToLaunchGlobalPermission: {description: 'If `true`, lists all public OMIs. If `false`, lists all private OMIs.', type: boolean}
+        RootDeviceNames:
+          description: The device names of the root devices (for example, `/dev/sda1`).
+          items: {type: string}
+          type: array
+        RootDeviceTypes:
+          description: The types of root device used by the OMIs (always `ebs`).
+          items: {type: string}
+          type: array
         States:
           description: The states of the OMIs.
           items: {type: string}
@@ -1041,6 +1111,10 @@ components:
           type: array
         Tags:
           description: 'The key/value combination of the tags associated with the OMIs, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          items: {type: string}
+          type: array
+        VirtualizationTypes:
+          description: The virtualization types (always `hvm`).
           items: {type: string}
           type: array
       type: object
@@ -1159,6 +1233,14 @@ components:
           description: The IDs of the Nets.
           items: {type: string}
           type: array
+        ServiceNames:
+          description: The names of the prefix lists corresponding to the services. For more information, see [DescribePrefixLists](#describeprefixlists)
+          items: {type: string}
+          type: array
+        States:
+          description: The states of the Net access points (`pending` \| `available` \| `deleting` \| `deleted`).
+          items: {type: string}
+          type: array
       type: object
     FiltersNetPeering:
       description: One or more filters.
@@ -1236,6 +1318,14 @@ components:
           items: {type: string}
           type: array
       type: object
+    FiltersProductType:
+      description: One or more filters.
+      properties:
+        ProductTypeIds:
+          description: The IDs of the product types.
+          items: {type: string}
+          type: array
+      type: object
     FiltersPublicIp:
       description: One or more filters.
       properties:
@@ -1269,6 +1359,26 @@ components:
           type: array
         VmIds:
           description: The IDs of the VMs.
+          items: {type: string}
+          type: array
+      type: object
+    FiltersQuota:
+      description: One or more filters.
+      properties:
+        Collections:
+          description: The group names of the quotas.
+          items: {type: string}
+          type: array
+        QuotaNames:
+          description: The names of the quotas.
+          items: {type: string}
+          type: array
+        QuotaTypes:
+          description: The resource IDs if these are resource-specific quotas, `global` if they are not.
+          items: {type: string}
+          type: array
+        ShortDescriptions:
+          description: The description of the quotas.
           items: {type: string}
           type: array
       type: object
@@ -1356,7 +1466,7 @@ components:
       description: One or more filters.
       properties:
         ServiceIds:
-          description: The IDs of the prefix lists.
+          description: The IDs of the services.
           items: {type: string}
           type: array
         ServiceNames:
@@ -1367,9 +1477,21 @@ components:
     FiltersSnapshot:
       description: One or more filters.
       properties:
+        AccountAliases:
+          description: The account aliases of the owners of the snapshots.
+          items: {type: string}
+          type: array
         AccountIds:
           description: The account IDs of the owners of the snapshots.
           items: {type: string}
+          type: array
+        Descriptions:
+          description: The descriptions of the snapshots.
+          items: {type: string}
+          type: array
+        Progresses:
+          description: The progresses of the snapshots, as a percentage.
+          items: {type: integer}
           type: array
         SnapshotIds:
           description: The IDs of the snapshots.
@@ -1390,6 +1512,14 @@ components:
         Tags:
           description: 'The key/value combination of the tags associated with the snapshots, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
           items: {type: string}
+          type: array
+        VolumeIds:
+          description: The IDs of the volumes used to create the snapshots.
+          items: {type: string}
+          type: array
+        VolumeSizes:
+          description: The sizes of the volumes used to create the snapshots, in gibibytes (GiB).
+          items: {type: integer}
           type: array
       type: object
     FiltersSubnet:
@@ -1515,6 +1645,23 @@ components:
           description: The dates and times at which the volumes were created.
           items: {format: date, type: string}
           type: array
+        LinkVolumeDeleteOnVmDeletion: {description: Indicates whether the volumes are deleted when terminating the instances., type: boolean}
+        LinkVolumeDeviceNames:
+          description: The instance device names.
+          items: {type: string}
+          type: array
+        LinkVolumeLinkDates:
+          description: The dates and times at which the volumes were created.
+          items: {format: date, type: string}
+          type: array
+        LinkVolumeLinkStates:
+          description: The attachment states of the volumes (`attaching` \| `detaching` \| `attached` \| `detached`).
+          items: {type: string}
+          type: array
+        LinkVolumeVmIds:
+          description: One or more IDs of VMs.
+          items: {type: string}
+          type: array
         SnapshotIds:
           description: The snapshots from which the volumes were created.
           items: {type: string}
@@ -1540,7 +1687,7 @@ components:
           items: {type: string}
           type: array
         VolumeSizes:
-          description: The sizes of the volumes, in Gibibytes (GiB).
+          description: The sizes of the volumes, in gibibytes (GiB).
           items: {type: integer}
           type: array
         VolumeTypes:
@@ -1563,11 +1710,19 @@ components:
           description: The types of the VPN connections (only `ipsec.1` is supported).
           items: {type: string}
           type: array
+        RouteDestinationIpRanges:
+          description: The destination IP ranges.
+          items: {type: string}
+          type: array
         States:
           description: The states of the VPN connections (`pending` \| `available` \| `deleting` \| `deleted`).
           items: {type: string}
           type: array
         StaticRoutesOnly: {description: 'If `false`, the VPN connection uses dynamic routing with Border Gateway Protocol (BGP). If `true`, routing is controlled using static routes. For more information about how to create and delete static routes, see [CreateVpnConnectionRoute](#createvpnconnectionroute) and [DeleteVpnConnectionRoute](#deletevpnconnectionroute).', type: boolean}
+        VirtualGatewayIds:
+          description: The IDs of the virtual gateways.
+          items: {type: string}
+          type: array
         VpnConnectionIds:
           description: The IDs of the VPN connections.
           items: {type: string}
@@ -1580,7 +1735,7 @@ components:
         HealthyThreshold: {description: The number of consecutive successful pings before considering the VM as healthy (between 2 and 10 both included)., type: integer}
         Path: {description: The path for HTTP or HTTPS requests., type: string}
         Port: {description: 'The port number (between 1 and 65 535, both included).', type: integer}
-        Protocol: {description: 'The protocol for the URL of the VM (TCP, HTTP or HTTPS). The URL must follow this format: <protocol>:<port><path>.', type: string}
+        Protocol: {description: 'The protocol for the URL of the VM (TCP, HTTP or HTTPS). The URL must follow this format: &lt;protocol&gt;:&lt;port&gt;&lt;path&gt;.', type: string}
         Timeout: {description: 'The maximum waiting time for a response before considering the VM as unhealthy, in seconds (between 2 and 60 both included).', type: integer}
         UnhealthyThreshold: {description: The number of consecutive failed pings before considering the VM as unhealthy (between 2 and 10 both included)., type: integer}
       type: object
@@ -1646,7 +1801,9 @@ components:
     KeypairCreated:
       description: Information about the created keypair.
       properties:
-        KeypairFingerprint: {description: 'If you created the keypair, the SHA-1 digest of the DER encoded private key. If you imported the keypair, the MD5 public key fingerprint as specified in section 4 of RFC4716.', type: string}
+        KeypairFingerprint: {description: 'If you create a keypair, the SHA-1 digest of the DER encoded private key.<br />
+
+            If you import a keypair, the MD5 public key fingerprint as specified in section 4 of RFC 4716.', type: string}
         KeypairName: {description: The name of the keypair., type: string}
         PrivateKey: {description: The private key., type: string}
       type: object
@@ -1812,7 +1969,7 @@ components:
         BackendPort: {description: 'The port on which the back-end VM is listening (between 1 and 65 535, both included).', type: integer}
         BackendProtocol: {description: The protocol for routing traffic to back-end VMs (`HTTP` \| `TCP`)., type: string}
         LoadBalancerPort: {description: 'The port on which the load balancer is listening (`25`, `80`, `443`, `465`, `587`, or between 1024 and 65 535, both included). ', type: integer}
-        LoadBalancerProtocol: {description: The routing protocol (`HTTP` \| `TCP`)., type: string}
+        LoadBalancerProtocol: {description: The routing protocol (`HTTP` \| `TCP` \| `HTTPS` \| `SSL`)., type: string}
         PolicyNames:
           description: The names of the policies. If there are no policies enabled, the list is empty.
           items: {type: string}
@@ -1879,6 +2036,26 @@ components:
       description: Information about the stickiness policy.
       properties:
         PolicyName: {description: The name of the stickiness policy., type: string}
+      type: object
+    Log:
+      description: Information about the log.
+      properties:
+        AccountId: {description: The account ID., type: string}
+        CallDuration: {description: The duration of the call (in milliseconds)., type: integer}
+        QueryAccessKey: {description: The API key used for the query., type: string}
+        QueryApiName: {description: The name of the API service used by the call., type: string}
+        QueryApiVersion: {description: The version of the API service used by the call., type: string}
+        QueryCallName: {description: The name of the call., type: string}
+        QueryDate: {description: The date and time of the query (in ISO 8601 base or extended format)., format: date, type: string}
+        QueryHeaderRaw: {description: The query header raw., type: string}
+        QueryHeaderSize: {description: The query header size., type: integer}
+        QueryIpAddress: {description: The IP address used for the query., type: string}
+        QueryPayloadRaw: {description: The query payload raw., type: string}
+        QueryPayloadSize: {description: The query payload size., type: integer}
+        QueryUserAgent: {description: The user agent used for the HTTP request., type: string}
+        RequestId: {description: The ID provided in the response., type: string}
+        ResponseSize: {description: The size of the response (in bytes)., type: integer}
+        ResponseStatusCode: {description: The HTTP code provided in the response., type: integer}
       type: object
     MaintenanceEvent:
       description: Information about the maintenance event.
@@ -2076,6 +2253,13 @@ components:
         PrivateDnsName: {description: The name of the private DNS., type: string}
         PrivateIp: {description: The private IP address., type: string}
       type: object
+    ProductType:
+      description: Information about the product type.
+      properties:
+        Description: {description: The description of the product type., type: string}
+        ProductTypeId: {description: The ID of the product type., type: string}
+        Vendor: {description: The vendor of the product type., type: string}
+      type: object
     PublicIp:
       description: Information about the public IP.
       properties:
@@ -2093,6 +2277,26 @@ components:
         PublicIp: {description: The External IP address (EIP) associated with the NAT service., type: string}
         PublicIpId: {description: The allocation ID of the EIP associated with the NAT service., type: string}
       type: object
+    Quota:
+      description: Information about the quota.
+      properties:
+        AccountId: {description: The account ID of the owner of the quotas., type: string}
+        Description: {description: The description of the quota., type: string}
+        MaxValue: {description: 'The maximum value of the quota for the Outscale user account (if there is no limit, `0`).', type: integer}
+        Name: {description: The unique name of the quota., type: string}
+        QuotaCollection: {description: The group name of the quota., type: string}
+        ShortDescription: {description: The description of the quota., type: string}
+        UsedValue: {description: The limit value currently used by the Outscale user account., type: integer}
+      type: object
+    QuotaTypes:
+      description: One or more quotas.
+      properties:
+        QuotaType: {description: 'The resource ID if it is a resource-specific quota, `global` if it is not.', type: string}
+        Quotas:
+          description: One or more quotas associated with the user.
+          items: {$ref: '#/components/schemas/Quota'}
+          type: array
+      type: object
     ReadAdminPasswordRequest:
       properties:
         DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
@@ -2104,6 +2308,23 @@ components:
         AdminPassword: {description: 'The password of the VM. After the first boot, returns an empty string.', type: string}
         ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
         VmId: {description: The ID of the VM., type: string}
+      type: object
+    ReadApiLogsRequest:
+      properties:
+        DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
+        Filters: {$ref: '#/components/schemas/FiltersApiLog'}
+        NextPageToken: {description: The token to request the next page of results., type: string}
+        ResultsPerPage: {description: 'The maximum number of items returned in a single page. By default, 100.', type: integer}
+        With: {$ref: '#/components/schemas/With'}
+      type: object
+    ReadApiLogsResponse:
+      properties:
+        Logs:
+          description: Information displayed in one or more API logs.
+          items: {$ref: '#/components/schemas/Log'}
+          type: array
+        NextPageToken: {description: The token to request the next page of results., type: string}
+        ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
       type: object
     ReadClientGatewaysRequest:
       properties:
@@ -2286,6 +2507,31 @@ components:
           type: array
         ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
       type: object
+    ReadProductTypesRequest:
+      properties:
+        DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
+        Filters: {$ref: '#/components/schemas/FiltersProductType'}
+      type: object
+    ReadProductTypesResponse:
+      properties:
+        ProductTypes:
+          description: Information about one or more product types.
+          items: {$ref: '#/components/schemas/ProductType'}
+          type: array
+        ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
+      type: object
+    ReadPublicIpRangesRequest:
+      properties:
+        DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
+      type: object
+    ReadPublicIpRangesResponse:
+      properties:
+        PublicIps:
+          description: The list of public IPv4 addresses used in the Region, in CIDR notation.
+          items: {type: string}
+          type: array
+        ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
+      type: object
     ReadPublicIpsRequest:
       properties:
         DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
@@ -2296,6 +2542,19 @@ components:
         PublicIps:
           description: Information about one or more EIPs.
           items: {$ref: '#/components/schemas/PublicIp'}
+          type: array
+        ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
+      type: object
+    ReadQuotasRequest:
+      properties:
+        DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
+        Filters: {$ref: '#/components/schemas/FiltersQuota'}
+      type: object
+    ReadQuotasResponse:
+      properties:
+        QuotaTypes:
+          description: Information about one or more quotas.
+          items: {$ref: '#/components/schemas/QuotaTypes'}
           type: array
         ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
       type: object
@@ -2477,7 +2736,9 @@ components:
     RegisterVmsInLoadBalancerRequest:
       properties:
         BackendVmIds:
-          description: One or more IDs back-end VMs.
+          description: 'One or more IDs of back-end VMs.<br />
+
+            Specifying the same ID several times has no effect as each back-end VM has equal weight.'
           items: {type: string}
           type: array
         DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
@@ -2598,7 +2859,7 @@ components:
           items: {$ref: '#/components/schemas/SecurityGroupsMember'}
           type: array
         ServiceIds:
-          description: One or more service IDs to allow traffic from a Net to access the corresponding Outscale services.
+          description: One or more service IDs to allow traffic from a Net to access the corresponding Outscale services. For more information, see [ReadNetAccessPointServices](#readnetaccesspointservices).
           items: {type: string}
           type: array
         ToPortRange: {description: 'The end of the port range for the TCP and UDP protocols, or an ICMP type number.', type: integer}
@@ -2617,7 +2878,7 @@ components:
           description: The list of network prefixes used by the service, in CIDR notation.
           items: {type: string}
           type: array
-        ServiceId: {description: The ID of the prefix list., type: string}
+        ServiceId: {description: The ID of the service., type: string}
         ServiceName: {description: 'The name of the prefix list, which identifies the Outscale service it is associated with.', type: string}
       type: object
     Snapshot:
@@ -2635,7 +2896,7 @@ components:
           items: {$ref: '#/components/schemas/ResourceTag'}
           type: array
         VolumeId: {description: The ID of the volume used to create the snapshot., type: string}
-        VolumeSize: {description: 'The size of the volume used to create the snapshot, in Gibibytes (GiB).', type: integer}
+        VolumeSize: {description: 'The size of the volume used to create the snapshot, in gibibytes (GiB).', type: integer}
       type: object
     SnapshotExportTask:
       description: Information about the snapshot export task.
@@ -2708,6 +2969,7 @@ components:
       properties:
         AvailableIpsCount: {description: The number of available IP addresses in the Subnets., type: integer}
         IpRange: {description: 'The IP range in the Subnet, in CIDR notation (for example, 10.0.0.0/16).', type: string}
+        MapPublicIpOnLaunch: {description: 'If `true`, a public IP address is assigned to the network interface cards (NICs) created in the specified Subnet.', type: boolean}
         NetId: {description: The ID of the Net in which the Subnet is., type: string}
         State: {description: The state of the Subnet (`pending` \| `available`)., type: string}
         SubnetId: {description: The ID of the Subnet., type: string}
@@ -2926,6 +3188,18 @@ components:
         ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
         Snapshot: {$ref: '#/components/schemas/Snapshot'}
       type: object
+    UpdateSubnetRequest:
+      properties:
+        DryRun: {description: 'If `true`, checks whether you have the required permissions to perform the action.', type: boolean}
+        MapPublicIpOnLaunch: {description: 'If `true`, a public IP address is assigned to the network interface cards (NICs) created in the specified Subnet.', type: boolean}
+        SubnetId: {description: The ID of the subnet., type: string}
+      required: [SubnetId, MapPublicIpOnLaunch]
+      type: object
+    UpdateSubnetResponse:
+      properties:
+        ResponseContext: {$ref: '#/components/schemas/ResponseContext'}
+        Subnet: {$ref: '#/components/schemas/Subnet'}
+      type: object
     UpdateVmRequest:
       properties:
         BlockDeviceMappings:
@@ -2998,11 +3272,11 @@ components:
           type: array
         PublicDnsName: {description: The name of the public DNS., type: string}
         PublicIp: {description: The public IP address of the VM., type: string}
-        ReservationId: {description: 'Zero or more reservations, giving you information about your request. ', type: string}
+        ReservationId: {description: 'The reservation ID of the VM. ', type: string}
         RootDeviceName: {description: 'The name of the root device for the VM (for example, /dev/vda1).', type: string}
         RootDeviceType: {description: The type of root device used by the VM (always `bsu`)., type: string}
         SecurityGroups:
-          description: One or more IDs of security groups for the VMs.
+          description: One or more security groups associated with the VM.
           items: {$ref: '#/components/schemas/SecurityGroupLight'}
           type: array
         State: {description: The state of the VM (`pending` \| `running` \| `shutting-down` \| `terminated` \| `stopping` \| `stopped`)., type: string}
@@ -3047,7 +3321,7 @@ components:
           description: Information about your volume attachment.
           items: {$ref: '#/components/schemas/LinkedVolume'}
           type: array
-        Size: {description: 'The size of the volume, in Gibibytes (GiB).', type: integer}
+        Size: {description: 'The size of the volume, in gibibytes (GiB).', type: integer}
         SnapshotId: {description: The snapshot from which the volume was created., type: string}
         State: {description: The state of the volume (`creating` \| `available` \| `in-use` \| `deleting` \| `error`)., type: string}
         SubregionName: {description: The Subregion in which the volume was created., type: string}
@@ -3077,6 +3351,26 @@ components:
         VirtualGatewayId: {description: The ID of the virtual gateway used on the Outscale end of the connection., type: string}
         VpnConnectionId: {description: The ID of the VPN connection., type: string}
       type: object
+    With:
+      description: The information to be displayed in the API logs to retrieve.
+      properties:
+        AccountId: {description: 'If set to `true`, the account ID is displayed in the logs.', type: boolean}
+        CallDuration: {description: 'If set to `true`, the duration of the call is displayed each log.', type: boolean}
+        QueryAccessKey: {description: 'If set to `true`, the API key used for the query is displayed each log.', type: boolean}
+        QueryApiName: {description: 'If set to `true`, the name of the API service used by the call is displayed in each log (`oapi` \| `fcu` \| `lbu` \| `directlink` \| `eim` \| `icu`).', type: boolean}
+        QueryApiVersion: {description: 'If set to `true`, the version of the API service used by the call is displayed in each log.', type: boolean}
+        QueryCallName: {description: 'If set to `true`, the name of the call is displayed in each log.', type: boolean}
+        QueryDate: {description: 'If set to `true`, the date of the call is displayed in each log.', type: boolean}
+        QueryHeaderRaw: {description: 'If set to `true`, the query header RAW is displayed in each log.', type: boolean}
+        QueryHeaderSize: {description: 'If set to `true`, the query header size is displayed in each log.', type: boolean}
+        QueryIpAddress: {description: 'If set to `true`, the IP address used to make to query is displayed in each log.', type: boolean}
+        QueryPayloadRaw: {description: 'If set to `true`, the query payload raw is displayed in each log.', type: boolean}
+        QueryPayloadSize: {description: 'If set to `true`, the query payload size is displayed in each log.', type: boolean}
+        QueryUserAgent: {description: 'If set to `true`, the user agent used to make the HTTP request is displayed in each log.', type: boolean}
+        RequestId: {description: 'By default ot if set to `true`, the ID of the call is displayed in each log.', type: boolean}
+        ResponseSize: {description: 'If set to `true`, the size of the response (in bytes) is displayed in each log.', type: boolean}
+        ResponseStatusCode: {description: 'If set to `true`, the HTTP code provided by the response is displayed in each log.', type: boolean}
+      type: object
   securitySchemes:
     ApiKeyAuth: {description: 'Signatures of API Requests based on the Hash-based Message Authentication Code (HMAC) protocol, [more information](https://wiki.outscale.net/display/EN/About+Signatures+of+API+Requests).', in: header, name: Authorization, type: apiKey}
 info:
@@ -3091,7 +3385,7 @@ info:
   license: {name: BSD 3 Clause, url: 'https://opensource.org/licenses/BSD-3-Clause'}
   termsOfService: https://en.outscale.com/terms-of-service/
   title: OUTSCALE API
-  version: '0.8'
+  version: '0.9'
   x-release_date: '2019-03-11'
 openapi: 3.0.0
 paths:
@@ -4967,6 +5261,21 @@ paths:
               schema: {$ref: '#/components/schemas/ErrorResponse'}
           description: The HTTP 500 response (Internal Server Error).
       tags: [Vm]
+  /ReadApiLogs:
+    description: Retrieves your API logs. Only the logs of the calls made during the last 30 days can be retrieved through this method. You can use filters to retrieve specific logs. You can also specify the information to be displayed in the logs.
+    post:
+      operationId: ReadApiLogs
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ReadApiLogsRequest'}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ReadApiLogsResponse'}
+          description: The HTTP 200 response (OK).
+      tags: [ApiLog]
   /ReadClientGateways:
     description: 'Describes one or more of your client gateways.<br /><br />
 
@@ -5345,6 +5654,40 @@ paths:
               schema: {$ref: '#/components/schemas/ErrorResponse'}
           description: The HTTP 500 response (Internal Server Error).
       tags: [Nic]
+  /ReadProductTypes:
+    description: 'Describes one or more product types.<br /><br />
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
+    post:
+      operationId: ReadProductTypes
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ReadProductTypesRequest'}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ReadProductTypesResponse'}
+          description: The HTTP 200 response (OK).
+      tags: [ProductType]
+  /ReadPublicIpRanges:
+    description: Returns the public IPv4 addresses in CIDR notation for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints and Availability Zones Reference](https://wiki.outscale.net/display/EN/Regions%2C+Endpoints+and+Availability+Zones+Reference).
+    post:
+      operationId: ReadPublicIpRanges
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ReadPublicIpRangesRequest'}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ReadPublicIpRangesResponse'}
+          description: The HTTP 200 response (OK).
+      tags: [PublicIpRange]
   /ReadPublicIps:
     description: 'Lists one or more External IP addresses (EIPs) allocated to your account.<br />
 
@@ -5381,6 +5724,25 @@ paths:
               schema: {$ref: '#/components/schemas/ErrorResponse'}
           description: The HTTP 500 response (Internal Server Error).
       tags: [PublicIp]
+  /ReadQuotas:
+    description: 'Describes one or more of your quotas.<br /><br />
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
+    post:
+      operationId: ReadQuotas
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ReadQuotasRequest'}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ReadQuotasResponse'}
+          description: The HTTP 200 response (OK).
+      tags: [Quota]
   /ReadRouteTables:
     description: 'Lists one or more of your route tables.<br />
 
@@ -6287,6 +6649,36 @@ paths:
               schema: {$ref: '#/components/schemas/ErrorResponse'}
           description: The HTTP 500 response (Internal Server Error).
       tags: [Snapshot]
+  /UpdateSubnet:
+    description: Modifies the specified attribute of a subnet.
+    post:
+      operationId: UpdateSubnet
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/UpdateSubnetRequest'}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/UpdateSubnetResponse'}
+          description: The HTTP 200 response (OK).
+        '400':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorResponse'}
+          description: The HTTP 400 response (Bad Request).
+        '401':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorResponse'}
+          description: The HTTP 401 response (Unauthorized).
+        '500':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorResponse'}
+          description: The HTTP 500 response (Internal Server Error).
+      tags: [Subnet]
   /UpdateVm:
     description: 'Modifies a specific attribute of a virtual machine (VM).<br />
 
