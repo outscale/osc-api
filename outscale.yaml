@@ -896,6 +896,9 @@ components:
           items:
             $ref: '#/components/schemas/BlockDeviceMappingVmCreation'
           type: array
+        BootOnCreation:
+          description: By default or if `true`, the VM is started on creation. If `false`, the VM is stopped on creation.
+          type: boolean
         BsuOptimized:
           description: If `true`, the VM is created with optimized BSU I/O.
           type: boolean
@@ -1861,11 +1864,9 @@ components:
     FiltersDhcpOptions:
       description: One or more filters.
       properties:
-        Defaults:
-          description: The default DHCP options sets.
-          items:
-            type: string
-          type: array
+        Default:
+          description: 'If `true`, lists all default DHCP options set. If `false`, lists all non-default DHCP options set. '
+          type: boolean
         DhcpOptionsSetIds:
           description: The IDs of the DHCP options sets.
           items:
@@ -4679,6 +4680,9 @@ components:
         NatServiceId:
           description: The ID of a NAT service attached to the Net.
           type: string
+        NetAccessPointId:
+          description: The ID of the Net access point.
+          type: string
         NetPeeringId:
           description: The ID of the Net peering connection.
           type: string
@@ -5157,9 +5161,6 @@ components:
       type: object
     UnlinkVolumeRequest:
       properties:
-        DeviceName:
-          description: The name of the device.
-          type: string
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
@@ -5437,7 +5438,7 @@ components:
           description: (Net only) If `true`, the source/destination check is enabled. If `false`, it is disabled. This value must be `false` for a NAT VM to perform network address translation (NAT) in a Net.
           type: boolean
         KeypairName:
-          description: The name of the keypair.
+          description: The name of the keypair. To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.
           type: string
         SecurityGroupIds:
           description: One or more IDs of security groups for the VM.
@@ -5636,8 +5637,9 @@ components:
           description: The maximum number of private IP addresses per network interface card (NIC).
           type: integer
         MemorySize:
-          description: The amount of memory, in bytes.
-          type: integer
+          description: The amount of memory, in Gibibytes.
+          format: float
+          type: number
         VcoreCount:
           description: The number of vCores.
           type: integer
@@ -5798,8 +5800,8 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: OUTSCALE API
-  version: '0.9'
-  x-release_date: '2019-03-11'
+  version: '0.11'
+  x-release_date: '2019-04-09'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
