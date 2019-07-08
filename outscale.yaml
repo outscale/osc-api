@@ -301,6 +301,32 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    CreateFlexibleGpuRequest:
+      properties:
+        DeleteOnVmDeletion:
+          default: false
+          description: If `true`, the fGPU is deleted when the VM is terminated.
+          type: boolean
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        ModelName:
+          description: The model of GPU you want to allocate.
+          type: string
+        SubregionName:
+          description: The Subregion in which you want to create the fGPU.
+          type: string
+      required:
+      - ModelName
+      - SubregionName
+      type: object
+    CreateFlexibleGpuResponse:
+      properties:
+        FlexibleGpu:
+          $ref: '#/components/schemas/FlexibleGpu'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     CreateImageExportTaskRequest:
       properties:
         DryRun:
@@ -608,7 +634,7 @@ components:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         PrivateIps:
-          description: "The private IP address of the NIC.<br /><br />                        \nThis IP address must be in the IP range of the Subnet you specify with the `SubnetId` attribute.<br />\nIf you do not specify a private IP address, Outscale selects one in the IP range of the Subnet."
+          description: "The primary private IP address for the NIC.<br /><br />                        \nThis IP address must be within the IP address range of the Subnet that you specify with the `SubnetId` attribute.<br />\nIf you do not specify this attribute, a random private IP address is selected within the IP address range of the Subnet."
           items:
             $ref: '#/components/schemas/PrivateIpLight'
           type: array
@@ -618,7 +644,7 @@ components:
             type: string
           type: array
         SubnetId:
-          description: The ID of the Subnet for the NIC.
+          description: The ID of the Subnet in which you want to create the NIC.
           type: string
       required:
       - SubnetId
@@ -1129,6 +1155,22 @@ components:
       - ExportTaskId
       type: object
     DeleteExportTaskResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    DeleteFlexibleGpuRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        FlexibleGpuId:
+          description: The ID of the fGPU you want to delete.
+          type: string
+      required:
+      - FlexibleGpuId
+      type: object
+    DeleteFlexibleGpuResponse:
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1691,7 +1733,7 @@ components:
           description: The name of the DirectLink interface.
           type: string
         OutscalePrivateIp:
-          description: The IP address on Outscale's side of the DirectLink interface.
+          description: The IP address on 3DS OUTSCALE's side of the DirectLink interface.
           type: string
         VirtualGatewayId:
           description: The ID of the target virtual gateway.
@@ -1736,7 +1778,7 @@ components:
           description: The datacenter where the DirectLink interface is located.
           type: string
         OutscalePrivateIp:
-          description: The IP address on Outscale's side of the DirectLink interface.
+          description: The IP address on 3DS OUTSCALE's side of the DirectLink interface.
           type: string
         State:
           description: The state of the DirectLink interface (`pending` \| `available` \| `deleting` \| `deleted` \| `confirming` \| `rejected` \| `expired`).
@@ -1931,6 +1973,38 @@ components:
       properties:
         TaskIds:
           description: The IDs of the export tasks.
+          items:
+            type: string
+          type: array
+      type: object
+    FiltersFlexibleGpu:
+      description: One or more filters.
+      properties:
+        DeleteOnVmDeletion:
+          description: Indicates whether the fGPU is deleted when terminating the VM.
+          type: boolean
+        FlexibleGpuIds:
+          description: One or more IDs of fGPUs.
+          items:
+            type: string
+          type: array
+        ModelNames:
+          description: One or more models of fGPUs.
+          items:
+            type: string
+          type: array
+        States:
+          description: The states of the fGPUs (`allocated` \| `attaching` \| `attached` \| `detaching`).
+          items:
+            type: string
+          type: array
+        SubregionNames:
+          description: The Subregions where the fGPUs are located.
+          items:
+            type: string
+          type: array
+        VmIds:
+          description: One or more IDs of VMs.
           items:
             type: string
           type: array
@@ -2463,7 +2537,7 @@ components:
             type: string
           type: array
         ServiceNames:
-          description: The names of the prefix lists, which identify the Outscale services they are associated with.
+          description: The names of the prefix lists, which identify the 3DS OUTSCALE services they are associated with.
           items:
             type: string
           type: array
@@ -2579,7 +2653,7 @@ components:
             type: string
           type: array
         ResourceTypes:
-          description: The resource type (`instance` \| `image` \| `volume` \| `snapshot` \| `security-group` \| `route-table` \| `network-interface` \| `vpc` \| `subnet` \| `internet-gateway` \| `customer-gateway` \| `vpn-gateway` \| `vpn-connection` \| `dhcp-options`).
+          description: The resource type (`instance` \| `image` \| `volume` \| `snapshot` \| `public-ip` \| `security-group` \| `route-table` \| `network-interface` \| `vpc` \| `subnet` \| `network-link` \| `vpc-endpoint` \| `nat-gateway` \| `internet-gateway` \| `customer-gateway` \| `vpn-gateway` \| `vpn-connection` \| `dhcp-options` \| `task`).
           items:
             type: string
           type: array
@@ -2661,7 +2735,7 @@ components:
       description: One or more filters.
       properties:
         BsuOptimized:
-          description: Indicates whether the instance is optimized for BSU I/O.
+          description: Indicates whether the VM is optimized for BSU I/O.
           type: boolean
         MemorySizes:
           description: The amounts of memory, in bytes.
@@ -2708,10 +2782,10 @@ components:
             type: string
           type: array
         LinkVolumeDeleteOnVmDeletion:
-          description: Indicates whether the volumes are deleted when terminating the instances.
+          description: Indicates whether the volumes are deleted when terminating the VMs.
           type: boolean
         LinkVolumeDeviceNames:
-          description: The instance device names.
+          description: The VM device names.
           items:
             type: string
           type: array
@@ -2814,6 +2888,28 @@ components:
             type: string
           type: array
       type: object
+    FlexibleGpu:
+      description: Information about the flexible GPU (fGPU).
+      properties:
+        DeleteOnVmDeletion:
+          description: If `true`, the fGPU is deleted when the VM is terminated.
+          type: boolean
+        FlexibleGpuId:
+          description: The ID of the fGPU.
+          type: string
+        ModelName:
+          description: The model of fGPU.
+          type: string
+        State:
+          description: The state of the fGPU (`allocated` \| `attaching` \| `attached` \| `detaching`).
+          type: string
+        SubregionName:
+          description: The Subregion where the fGPU is located.
+          type: string
+        VmId:
+          description: The ID of the VM the fGPU is attached to, if any.
+          type: string
+      type: object
     HealthCheck:
       description: Information about the health check configuration.
       properties:
@@ -2830,7 +2926,7 @@ components:
           description: The port number (between `1` and `65535`, both included).
           type: integer
         Protocol:
-          description: The protocol for the URL of the VM (`TCP`, `HTTP` or `HTTPS`).
+          description: The protocol for the URL of the VM (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
           type: string
         Timeout:
           description: The maximum waiting time for a response before considering the VM as unhealthy, in seconds (between `2` and `60` both included).
@@ -2973,6 +3069,26 @@ components:
           description: The private key.
           type: string
       type: object
+    LinkFlexibleGpuRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        FlexibleGpuId:
+          description: The ID of the fGPU you want to attach.
+          type: string
+        VmId:
+          description: The ID of the VM you want to attach the fGPU to.
+          type: string
+      required:
+      - FlexibleGpuId
+      - VmId
+      type: object
+    LinkFlexibleGpuResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     LinkInternetServiceRequest:
       properties:
         DryRun:
@@ -3000,10 +3116,10 @@ components:
           description: If `true`, the volume is deleted when the VM is terminated.
           type: boolean
         DeviceNumber:
-          description: The index of the VM device for the NIC attachment (between 1 and 7, both included).
+          description: The device index for the NIC attachment (between 1 and 7, both included).
           type: integer
         LinkNicId:
-          description: The ID of the NIC attachment.
+          description: The ID of the NIC to attach.
           type: string
         State:
           description: The state of the attachment (`attaching` \| `attached` \| `detaching` \| `detached`).
@@ -3022,10 +3138,10 @@ components:
           description: If `true`, the volume is deleted when the VM is terminated.
           type: boolean
         DeviceNumber:
-          description: The index of the VM device for the NIC attachment (between 1 and 7, both included).
+          description: The device index for the NIC attachment (between 1 and 7, both included).
           type: integer
         LinkNicId:
-          description: The ID of the NIC attachment.
+          description: The ID of the NIC to attach.
           type: string
         State:
           description: The state of the attachment (`attaching` \| `attached` \| `detaching` \| `detached`).
@@ -3080,12 +3196,12 @@ components:
           description: The ID of the NIC.
           type: string
         PrivateIps:
-          description: The secondary private IP address or addresses you want to assign to the NIC.
+          description: The secondary private IP address or addresses you want to assign to the NIC within the IP address range of the Subnet.
           items:
             type: string
           type: array
         SecondaryPrivateIpCount:
-          description: The number of secondary private IP addresses to be automatically assigned to the NIC, chosen within the Subnet range.
+          description: The number of secondary private IP addresses to assign to the NIC.
           type: integer
       required:
       - NicId
@@ -3278,13 +3394,13 @@ components:
           description: The port on which the back-end VM is listening (between `1` and `65535`, both included).
           type: integer
         BackendProtocol:
-          description: The protocol for routing traffic to back-end VMs (`HTTP` \| `TCP`).
+          description: The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
           type: string
         LoadBalancerPort:
-          description: 'The port on which the load balancer is listening (`25`, `80`, `443`, `465`, `587`, or between `1024` and `65535`, both included). '
+          description: 'The port on which the load balancer is listening (between 1 and `65535`, both included). '
           type: integer
         LoadBalancerProtocol:
-          description: The routing protocol (`HTTP` \| `TCP` \| `HTTPS` \| `SSL`).
+          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
           type: string
         PolicyNames:
           description: The names of the policies. If there are no policies enabled, the list is empty.
@@ -3302,13 +3418,13 @@ components:
           description: The port on which the back-end VM is listening (between `1` and `65535`, both included).
           type: integer
         BackendProtocol:
-          description: 'The protocol for routing traffic to back-end VMs (`HTTP` \| `TCP`). '
+          description: 'The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`). '
           type: string
         LoadBalancerPort:
-          description: 'The port on which the load balancer is listening (`25`, `80`, `443`, `465`, `587`, or between `1024` and `65535`, both included). '
+          description: 'The port on which the load balancer is listening (between `1` and `65535`, both included). '
           type: integer
         LoadBalancerProtocol:
-          description: The routing protocol (`HTTP` \| `TCP`).
+          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
           type: string
         ServerCertificateId:
           description: The ID of the server certificate.
@@ -3865,7 +3981,7 @@ components:
           description: The description of the quota.
           type: string
         MaxValue:
-          description: The maximum value of the quota for the Outscale user account (if there is no limit, `0`).
+          description: The maximum value of the quota for the 3DS OUTSCALE user account (if there is no limit, `0`).
           type: integer
         Name:
           description: The unique name of the quota.
@@ -3877,7 +3993,7 @@ components:
           description: The description of the quota.
           type: string
         UsedValue:
-          description: The limit value currently used by the Outscale user account.
+          description: The limit value currently used by the 3DS OUTSCALE user account.
           type: integer
       type: object
     QuotaTypes:
@@ -4033,6 +4149,24 @@ components:
           description: Information about one or more DirectLinks.
           items:
             $ref: '#/components/schemas/DirectLink'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadFlexibleGpusRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Filters:
+          $ref: '#/components/schemas/FiltersFlexibleGpu'
+      type: object
+    ReadFlexibleGpusResponse:
+      properties:
+        FlexibleGpus:
+          description: Information about one or more fGPUs.
+          items:
+            $ref: '#/components/schemas/FlexibleGpu'
           type: array
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -4672,7 +4806,7 @@ components:
           description: The IP range used for the destination match, in CIDR notation (for example, 10.0.0.0/24).
           type: string
         DestinationServiceId:
-          description: The ID of the Outscale service.
+          description: The ID of the 3DS OUTSCALE service.
           type: string
         GatewayId:
           description: The ID of the Internet service or virtual gateway attached to the Net.
@@ -4813,7 +4947,7 @@ components:
             $ref: '#/components/schemas/SecurityGroupsMember'
           type: array
         ServiceIds:
-          description: One or more service IDs to allow traffic from a Net to access the corresponding Outscale services. For more information, see [ReadNetAccessPointServices](#readnetaccesspointservices).
+          description: One or more service IDs to allow traffic from a Net to access the corresponding 3DS OUTSCALE services. For more information, see [ReadNetAccessPointServices](#readnetaccesspointservices).
           items:
             type: string
           type: array
@@ -4846,7 +4980,7 @@ components:
           description: The ID of the service.
           type: string
         ServiceName:
-          description: The name of the prefix list, which identifies the Outscale service it is associated with.
+          description: The name of the prefix list, which identifies the 3DS OUTSCALE service it is associated with.
           type: string
       type: object
     Snapshot:
@@ -5048,6 +5182,22 @@ components:
           description: The value of the tag, between 0 and 255 characters.
           type: string
       type: object
+    UnlinkFlexibleGpuRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        FlexibleGpuId:
+          description: The ID of the fGPU you want to detach.
+          type: string
+      required:
+      - FlexibleGpuId
+      type: object
+    UnlinkFlexibleGpuResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     UnlinkInternetServiceRequest:
       properties:
         DryRun:
@@ -5074,7 +5224,7 @@ components:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         LinkNicId:
-          description: The ID of the NIC attachment.
+          description: The ID of the attachment operation.
           type: string
       required:
       - LinkNicId
@@ -5093,7 +5243,7 @@ components:
           description: The ID of the NIC.
           type: string
         PrivateIps:
-          description: The secondary private IP address(es) you want to unassign from the NIC.
+          description: One or more secondary private IP addresses you want to unassign from the NIC.
           items:
             type: string
           type: array
@@ -5178,6 +5328,24 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    UpdateFlexibleGpuRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        FlexibleGpuId:
+          description: The ID of the fGPU you want to modify.
+          type: string
+      required:
+      - FlexibleGpuId
+      type: object
+    UpdateFlexibleGpuResponse:
+      properties:
+        FlexibleGpu:
+          $ref: '#/components/schemas/FlexibleGpu'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     UpdateImageRequest:
       properties:
         DryRun:
@@ -5212,7 +5380,7 @@ components:
           description: The name of the load balancer.
           type: string
         LoadBalancerPort:
-          description: 'The port on which the load balancer is listening (`25`, `80`, `443`, `465`, `587`, or between `1024` and `65535`, both included). '
+          description: 'The port on which the load balancer is listening (between `1` and `65535`, both included). '
           type: integer
         PolicyNames:
           description: The list of policies names (must contain all the policies to be enabled).
@@ -5438,7 +5606,9 @@ components:
           description: (Net only) If `true`, the source/destination check is enabled. If `false`, it is disabled. This value must be `false` for a NAT VM to perform network address translation (NAT) in a Net.
           type: boolean
         KeypairName:
-          description: The name of the keypair. To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.
+          description: 'The name of the keypair.<br />
+
+            To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.'
           type: string
         SecurityGroupIds:
           description: One or more IDs of security groups for the VM.
@@ -5631,13 +5801,13 @@ components:
       description: Information about the VM type.
       properties:
         IsBsuOptimized:
-          description: Indicates whether the instance is optimized for BSU I/O.
+          description: Indicates whether the VM is optimized for BSU I/O.
           type: boolean
         MaxPrivateIps:
           description: The maximum number of private IP addresses per network interface card (NIC).
           type: integer
         MemorySize:
-          description: The amount of memory, in Gibibytes.
+          description: The amount of memory, in gibibytes.
           format: float
           type: number
         VcoreCount:
@@ -5721,7 +5891,7 @@ components:
             $ref: '#/components/schemas/ResourceTag'
           type: array
         VirtualGatewayId:
-          description: The ID of the virtual gateway used on the Outscale end of the connection.
+          description: The ID of the virtual gateway used on the 3DS OUTSCALE end of the connection.
           type: string
         VpnConnectionId:
           description: The ID of the VPN connection.
@@ -5788,11 +5958,11 @@ components:
 info:
   contact:
     email: support@outscale.com
-  description: 'Welcome to the Outscale API documentation.<br /><br />
+  description: 'Welcome to the 3DS OUTSCALE''s API documentation.<br /><br />
 
-    The Outscale API enables you to manage your resources in the Outscale Cloud. This documentation describes the different actions available along with code examples.<br /><br />
+    The 3DS OUTSCALE API enables you to manage your resources in the 3DS OUTSCALE Cloud. This documentation describes the different actions available along with code examples.<br /><br />
 
-    Note that the Outscale Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the Outscale API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/Outscale+APIs+Reference).<br /><br />
+    Note that the 3DS OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the 3DS OUTSCALE API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/Outscale+APIs+Reference).<br /><br />
 
     You can also manage your resources using the [Cockpit](https://wiki.outscale.net/display/EN/About+Cockpit) web interface.'
   license:
@@ -5800,8 +5970,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: OUTSCALE API
-  version: '0.11'
-  x-release_date: '2019-04-09'
+  version: '0.12'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -5928,6 +6097,26 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - DirectLinkInterface
+  /CreateFlexibleGpu:
+    description: 'Allocates a flexible GPU (fGPU) to your account.<br />
+
+      You can then attach this fGPU to a virtual machine (VM).<br />'
+    post:
+      operationId: CreateFlexibleGpu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFlexibleGpuRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFlexibleGpuResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - Gpu
   /CreateImage:
     description: 'Creates an Outscale machine image (OMI) from an existing virtual machine (VM) which is either running or stopped.<br />
 
@@ -6039,11 +6228,11 @@ paths:
   /CreateKeypair:
     description: 'Creates a 2048-bit RSA keypair with a specified name.<br />
 
-      This action returns the private key that you need to save. The public key is stored by Outscale.<br /><br />
+      This action returns the private key that you need to save. The public key is stored by 3DS OUTSCALE.<br /><br />
 
       You can also use this method to import a provided public key and create a keypair.<br />
 
-      This action imports the public key of a keypair created by a third-party tool and uses it to create a new keypair. The private key is never provided to Outscale.  '
+      This action imports the public key of a keypair created by a third-party tool and uses it to create a new keypair. The private key is never provided to 3DS OUTSCALE.  '
     post:
       operationId: CreateKeypair
       requestBody:
@@ -6244,7 +6433,7 @@ paths:
       tags:
       - Net
   /CreateNetAccessPoint:
-    description: 'Creates a Net access point to access an Outscale service from this Net without using the Internet and External IP addresses.<br />
+    description: 'Creates a Net access point to access a 3DS OUTSCALE service from this Net without using the Internet and External IP addresses.<br />
 
       You specify the service using its prefix list name. For more information, see [DescribePrefixLists](#describeprefixlists)<br />
 
@@ -6494,8 +6683,8 @@ paths:
       tags:
       - SecurityGroup
   /CreateSecurityGroupRule:
-    description: "Configures the rules for a security group.<br />\nThe modifications are effective at virtual machine (VM) level as quickly as possible, but a small delay may occur.<br /><br />\nYou can add one or more egress rules to a security group for use with a Net.<br />\nIt allows VMs to send traffic to either one or more destination IP address ranges or destination security groups for the same Net.<br />\nWe recommend using a set of IP permissions to authorize outbound access to a destination security group. We also recommended this method to create a rule with a specific IP protocol and a specific port range.  In a set of IP permissions, we recommend to specify the the protocol.<br /><br />\nYou can also add one or more ingress rules to a security group.<br />\nIn the public Cloud, this action allows one or more IP address ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own Outscale account\
-      \ or another one.<br />\nIn a Net, this action allows one or more  IP address ranges to access a security group for your Net, or allows one or more other security groups (source groups) to access a security group for your Net. All the security groups must be for the same Net.<br /><br />\n**[NOTE]**<br />           \nBy default, traffic between two security groups is allowed through both public and private IP addresses. To restrict it to private IP addresses only, contact our Support team: support@outscale.com."
+    description: "Configures the rules for a security group.<br />\nThe modifications are effective at virtual machine (VM) level as quickly as possible, but a small delay may occur.<br /><br />\nYou can add one or more egress rules to a security group for use with a Net.<br />\nIt allows VMs to send traffic to either one or more destination IP address ranges or destination security groups for the same Net.<br />\nWe recommend using a set of IP permissions to authorize outbound access to a destination security group. We also recommended this method to create a rule with a specific IP protocol and a specific port range.  In a set of IP permissions, we recommend to specify the the protocol.<br /><br />\nYou can also add one or more ingress rules to a security group.<br />\nIn the public Cloud, this action allows one or more IP address ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own 3DS OUTSCALE\
+      \ account or another one.<br />\nIn a Net, this action allows one or more  IP address ranges to access a security group for your Net, or allows one or more other security groups (source groups) to access a security group for your Net. All the security groups must be for the same Net.<br /><br />\n**[NOTE]**<br />           \nBy default, traffic between two security groups is allowed through both public and private IP addresses. To restrict it to private IP addresses only, contact our Support team: support@outscale.com."
     post:
       operationId: CreateSecurityGroupRule
       requestBody:
@@ -6655,29 +6844,45 @@ paths:
 
       You can tag the following resources using their IDs:<br /><br />
 
+      * Virtual machines (VMs) (i-xxxxxxxx)<br />
+
+      * OMIs (ami-xxxxxxxx)<br />
+
       * Volumes (vol-xxxxxxxx)<br />
 
       * Snapshots (snap-xxxxxxxx)<br />
 
-      * OMIs (ami-xxxxxxxx)<br />
+      * EIPs (eipalloc-xxxxxxxx)<br />
 
-      * Virtual machines (VMs) (i-xxxxxxxx)<br />
-
-      * Internet services (igw-xxxxxxxx)<br />
-
-      * Network interface cards (NIC) (eni-xxxxxxxx)<br />
+      * Security groups (sg-xxxxxxxx)<br />
 
       * Route tables (rtb-xxxxxxxx)<br />
 
-      * Subnets (subnet-xxxxxxxx)<br />
+      * Network interface cards (NIC) (eni-xxxxxxxx)<br />
 
       * Nets (vpc-xxxxxxxx)<br />
+
+      * Subnets (subnet-xxxxxxxx)<br />
+
+      * Net peering connections (vpcx-xxxxxxxx)<br />
+
+      * Net endpoints (vpce-xxxxxxxx)<br />
+
+      * NAT services (nat-xxxxxxxx)<br />
+
+      * Internet services (igw-xxxxxxxx)<br />
 
       * Client gateways (cgw-xxxxxxxx)<br />
 
       * Virtual gateways (vgw-xxxxxxxx)<br />
 
-      * VPN connections (vpn-xxxxxxxx)  '
+      * VPN connections (vpn-xxxxxxxx)<br />
+
+      * DHCP options (dopt-xxxxxxxx)<br />
+
+      * OMI export tasks (image-export-xxxxxxxx)<br />
+
+      * Snapshot export tasks (snap-export-xxxxxxxx)<br /> '
     post:
       operationId: CreateTags
       requestBody:
@@ -6963,6 +7168,26 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - Task
+  /DeleteFlexibleGpu:
+    description: 'Releases a flexible GPU (fGPU) from your account.<br />
+
+      The fGPU becomes free to be used by someone else.'
+    post:
+      operationId: DeleteFlexibleGpu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteFlexibleGpuRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteFlexibleGpuResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - FlexibleGpu
   /DeleteImage:
     description: 'Deletes an Outscale machine image (OMI) so that you cannot use it anymore to launch virtual machines (VMs). However, you can still use VMs already launched from this OMI. '
     post:
@@ -7040,7 +7265,7 @@ paths:
   /DeleteKeypair:
     description: 'Deletes the specified keypair.<br />
 
-      This action deletes the public key stored by Outscale, thus deleting the keypair.'
+      This action deletes the public key stored by 3DS OUTSCALE, thus deleting the keypair.'
     post:
       operationId: DeleteKeypair
       requestBody:
@@ -7789,6 +8014,26 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
+  /LinkFlexibleGpu:
+    description: 'Attaches one of your allocated flexible GPUs (fGPUs) to one of your virtual machines (VMs).<br />
+
+      The fGPU is in the `attaching` state until the VM is stopped, after which it becomes `attached`.'
+    post:
+      operationId: LinkFlexibleGpu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkFlexibleGpuRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkFlexibleGpuResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - FlexibleGpu
   /LinkInternetService:
     description: 'Attaches an Internet service to a Net.<br />
 
@@ -8224,6 +8469,28 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - DirectLink
+  /ReadFlexibleGpus:
+    description: 'Lists one or more flexible GPUs (fGPUs) allocated to your account.<br /><br />
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
+    post:
+      operationId: ReadFlexibleGpus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadFlexibleGpusRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadFlexibleGpusResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - FlexibleGpu
   /ReadImageExportTasks:
     description: 'Lists one or more image export tasks.<br /><br />
 
@@ -8450,7 +8717,7 @@ paths:
       tags:
       - NatService
   /ReadNetAccessPointServices:
-    description: "Describes Outscale services available to create Net access points.<br />\nFor more information, see [CreateNetAccessPoint](#createnetaccesspoint).<br /><br />\n**[NOTE]**<br />  \nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
+    description: "Describes 3DS OUTSCALE services available to create Net access points.<br />\nFor more information, see [CreateNetAccessPoint](#createnetaccesspoint).<br /><br />\n**[NOTE]**<br />  \nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
     post:
       operationId: ReadNetAccessPointServices
       requestBody:
@@ -9341,6 +9608,26 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Vm
+  /UnlinkFlexibleGpu:
+    description: 'Detaches a flexible GPU (fGPU) from a virtual machine (VM).<br />
+
+      The fGPU is in the `detaching` state until the VM is stopped, after which it becomes available for allocation again.'
+    post:
+      operationId: UnlinkFlexibleGpu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnlinkFlexibleGpuRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnlinkFlexibleGpuResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - FlexibleGpu
   /UnlinkInternetService:
     description: 'Detaches an Internet service from a Net.<br />
 
@@ -9585,6 +9872,24 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Volume
+  /UpdateFlexibleGpu:
+    description: Modifies a flexible GPU (fGPU) behaviour.
+    post:
+      operationId: UpdateFlexibleGpu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFlexibleGpuRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateFlexibleGpuResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - FlexibleGpu
   /UpdateImage:
     description: 'Modifies the specified attribute of an Outscale machine image (OMI).<br />
 
