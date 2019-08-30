@@ -382,7 +382,7 @@ components:
           description: The ID of the OMI you want to copy.
           type: string
         SourceRegionName:
-          description: The name of the Region where the source OMI is located.
+          description: The name of the source Region, which must be the same as the Region of your account.
           type: string
         VmId:
           description: The ID of the VM from which you want to create the OMI.
@@ -950,10 +950,18 @@ components:
           description: The minimum number of VMs you want to create. If this number of VMs cannot be created, no VMs are created.
           type: integer
         Nics:
-          description: One or more NICs.
+          description: One or more NICs. If you specify this parameter, you must define one NIC as the primary network interface of the VM with 0 as its device number.
           items:
             $ref: '#/components/schemas/NicForVmCreation'
           type: array
+        Performance:
+          default: high
+          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          enum:
+          - medium
+          - high
+          - highest
+          type: string
         Placement:
           $ref: '#/components/schemas/Placement'
         PrivateIps:
@@ -981,7 +989,7 @@ components:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
           type: string
         VmType:
-          description: 'The type of VM (`t2.small` by default).<br />
+          description: 'The type of VM (`tinav2.c1r2` by default).<br />
 
             For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).'
           type: string
@@ -1989,7 +1997,7 @@ components:
             type: string
           type: array
         ModelNames:
-          description: One or more models of fGPUs.
+          description: One or more models of fGPUs. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
           items:
             type: string
           type: array
@@ -2027,6 +2035,9 @@ components:
           items:
             type: string
           type: array
+        BlockDeviceMappingDeleteOnVmDeletion:
+          description: Indicates whether the block device mapping is deleted when terminating the VM.
+          type: boolean
         BlockDeviceMappingDeviceNames:
           description: The device names for the volumes.
           items:
@@ -2337,6 +2348,11 @@ components:
           items:
             type: integer
           type: array
+        LinkNicVmIds:
+          description: The IDs of the VMs the NICs are attached to.
+          items:
+            type: string
+          type: array
         NicIds:
           description: The IDs of the NICs.
           items:
@@ -2448,6 +2464,11 @@ components:
           items:
             type: string
           type: array
+        RouteCreationMethods:
+          description: The methods used to create a route.
+          items:
+            type: string
+          type: array
         RouteDestinationIpRanges:
           description: The IP ranges specified in routes in the tables.
           items:
@@ -2502,6 +2523,11 @@ components:
     FiltersSecurityGroup:
       description: One or more filters.
       properties:
+        AccountIds:
+          description: The account IDs of the owners of the security groups.
+          items:
+            type: string
+          type: array
         SecurityGroupIds:
           description: The IDs of the security groups.
           items:
@@ -2560,6 +2586,14 @@ components:
           items:
             type: string
           type: array
+        PermissionsToCreateVolumeAccountIds:
+          description: The account IDs of one or more users who have permissions to create volumes.
+          items:
+            type: string
+          type: array
+        PermissionsToCreateVolumeGlobalPermission:
+          description: If `true`, lists all public volumes. If `false`, lists all private volumes.
+          type: boolean
         Progresses:
           description: The progresses of the snapshots, as a percentage.
           items:
@@ -2604,6 +2638,11 @@ components:
     FiltersSubnet:
       description: One or more filters.
       properties:
+        AvailableIpsCounts:
+          description: The number of available IPs.
+          items:
+            type: integer
+          type: array
         IpRanges:
           description: The IP ranges in the Subnets, in CIDR notation (for example, 10.0.0.0/16).
           items:
@@ -2752,6 +2791,16 @@ components:
           items:
             type: string
           type: array
+        VolumeCounts:
+          description: The maximum number of ephemeral storage disks.
+          items:
+            type: integer
+          type: array
+        VolumeSizes:
+          description: The size of one ephemeral storage disk, in gibibytes (GiB).
+          items:
+            type: integer
+          type: array
       type: object
     FiltersVmsState:
       description: One or more filters.
@@ -2840,6 +2889,11 @@ components:
           items:
             type: integer
           type: array
+        VolumeStates:
+          description: The states of the volumes (`creating` \| `available` \| `in-use` \| `deleting` \| `error`).
+          items:
+            type: string
+          type: array
         VolumeTypes:
           description: The types of the volumes (`standard` \| `gp2` \| `io1`).
           items:
@@ -2898,7 +2952,7 @@ components:
           description: The ID of the fGPU.
           type: string
         ModelName:
-          description: The model of fGPU.
+          description: The model of fGPU. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
           type: string
         State:
           description: The state of the fGPU (`allocated` \| `attaching` \| `attached` \| `detaching`).
@@ -2926,7 +2980,7 @@ components:
           description: The port number (between `1` and `65535`, both included).
           type: integer
         Protocol:
-          description: The protocol for the URL of the VM (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
+          description: The protocol for the URL of the VM (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`).
           type: string
         Timeout:
           description: The maximum waiting time for a response before considering the VM as unhealthy, in seconds (between `2` and `60` both included).
@@ -3394,13 +3448,13 @@ components:
           description: The port on which the back-end VM is listening (between `1` and `65535`, both included).
           type: integer
         BackendProtocol:
-          description: The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
+          description: The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`).
           type: string
         LoadBalancerPort:
           description: 'The port on which the load balancer is listening (between 1 and `65535`, both included). '
           type: integer
         LoadBalancerProtocol:
-          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
+          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`).
           type: string
         PolicyNames:
           description: The names of the policies. If there are no policies enabled, the list is empty.
@@ -3418,13 +3472,13 @@ components:
           description: The port on which the back-end VM is listening (between `1` and `65535`, both included).
           type: integer
         BackendProtocol:
-          description: 'The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`). '
+          description: 'The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`). '
           type: string
         LoadBalancerPort:
           description: 'The port on which the load balancer is listening (between `1` and `65535`, both included). '
           type: integer
         LoadBalancerProtocol:
-          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
+          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`).
           type: string
         ServerCertificateId:
           description: The ID of the server certificate.
@@ -3755,7 +3809,7 @@ components:
           description: The description of the NIC, if you are creating a NIC when creating the VM.
           type: string
         DeviceNumber:
-          description: The index of the VM device for the NIC attachment (between 1 and 7, both included). This parameter is required if you create a NIC when creating the VM.
+          description: The index of the VM device for the NIC attachment (between 0 and 7, both included). This parameter is required if you create a NIC when creating the VM.
           type: integer
         NicId:
           description: The ID of the NIC, if you are attaching an existing NIC when creating a VM.
@@ -5185,10 +5239,10 @@ components:
     UnlinkFlexibleGpuRequest:
       properties:
         DryRun:
-          description: If `true`, checks whether you have the required permissions to perform the action.
+          description: 'If `true`, checks whether you have the required permissions to perform the action. '
           type: boolean
         FlexibleGpuId:
-          description: The ID of the fGPU you want to detach.
+          description: The ID of the fGPU you want to detach from your VM.
           type: string
       required:
       - FlexibleGpuId
@@ -5330,6 +5384,9 @@ components:
       type: object
     UpdateFlexibleGpuRequest:
       properties:
+        DeleteOnVmDeletion:
+          description: If `true`, the fGPU is deleted when the VM is terminated.
+          type: boolean
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
@@ -5610,6 +5667,13 @@ components:
 
             To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.'
           type: string
+        Performance:
+          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          enum:
+          - medium
+          - high
+          - highest
+          type: string
         SecurityGroupIds:
           description: One or more IDs of security groups for the VM.
           items:
@@ -5706,6 +5770,9 @@ components:
         OsFamily:
           description: Indicates the operating system (OS) of the VM.
           type: string
+        Performance:
+          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          type: string
         Placement:
           $ref: '#/components/schemas/Placement'
         PrivateDnsName:
@@ -5800,7 +5867,7 @@ components:
     VmType:
       description: Information about the VM type.
       properties:
-        IsBsuOptimized:
+        BsuOptimized:
           description: Indicates whether the VM is optimized for BSU I/O.
           type: boolean
         MaxPrivateIps:
@@ -5820,7 +5887,7 @@ components:
           description: The maximum number of ephemeral storage disks.
           type: integer
         VolumeSize:
-          description: The size of one ephemeral storage disk, in bytes.
+          description: The size of one ephemeral storage disk, in gibibytes (GiB).
           type: integer
       type: object
     Volume:
@@ -5962,15 +6029,15 @@ info:
 
     The 3DS OUTSCALE API enables you to manage your resources in the 3DS OUTSCALE Cloud. This documentation describes the different actions available along with code examples.<br /><br />
 
-    Note that the 3DS OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the 3DS OUTSCALE API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/Outscale+APIs+Reference).<br /><br />
+    Note that the 3DS OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the 3DS OUTSCALE API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/3DS+OUTSCALE+APIs+Reference).<br /><br />
 
     You can also manage your resources using the [Cockpit](https://wiki.outscale.net/display/EN/About+Cockpit) web interface.'
   license:
     name: BSD 3 Clause
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
-  title: OUTSCALE API
-  version: '0.12'
+  title: 3DS OUTSCALE API
+  version: '0.13'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -6116,7 +6183,7 @@ paths:
                 $ref: '#/components/schemas/CreateFlexibleGpuResponse'
           description: The HTTP 200 response (OK).
       tags:
-      - Gpu
+      - FlexibleGpu
   /CreateImage:
     description: 'Creates an Outscale machine image (OMI) from an existing virtual machine (VM) which is either running or stopped.<br />
 
