@@ -311,7 +311,7 @@ components:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         ModelName:
-          description: The model of GPU you want to allocate.
+          description: The model of GPU you want to allocate. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
           type: string
         SubregionName:
           description: The Subregion in which you want to create the fGPU.
@@ -780,7 +780,7 @@ components:
           description: The ID of the security group for which you want to create a rule.
           type: string
         SecurityGroupNameToLink:
-          description: The name of the security group for which you want to create a rule.
+          description: The ID of the source security group. If you are in the Public Cloud, you can also specify the name of the source security group.
           type: string
         ToPortRange:
           description: 'The end of the port range for the TCP and UDP protocols, or an ICMP type number. '
@@ -956,7 +956,7 @@ components:
           type: array
         Performance:
           default: high
-          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          description: The performance of the VM (`standard` \| `high` \|  `highest`).
           enum:
           - medium
           - high
@@ -1474,7 +1474,7 @@ components:
           description: The ID of the security group you want to delete a rule from.
           type: string
         SecurityGroupNameToUnlink:
-          description: The name of the security group you want to delete a rule from.
+          description: The ID of the source security group. If you are in the Public Cloud, you can also specify the name of the source security group.
           type: string
         ToPortRange:
           description: The end of the port range for the TCP and UDP protocols, or an ICMP type number.
@@ -1979,6 +1979,21 @@ components:
     FiltersExportTask:
       description: One or more filters.
       properties:
+        TagKeys:
+          description: The keys of the tags associated with the export tasks.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the export tasks.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the export tasks, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          items:
+            type: string
+          type: array
         TaskIds:
           description: The IDs of the export tasks.
           items:
@@ -2270,6 +2285,21 @@ components:
           items:
             type: string
           type: array
+        TagKeys:
+          description: The keys of the tags associated with the Net access points.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the Net access points.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the Net access points, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          items:
+            type: string
+          type: array
       type: object
     FiltersNetPeering:
       description: One or more filters.
@@ -2338,11 +2368,6 @@ components:
     FiltersNic:
       description: One or more filters.
       properties:
-        AccountIds:
-          description: The account IDs of the owners of the NICs.
-          items:
-            type: string
-          type: array
         LinkNicSortNumbers:
           description: The device numbers the NICs are attached to.
           items:
@@ -2413,6 +2438,21 @@ components:
           type: array
         PublicIps:
           description: The External IP addresses (EIPs).
+          items:
+            type: string
+          type: array
+        TagKeys:
+          description: The keys of the tags associated with the EIPs.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the EIPs.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the EIPs, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
           items:
             type: string
           type: array
@@ -2964,6 +3004,25 @@ components:
           description: The ID of the VM the fGPU is attached to, if any.
           type: string
       type: object
+    FlexibleGpuCatalog:
+      description: Information about the flexible GPU (fGPU) that is available in the public catalog.
+      properties:
+        Generations:
+          description: The generations of VMs that the fGPU is compatible with.
+          type: string
+        MaxCpu:
+          description: The maximum number of VM vCores that the fGPU is compatible with.
+          type: integer
+        MaxRam:
+          description: The maximum amount of VM memory that the fGPU is compatible with.
+          type: integer
+        ModelName:
+          description: The model of fGPU.
+          type: string
+        VRam:
+          description: The amount of video RAM (VRAM) of the fGPU.
+          type: integer
+      type: object
     HealthCheck:
       description: Information about the health check configuration.
       properties:
@@ -3074,6 +3133,11 @@ components:
         State:
           description: The state of the OMI export task (`pending/queued` \| `pending` \| `completed` \| `failed` \| `cancelled`).
           type: string
+        Tags:
+          description: One or more tags associated with the image export task.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
         TaskId:
           description: The ID of the OMI export task.
           type: string
@@ -3662,6 +3726,11 @@ components:
         SubnetId:
           description: The ID of the Subnet in which the NAT service is.
           type: string
+        Tags:
+          description: One or more tags associated with the NAT service.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
       type: object
     Net:
       description: Information about the Net.
@@ -3707,6 +3776,11 @@ components:
         State:
           description: The state of the Net access point (`pending` \| `available` \| `deleting` \| `deleted`).
           type: string
+        Tags:
+          description: One or more tags associated with the Net access point.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
       type: object
     NetPeering:
       description: Information about the Net peering connection.
@@ -4011,6 +4085,11 @@ components:
         PublicIpId:
           description: The allocation ID of the EIP associated with the NAT service.
           type: string
+        Tags:
+          description: One or more tags associated with the EIP.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
         VmId:
           description: The ID of the VM the External IP (EIP) is associated with (if any).
           type: string
@@ -4203,6 +4282,22 @@ components:
           description: Information about one or more DirectLinks.
           items:
             $ref: '#/components/schemas/DirectLink'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadFlexibleGpuCatalogRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      type: object
+    ReadFlexibleGpuCatalogResponse:
+      properties:
+        FlexibleGpuCatalog:
+          description: Information about one or more fGPUs available in the public catalog.
+          items:
+            $ref: '#/components/schemas/FlexibleGpuCatalog'
           type: array
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -4718,7 +4813,7 @@ components:
     ReadVmsStateRequest:
       properties:
         AllVms:
-          description: If `true`, includes the status of all VMs. If `false`, only includes the status of running VMs.
+          description: If `true`, includes the status of all VMs. By default or if set to `false`, only includes the status of running VMs.
           type: boolean
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5089,6 +5184,11 @@ components:
         State:
           description: The state of the snapshot export task (`pending` \| `active` \| `completed` \| `failed`).
           type: string
+        Tags:
+          description: One or more tags associated with the snapshot export task.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
         TaskId:
           description: The ID of the snapshot export task.
           type: string
@@ -5668,7 +5768,7 @@ components:
             To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.'
           type: string
         Performance:
-          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          description: The performance of the VM (`standard` \| `high` \|  `highest`).
           enum:
           - medium
           - high
@@ -5771,7 +5871,7 @@ components:
           description: Indicates the operating system (OS) of the VM.
           type: string
         Performance:
-          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          description: The performance of the VM (`standard` \| `high` \|  `highest`).
           type: string
         Placement:
           $ref: '#/components/schemas/Placement'
@@ -6037,7 +6137,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '0.13'
+  version: '0.14'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -8536,6 +8636,29 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - DirectLink
+  /ReadFlexibleGpuCatalog:
+    description: 'Lists all flexible GPUs available in the public catalog.<br /><br />
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
+    post:
+      operationId: ReadFlexibleGpuCatalog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadFlexibleGpuCatalogRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadFlexibleGpuCatalogResponse'
+          description: The HTTP 200 response (OK).
+      security: []
+      tags:
+      - FlexibleGpu
   /ReadFlexibleGpus:
     description: 'Lists one or more flexible GPUs (fGPUs) allocated to your account.<br /><br />
 
