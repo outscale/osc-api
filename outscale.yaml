@@ -35,7 +35,7 @@ components:
       description: Information about access logs.
       properties:
         IsEnabled:
-          description: If `true`, access logs are enabled for your load balancer. If `false`, they are not. If you set this to `true` in your request, the OsuBucketName` parameter is required.
+          description: If `true`, access logs are enabled for your load balancer. If `false`, they are not. If you set this to `true` in your request, the `OsuBucketName` parameter is required.
           type: boolean
         OsuBucketName:
           description: The name of the Object Storage Unit (OSU) bucket for the access logs.
@@ -105,7 +105,7 @@ components:
           description: The name of the device.
           type: string
         NoDevice:
-          description: Suppresses the device which is included in the block device mapping of the OMI.
+          description: Removes the device which is included in the block device mapping of the OMI.
           type: string
         VirtualDeviceName:
           description: The name of the virtual device (ephemeralN).
@@ -120,7 +120,7 @@ components:
           description: The name of the device.
           type: string
         NoDevice:
-          description: Suppresses the device which is included in the block device mapping of the OMI.
+          description: Removes the device which is included in the block device mapping of the OMI.
           type: string
         VirtualDeviceName:
           description: The name of the virtual device (ephemeralN).
@@ -234,7 +234,7 @@ components:
           description: Specify a domain name (for example, MyCompany.com). You can specify only one domain name.
           type: string
         DomainNameServers:
-          description: The IP addresses of domain name servers. If no IP addresses are specified, the OutscaleProvidedDNS value is set by default.
+          description: The IP addresses of domain name servers. If no IP addresses are specified, the `OutscaleProvidedDNS` value is set by default.
           items:
             type: string
           type: array
@@ -304,14 +304,14 @@ components:
     CreateFlexibleGpuRequest:
       properties:
         DeleteOnVmDeletion:
-          default: false
+          default: 'false'
           description: If `true`, the fGPU is deleted when the VM is terminated.
           type: boolean
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         ModelName:
-          description: The model of GPU you want to allocate.
+          description: The model of GPU you want to allocate. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
           type: string
         SubregionName:
           description: The Subregion in which you want to create the fGPU.
@@ -370,7 +370,7 @@ components:
         ImageName:
           description: 'A unique name for the new OMI.<br />
 
-            Constraints:  3–128 alphanumeric characters, underscores (_), spaces ( ), parentheses (()), slashes (/), periods (.), or dashes (-).'
+            Constraints: 3-128 alphanumeric characters, underscores (_), spaces ( ), parentheses (()), slashes (/), periods (.), or dashes (-).'
           type: string
         NoReboot:
           description: If `false`, the VM shuts down before creating the OMI and then reboots. If `true`, the VM does not.
@@ -501,7 +501,7 @@ components:
         SecurityGroups:
           description: 'One or more IDs of security groups you want to assign to the load balancer.<br />
 
-            In a Net, this attribute is required. In the public Cloud, it is optional and default security groups can be applied. '
+            In a Net, this attribute is required. In the public Cloud, it is optional and default security groups can be applied.'
           items:
             type: string
           type: array
@@ -511,7 +511,7 @@ components:
             type: string
           type: array
         SubregionNames:
-          description: The name(s) of the Subregion(s) (currently, only one Subregion is supported). This parameter is not required if you create a load balancer in a Net. To create an internal load balancer, use the `LoadBalancerType` parameter.
+          description: One or more names of Subregions (currently, only one Subregion is supported). This parameter is not required if you create a load balancer in a Net. To create an internal load balancer, use the `LoadBalancerType` parameter.
           items:
             type: string
           type: array
@@ -634,7 +634,12 @@ components:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         PrivateIps:
-          description: "The primary private IP address for the NIC.<br /><br />                        \nThis IP address must be within the IP address range of the Subnet that you specify with the `SubnetId` attribute.<br />\nIf you do not specify this attribute, a random private IP address is selected within the IP address range of the Subnet."
+          description: 'The primary private IP address for the NIC.<br /><br />
+
+
+            This IP address must be within the IP address range of the Subnet that you specify with the `SubnetId` attribute.<br />
+
+            If you do not specify this attribute, a random private IP address is selected within the IP address range of the Subnet.'
           items:
             $ref: '#/components/schemas/PrivateIpLight'
           type: array
@@ -783,7 +788,7 @@ components:
           description: The ID of the source security group. If you are in the Public Cloud, you can also specify the name of the source security group.
           type: string
         ToPortRange:
-          description: 'The end of the port range for the TCP and UDP protocols, or an ICMP type number. '
+          description: The end of the port range for the TCP and UDP protocols, or an ICMP type number.
           type: integer
       required:
       - SecurityGroupId
@@ -950,13 +955,13 @@ components:
           description: The minimum number of VMs you want to create. If this number of VMs cannot be created, no VMs are created.
           type: integer
         Nics:
-          description: One or more NICs. If you specify this parameter, you must define one NIC as the primary network interface of the VM with 0 as its device number.
+          description: One or more NICs. If you specify this parameter, you must define one NIC as the primary network interface of the VM with `0` as its device number.
           items:
             $ref: '#/components/schemas/NicForVmCreation'
           type: array
         Performance:
           default: high
-          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          description: The performance of the VM (`standard` \| `high` \|  `highest`).
           enum:
           - medium
           - high
@@ -965,7 +970,7 @@ components:
         Placement:
           $ref: '#/components/schemas/Placement'
         PrivateIps:
-          description: The private IP address(es) of the VM.
+          description: One or more private IP addresses of the VM.
           items:
             type: string
           type: array
@@ -1240,7 +1245,7 @@ components:
           description: The name of the load balancer for which you want to delete listeners.
           type: string
         LoadBalancerPorts:
-          description: The port number(s) of the listener(s) you want to delete.
+          description: One or more port numbers of the listeners you want to delete.
           items:
             type: integer
           type: array
@@ -1463,7 +1468,7 @@ components:
           description: The IP range for the security group rule, in CIDR notation (for example, 10.0.0.0/16).
           type: string
         Rules:
-          description: The rule(s) you want to delete from the security group.
+          description: One or more rules you want to delete from the security group.
           items:
             $ref: '#/components/schemas/SecurityGroupRule'
           type: array
@@ -1915,7 +1920,7 @@ components:
       description: One or more filters.
       properties:
         Default:
-          description: 'If `true`, lists all default DHCP options set. If `false`, lists all non-default DHCP options set. '
+          description: If `true`, lists all default DHCP options set. If `false`, lists all non-default DHCP options set.
           type: boolean
         DhcpOptionsSetIds:
           description: The IDs of the DHCP options sets.
@@ -1979,6 +1984,21 @@ components:
     FiltersExportTask:
       description: One or more filters.
       properties:
+        TagKeys:
+          description: The keys of the tags associated with the export tasks.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the export tasks.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the export tasks, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          items:
+            type: string
+          type: array
         TaskIds:
           description: The IDs of the export tasks.
           items:
@@ -2270,6 +2290,21 @@ components:
           items:
             type: string
           type: array
+        TagKeys:
+          description: The keys of the tags associated with the Net access points.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the Net access points.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the Net access points, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          items:
+            type: string
+          type: array
       type: object
     FiltersNetPeering:
       description: One or more filters.
@@ -2338,11 +2373,6 @@ components:
     FiltersNic:
       description: One or more filters.
       properties:
-        AccountIds:
-          description: The account IDs of the owners of the NICs.
-          items:
-            type: string
-          type: array
         LinkNicSortNumbers:
           description: The device numbers the NICs are attached to.
           items:
@@ -2413,6 +2443,21 @@ components:
           type: array
         PublicIps:
           description: The External IP addresses (EIPs).
+          items:
+            type: string
+          type: array
+        TagKeys:
+          description: The keys of the tags associated with the EIPs.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the EIPs.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the EIPs, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
           items:
             type: string
           type: array
@@ -2816,7 +2861,7 @@ components:
             type: string
           type: array
         VmStates:
-          description: The state(s) of the VMs (`pending` \| `running` \| `shutting-down` \| `terminated` \| `stopping` \| `stopped`).
+          description: The states of the VMs (`pending` \| `running` \| `shutting-down` \| `terminated` \| `stopping` \| `stopped`).
           items:
             type: string
           type: array
@@ -2964,6 +3009,25 @@ components:
           description: The ID of the VM the fGPU is attached to, if any.
           type: string
       type: object
+    FlexibleGpuCatalog:
+      description: Information about the flexible GPU (fGPU) that is available in the public catalog.
+      properties:
+        Generations:
+          description: The generations of VMs that the fGPU is compatible with.
+          type: string
+        MaxCpu:
+          description: The maximum number of VM vCores that the fGPU is compatible with.
+          type: integer
+        MaxRam:
+          description: The maximum amount of VM memory that the fGPU is compatible with.
+          type: integer
+        ModelName:
+          description: The model of fGPU.
+          type: string
+        VRam:
+          description: The amount of video RAM (VRAM) of the fGPU.
+          type: integer
+      type: object
     HealthCheck:
       description: Information about the health check configuration.
       properties:
@@ -2980,7 +3044,7 @@ components:
           description: The port number (between `1` and `65535`, both included).
           type: integer
         Protocol:
-          description: The protocol for the URL of the VM (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`).
+          description: The protocol for the URL of the VM (`HTTP` \| `HTTPS` \| `TCP` \| `SSL` \| `UDP`).
           type: string
         Timeout:
           description: The maximum waiting time for a response before considering the VM as unhealthy, in seconds (between `2` and `60` both included).
@@ -3036,7 +3100,7 @@ components:
         PermissionsToLaunch:
           $ref: '#/components/schemas/PermissionsOnResource'
         ProductCodes:
-          description: 'The product code associated with the OMI (`0001` Linux/Unix \| `0002` Windows \| `0004` Linux/Oracle \| `0005` Windows 10). '
+          description: The product code associated with the OMI (`0001` Linux/Unix \| `0002` Windows \| `0004` Linux/Oracle \| `0005` Windows 10).
           items:
             type: string
           type: array
@@ -3074,6 +3138,11 @@ components:
         State:
           description: The state of the OMI export task (`pending/queued` \| `pending` \| `completed` \| `failed` \| `cancelled`).
           type: string
+        Tags:
+          description: One or more tags associated with the image export task.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
         TaskId:
           description: The ID of the OMI export task.
           type: string
@@ -3304,13 +3373,14 @@ components:
 
             - If `false`, prevents the EIP from being associated with the VM or NIC that you specify if it is already associated with another VM or NIC.<br /><br />
 
+
             (By default, `true` in the public Cloud, `false` in a Net.)'
           type: boolean
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         NicId:
-          description: '(Net only) The ID of the NIC. This parameter is required if the VM has more than one NIC attached. Otherwise, you need to specify the `VmId` parameter instead. You cannot specify both parameters at the same time. '
+          description: (Net only) The ID of the NIC. This parameter is required if the VM has more than one NIC attached. Otherwise, you need to specify the `VmId` parameter instead. You cannot specify both parameters at the same time.
           type: string
         PrivateIp:
           description: (Net only) The primary or secondary private IP address of the specified NIC. By default, the primary private IP address.
@@ -3448,13 +3518,13 @@ components:
           description: The port on which the back-end VM is listening (between `1` and `65535`, both included).
           type: integer
         BackendProtocol:
-          description: The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`).
+          description: The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL` \| `UDP`).
           type: string
         LoadBalancerPort:
-          description: 'The port on which the load balancer is listening (between 1 and `65535`, both included). '
+          description: The port on which the load balancer is listening (between 1 and `65535`, both included).
           type: integer
         LoadBalancerProtocol:
-          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`).
+          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL` \| `UDP`).
           type: string
         PolicyNames:
           description: The names of the policies. If there are no policies enabled, the list is empty.
@@ -3472,13 +3542,13 @@ components:
           description: The port on which the back-end VM is listening (between `1` and `65535`, both included).
           type: integer
         BackendProtocol:
-          description: 'The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`). '
+          description: The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL` \| `UDP`).
           type: string
         LoadBalancerPort:
-          description: 'The port on which the load balancer is listening (between `1` and `65535`, both included). '
+          description: The port on which the load balancer is listening (between `1` and `65535`, both included).
           type: integer
         LoadBalancerProtocol:
-          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`\| `UDP`).
+          description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL` \| `UDP`).
           type: string
         ServerCertificateId:
           description: The ID of the server certificate.
@@ -3544,7 +3614,7 @@ components:
             type: string
           type: array
         SubregionNames:
-          description: The name(s) of the Subregion(s) for the load balancer.
+          description: One or more names of Subregions for the load balancer.
           items:
             type: string
           type: array
@@ -3662,6 +3732,11 @@ components:
         SubnetId:
           description: The ID of the Subnet in which the NAT service is.
           type: string
+        Tags:
+          description: One or more tags associated with the NAT service.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
       type: object
     Net:
       description: Information about the Net.
@@ -3707,6 +3782,11 @@ components:
         State:
           description: The state of the Net access point (`pending` \| `available` \| `deleting` \| `deleted`).
           type: string
+        Tags:
+          description: One or more tags associated with the Net access point.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
       type: object
     NetPeering:
       description: Information about the Net peering connection.
@@ -3733,7 +3813,7 @@ components:
           description: Additional information about the state of the Net peering connection.
           type: string
         Name:
-          description: 'The state of the Net peering connection (`pending-acceptance` \| `active` \| `rejected` \| `failed` \| `expired` \| `deleted`). '
+          description: The state of the Net peering connection (`pending-acceptance` \| `active` \| `rejected` \| `failed` \| `expired` \| `deleted`).
           type: string
       type: object
     NetToVirtualGatewayLink:
@@ -3785,7 +3865,7 @@ components:
             $ref: '#/components/schemas/SecurityGroupLight'
           type: array
         State:
-          description: 'The state of the NIC (`available` \| `attaching` \| `in-use` \| `detaching`). '
+          description: The state of the NIC (`available` \| `attaching` \| `in-use` \| `detaching`).
           type: string
         SubnetId:
           description: The ID of the Subnet.
@@ -3870,7 +3950,7 @@ components:
             $ref: '#/components/schemas/SecurityGroupLight'
           type: array
         State:
-          description: 'The state of the NIC (`available` \| `attaching` \| `in-use` \| `detaching`). '
+          description: The state of the NIC (`available` \| `attaching` \| `in-use` \| `detaching`).
           type: string
         SubnetId:
           description: The ID of the Subnet for the NIC.
@@ -3931,10 +4011,10 @@ components:
       description: Information about the placement of the VM.
       properties:
         SubregionName:
-          description: The name of the subregion.
+          description: The name of the Subregion.
           type: string
         Tenancy:
-          description: The tenancy of the VM (`default`\|`dedicated`).
+          description: The tenancy of the VM (`default` \| `dedicated`).
           type: string
       type: object
     PrivateIp:
@@ -4011,6 +4091,11 @@ components:
         PublicIpId:
           description: The allocation ID of the EIP associated with the NAT service.
           type: string
+        Tags:
+          description: One or more tags associated with the EIP.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
         VmId:
           description: The ID of the VM the External IP (EIP) is associated with (if any).
           type: string
@@ -4207,6 +4292,22 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    ReadFlexibleGpuCatalogRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      type: object
+    ReadFlexibleGpuCatalogResponse:
+      properties:
+        FlexibleGpuCatalog:
+          description: Information about one or more fGPUs available in the public catalog.
+          items:
+            $ref: '#/components/schemas/FlexibleGpuCatalog'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     ReadFlexibleGpusRequest:
       properties:
         DryRun:
@@ -4254,7 +4355,7 @@ components:
     ReadImagesResponse:
       properties:
         Images:
-          description: Information about the described OMI(s).
+          description: Information about one or more OMIs.
           items:
             $ref: '#/components/schemas/Image'
           type: array
@@ -4272,7 +4373,7 @@ components:
     ReadInternetServicesResponse:
       properties:
         InternetServices:
-          description: Information about the described Internet service(s).
+          description: Information about one or more Internet services.
           items:
             $ref: '#/components/schemas/InternetService'
           type: array
@@ -4778,7 +4879,7 @@ components:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         VmIds:
-          description: The ID(s) of the VM(s) you want to reboot.
+          description: One or more IDs of the VMs you want to reboot.
           items:
             type: string
           type: array
@@ -5058,7 +5159,7 @@ components:
           description: The ID of the snapshot.
           type: string
         State:
-          description: The state of the snapshot (`in-queue`\| `pending` \| `completed`).
+          description: The state of the snapshot (`in-queue` \| `pending` \| `completed`).
           type: string
         Tags:
           description: One or more tags associated with the snapshot.
@@ -5089,6 +5190,11 @@ components:
         State:
           description: The state of the snapshot export task (`pending` \| `active` \| `completed` \| `failed`).
           type: string
+        Tags:
+          description: One or more tags associated with the snapshot export task.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
         TaskId:
           description: The ID of the snapshot export task.
           type: string
@@ -5239,7 +5345,7 @@ components:
     UnlinkFlexibleGpuRequest:
       properties:
         DryRun:
-          description: 'If `true`, checks whether you have the required permissions to perform the action. '
+          description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         FlexibleGpuId:
           description: The ID of the fGPU you want to detach from your VM.
@@ -5437,10 +5543,10 @@ components:
           description: The name of the load balancer.
           type: string
         LoadBalancerPort:
-          description: 'The port on which the load balancer is listening (between `1` and `65535`, both included). '
+          description: The port on which the load balancer is listening (between `1` and `65535`, both included).
           type: integer
         PolicyNames:
-          description: The list of policies names (must contain all the policies to be enabled).
+          description: The list of policy names (must contain all the policies to be enabled).
           items:
             type: string
           type: array
@@ -5471,7 +5577,7 @@ components:
           description: The ID of the Net access point.
           type: string
         RemoveRouteTableIds:
-          description: One or more IDs of route tables to dissasociate from the specified Net access point.
+          description: One or more IDs of route tables to disassociate from the specified Net access point.
           items:
             type: string
           type: array
@@ -5630,7 +5736,7 @@ components:
           description: If `true`, a public IP address is assigned to the network interface cards (NICs) created in the specified Subnet.
           type: boolean
         SubnetId:
-          description: The ID of the subnet.
+          description: The ID of the Subnet.
           type: string
       required:
       - SubnetId
@@ -5646,7 +5752,7 @@ components:
     UpdateVmRequest:
       properties:
         BlockDeviceMappings:
-          description: 'The block device mapping(s) of the VM. This parameter modifies the `DeleteOnDeletion` attribute for volumes attached to the VM. '
+          description: One or more block device mappings of the VM. This parameter modifies the `DeleteOnDeletion` attribute for volumes attached to the VM.
           items:
             $ref: '#/components/schemas/BlockDeviceMappingVmUpdate'
           type: array
@@ -5668,7 +5774,7 @@ components:
             To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.'
           type: string
         Performance:
-          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          description: The performance of the VM (`standard` \| `high` \|  `highest`).
           enum:
           - medium
           - high
@@ -5689,7 +5795,7 @@ components:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
           type: string
         VmType:
-          description: "The type of VM. \nFor more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types)."
+          description: The type of VM. For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).
           type: string
       required:
       - VmId
@@ -5771,7 +5877,7 @@ components:
           description: Indicates the operating system (OS) of the VM.
           type: string
         Performance:
-          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          description: The performance of the VM (`standard` \| `high` \|  `highest`).
           type: string
         Placement:
           $ref: '#/components/schemas/Placement'
@@ -5779,7 +5885,7 @@ components:
           description: The name of the private DNS.
           type: string
         PrivateIp:
-          description: The private IP address(es) of the VM.
+          description: The primary private IP address of the VM.
           type: string
         ProductCodes:
           description: The product code associated with the OMI used to create the VM (`0001` Linux/Unix \| `0002` Windows \| `0004` Linux/Oracle \| `0005` Windows 10).
@@ -5793,7 +5899,7 @@ components:
           description: The public IP address of the VM.
           type: string
         ReservationId:
-          description: 'The reservation ID of the VM. '
+          description: The reservation ID of the VM.
           type: string
         RootDeviceName:
           description: The name of the root device for the VM (for example, /dev/vda1).
@@ -5830,7 +5936,7 @@ components:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `delete`, the VM stops and is deleted.
           type: string
         VmType:
-          description: "The type of VM.  \nFor more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types)."
+          description: The type of VM. For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).
           type: string
       type: object
     VmState:
@@ -6027,9 +6133,12 @@ info:
     email: support@outscale.com
   description: 'Welcome to the 3DS OUTSCALE''s API documentation.<br /><br />
 
+
     The 3DS OUTSCALE API enables you to manage your resources in the 3DS OUTSCALE Cloud. This documentation describes the different actions available along with code examples.<br /><br />
 
+
     Note that the 3DS OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the 3DS OUTSCALE API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/3DS+OUTSCALE+APIs+Reference).<br /><br />
+
 
     You can also manage your resources using the [Cockpit](https://wiki.outscale.net/display/EN/About+Cockpit) web interface.'
   license:
@@ -6037,7 +6146,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '0.13'
+  version: '0.14'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -6167,7 +6276,7 @@ paths:
   /CreateFlexibleGpu:
     description: 'Allocates a flexible GPU (fGPU) to your account.<br />
 
-      You can then attach this fGPU to a virtual machine (VM).<br />'
+      You can then attach this fGPU to a virtual machine (VM).'
     post:
       operationId: CreateFlexibleGpu
       requestBody:
@@ -6189,11 +6298,13 @@ paths:
 
       This action also creates a snapshot of the root volume of the VM, as well as a snapshot of each Block Storage Unit (BSU) volume attached to the VM.<br /><br />
 
+
       You can also use this method to copy an OMI to your account, from an account in the same Region. To do so, the owner of the source OMI must share it with your account. For more information about how to share an OMI with another account in the same Region, see [UpdateImage](#updateimage).<br />
 
       To copy an OMI between accounts in different Regions, the owner of the source OMI must first export it to an Object Storage Unit (OSU) bucket using the [CreateImageExportTask](#createimageexporttask) method, and then you need to create a copy of the image in your account.<br />
 
       The copy of the source OMI is independent and belongs to you.<br /><br />
+
 
       You can also use this method to register an OMI to finalize its creation process.<br />
 
@@ -6237,7 +6348,16 @@ paths:
       tags:
       - Image
   /CreateImageExportTask:
-    description: "Exports an Outscale machine image (OMI) to an Object Storage Unit (OSU) bucket.<br />      \nThis action enables you to copy an OMI between accounts in different Regions. To copy an OMI in the same Region, you can also use the [CreateImage](#createimage) method.<br />\nThe copy of the OMI belongs to you and is independent from the source OMI.<br /><br />\n**[NOTE]**<br />\nYou cannot export a shared or public OMI, as they do not belong to you. To do so, you must first copy it to your account. The copy then belongs to you and you can export it.\n"
+    description: 'Exports an Outscale machine image (OMI) to an Object Storage Unit (OSU) bucket.<br />
+
+      This action enables you to copy an OMI between accounts in different Regions. To copy an OMI in the same Region, you can also use the [CreateImage](#createimage) method.<br />
+
+      The copy of the OMI belongs to you and is independent from the source OMI.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      You cannot export a shared or public OMI, as they do not belong to you. To do so, you must first copy it to your account. The copy then belongs to you and you can export it.'
     post:
       operationId: CreateImageExportTask
       requestBody:
@@ -6297,9 +6417,10 @@ paths:
 
       This action returns the private key that you need to save. The public key is stored by 3DS OUTSCALE.<br /><br />
 
+
       You can also use this method to import a provided public key and create a keypair.<br />
 
-      This action imports the public key of a keypair created by a third-party tool and uses it to create a new keypair. The private key is never provided to 3DS OUTSCALE.  '
+      This action imports the public key of a keypair created by a third-party tool and uses it to create a new keypair. The private key is never provided to 3DS OUTSCALE.'
     post:
       operationId: CreateKeypair
       requestBody:
@@ -6387,11 +6508,12 @@ paths:
 
       If this policy is implemented by a load balancer, this load balancer uses this cookie in all incoming requests to direct them to the specified back-end server virtual machine (VM). If this cookie is not present, the load balancer sends the request to any other server according to its load-balancing algorithm.<br /><br />
 
+
       You can also create a stickiness policy with sticky session lifetimes following the lifetime of an application-generated cookie.<br />
 
       Unlike the other type of stickiness policy, the lifetime of the special Load Balancer Unit (LBU) cookie follows the lifetime of the application-generated cookie specified in the policy configuration. The load balancer inserts a new stickiness cookie only when the application response includes a new application cookie.<br />
 
-      The session stops being sticky if the application cookie is removed or expires, until a new application cookie is issued.  '
+      The session stops being sticky if the application cookie is removed or expires, until a new application cookie is issued.'
     post:
       operationId: CreateLoadBalancerPolicy
       requestBody:
@@ -6417,12 +6539,10 @@ paths:
 
       This action also enables you to create multiple NAT services in the same Net (one per public Subnet).<br /><br />
 
+
       **[NOTE]**<br />
 
-      You cannot modify the EIP associated with a NAT service after its creation. To do so, you need to delete the NAT service and create a new one with another EIP.
-
-
-      '
+      You cannot modify the EIP associated with a NAT service after its creation. To do so, you need to delete the NAT service and create a new one with another EIP.'
     post:
       operationId: CreateNatService
       requestBody:
@@ -6458,7 +6578,9 @@ paths:
       tags:
       - NatService
   /CreateNet:
-    description: "Creates a Net with a specified IP range.<br />  \nThe IP range (network range) of your Net must be between a /28 netmask (16 IP addresses) and a /16 netmask (65 536 IP addresses)."
+    description: 'Creates a Net with a specified IP range.<br />
+
+      The IP range (network range) of your Net must be between a /28 netmask (16 IP addresses) and a /16 netmask (65 536 IP addresses).'
     post:
       operationId: CreateNet
       requestBody:
@@ -6526,11 +6648,10 @@ paths:
 
       This action creates a Net peering connection that remains in the `pending-acceptance` state until it is accepted by the owner of the peer Net. If the owner of the peer Net does not accept the request within 7 days, the state of the Net peering connection becomes `expired`. For more information, see [AcceptNetPeering](#acceptnetpeering).<br /><br />
 
+
       **[NOTE]**<br />
 
-      The two Nets must not have overlapping CIDR blocks. Otherwise, the Net peering connection is in the `failed` state.
-
-      '
+      The two Nets must not have overlapping IP ranges. Otherwise, the Net peering connection is in the `failed` state.'
     post:
       operationId: CreateNetPeering
       requestBody:
@@ -6566,7 +6687,7 @@ paths:
       tags:
       - NetPeering
   /CreateNic:
-    description: Creates a network interface card (NIC) in the specified subnet.
+    description: Creates a network interface card (NIC) in the specified Subnet.
     post:
       operationId: CreateNic
       requestBody:
@@ -6640,7 +6761,25 @@ paths:
       tags:
       - PublicIp
   /CreateRoute:
-    description: "Creates a route in a specified route table within a specified Net.<br />\nYou must specify one of the following elements as the target:<br /><br />     \n* Net peering connection<br />\n* NAT VM<br />\n* Internet service<br />\n* Virtual gateway<br />\n* NAT service<br />\n* Network interface card (NIC)<br /><br />\nThe routing algorithm is based on the most specific match."
+    description: 'Creates a route in a specified route table within a specified Net.<br />
+
+      You must specify one of the following elements as the target:<br /><br />
+
+
+      * Net peering connection<br />
+
+      * NAT VM<br />
+
+      * Internet service<br />
+
+      * Virtual gateway<br />
+
+      * NAT service<br />
+
+      * Network interface card (NIC)<br /><br />
+
+
+      The routing algorithm is based on the most specific match.'
     post:
       operationId: CreateRoute
       requestBody:
@@ -6714,7 +6853,17 @@ paths:
       tags:
       - RouteTable
   /CreateSecurityGroup:
-    description: "Creates a security group.<br />\nThis action creates a security group either in the public Cloud or in a specified Net. By default, a default security group for use in the public Cloud and a default security group for use in a Net are created.<br />\nWhen launching a virtual machine (VM), if no security group is explicitly specified, the appropriate default security group is assigned to the VM. Default security groups include a default rule granting VMs network access to each other.<br />\nWhen creating a security group, you specify a name. Two security groups for use in the public Cloud or for use in a Net cannot have the same name.<br />\nYou can have up to 500 security groups in the public Cloud. You can create up to 500 security groups per Net.<br />\n To add or remove rules, use the [CreateSecurityGroupRule](#createsecuritygrouprule) method."
+    description: 'Creates a security group.<br />
+
+      This action creates a security group either in the public Cloud or in a specified Net. By default, a default security group for use in the public Cloud and a default security group for use in a Net are created.<br />
+
+      When launching a virtual machine (VM), if no security group is explicitly specified, the appropriate default security group is assigned to the VM. Default security groups include a default rule granting VMs network access to each other.<br />
+
+      When creating a security group, you specify a name. Two security groups for use in the public Cloud or for use in a Net cannot have the same name.<br />
+
+      You can have up to 500 security groups in the public Cloud. You can create up to 500 security groups per Net.<br />
+
+      To add or remove rules, use the [CreateSecurityGroupRule](#createsecuritygrouprule) method.'
     post:
       operationId: CreateSecurityGroup
       requestBody:
@@ -6750,8 +6899,28 @@ paths:
       tags:
       - SecurityGroup
   /CreateSecurityGroupRule:
-    description: "Configures the rules for a security group.<br />\nThe modifications are effective at virtual machine (VM) level as quickly as possible, but a small delay may occur.<br /><br />\nYou can add one or more egress rules to a security group for use with a Net.<br />\nIt allows VMs to send traffic to either one or more destination IP address ranges or destination security groups for the same Net.<br />\nWe recommend using a set of IP permissions to authorize outbound access to a destination security group. We also recommended this method to create a rule with a specific IP protocol and a specific port range.  In a set of IP permissions, we recommend to specify the the protocol.<br /><br />\nYou can also add one or more ingress rules to a security group.<br />\nIn the public Cloud, this action allows one or more IP address ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own 3DS OUTSCALE\
-      \ account or another one.<br />\nIn a Net, this action allows one or more  IP address ranges to access a security group for your Net, or allows one or more other security groups (source groups) to access a security group for your Net. All the security groups must be for the same Net.<br /><br />\n**[NOTE]**<br />           \nBy default, traffic between two security groups is allowed through both public and private IP addresses. To restrict it to private IP addresses only, contact our Support team: support@outscale.com."
+    description: 'Configures the rules for a security group.<br />
+
+      The modifications are effective at virtual machine (VM) level as quickly as possible, but a small delay may occur.<br /><br />
+
+
+      You can add one or more egress rules to a security group for use with a Net.<br />
+
+      It allows VMs to send traffic to either one or more destination IP address ranges or destination security groups for the same Net.<br />
+
+      We recommend using a set of IP permissions to authorize outbound access to a destination security group. We also recommended this method to create a rule with a specific IP protocol and a specific port range.  In a set of IP permissions, we recommend to specify the the protocol.<br /><br />
+
+
+      You can also add one or more ingress rules to a security group.<br />
+
+      In the public Cloud, this action allows one or more IP address ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own 3DS OUTSCALE account or another one.<br />
+
+      In a Net, this action allows one or more  IP address ranges to access a security group for your Net, or allows one or more other security groups (source groups) to access a security group for your Net. All the security groups must be for the same Net.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      By default, traffic between two security groups is allowed through both public and private IP addresses. To restrict it to private IP addresses only, contact our Support team: support@outscale.com.'
     post:
       operationId: CreateSecurityGroupRule
       requestBody:
@@ -6791,11 +6960,13 @@ paths:
 
       Snapshots are point-in-time images of a volume you can use to back up your data or to create replicas of this volume at the time the snapshot was created.<br /><br />
 
+
       You can also use this method to copy a snapshot to your account, from an account in the same Region.<br />
 
       To do so, the owner of the source snapshot must share it with your account. For more information about how to share a snapshot with another account, see [UpdateSnapshot](#updatesnapshot).<br />
 
       The copy of the source snapshot is independent and belongs to you.<br /><br />
+
 
       To copy a snapshot between accounts in different Regions, the owner of the source snapshot must export it to an Object Storage Unit (OSU) bucket using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. You then need to import it from the OSU bucket to create a copy of this snapshot in your account.<br />
 
@@ -6839,9 +7010,7 @@ paths:
 
       This action enables you to create a backup of your snapshot or to copy it to another account. You, or other users you send a pre-signed URL to, can then download this snapshot from the OSU bucket using the [CreateSnapshot](#createsnapshot) method.<br />
 
-      This procedure enables you to copy a snapshot between accounts within the same Region or in different Regions. To copy a snapshot within the same Region, you can also use the [CreateSnapshot](#createsnapshot) direct method.
-
-      The copy of the source snapshot is independent and belongs to you.'
+      This procedure enables you to copy a snapshot between accounts within the same Region or in different Regions. To copy a snapshot within the same Region, you can also use the [CreateSnapshot](#createsnapshot) direct method. The copy of the source snapshot is independent and belongs to you.'
     post:
       operationId: CreateSnapshotExportTask
       requestBody:
@@ -6911,6 +7080,7 @@ paths:
 
       You can tag the following resources using their IDs:<br /><br />
 
+
       * Virtual machines (VMs) (i-xxxxxxxx)<br />
 
       * OMIs (ami-xxxxxxxx)<br />
@@ -6949,7 +7119,7 @@ paths:
 
       * OMI export tasks (image-export-xxxxxxxx)<br />
 
-      * Snapshot export tasks (snap-export-xxxxxxxx)<br /> '
+      * Snapshot export tasks (snap-export-xxxxxxxx)'
     post:
       operationId: CreateTags
       requestBody:
@@ -7155,12 +7325,10 @@ paths:
 
       Before deleting a DHCP options set, you must disassociate it from the Nets you associated it with. To do so, you need to associate with each Net a new set of DHCP options, or the `default` one if you do not want to associate any DHCP options with the Net.<br /><br />
 
+
       **[NOTE]**<br />
 
-      You cannot delete the `default` set.
-
-
-      '
+      You cannot delete the `default` set.'
     post:
       operationId: DeleteDhcpOptions
       requestBody:
@@ -7256,7 +7424,7 @@ paths:
       tags:
       - FlexibleGpu
   /DeleteImage:
-    description: 'Deletes an Outscale machine image (OMI) so that you cannot use it anymore to launch virtual machines (VMs). However, you can still use VMs already launched from this OMI. '
+    description: Deletes an Outscale machine image (OMI) so that you cannot use it anymore to launch virtual machines (VMs). However, you can still use VMs already launched from this OMI.
     post:
       operationId: DeleteImage
       requestBody:
@@ -7294,7 +7462,7 @@ paths:
   /DeleteInternetService:
     description: 'Deletes an Internet service.<br />
 
-      Before deleting an Internet service, you must detach it from any Net it is attached to. '
+      Before deleting an Internet service, you must detach it from any Net it is attached to.'
     post:
       operationId: DeleteInternetService
       requestBody:
@@ -7406,7 +7574,7 @@ paths:
   /DeleteLoadBalancerPolicy:
     description: 'Deletes a specified policy from a load balancer.<br />
 
-      In order to be deleted, the policy must not be enabled for any listener. '
+      In order to be deleted, the policy must not be enabled for any listener.'
     post:
       operationId: DeleteLoadBalancerPolicy
       requestBody:
@@ -7466,6 +7634,7 @@ paths:
 
       Before deleting the Net, you need to delete or detach all the resources associated with the Net:<br /><br />
 
+
       * Virtual machines (VMs)<br />
 
       * Net peering connections<br />
@@ -7482,7 +7651,7 @@ paths:
 
       * Security groups<br />
 
-      * Subnets   '
+      * Subnets'
     post:
       operationId: DeleteNet
       requestBody:
@@ -7544,7 +7713,7 @@ paths:
 
       If it is in the `pending-acceptance` state, it can be deleted only by the owner of the requester Net.<br />
 
-      If it is in the `rejected`, `failed`, or `expired` states, it cannot be deleted.  '
+      If it is in the `rejected`, `failed`, or `expired` states, it cannot be deleted.'
     post:
       operationId: DeleteNetPeering
       requestBody:
@@ -7952,7 +8121,7 @@ paths:
   /DeleteVms:
     description: 'Performs a shut down for at least one virtual machine (VM).<br />
 
-      This operation is idempotent, that means that all calls succeed if you terminate a VM more than one time. '
+      This operation is idempotent, that means that all calls succeed if you terminate a VM more than once.'
     post:
       operationId: DeleteVms
       requestBody:
@@ -8028,7 +8197,7 @@ paths:
   /DeleteVpnConnection:
     description: 'Deletes a specified VPN connection.<br />
 
-      If you want to delete a Net and all its dependencies, we recommand to detach the virtual gateway from the Net and delete the Net before deleting the VPN connection. This enables you to delete the Net without waiting for the VPN connection to be deleted.'
+      If you want to delete a Net and all its dependencies, we recommend to detach the virtual gateway from the Net and delete the Net before deleting the VPN connection. This enables you to delete the Net without waiting for the VPN connection to be deleted.'
     post:
       operationId: DeleteVpnConnection
       requestBody:
@@ -8064,7 +8233,7 @@ paths:
       tags:
       - VpnConnection
   /DeregisterVmsInLoadBalancer:
-    description: 'Deregisters a specified virtual machine (VM) from a load balancer. '
+    description: Deregisters a specified virtual machine (VM) from a load balancer.
     post:
       operationId: DeregisterVmsInLoadBalancer
       requestBody:
@@ -8178,11 +8347,7 @@ paths:
       tags:
       - Nic
   /LinkPrivateIps:
-    description: 'Assigns one or more secondary private IP addresses to a specified network interface card (NIC).
-
-      This action is only available in a Net.
-
-      The private IP addresses to be assigned can be added individually using the `PrivateIps` parameter, or you can specify the number of private IP addresses to be automatically chosen within the Subnet range using the `SecondaryPrivateIpCount` parameter. You can specify only one of these two parameters. If none of these parameters are specified, a private IP address is chosen within the Subnet range.'
+    description: Assigns one or more secondary private IP addresses to a specified network interface card (NIC). This action is only available in a Net. The private IP addresses to be assigned can be added individually using the `PrivateIps` parameter, or you can specify the number of private IP addresses to be automatically chosen within the Subnet range using the `SecondaryPrivateIpCount` parameter. You can specify only one of these two parameters. If none of these parameters are specified, a private IP address is chosen within the Subnet range.
     post:
       operationId: LinkPrivateIps
       requestBody:
@@ -8218,8 +8383,16 @@ paths:
       tags:
       - Nic
   /LinkPublicIp:
-    description: "Associates an External IP address (EIP) with a virtual machine (VM) or a network interface card (NIC), in the public Cloud or in a Net. You can associate an EIP with only one VM or network interface at a time.<br />          \nTo associate an EIP in a Net, ensure that the Net has an Internet service attached. For more information, see the [LinkInternetService](#linkinternetservice) method.<br />\nBy default, the EIP is disassociated every time you stop and start the VM. For a persistent association, you can add the `osc.fcu.eip.auto-attach` tag to the VM with the EIP as value. For more information, see the [CreateTags](#createtags) method.<br /><br />\n**[NOTE]**<br />       \nYou can associate an EIP with a network address translation (NAT) service only when creating the NAT service. To modify its EIP, you need to delete the NAT service and re-create it with the new EIP. For more information, see the [CreateNatService](#createnatservice) method.                       \
-      \    \n\n"
+    description: 'Associates an External IP address (EIP) with a virtual machine (VM) or a network interface card (NIC), in the public Cloud or in a Net. You can associate an EIP with only one VM or network interface at a time.<br />
+
+      To associate an EIP in a Net, ensure that the Net has an Internet service attached. For more information, see the [LinkInternetService](#linkinternetservice) method.<br />
+
+      By default, the EIP is disassociated every time you stop and start the VM. For a persistent association, you can add the `osc.fcu.eip.auto-attach` tag to the VM with the EIP as value. For more information, see the [CreateTags](#createtags) method.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      You can associate an EIP with a network address translation (NAT) service only when creating the NAT service. To modify its EIP, you need to delete the NAT service and re-create it with the new EIP. For more information, see the [CreateNatService](#createnatservice) method.'
     post:
       operationId: LinkPublicIp
       requestBody:
@@ -8353,6 +8526,7 @@ paths:
 
       The administrator password is encrypted using the keypair you specified when launching the VM.<br /><br />
 
+
       **[NOTE]**<br />
 
       The administrator password is generated only on the first boot of the Windows VM. It is not returned after the first boot.'
@@ -8411,6 +8585,7 @@ paths:
   /ReadClientGateways:
     description: 'Describes one or more of your client gateways.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -8432,6 +8607,7 @@ paths:
       - ClientGateway
   /ReadConsoleOutput:
     description: 'Gets the console output for a virtual machine (VM). This console provides the most recent 64 KiB output.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -8473,6 +8649,7 @@ paths:
   /ReadDhcpOptions:
     description: 'Retrieves information about the content of one or more DHCP options sets.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -8494,6 +8671,7 @@ paths:
       - DhcpOption
   /ReadDirectLinkInterfaces:
     description: 'Lists one or more of your DirectLink interfaces.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -8517,6 +8695,7 @@ paths:
   /ReadDirectLinks:
     description: 'Lists all DirectLinks in the Region.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `Throttling` error message is returned.'
@@ -8536,8 +8715,33 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - DirectLink
+  /ReadFlexibleGpuCatalog:
+    description: 'Lists all flexible GPUs available in the public catalog.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
+    post:
+      operationId: ReadFlexibleGpuCatalog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadFlexibleGpuCatalogRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadFlexibleGpuCatalogResponse'
+          description: The HTTP 200 response (OK).
+      security: []
+      tags:
+      - FlexibleGpu
   /ReadFlexibleGpus:
     description: 'Lists one or more flexible GPUs (fGPUs) allocated to your account.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -8561,6 +8765,7 @@ paths:
   /ReadImageExportTasks:
     description: 'Lists one or more image export tasks.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -8582,6 +8787,7 @@ paths:
       - Image
   /ReadImages:
     description: 'Lists one or more Outscale machine images (OMIs) you can use.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -8625,6 +8831,7 @@ paths:
 
       An Internet service enables your virtual machines (VMs) launched in a Net to connect to the Internet. By default, a Net includes an Internet service, and each Subnet is public. Every VM launched within a default Subnet has a private and a public IP addresses.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -8665,9 +8872,10 @@ paths:
   /ReadKeypairs:
     description: 'Lists one or more of your keypairs.<br /><br />
 
+
       **[NOTE]**<br />
 
-      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned. '
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadKeypairs
       requestBody:
@@ -8705,6 +8913,7 @@ paths:
   /ReadLoadBalancers:
     description: 'Lists one or more load balancers and their attributes.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -8727,6 +8936,7 @@ paths:
   /ReadLocations:
     description: 'Lists the locations, corresponding to datacenters, where you can set up a DirectLink.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `Throttling` error message is returned.'
@@ -8748,7 +8958,12 @@ paths:
       tags:
       - Location
   /ReadNatServices:
-    description: "Lists one or more network address translation (NAT) services.<br /><br />\n**[NOTE]**<br />  \nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
+    description: 'Lists one or more network address translation (NAT) services.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadNatServices
       requestBody:
@@ -8784,7 +8999,14 @@ paths:
       tags:
       - NatService
   /ReadNetAccessPointServices:
-    description: "Describes 3DS OUTSCALE services available to create Net access points.<br />\nFor more information, see [CreateNetAccessPoint](#createnetaccesspoint).<br /><br />\n**[NOTE]**<br />  \nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
+    description: 'Describes 3DS OUTSCALE services available to create Net access points.<br />
+
+      For more information, see [CreateNetAccessPoint](#createnetaccesspoint).<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadNetAccessPointServices
       requestBody:
@@ -8804,6 +9026,7 @@ paths:
       - NetAccessPoint
   /ReadNetAccessPoints:
     description: 'Describes one or more Net access points.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -8826,6 +9049,7 @@ paths:
       - NetAccessPoint
   /ReadNetPeerings:
     description: 'Lists one or more peering connections between two Nets.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -8865,7 +9089,12 @@ paths:
       tags:
       - NetPeering
   /ReadNets:
-    description: "Lists one or more Nets.<br /><br />\n**[NOTE]**<br />\n If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
+    description: 'Lists one or more Nets.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadNets
       requestBody:
@@ -8905,9 +9134,10 @@ paths:
 
       A NIC is a virtual network interface that you can attach to a virtual machine (VM) in a Net.<br /><br />
 
+
       **[NOTE]**<br />
 
-      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.            '
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadNics
       requestBody:
@@ -8944,6 +9174,7 @@ paths:
       - Nic
   /ReadProductTypes:
     description: 'Describes one or more product types.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -8989,6 +9220,7 @@ paths:
 
       By default, this action returns information about all your EIPs: available, associated with a virtual machine (VM) or network interface card (NIC), or used for a NAT service.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -9029,6 +9261,7 @@ paths:
   /ReadQuotas:
     description: 'Describes one or more of your quotas.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -9052,6 +9285,7 @@ paths:
     description: 'Lists one or more of your route tables.<br />
 
       In your Net, each Subnet must be associated with a route table. If a Subnet is not explicitly associated with a route table, it is implicitly associated with the main route table of the Net.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -9095,6 +9329,7 @@ paths:
 
       You can specify either the name of the security groups or their IDs.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -9135,6 +9370,7 @@ paths:
   /ReadSnapshotExportTasks:
     description: 'Lists one or more snapshot export tasks.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -9155,7 +9391,12 @@ paths:
       tags:
       - Snapshot
   /ReadSnapshots:
-    description: "Lists one or more snapshots that are available to you and the permissions to create volumes from them.<br /><br />        \n**[NOTE]**<br />\nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.        "
+    description: 'Lists one or more snapshots that are available to you and the permissions to create volumes from them.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadSnapshots
       requestBody:
@@ -9194,6 +9435,7 @@ paths:
     description: 'Lists one or more of your Subnets.<br />
 
       If you do not specify any Subnet ID, this action describes all of your Subnets.<br /><br />
+
 
       **[NOTE]**<br />
 
@@ -9235,6 +9477,7 @@ paths:
   /ReadSubregions:
     description: 'Lists one or more of the enabled Subregions that you can access in the current Region.<br /><br />
 
+
       **[NOTE]**<br />
 
       - If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.<br />
@@ -9257,7 +9500,12 @@ paths:
       tags:
       - Subregion
   /ReadTags:
-    description: "Lists one or more tags for your resources.<br /><br />          \n**[NOTE]**<br />\nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
+    description: 'Lists one or more tags for your resources.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadTags
       requestBody:
@@ -9295,6 +9543,7 @@ paths:
   /ReadVirtualGateways:
     description: 'Lists one or more virtual gateways.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -9317,6 +9566,7 @@ paths:
   /ReadVmTypes:
     description: 'Lists one or more predefined VM types.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
@@ -9338,7 +9588,14 @@ paths:
       tags:
       - Vm
   /ReadVms:
-    description: "Lists one or more of your virtual machines (VMs).<br />\nIf you provide one or more VM IDs, this action returns a description for all of these VMs. If you do not provide any VM ID, this action returns a description for all of the VMs that belong to you. If you provide an invalid VM ID, an error is returned. If you provide the ID of a VM that does not belong to you, the description of this VM is not included in the response. The refresh interval for data returned by this action is one hour, meaning that a terminated VM may appear in the response.<br /><br />                     \n**[NOTE]**<br />\nIf you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned."
+    description: 'Lists one or more of your virtual machines (VMs).<br />
+
+      If you provide one or more VM IDs, this action returns a description for all of these VMs. If you do not provide any VM ID, this action returns a description for all of the VMs that belong to you. If you provide an invalid VM ID, an error is returned. If you provide the ID of a VM that does not belong to you, the description of this VM is not included in the response. The refresh interval for data returned by this action is one hour, meaning that a terminated VM may appear in the response.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadVms
       requestBody:
@@ -9376,6 +9633,7 @@ paths:
   /ReadVmsHealth:
     description: 'Lists the state of one or more back-end virtual machines (VMs) registered with a specified load balancer.<br /><br />
 
+
       **[NOTE]**<br />
 
       If you exceed the number of identical requests allowed for a configured time period, the `Throttling` error message is returned.'
@@ -9398,9 +9656,10 @@ paths:
   /ReadVmsState:
     description: 'Lists the status of one or more virtual machines (VMs).<br /><br />
 
+
       **[NOTE]**<br />
 
-      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.              '
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadVmsState
       requestBody:
@@ -9438,9 +9697,10 @@ paths:
   /ReadVolumes:
     description: 'Lists one or more specified Block Storage Unit (BSU) volumes.<br /><br />
 
+
       **[NOTE]**<br />
 
-      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned. '
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadVolumes
       requestBody:
@@ -9478,9 +9738,10 @@ paths:
   /ReadVpnConnections:
     description: 'Describes one or more VPN connections.<br /><br />
 
+
       **[NOTE]**<br />
 
-      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned. '
+      If you exceed the number of identical requests allowed for a configured time period, the `RequestLimitExceeded` error message is returned.'
     post:
       operationId: ReadVpnConnections
       requestBody:
@@ -9808,7 +10069,12 @@ paths:
       tags:
       - Nic
   /UnlinkPublicIp:
-    description: "Disassociates an External IP address (EIP) from the virtual machine (VM) or network interface card (NIC) it is associated with.<br /><br />\n**[NOTE]**<br />\nTo disassociate a Public IP from a NAT service, you need to delete the NAT service. For more information, see the [DeleteNatGateway](#deletenatgateway) method. \n"
+    description: 'Disassociates an External IP address (EIP) from the virtual machine (VM) or network interface card (NIC) it is associated with.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      To disassociate a Public IP from a NAT service, you need to delete the NAT service. For more information, see the [DeleteNatGateway](#deletenatgateway) method.'
     post:
       operationId: UnlinkPublicIp
       requestBody:
@@ -9940,7 +10206,7 @@ paths:
       tags:
       - Volume
   /UpdateFlexibleGpu:
-    description: Modifies a flexible GPU (fGPU) behaviour.
+    description: Modifies a flexible GPU (fGPU) behavior.
     post:
       operationId: UpdateFlexibleGpu
       requestBody:
@@ -9998,9 +10264,11 @@ paths:
   /UpdateLoadBalancer:
     description: 'Modifies the specified attributes of a load balancer.<br /><br />
 
+
       You can set a new SSL certificate to an SSL or HTTPS listener of a load balancer.<br />
 
       This certificate replaces any certificate used on the same load balancer and port. <br /><br />
+
 
       You can also replace the current set of policies for a load balancer with another specified one.<br />
 
@@ -10022,7 +10290,7 @@ paths:
       tags:
       - LoadBalancer
   /UpdateNet:
-    description: 'Associates a DHCP options set with a specified Net. '
+    description: Associates a DHCP options set with a specified Net.
     post:
       operationId: UpdateNet
       requestBody:
@@ -10114,7 +10382,25 @@ paths:
       tags:
       - Nic
   /UpdateRoute:
-    description: "Replaces an existing route within a route table in a Net.<br />\nYou must specify one of the following elements as the target:<br /><br />     \n* Net peering connection<br /> \n* NAT virtual machine (VM)<br />\n* Internet service<br />\n* Virtual gateway<br />\n* NAT service<br />\n* Network interface card (NIC)<br /><br />   \nThe routing algorithm is based on the most specific match."
+    description: 'Replaces an existing route within a route table in a Net.<br />
+
+      You must specify one of the following elements as the target:<br /><br />
+
+
+      * Net peering connection<br />
+
+      * NAT virtual machine (VM)<br />
+
+      * Internet service<br />
+
+      * Virtual gateway<br />
+
+      * NAT service<br />
+
+      * Network interface card (NIC)<br /><br />
+
+
+      The routing algorithm is based on the most specific match.'
     post:
       operationId: UpdateRoute
       requestBody:
@@ -10206,7 +10492,7 @@ paths:
       tags:
       - Snapshot
   /UpdateSubnet:
-    description: Modifies the specified attribute of a subnet.
+    description: Modifies the specified attribute of a Subnet.
     post:
       operationId: UpdateSubnet
       requestBody:
@@ -10248,11 +10534,12 @@ paths:
 
       You must stop the VM before modifying the following attributes:<br /><br />
 
+
       * `VmType`<br />
 
       * `UserData`<br />
 
-      * `BsuOptimized`  '
+      * `BsuOptimized`'
     post:
       operationId: UpdateVm
       requestBody:
