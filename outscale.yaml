@@ -31,6 +31,45 @@ components:
           description: The ID of the accepter Net.
           type: string
       type: object
+    AccessKey:
+      description: Information about the access key.
+      properties:
+        AccessKeyId:
+          description: The ID of the access key.
+          type: string
+        CreationDate:
+          description: The date and time of creation of the access key.
+          format: datetime
+          type: string
+        LastModificationDate:
+          description: The date and time of the last modification of the access key.
+          format: datetime
+          type: string
+        State:
+          description: The state of the access key (`Active` if the key is valid for API calls, or `Inactive` if not).
+          type: string
+      type: object
+    AccessKeySecretKey:
+      description: Information about the secret access key.
+      properties:
+        AccessKeyId:
+          description: The ID of the secret access key.
+          type: string
+        CreationDate:
+          description: The date and time of creation of the secret access key.
+          format: datetime
+          type: string
+        LastModificationDate:
+          description: The date and time of the last modification of the secret access key.
+          format: datetime
+          type: string
+        SecretKey:
+          description: The secret access key that enables you to send requests.
+          type: string
+        State:
+          description: The state of the secret access key (`Active` if the key is valid for API calls, or `Inactive` if not).
+          type: string
+      type: object
     AccessLog:
       description: Information about access logs.
       properties:
@@ -46,6 +85,52 @@ components:
         PublicationInterval:
           description: The time interval for the publication of access logs in the Object Storage Unit (OSU) bucket, in minutes. This value can be either 5 or 60 (by default, 60).
           type: integer
+      type: object
+    Account:
+      description: Information about the account.
+      properties:
+        AccountId:
+          description: The ID of the account.
+          type: string
+        City:
+          description: The city of the account owner.
+          type: string
+        CompanyName:
+          description: The name of the company for the account.
+          type: string
+        Country:
+          description: The country of the account owner.
+          type: string
+        CustomerId:
+          description: The ID of the customer. It must be 8 digits (by default, `12345678`).
+          type: string
+        Email:
+          description: The email address for the account.
+          type: string
+        FirstName:
+          description: The first name of the account owner.
+          type: string
+        JobTitle:
+          description: The job title of the account owner.
+          type: string
+        LastName:
+          description: The last name of the account owner.
+          type: string
+        MobileNumber:
+          description: The mobile phone number of the account owner.
+          type: string
+        PhoneNumber:
+          description: The landline phone number of the account owner.
+          type: string
+        StateProvince:
+          description: The state/province of the account.
+          type: string
+        VatNumber:
+          description: The value added tax (VAT) number for the account.
+          type: string
+        ZipCode:
+          description: The ZIP code of the city.
+          type: string
       type: object
     ApplicationStickyCookiePolicy:
       description: Information about the stickiness policy.
@@ -178,6 +263,23 @@ components:
           description: The ID of the volume.
           type: string
       type: object
+    CheckAuthenticationRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Login:
+          description: The email address of the account.
+          type: string
+        Password:
+          description: The password of the account.
+          type: string
+      type: object
+    CheckAuthenticationResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     ClientGateway:
       description: Information about the client gateway.
       properties:
@@ -201,6 +303,102 @@ components:
           items:
             $ref: '#/components/schemas/ResourceTag'
           type: array
+      type: object
+    ConsumptionEntry:
+      description: Information about the resources consumed during the specified time period.
+      properties:
+        Category:
+          description: The category of the resource (for example, `network`).
+          type: string
+        FromDate:
+          description: The beginning of the time period.
+          type: string
+        Operation:
+          description: The API call that triggered the resource consumption (for example, `RunInstances` or `CreateVolume`).
+          type: string
+        Service:
+          description: The service of the API call (`TinaOS-FCU`, `TinaOS-LBU`, `TinaOS-OSU` or `TinaOS-DirectLink`).
+          type: string
+        Title:
+          description: A description of the consumed resource.
+          type: string
+        ToDate:
+          description: The end of the time period.
+          type: string
+        Type:
+          description: The type of resource, depending on the API call.
+          type: string
+        Value:
+          description: The consumed amount for the resource. The unit depends on the resource type. For more information, see the `Title` element.
+          type: string
+      type: object
+    CreateAccessKeyResponse:
+      properties:
+        AccessKey:
+          $ref: '#/components/schemas/AccessKeySecretKey'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    CreateAccountRequest:
+      properties:
+        City:
+          description: The city of the account owner.
+          type: string
+        CompanyName:
+          description: The name of the company for the account.
+          type: string
+        Country:
+          description: The country of the account owner.
+          type: string
+        CustomerId:
+          description: The ID of the customer. It must be 8 digits (by default, `12345678`).
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Email:
+          description: The email address for the account.
+          type: string
+        FirstName:
+          description: The first name of the account owner.
+          type: string
+        JobTitle:
+          description: The job title of the account owner.
+          type: string
+        LastName:
+          description: The last name of the account owner.
+          type: string
+        MobileNumber:
+          description: The mobile phone number of the account owner.
+          type: string
+        PhoneNumber:
+          description: The landline phone number of the account owner.
+          type: string
+        StateProvince:
+          description: The state/province of the account.
+          type: string
+        VatNumber:
+          description: The value added tax (VAT) number for the account.
+          type: string
+        ZipCode:
+          description: The ZIP code of the city.
+          type: string
+      required:
+      - City
+      - CompanyName
+      - Country
+      - CustomerId
+      - Email
+      - FirstName
+      - LastName
+      - ZipCode
+      type: object
+    CreateAccountResponse:
+      properties:
+        Account:
+          $ref: '#/components/schemas/Account'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateClientGatewayRequest:
       properties:
@@ -278,7 +476,7 @@ components:
     CreateDirectLinkRequest:
       properties:
         Bandwidth:
-          description: The bandwidth of the DirectLink (`1GBps` \| `10GBps`).
+          description: The bandwidth of the DirectLink (`1Gbps` \| `10Gbps`).
           type: string
         DirectLinkName:
           description: The name of the DirectLink.
@@ -310,8 +508,11 @@ components:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
+        Generation:
+          description: The processor generation that the fGPU must be compatible with. If not specified, the oldest possible processor generation is selected (as provided by **[ReadFlexibleGpuCatalog](#readflexiblegpucatalog)** for the specified model of fGPU).
+          type: string
         ModelName:
-          description: The model of GPU you want to allocate. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
+          description: The model of fGPU you want to allocate. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
           type: string
         SubregionName:
           description: The Subregion in which you want to create the fGPU.
@@ -429,6 +630,32 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    CreateListenerRuleRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Listener:
+          $ref: '#/components/schemas/LoadBalancerLight'
+        ListenerRule:
+          $ref: '#/components/schemas/ListenerRuleForCreation'
+        VmIds:
+          description: The IDs of the backend VMs.
+          items:
+            type: string
+          type: array
+      required:
+      - VmIds
+      - Listener
+      - ListenerRule
+      type: object
+    CreateListenerRuleResponse:
+      properties:
+        ListenerRule:
+          $ref: '#/components/schemas/ListenerRule'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     CreateLoadBalancerListenersRequest:
       properties:
         DryRun:
@@ -528,6 +755,30 @@ components:
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    CreateLoadBalancerTagsRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        LoadBalancerNames:
+          description: One or more load balancer names.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: One or more tags to add to the specified load balancers.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
+      required:
+      - LoadBalancerNames
+      - Tags
+      type: object
+    CreateLoadBalancerTagsResponse:
+      properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -743,6 +994,8 @@ components:
         SecurityGroupName:
           description: '(Public Cloud only) The name of the security group.<br />
 
+            This name must not start with `sg-`.</br>
+
             This name must be unique and contain between 1 and 255 ASCII characters. Accented letters are not allowed.'
           type: string
       required:
@@ -801,6 +1054,38 @@ components:
         SecurityGroup:
           $ref: '#/components/schemas/SecurityGroup'
       type: object
+    CreateServerCertificateRequest:
+      properties:
+        Body:
+          description: The PEM-encoded X509 certificate.
+          type: string
+        Chain:
+          description: The PEM-encoded intermediate certification authorities.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Name:
+          description: 'A unique name for the certificate. Constraints: 1-128 alphanumeric characters, pluses (+), equals (=), commas (,), periods (.), at signs (@), minuses (-), or underscores (_).'
+          type: string
+        Path:
+          description: The path to the server certificate, set to a slash (/) if not specified.
+          type: string
+        PrivateKey:
+          description: The PEM-encoded private key matching the certificate.
+          type: string
+      required:
+      - Body
+      - PrivateKey
+      - Name
+      type: object
+    CreateServerCertificateResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+        ServerCertificate:
+          $ref: '#/components/schemas/ServerCertificate'
+      type: object
     CreateSnapshotExportTaskRequest:
       properties:
         DryRun:
@@ -834,7 +1119,7 @@ components:
           description: The pre-signed URL of the snapshot you want to import from the OSU bucket.
           type: string
         SnapshotSize:
-          description: The size of the snapshot created in your account, in gibibytes (GiB). This size must be exactly the same as the source snapshot one. The maximum allowed size is 14,901 GiB.
+          description: The size of the snapshot created in your account, in bytes. This size must be exactly the same as the source snapshot one.
           type: integer
         SourceRegionName:
           description: The name of the source Region, which must be the same as the Region of your account.
@@ -988,7 +1273,7 @@ components:
           description: The ID of the Subnet in which you want to create the VM.
           type: string
         UserData:
-          description: Data or a script used to add a specific configuration to the VM when creating it. If you are not using a command line tool, this must be Base64-encoded.
+          description: Data or script used to add a specific configuration to the VM. It must be base64-encoded.
           type: string
         VmInitiatedShutdownBehavior:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
@@ -1020,7 +1305,7 @@ components:
           description: The number of I/O operations per second (IOPS). This parameter must be specified only if you create an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is `13000`.
           type: integer
         Size:
-          description: The size of the volume, in gibibytes (GiB). The maximum allowed size for a volume is 14,901 GiB.
+          description: 'The size of the volume, in gibibytes (GiB). The maximum allowed size for a volume is 14,901 GiB. This parameter is required if the volume is not created from a snapshot (`SnapshotId` unspecified). '
           type: integer
         SnapshotId:
           description: The ID of the snapshot from which you want to create the volume.
@@ -1088,6 +1373,22 @@ components:
       - VpnConnectionId
       type: object
     CreateVpnConnectionRouteResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    DeleteAccessKeyRequest:
+      properties:
+        AccessKeyId:
+          description: The ID of the access key you want to delete.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      required:
+      - AccessKeyId
+      type: object
+    DeleteAccessKeyResponse:
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1236,6 +1537,22 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    DeleteListenerRuleRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        ListenerRuleName:
+          description: The name of the rule you want to delete.
+          type: string
+      required:
+      - ListenerRuleName
+      type: object
+    DeleteListenerRuleResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     DeleteLoadBalancerListenersRequest:
       properties:
         DryRun:
@@ -1294,6 +1611,30 @@ components:
       - LoadBalancerName
       type: object
     DeleteLoadBalancerResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    DeleteLoadBalancerTagsRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        LoadBalancerNames:
+          description: One or more load balancer names.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: One or more tags to delete from the load balancers.
+          items:
+            $ref: '#/components/schemas/ResourceLoadBalancerTag'
+          type: array
+      required:
+      - LoadBalancerNames
+      - Tags
+      type: object
+    DeleteLoadBalancerTagsResponse:
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1494,6 +1835,22 @@ components:
           $ref: '#/components/schemas/ResponseContext'
         SecurityGroup:
           $ref: '#/components/schemas/SecurityGroup'
+      type: object
+    DeleteServerCertificateRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Name:
+          description: The name of the server certificate you want to delete.
+          type: string
+      required:
+      - Name
+      type: object
+    DeleteServerCertificateResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteSnapshotRequest:
       properties:
@@ -1702,10 +2059,10 @@ components:
           description: The account ID of the owner of the DirectLink.
           type: string
         Bandwidth:
-          description: The physical link bandwidth (either 1 GiB/s or 10 GiB/s).
+          description: The physical link bandwidth (either 1 Gbps or 10 Gbps).
           type: string
         DirectLinkId:
-          description: The ID of the DirectLink (for example, dcx-xxxxxxxx).
+          description: The ID of the DirectLink (for example, dxcon-xxxxxxxx).
           type: string
         DirectLinkName:
           description: The name of the DirectLink.
@@ -1824,6 +2181,20 @@ components:
         Type:
           description: The type of the error.
           type: string
+      type: object
+    FiltersAccessKeys:
+      description: One or more filters.
+      properties:
+        AccessKeyIds:
+          description: The IDs of the access keys.
+          items:
+            type: string
+          type: array
+        States:
+          description: The states of the access keys (`active` \| `inactive`).
+          items:
+            type: string
+          type: array
       type: object
     FiltersApiLog:
       description: One or more filters.
@@ -2112,12 +2483,12 @@ components:
             type: string
           type: array
         RootDeviceTypes:
-          description: The types of root device used by the OMIs (always `ebs`).
+          description: The types of root device used by the OMIs (always `bsu`).
           items:
             type: string
           type: array
         States:
-          description: The states of the OMIs.
+          description: The states of the OMIs (`pending` \| `available` \| `failed`).
           items:
             type: string
           type: array
@@ -2176,6 +2547,15 @@ components:
           type: array
         KeypairNames:
           description: The names of the keypairs.
+          items:
+            type: string
+          type: array
+      type: object
+    FiltersListenerRule:
+      description: One or more filters.
+      properties:
+        ListenerRuleNames:
+          description: The names of the listener rules.
           items:
             type: string
           type: array
@@ -2599,6 +2979,13 @@ components:
             type: string
           type: array
       type: object
+    FiltersServerCertificate:
+      description: One or more filters.
+      properties:
+        Paths:
+          description: The path to the server certificate.
+          type: string
+      type: object
     FiltersService:
       description: One or more filters.
       properties:
@@ -2650,7 +3037,7 @@ components:
             type: string
           type: array
         States:
-          description: The states of the snapshots (`in-queue` \| `pending` \| `completed`).
+          description: The states of the snapshots (`in-queue` \| `completed` \| `error`).
           items:
             type: string
           type: array
@@ -2737,7 +3124,7 @@ components:
             type: string
           type: array
         ResourceTypes:
-          description: The resource type (`instance` \| `image` \| `volume` \| `snapshot` \| `public-ip` \| `security-group` \| `route-table` \| `network-interface` \| `vpc` \| `subnet` \| `network-link` \| `vpc-endpoint` \| `nat-gateway` \| `internet-gateway` \| `customer-gateway` \| `vpn-gateway` \| `vpn-connection` \| `dhcp-options` \| `task`).
+          description: The resource type (`vm` \| `image` \| `volume` \| `snapshot` \| `public-ip` \| `security-group` \| `route-table` \| `nic` \| `net` \| `subnet` \| `net-peering` \| `net-access-point` \| `nat-service` \| `internet-service` \| `client-gateway` \| `virtual-gateway` \| `vpn-connection` \| `dhcp-options` \| `task`).
           items:
             type: string
           type: array
@@ -2822,9 +3209,10 @@ components:
           description: Indicates whether the VM is optimized for BSU I/O.
           type: boolean
         MemorySizes:
-          description: The amounts of memory, in bytes.
+          description: The amounts of memory, in gibibytes (GiB).
           items:
-            type: integer
+            format: float
+            type: number
           type: array
         VcoreCounts:
           description: The numbers of vCores.
@@ -2861,7 +3249,7 @@ components:
             type: string
           type: array
         VmStates:
-          description: The states of the VMs (`pending` \| `running` \| `shutting-down` \| `terminated` \| `stopping` \| `stopped`).
+          description: The states of the VMs (`pending` \| `running` \| `stopping` \| `stopped` \| `shutting-down` \| `terminated` \| `quarantine`).
           items:
             type: string
           type: array
@@ -2996,6 +3384,9 @@ components:
         FlexibleGpuId:
           description: The ID of the fGPU.
           type: string
+        Generation:
+          description: The compatible processor generation.
+          type: string
         ModelName:
           description: The model of fGPU. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
           type: string
@@ -3111,7 +3502,7 @@ components:
           description: The type of root device used by the OMI (always `bsu`).
           type: string
         State:
-          description: The state of the OMI.
+          description: The state of the OMI (`pending` \| `available` \| `failed`).
           type: string
         StateComment:
           $ref: '#/components/schemas/StateComment'
@@ -3558,6 +3949,60 @@ components:
       - LoadBalancerPort
       - LoadBalancerProtocol
       type: object
+    ListenerRule:
+      description: Information about the listener rule.
+      properties:
+        Action:
+          description: The type of action for the rule (always `forward`).
+          type: string
+        HostNamePattern:
+          description: A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except [-.?].
+          type: string
+        ListenerId:
+          description: The ID of the listener.
+          type: integer
+        ListenerRuleId:
+          description: The ID of the listener rule.
+          type: integer
+        ListenerRuleName:
+          description: A human-readable name for the listener rule.
+          type: string
+        PathPattern:
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~"'@:+?].
+          type: string
+        Priority:
+          description: The priority level of the listener rule, between `1` and `19999` both included. Each rule must have a unique priority level. Otherwise, an error is returned.
+          type: integer
+        VmIds:
+          description: The IDs of the backend VMs.
+          items:
+            type: string
+          type: array
+      type: object
+    ListenerRuleForCreation:
+      description: Information about the listener rule.
+      properties:
+        Action:
+          description: The type of action for the rule (always `forward`).
+          type: string
+        HostNamePattern:
+          description: 'A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except [-.?]. '
+          type: string
+        ListenerRuleId:
+          description: The ID of the listener.
+          type: string
+        ListenerRuleName:
+          description: A human-readable name for the listener rule.
+          type: string
+        PathPattern:
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~"'@:+?].
+          type: string
+        Priority:
+          description: The priority level of the listener rule, between `1` and `19999` both included. Each rule must have a unique priority level. Otherwise, an error is returned.
+          type: integer
+      required:
+      - Priority
+      type: object
     LoadBalancer:
       description: Information about the load balancer.
       properties:
@@ -3624,11 +4069,37 @@ components:
             $ref: '#/components/schemas/ResourceTag'
           type: array
       type: object
+    LoadBalancerLight:
+      description: Information about the load balancer.
+      properties:
+        LoadBalancerName:
+          description: The name of the load balancer to which the listener is attached.
+          type: string
+        LoadBalancerPort:
+          description: The port of load balancer on which the load balancer is listening (between `1` and `65535` both included).
+          type: integer
+      required:
+      - LoadBalancerName
+      - LoadBalancerPort
+      type: object
     LoadBalancerStickyCookiePolicy:
       description: Information about the stickiness policy.
       properties:
         PolicyName:
           description: The name of the stickiness policy.
+          type: string
+      type: object
+    LoadBalancerTag:
+      description: Information about the load balancer tag.
+      properties:
+        Key:
+          description: The key of the tag.
+          type: string
+        LoadBalancerName:
+          description: The name of the load balancer.
+          type: string
+        Value:
+          description: The value of the tag.
           type: string
       type: object
     Location:
@@ -4147,6 +4618,37 @@ components:
             $ref: '#/components/schemas/Quota'
           type: array
       type: object
+    ReadAccessKeysRequest:
+      properties:
+        Filters:
+          $ref: '#/components/schemas/FiltersAccessKeys'
+      type: object
+    ReadAccessKeysResponse:
+      properties:
+        AccessKeys:
+          description: A list of access keys.
+          items:
+            $ref: '#/components/schemas/AccessKey'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadAccountsRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      type: object
+    ReadAccountsResponse:
+      properties:
+        Accounts:
+          description: The list of the accounts.
+          items:
+            $ref: '#/components/schemas/Account'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     ReadAdminPasswordRequest:
       properties:
         DryRun:
@@ -4237,6 +4739,33 @@ components:
         VmId:
           description: The ID of the VM.
           type: string
+      type: object
+    ReadConsumptionAccountRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        FromDate:
+          description: The beginning of the time period, in ISO-8601 format with the date only (for example, `2017-06-14` or `2017-06-14T00:00:00Z`).
+          format: datetime
+          type: string
+        ToDate:
+          description: The end of the time period, in ISO-8601 format with the date only (for example, `2017-06-30` or `2017-06-30T00:00:00Z`).
+          format: datetime
+          type: string
+      required:
+      - FromDate
+      - ToDate
+      type: object
+    ReadConsumptionAccountResponse:
+      properties:
+        ConsumptionEntries:
+          description: Information about the resources consumed during the specified time period.
+          items:
+            $ref: '#/components/schemas/ConsumptionEntry'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadDhcpOptionsRequest:
       properties:
@@ -4397,6 +4926,47 @@ components:
           type: array
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadListenerRulesRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Filters:
+          $ref: '#/components/schemas/FiltersListenerRule'
+      type: object
+    ReadListenerRulesResponse:
+      properties:
+        ListenerRules:
+          description: The list of the rules to describe.
+          items:
+            $ref: '#/components/schemas/ListenerRule'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadLoadBalancerTagsRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        LoadBalancerNames:
+          description: One or more load balancer names.
+          items:
+            type: string
+          type: array
+      required:
+      - LoadBalancerNames
+      type: object
+    ReadLoadBalancerTagsResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+        Tags:
+          description: Information about one or more load balancer tags.
+          items:
+            $ref: '#/components/schemas/LoadBalancerTag'
+          type: array
       type: object
     ReadLoadBalancersRequest:
       properties:
@@ -4610,6 +5180,22 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    ReadRegionsRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      type: object
+    ReadRegionsResponse:
+      properties:
+        Regions:
+          description: Information about one or more Regions.
+          items:
+            $ref: '#/components/schemas/Region'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     ReadRouteTablesRequest:
       properties:
         DryRun:
@@ -4628,6 +5214,21 @@ components:
             $ref: '#/components/schemas/RouteTable'
           type: array
       type: object
+    ReadSecretAccessKeyRequest:
+      properties:
+        AccessKeyId:
+          description: The ID of the access key.
+          type: string
+      required:
+      - AccessKeyId
+      type: object
+    ReadSecretAccessKeyResponse:
+      properties:
+        AccessKey:
+          $ref: '#/components/schemas/AccessKeySecretKey'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     ReadSecurityGroupsRequest:
       properties:
         DryRun:
@@ -4644,6 +5245,24 @@ components:
           description: Information about one or more security groups.
           items:
             $ref: '#/components/schemas/SecurityGroup'
+          type: array
+      type: object
+    ReadServerCertificatesRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Filters:
+          $ref: '#/components/schemas/FiltersServerCertificate'
+      type: object
+    ReadServerCertificatesResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+        ServerCertificates:
+          description: Information about one or more server certificates.
+          items:
+            $ref: '#/components/schemas/ServerCertificate'
           type: array
       type: object
     ReadSnapshotExportTasksRequest:
@@ -4891,6 +5510,16 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    Region:
+      description: Information about the Region.
+      properties:
+        Endpoint:
+          description: The hostname of the gateway to access the Region.
+          type: string
+        RegionName:
+          description: The administrative name of the Region.
+          type: string
+      type: object
     RegisterVmsInLoadBalancerRequest:
       properties:
         BackendVmIds:
@@ -4930,6 +5559,33 @@ components:
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ResetAccountPasswordRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Password:
+          description: The new password for the account.
+          type: string
+        Token:
+          description: The token you received at the email address provided for the account.
+          type: string
+      required:
+      - Password
+      - Token
+      type: object
+    ResetAccountPasswordResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ResourceLoadBalancerTag:
+      description: Information about the tag.
+      properties:
+        Key:
+          description: The key of the tag, with a minimum of 1 character.
+          type: string
       type: object
     ResourceTag:
       description: Information about the tag.
@@ -5123,6 +5779,43 @@ components:
           description: (Public Cloud only) The name of the security group.
           type: string
       type: object
+    SendResetPasswordEmailRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Email:
+          description: The email address provided for the account.
+          type: string
+      required:
+      - Email
+      type: object
+    SendResetPasswordEmailResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ServerCertificate:
+      description: Information about the server certificate.
+      properties:
+        ExpirationDate:
+          description: The date at which the server certificate expires.
+          format: date
+          type: string
+        Id:
+          description: The ID of the server certificate.
+          type: string
+        Name:
+          description: The name of the server certificate.
+          type: string
+        Path:
+          description: The path to the server certificate.
+          type: string
+        UploadDate:
+          description: The date at which the server certificate has been uploaded.
+          format: date
+          type: string
+      type: object
     Service:
       description: Information about the service.
       properties:
@@ -5159,7 +5852,7 @@ components:
           description: The ID of the snapshot.
           type: string
         State:
-          description: The state of the snapshot (`in-queue` \| `pending` \| `completed`).
+          description: The state of the snapshot (`in-queue` \| `completed` \| `error`).
           type: string
         Tags:
           description: One or more tags associated with the snapshot.
@@ -5488,6 +6181,74 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    UpdateAccessKeyRequest:
+      properties:
+        AccessKeyId:
+          description: The ID of the access key.
+          type: string
+        State:
+          description: The new state for the access key (`active` \| `inactive`).
+          type: string
+      required:
+      - AccessKeyId
+      - State
+      type: object
+    UpdateAccessKeyResponse:
+      properties:
+        AccessKey:
+          $ref: '#/components/schemas/AccessKey'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    UpdateAccountRequest:
+      properties:
+        City:
+          description: The new city of the account owner.
+          type: string
+        CompanyName:
+          description: The new name of the company for the account.
+          type: string
+        Country:
+          description: The new country of the account owner.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Email:
+          description: The new email address for the account.
+          type: string
+        FirstName:
+          description: The new first name of the account owner.
+          type: string
+        JobTitle:
+          description: The new job title of the account owner.
+          type: string
+        LastName:
+          description: The new last name of the account owner.
+          type: string
+        MobileNumber:
+          description: The new mobile phone number of the account owner.
+          type: string
+        PhoneNumber:
+          description: The new landline phone number of the account owner.
+          type: string
+        StateProvince:
+          description: The new state/province of the account owner.
+          type: string
+        VatNumber:
+          description: The new value added tax (VAT) number for the account.
+          type: string
+        ZipCode:
+          description: The new ZIP code of the city.
+          type: string
+      type: object
+    UpdateAccountResponse:
+      properties:
+        Account:
+          $ref: '#/components/schemas/Account'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     UpdateFlexibleGpuRequest:
       properties:
         DeleteOnVmDeletion:
@@ -5527,6 +6288,30 @@ components:
       properties:
         Image:
           $ref: '#/components/schemas/Image'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    UpdateListenerRuleRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        HostPattern:
+          description: A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except [-.?].
+          type: string
+        ListenerRuleName:
+          description: The name of the listener rule.
+          type: string
+        PathPattern:
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~"'@:+?].
+          type: string
+      required:
+      - ListenerRuleName
+      type: object
+    UpdateListenerRuleResponse:
+      properties:
+        ListenerRule:
+          $ref: '#/components/schemas/ListenerRule'
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -5706,6 +6491,28 @@ components:
         RouteTable:
           $ref: '#/components/schemas/RouteTable'
       type: object
+    UpdateServerCertificateRequest:
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Name:
+          description: The name of the server certificate you want to modify.
+          type: string
+        NewName:
+          description: A new name for the server certificate.
+          type: string
+        NewPath:
+          description: A new path for the server certificate.
+          type: string
+      type: object
+    UpdateServerCertificateResponse:
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+        ServerCertificate:
+          $ref: '#/components/schemas/ServerCertificate'
+      type: object
     UpdateSnapshotRequest:
       properties:
         DryRun:
@@ -5752,7 +6559,7 @@ components:
     UpdateVmRequest:
       properties:
         BlockDeviceMappings:
-          description: One or more block device mappings of the VM. This parameter modifies the `DeleteOnDeletion` attribute for volumes attached to the VM.
+          description: One or more block device mappings of the VM.
           items:
             $ref: '#/components/schemas/BlockDeviceMappingVmUpdate'
           type: array
@@ -5913,7 +6720,7 @@ components:
             $ref: '#/components/schemas/SecurityGroupLight'
           type: array
         State:
-          description: The state of the VM (`pending` \| `running` \| `shutting-down` \| `terminated` \| `stopping` \| `stopped`).
+          description: The state of the VM (`pending` \| `running` \| `stopping` \| `stopped` \| `shutting-down` \| `terminated` \| `quarantine`).
           type: string
         StateReason:
           description: The reason explaining the current state of the VM.
@@ -5933,7 +6740,7 @@ components:
           description: The ID of the VM.
           type: string
         VmInitiatedShutdownBehavior:
-          description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `delete`, the VM stops and is deleted.
+          description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is deleted.
           type: string
         VmType:
           description: The type of VM. For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).
@@ -5967,7 +6774,7 @@ components:
           description: The ID of the VM.
           type: string
         VmState:
-          description: The state of the VM (`pending` \| `running` \| `shutting-down` \| `terminated` \| `stopping` \| `stopped`).
+          description: The state of the VM (`pending` \| `running` \| `stopping` \| `stopped` \| `shutting-down` \| `terminated` \| `quarantine`).
           type: string
       type: object
     VmType:
@@ -6146,7 +6953,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '0.17'
+  version: '1.0'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -6193,6 +7000,64 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - NetPeering
+  /CheckAuthentication:
+    description: Validates the authenticity of the account.
+    post:
+      operationId: CheckAuthentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckAuthenticationRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckAuthenticationResponse'
+          description: Information about the response.
+      tags:
+      - Account
+  /CreateAccessKey:
+    description: Creates a new secret access key and the corresponding access key ID for a specified user. The created key is automatically set to `active`.
+    post:
+      operationId: CreateAccessKey
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAccessKeyResponse'
+          description: Information about the response.
+      tags:
+      - AccessKey
+  /CreateAccount:
+    description: 'Creates a new 3DS OUTSCALE account.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      * You need 3DS OUTSCALE credentials and the appropriate quotas to create a new account via API. To get quotas, you can send an email to sales@outscale.com.<br />
+
+      * If you want to pass a numeral value as a string instead of an integer, you must wrap your string in additional quotes (for example, `''&#34;92000&#34;''`).'
+    post:
+      operationId: CreateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAccountResponse'
+          description: Information about the response.
+      tags:
+      - Account
   /CreateClientGateway:
     description: 'Provides information about your client gateway.<br />
 
@@ -6461,6 +7326,26 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Keypair
+  /CreateListenerRule:
+    description: 'Creates a rule for traffic redirection for the specified listener. Each rule must have either the `HostNamePattern` or `PathPattern` parameter specified. Rules are treated in priority order, from the lowest value to the highest value.<br />
+
+      Once the rule is created, you need to register backend VMs with it. For more information, see the [RegisterVmsInLoadBalancer](#registervmsinloadbalancer) method.'
+    post:
+      operationId: CreateListenerRule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateListenerRuleRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateListenerRuleResponse'
+          description: Information about the reponse.
+      tags:
+      - Listener
   /CreateLoadBalancer:
     description: 'Creates a load balancer.<br />
 
@@ -6530,6 +7415,26 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancerPolicy
+  /CreateLoadBalancerTags:
+    description: 'Adds one or more tags to the specified load balancers.<br />
+
+      If a tag with the same key already exists for the load balancer, the tag value is replaced.'
+    post:
+      operationId: CreateLoadBalancerTags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLoadBalancerTagsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLoadBalancerTagsResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - LoadBalancer
   /CreateNatService:
     description: 'Creates a network address translation (NAT) service in the specified public Subnet of a Net.<br />
 
@@ -6955,6 +7860,34 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - SecurityGroupRule
+  /CreateServerCertificate:
+    description: 'Creates a server certificate and its matching private key.<br /><br />
+
+      These elements can be used with other services (for example, to configure SSL termination on load balancers).<br /><br />
+
+      You can also specify the chain of intermediate certification authorities if your certificate is not directly signed by a root one. You can specify multiple intermediate certification authorities in the `CertificateChain` parameter. To do so, concatenate all certificates in the correct order (the first certificate must be the authority of your certificate, the second must the the authority of the first one, and so on).<br /><br />
+
+      The private key must be a RSA key in PKCS1 form. To check this, open the PEM file and ensure its header reads as follows: BEGIN RSA PRIVATE KEY.<br /><br />
+
+      [IMPORTANT]<br /><br />
+
+      This private key must not be protected by a password or a passphrase.'
+    post:
+      operationId: CreateServerCertificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServerCertificateRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateServerCertificateResponse'
+          description: Information about the response.
+      tags:
+      - ServerCertificate
   /CreateSnapshot:
     description: 'Creates a snapshot of a Block storage Unit (BSU) volume.<br />
 
@@ -7300,6 +8233,29 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - VpnConnection
+  /DeleteAccessKey:
+    description: 'Deletes the specified access key associated with the account that sends the request.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      To protect against brute force attacks, the number of requests allowed for this method in a given time period is limited.'
+    post:
+      operationId: DeleteAccessKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAccessKeyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAccessKeyResponse'
+          description: Information about the response.
+      tags:
+      - AccessKey
   /DeleteClientGateway:
     description: 'Deletes a client gateway.<br />
 
@@ -7535,6 +8491,26 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Keypair
+  /DeleteListenerRule:
+    description: 'Deletes a listener rule.<br />
+
+      The previously active rule is disabled after deletion.'
+    post:
+      operationId: DeleteListenerRule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteListenerRuleRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteListenerRuleResponse'
+          description: Information about the response.
+      tags:
+      - Listener
   /DeleteLoadBalancer:
     description: Deletes a specified load balancer.
     post:
@@ -7591,6 +8567,24 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancerPolicy
+  /DeleteLoadBalancerTags:
+    description: Deletes one or more tags from the specified load balancers.
+    post:
+      operationId: DeleteLoadBalancerTags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteLoadBalancerTagsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteLoadBalancerTagsResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - LoadBalancer
   /DeleteNatService:
     description: 'Deletes a specified network address translation (NAT) service.<br />
 
@@ -7986,6 +8980,24 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - SecurityGroupRule
+  /DeleteServerCertificate:
+    description: Deletes a specified server certificate.
+    post:
+      operationId: DeleteServerCertificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteServerCertificateRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteServerCertificateResponse'
+          description: Informaton about the response.
+      tags:
+      - ServerCertificate
   /DeleteSnapshot:
     description: 'Deletes a specified snapshot.<br />
 
@@ -8521,6 +9533,44 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Volume
+  /ReadAccessKeys:
+    description: 'Returns information about the access key IDs of a specified user.<br />
+
+      If the user does not have any access key ID, this action returns an empty list.'
+    post:
+      operationId: ReadAccessKeys
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadAccessKeysRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadAccessKeysResponse'
+          description: Information about the response.
+      tags:
+      - AccessKeys
+  /ReadAccounts:
+    description: Gets information about the account that sent the request.
+    post:
+      operationId: ReadAccounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadAccountsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadAccountsResponse'
+          description: Information about the response.
+      tags:
+      - Account
   /ReadAdminPassword:
     description: 'Retrieves the administrator password for a Windows running virtual machine (VM).<br />
 
@@ -8646,6 +9696,27 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Vm
+  /ReadConsumptionAccount:
+    description: 'Displays information about the consumption of your account for each billable resource within the specified time period.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `Throttling` error message is returned.'
+    post:
+      operationId: ReadConsumptionAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadConsumptionAccountRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadConsumptionAccountResponse'
+          description: Information about the response.
   /ReadDhcpOptions:
     description: 'Retrieves information about the content of one or more DHCP options sets.<br /><br />
 
@@ -8910,6 +9981,47 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Keypair
+  /ReadListenerRules:
+    description: Describes one or more listener rules. By default, this action returns the full list of listener rules for the account.
+    post:
+      operationId: ReadListenerRules
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadListenerRulesRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadListenerRulesResponse'
+          description: Information about the response.
+      tags:
+      - Listener
+  /ReadLoadBalancerTags:
+    description: 'Describes the tags associated with one or more specified load balancers.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you exceed the number of identical requests allowed for a configured time period, the `Throttling` error message is returned.'
+    post:
+      operationId: ReadLoadBalancerTags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadLoadBalancerTagsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadLoadBalancerTagsResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - LoadBalancer
   /ReadLoadBalancers:
     description: 'Lists one or more load balancers and their attributes.<br /><br />
 
@@ -9281,6 +10393,24 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - Quota
+  /ReadRegions:
+    description: Describes one or more Regions of the 3DS OUTSCALE Cloud.
+    post:
+      operationId: ReadRegions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadRegionsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadRegionsResponse'
+          description: Information about the response.
+      tags:
+      - Region
   /ReadRouteTables:
     description: 'Lists one or more of your route tables.<br />
 
@@ -9324,6 +10454,24 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - RouteTable
+  /ReadSecretAccessKey:
+    description: Gets information about the secret access key associated with the account that sends the request.
+    post:
+      operationId: ReadSecretAccessKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadSecretAccessKeyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadSecretAccessKeyResponse'
+          description: Information about the response.
+      tags:
+      - SecretAccessKeys
   /ReadSecurityGroups:
     description: 'Lists one or more security groups.<br />
 
@@ -9367,6 +10515,24 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - SecurityGroup
+  /ReadServerCertificates:
+    description: List your server certificates.
+    post:
+      operationId: ReadServerCertificates
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadServerCertificatesRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadServerCertificatesResponse'
+          description: Information about the response.
+      tags:
+      - ServerCertificate
   /ReadSnapshotExportTasks:
     description: 'Lists one or more snapshot export tasks.<br /><br />
 
@@ -9860,6 +11026,56 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - NetPeering
+  /ResetAccountPassword:
+    description: 'Replaces the account password with the new one you provide.<br />
+
+      You must also provide the token you received by email when asking for a password reset using the SendResetPasswordEmail method.<br /><br />
+
+      Password strength is tested through heuristic algorithms. For more information, see the [zxcvbn GitHub](https://github.com/dropbox/zxcvbn).<br /><br />
+
+      **[NOTE]**<br />
+
+      To protect against brute force attacks, the number of requests allowed for this method in a given time period is limited.'
+    post:
+      operationId: ResetAccountPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetAccountPasswordRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetAccountPasswordResponse'
+          description: Information about the response.
+      tags:
+      - AccountPassword
+  /SendResetPasswordEmail:
+    description: 'Sends an email to the email address provided for the account with a token to reset your password.<br />
+
+      You need to provide this token when updating the account password using the ResetAccountPassword method.<br /><br />
+
+      **[NOTE]**<br />
+
+      To protect against brute force attacks, the number of requests allowed for this method in a given time period is limited.'
+    post:
+      operationId: SendResetPasswordEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendResetPasswordEmailRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendResetPasswordEmailResponse'
+          description: Information about the response.You need to provide this token when updating the account password using the ResetAccountPassword method.
+      tags:
+      - ResetPasswordEmail
   /StartVms:
     description: 'Start one or more virtual machines (VMs).<br />
 
@@ -10205,6 +11421,49 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Volume
+  /UpdateAccessKey:
+    description: 'Modifies the status of the specified access key associated with the account that sends the request.<br />
+
+      When set to `active`, the access key is enabled and can be used to send requests. When set to `inactive`, the access key is disabled.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      To protect against brute force attacks, the number of requests allowed for this method in a given time period is limited.'
+    post:
+      operationId: UpdateAccessKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccessKeyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccessKeyResponse'
+          description: Information about the response.
+      tags:
+      - AccessKey
+  /UpdateAccount:
+    description: Updates the account information for the account that sends the request.
+    post:
+      operationId: UpdateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccountResponse'
+          description: Information about the response.
+      tags:
+      - Account
   /UpdateFlexibleGpu:
     description: Modifies a flexible GPU (fGPU) behavior.
     post:
@@ -10261,13 +11520,33 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Image
+  /UpdateListenerRule:
+    description: 'Updates the pattern of the listener rule.<br />
+
+      This call updates the pattern matching algorithm for incoming traffic.'
+    post:
+      operationId: UpdateListenerRule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateListenerRuleRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateListenerRuleResponse'
+          description: Information about the response.
+      tags:
+      - Listener
   /UpdateLoadBalancer:
     description: 'Modifies the specified attributes of a load balancer.<br /><br />
 
 
       You can set a new SSL certificate to an SSL or HTTPS listener of a load balancer.<br />
 
-      This certificate replaces any certificate used on the same load balancer and port. <br /><br />
+      This certificate replaces any certificate used on the same load balancer and port.<br /><br />
 
 
       You can also replace the current set of policies for a load balancer with another specified one.<br />
@@ -10453,6 +11732,24 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - VirtualGateway
+  /UpdateServerCertificate:
+    description: Modifies the name and/or the path of a specified server certificate.
+    post:
+      operationId: UpdateServerCertificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateServerCertificateRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateServerCertificateResponse'
+          description: Information about the response.
+      tags:
+      - ServerCertificate
   /UpdateSnapshot:
     description: 'Modifies the permissions for a specified snapshot.<br />
 
@@ -10577,7 +11874,7 @@ paths:
 security:
 - ApiKeyAuth: []
 servers:
-- url: https://api.{region}.outscale.com/oapi/v0
+- url: https://api.{region}.outscale.com/api/latest
   variables:
     region:
       default: eu-west-2
