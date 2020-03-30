@@ -11874,12 +11874,15 @@ paths:
 security:
 - ApiKeyAuth: []
 servers:
-- url: https://api.{region}.outscale.com/api/latest
+- url: https://api.{region}.outscale.com/api/v1
   variables:
     region:
       default: eu-west-2
       enum:
-      - cn-southeast-1
       - eu-west-2
       - us-east-2
       - us-west-1
+- url: https://api.{region}.outscale.hk/api/v1
+  variables:
+    region:
+      default: cn-southeast-1
