@@ -1,6 +1,7 @@
 components:
   schemas:
     AcceptNetPeeringRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -12,6 +13,7 @@ components:
       - NetPeeringId
       type: object
     AcceptNetPeeringResponse:
+      additionalProperties: false
       properties:
         NetPeering:
           $ref: '#/components/schemas/NetPeering'
@@ -19,6 +21,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     AccepterNet:
+      additionalProperties: false
       description: Information about the accepter Net.
       properties:
         AccountId:
@@ -32,6 +35,7 @@ components:
           type: string
       type: object
     AccessKey:
+      additionalProperties: false
       description: Information about the access key.
       properties:
         AccessKeyId:
@@ -50,6 +54,7 @@ components:
           type: string
       type: object
     AccessKeySecretKey:
+      additionalProperties: false
       description: Information about the secret access key.
       properties:
         AccessKeyId:
@@ -71,6 +76,7 @@ components:
           type: string
       type: object
     AccessLog:
+      additionalProperties: false
       description: Information about access logs.
       properties:
         IsEnabled:
@@ -87,6 +93,7 @@ components:
           type: integer
       type: object
     Account:
+      additionalProperties: false
       description: Information about the account.
       properties:
         AccountId:
@@ -133,6 +140,7 @@ components:
           type: string
       type: object
     ApplicationStickyCookiePolicy:
+      additionalProperties: false
       description: Information about the stickiness policy.
       properties:
         CookieName:
@@ -143,6 +151,7 @@ components:
           type: string
       type: object
     BackendVmHealth:
+      additionalProperties: false
       description: Information about the health of a back-end VM.
       properties:
         Description:
@@ -161,6 +170,7 @@ components:
           type: string
       type: object
     BlockDeviceMappingCreated:
+      additionalProperties: false
       description: Information about the created block device mapping.
       properties:
         Bsu:
@@ -170,6 +180,7 @@ components:
           type: string
       type: object
     BlockDeviceMappingImage:
+      additionalProperties: false
       description: One or more parameters used to automatically set up volumes when the VM is created.
       properties:
         Bsu:
@@ -182,6 +193,7 @@ components:
           type: string
       type: object
     BlockDeviceMappingVmCreation:
+      additionalProperties: false
       description: Information about the block device mapping.
       properties:
         Bsu:
@@ -197,6 +209,7 @@ components:
           type: string
       type: object
     BlockDeviceMappingVmUpdate:
+      additionalProperties: false
       description: Information about the block device mapping.
       properties:
         Bsu:
@@ -212,6 +225,7 @@ components:
           type: string
       type: object
     BsuCreated:
+      additionalProperties: false
       description: Information about the created BSU volume.
       properties:
         DeleteOnVmDeletion:
@@ -229,6 +243,7 @@ components:
           type: string
       type: object
     BsuToCreate:
+      additionalProperties: false
       description: Information about the BSU volume to create.
       properties:
         DeleteOnVmDeletion:
@@ -254,6 +269,7 @@ components:
           type: string
       type: object
     BsuToUpdateVm:
+      additionalProperties: false
       description: Information about the BSU volume.
       properties:
         DeleteOnVmDeletion:
@@ -264,6 +280,7 @@ components:
           type: string
       type: object
     CheckAuthenticationRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -276,11 +293,13 @@ components:
           type: string
       type: object
     CheckAuthenticationResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ClientGateway:
+      additionalProperties: false
       description: Information about the client gateway.
       properties:
         BgpAsn:
@@ -305,6 +324,7 @@ components:
           type: array
       type: object
     ConsumptionEntry:
+      additionalProperties: false
       description: Information about the resources consumed during the specified time period.
       properties:
         Category:
@@ -333,6 +353,7 @@ components:
           type: string
       type: object
     CreateAccessKeyResponse:
+      additionalProperties: false
       properties:
         AccessKey:
           $ref: '#/components/schemas/AccessKeySecretKey'
@@ -340,6 +361,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateAccountRequest:
+      additionalProperties: false
       properties:
         City:
           description: The city of the account owner.
@@ -394,6 +416,7 @@ components:
       - ZipCode
       type: object
     CreateAccountResponse:
+      additionalProperties: false
       properties:
         Account:
           $ref: '#/components/schemas/Account'
@@ -401,6 +424,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateClientGatewayRequest:
+      additionalProperties: false
       properties:
         BgpAsn:
           description: An unsigned 32-bits Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find out the path to your client gateway through the Internet network. The integer must be within the [0;4294967295] range. By default, 65000.
@@ -420,6 +444,7 @@ components:
       - ConnectionType
       type: object
     CreateClientGatewayResponse:
+      additionalProperties: false
       properties:
         ClientGateway:
           $ref: '#/components/schemas/ClientGateway'
@@ -427,6 +452,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateDhcpOptionsRequest:
+      additionalProperties: false
       properties:
         DomainName:
           description: Specify a domain name (for example, MyCompany.com). You can specify only one domain name.
@@ -446,6 +472,7 @@ components:
           type: array
       type: object
     CreateDhcpOptionsResponse:
+      additionalProperties: false
       properties:
         DhcpOptionsSet:
           $ref: '#/components/schemas/DhcpOptionsSet'
@@ -453,6 +480,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateDirectLinkInterfaceRequest:
+      additionalProperties: false
       properties:
         DirectLinkId:
           description: The ID of the existing DirectLink for which you want to create the DirectLink interface.
@@ -467,6 +495,7 @@ components:
       - DirectLinkInterface
       type: object
     CreateDirectLinkInterfaceResponse:
+      additionalProperties: false
       properties:
         DirectLinkInterface:
           $ref: '#/components/schemas/DirectLinkInterfaces'
@@ -474,6 +503,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateDirectLinkRequest:
+      additionalProperties: false
       properties:
         Bandwidth:
           description: The bandwidth of the DirectLink (`1Gbps` \| `10Gbps`).
@@ -493,6 +523,7 @@ components:
       - Location
       type: object
     CreateDirectLinkResponse:
+      additionalProperties: false
       properties:
         DirectLink:
           $ref: '#/components/schemas/DirectLink'
@@ -500,16 +531,17 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateFlexibleGpuRequest:
+      additionalProperties: false
       properties:
         DeleteOnVmDeletion:
-          default: 'false'
+          default: false
           description: If `true`, the fGPU is deleted when the VM is terminated.
           type: boolean
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         Generation:
-          description: The processor generation that the fGPU must be compatible with. If not specified, the oldest possible processor generation is selected (as provided by **[ReadFlexibleGpuCatalog](#readflexiblegpucatalog)** for the specified model of fGPU).
+          description: The processor generation that the fGPU must be compatible with. If not specified, the oldest possible processor generation is selected (as provided by [ReadFlexibleGpuCatalog](#readflexiblegpucatalog) for the specified model of fGPU).
           type: string
         ModelName:
           description: The model of fGPU you want to allocate. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
@@ -522,6 +554,7 @@ components:
       - SubregionName
       type: object
     CreateFlexibleGpuResponse:
+      additionalProperties: false
       properties:
         FlexibleGpu:
           $ref: '#/components/schemas/FlexibleGpu'
@@ -529,6 +562,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateImageExportTaskRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -543,6 +577,7 @@ components:
       - ImageId
       type: object
     CreateImageExportTaskResponse:
+      additionalProperties: false
       properties:
         ImageExportTask:
           $ref: '#/components/schemas/ImageExportTask'
@@ -550,6 +585,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateImageRequest:
+      additionalProperties: false
       properties:
         Architecture:
           description: The architecture of the OMI (by default, `i386`).
@@ -590,6 +626,7 @@ components:
           type: string
       type: object
     CreateImageResponse:
+      additionalProperties: false
       properties:
         Image:
           $ref: '#/components/schemas/Image'
@@ -597,12 +634,14 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateInternetServiceRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
       type: object
     CreateInternetServiceResponse:
+      additionalProperties: false
       properties:
         InternetService:
           $ref: '#/components/schemas/InternetService'
@@ -610,6 +649,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateKeypairRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -618,12 +658,13 @@ components:
           description: A unique name for the keypair, with a maximum length of 255 [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
           type: string
         PublicKey:
-          description: The public key. If you are not using command line tools, it must be encoded in Base64.
+          description: The public key. It must be base64-encoded.
           type: string
       required:
       - KeypairName
       type: object
     CreateKeypairResponse:
+      additionalProperties: false
       properties:
         Keypair:
           $ref: '#/components/schemas/KeypairCreated'
@@ -631,6 +672,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateListenerRuleRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -650,6 +692,7 @@ components:
       - ListenerRule
       type: object
     CreateListenerRuleResponse:
+      additionalProperties: false
       properties:
         ListenerRule:
           $ref: '#/components/schemas/ListenerRule'
@@ -657,6 +700,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateLoadBalancerListenersRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -674,6 +718,7 @@ components:
       - LoadBalancerName
       type: object
     CreateLoadBalancerListenersResponse:
+      additionalProperties: false
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
@@ -681,6 +726,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateLoadBalancerPolicyRequest:
+      additionalProperties: false
       properties:
         CookieName:
           description: The name of the application cookie used for stickiness. This parameter is required if you create a stickiness policy based on an application-generated cookie.
@@ -703,6 +749,7 @@ components:
       - PolicyName
       type: object
     CreateLoadBalancerPolicyResponse:
+      additionalProperties: false
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
@@ -710,6 +757,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateLoadBalancerRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -752,6 +800,7 @@ components:
       - LoadBalancerName
       type: object
     CreateLoadBalancerResponse:
+      additionalProperties: false
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
@@ -759,6 +808,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateLoadBalancerTagsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -778,11 +828,13 @@ components:
       - Tags
       type: object
     CreateLoadBalancerTagsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateNatServiceRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -800,6 +852,7 @@ components:
       - SubnetId
       type: object
     CreateNatServiceResponse:
+      additionalProperties: false
       properties:
         NatService:
           $ref: '#/components/schemas/NatService'
@@ -807,6 +860,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateNetAccessPointRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -827,6 +881,7 @@ components:
       - NetId
       type: object
     CreateNetAccessPointResponse:
+      additionalProperties: false
       properties:
         NetAccessPoint:
           $ref: '#/components/schemas/NetAccessPoint'
@@ -834,6 +889,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateNetPeeringRequest:
+      additionalProperties: false
       properties:
         AccepterNetId:
           description: The ID of the Net you want to connect with.
@@ -849,6 +905,7 @@ components:
       - SourceNetId
       type: object
     CreateNetPeeringResponse:
+      additionalProperties: false
       properties:
         NetPeering:
           $ref: '#/components/schemas/NetPeering'
@@ -856,6 +913,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateNetRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -870,6 +928,7 @@ components:
       - IpRange
       type: object
     CreateNetResponse:
+      additionalProperties: false
       properties:
         Net:
           $ref: '#/components/schemas/Net'
@@ -877,6 +936,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateNicRequest:
+      additionalProperties: false
       properties:
         Description:
           description: A description for the NIC.
@@ -906,6 +966,7 @@ components:
       - SubnetId
       type: object
     CreateNicResponse:
+      additionalProperties: false
       properties:
         Nic:
           $ref: '#/components/schemas/Nic'
@@ -913,12 +974,14 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreatePublicIpRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
       type: object
     CreatePublicIpResponse:
+      additionalProperties: false
       properties:
         PublicIp:
           $ref: '#/components/schemas/PublicIp'
@@ -926,6 +989,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateRouteRequest:
+      additionalProperties: false
       properties:
         DestinationIpRange:
           description: The IP range used for the destination match, in CIDR notation (for example, 10.0.0.0/24).
@@ -956,6 +1020,7 @@ components:
       - RouteTableId
       type: object
     CreateRouteResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -963,6 +1028,7 @@ components:
           $ref: '#/components/schemas/RouteTable'
       type: object
     CreateRouteTableRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -974,6 +1040,7 @@ components:
       - NetId
       type: object
     CreateRouteTableResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -981,6 +1048,7 @@ components:
           $ref: '#/components/schemas/RouteTable'
       type: object
     CreateSecurityGroupRequest:
+      additionalProperties: false
       properties:
         Description:
           description: A description for the security group, with a maximum length of 255 [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
@@ -1003,6 +1071,7 @@ components:
       - SecurityGroupName
       type: object
     CreateSecurityGroupResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1010,6 +1079,7 @@ components:
           $ref: '#/components/schemas/SecurityGroup'
       type: object
     CreateSecurityGroupRuleRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1048,6 +1118,7 @@ components:
       - Flow
       type: object
     CreateSecurityGroupRuleResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1055,6 +1126,7 @@ components:
           $ref: '#/components/schemas/SecurityGroup'
       type: object
     CreateServerCertificateRequest:
+      additionalProperties: false
       properties:
         Body:
           description: The PEM-encoded X509 certificate.
@@ -1080,6 +1152,7 @@ components:
       - Name
       type: object
     CreateServerCertificateResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1087,6 +1160,7 @@ components:
           $ref: '#/components/schemas/ServerCertificate'
       type: object
     CreateSnapshotExportTaskRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1101,6 +1175,7 @@ components:
       - SnapshotId
       type: object
     CreateSnapshotExportTaskResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1108,6 +1183,7 @@ components:
           $ref: '#/components/schemas/SnapshotExportTask'
       type: object
     CreateSnapshotRequest:
+      additionalProperties: false
       properties:
         Description:
           description: A description for the snapshot.
@@ -1132,6 +1208,7 @@ components:
           type: string
       type: object
     CreateSnapshotResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1139,6 +1216,7 @@ components:
           $ref: '#/components/schemas/Snapshot'
       type: object
     CreateSubnetRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1157,6 +1235,7 @@ components:
       - NetId
       type: object
     CreateSubnetResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1164,6 +1243,7 @@ components:
           $ref: '#/components/schemas/Subnet'
       type: object
     CreateTagsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1183,11 +1263,13 @@ components:
       - Tags
       type: object
     CreateTagsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     CreateVirtualGatewayRequest:
+      additionalProperties: false
       properties:
         ConnectionType:
           description: The type of VPN connection supported by the virtual gateway (only `ipsec.1` is supported).
@@ -1199,6 +1281,7 @@ components:
       - ConnectionType
       type: object
     CreateVirtualGatewayResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1206,6 +1289,7 @@ components:
           $ref: '#/components/schemas/VirtualGateway'
       type: object
     CreateVmsRequest:
+      additionalProperties: false
       properties:
         BlockDeviceMappings:
           description: One or more block device mappings.
@@ -1287,6 +1371,7 @@ components:
       - ImageId
       type: object
     CreateVmsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1297,6 +1382,7 @@ components:
           type: array
       type: object
     CreateVolumeRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1322,6 +1408,7 @@ components:
       - SubregionName
       type: object
     CreateVolumeResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1329,6 +1416,7 @@ components:
           $ref: '#/components/schemas/Volume'
       type: object
     CreateVpnConnectionRequest:
+      additionalProperties: false
       properties:
         ClientGatewayId:
           description: The ID of the client gateway.
@@ -1351,6 +1439,7 @@ components:
       - VirtualGatewayId
       type: object
     CreateVpnConnectionResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1358,6 +1447,7 @@ components:
           $ref: '#/components/schemas/VpnConnection'
       type: object
     CreateVpnConnectionRouteRequest:
+      additionalProperties: false
       properties:
         DestinationIpRange:
           description: The network prefix of the route, in CIDR notation (for example, 10.12.0.0/16).
@@ -1373,11 +1463,13 @@ components:
       - VpnConnectionId
       type: object
     CreateVpnConnectionRouteResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteAccessKeyRequest:
+      additionalProperties: false
       properties:
         AccessKeyId:
           description: The ID of the access key you want to delete.
@@ -1389,11 +1481,13 @@ components:
       - AccessKeyId
       type: object
     DeleteAccessKeyResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteClientGatewayRequest:
+      additionalProperties: false
       properties:
         ClientGatewayId:
           description: The ID of the client gateway you want to delete.
@@ -1405,11 +1499,13 @@ components:
       - ClientGatewayId
       type: object
     DeleteClientGatewayResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteDhcpOptionsRequest:
+      additionalProperties: false
       properties:
         DhcpOptionsSetId:
           description: The ID of the DHCP options set you want to delete.
@@ -1421,11 +1517,13 @@ components:
       - DhcpOptionsSetId
       type: object
     DeleteDhcpOptionsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteDirectLinkInterfaceRequest:
+      additionalProperties: false
       properties:
         DirectLinkInterfaceId:
           description: The ID of the DirectLink interface you want to delete.
@@ -1437,11 +1535,13 @@ components:
       - DirectLinkInterfaceId
       type: object
     DeleteDirectLinkInterfaceResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteDirectLinkRequest:
+      additionalProperties: false
       properties:
         DirectLinkId:
           description: The ID of the DirectLink you want to delete.
@@ -1453,11 +1553,13 @@ components:
       - DirectLinkId
       type: object
     DeleteDirectLinkResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteExportTaskRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1469,11 +1571,13 @@ components:
       - ExportTaskId
       type: object
     DeleteExportTaskResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteFlexibleGpuRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1485,11 +1589,13 @@ components:
       - FlexibleGpuId
       type: object
     DeleteFlexibleGpuResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteImageRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1501,11 +1607,13 @@ components:
       - ImageId
       type: object
     DeleteImageResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteInternetServiceRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1517,11 +1625,13 @@ components:
       - InternetServiceId
       type: object
     DeleteInternetServiceResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteKeypairRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1533,11 +1643,13 @@ components:
       - KeypairName
       type: object
     DeleteKeypairResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteListenerRuleRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1549,11 +1661,13 @@ components:
       - ListenerRuleName
       type: object
     DeleteListenerRuleResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteLoadBalancerListenersRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1571,6 +1685,7 @@ components:
       - LoadBalancerPorts
       type: object
     DeleteLoadBalancerListenersResponse:
+      additionalProperties: false
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
@@ -1578,6 +1693,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteLoadBalancerPolicyRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1593,6 +1709,7 @@ components:
       - PolicyName
       type: object
     DeleteLoadBalancerPolicyResponse:
+      additionalProperties: false
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
@@ -1600,6 +1717,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteLoadBalancerRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1611,11 +1729,13 @@ components:
       - LoadBalancerName
       type: object
     DeleteLoadBalancerResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteLoadBalancerTagsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1635,11 +1755,13 @@ components:
       - Tags
       type: object
     DeleteLoadBalancerTagsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteNatServiceRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1651,11 +1773,13 @@ components:
       - NatServiceId
       type: object
     DeleteNatServiceResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteNetAccessPointRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1667,11 +1791,13 @@ components:
       - NetAccessPointId
       type: object
     DeleteNetAccessPointResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteNetPeeringRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1683,11 +1809,13 @@ components:
       - NetPeeringId
       type: object
     DeleteNetPeeringResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteNetRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1699,11 +1827,13 @@ components:
       - NetId
       type: object
     DeleteNetResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteNicRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1715,11 +1845,13 @@ components:
       - NicId
       type: object
     DeleteNicResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeletePublicIpRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1732,11 +1864,13 @@ components:
           type: string
       type: object
     DeletePublicIpResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteRouteRequest:
+      additionalProperties: false
       properties:
         DestinationIpRange:
           description: The exact IP range for the route.
@@ -1752,6 +1886,7 @@ components:
       - DestinationIpRange
       type: object
     DeleteRouteResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1759,6 +1894,7 @@ components:
           $ref: '#/components/schemas/RouteTable'
       type: object
     DeleteRouteTableRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1770,11 +1906,13 @@ components:
       - RouteTableId
       type: object
     DeleteRouteTableResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteSecurityGroupRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1787,11 +1925,13 @@ components:
           type: string
       type: object
     DeleteSecurityGroupResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteSecurityGroupRuleRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1830,6 +1970,7 @@ components:
       - Flow
       type: object
     DeleteSecurityGroupRuleResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1837,6 +1978,7 @@ components:
           $ref: '#/components/schemas/SecurityGroup'
       type: object
     DeleteServerCertificateRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1848,11 +1990,13 @@ components:
       - Name
       type: object
     DeleteServerCertificateResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteSnapshotRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1864,11 +2008,13 @@ components:
       - SnapshotId
       type: object
     DeleteSnapshotResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteSubnetRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1880,11 +2026,13 @@ components:
       - SubnetId
       type: object
     DeleteSubnetResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteTagsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1904,11 +2052,13 @@ components:
       - Tags
       type: object
     DeleteTagsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteVirtualGatewayRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1920,11 +2070,13 @@ components:
       - VirtualGatewayId
       type: object
     DeleteVirtualGatewayResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteVmsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1938,6 +2090,7 @@ components:
       - VmIds
       type: object
     DeleteVmsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -1948,6 +2101,7 @@ components:
           type: array
       type: object
     DeleteVolumeRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1959,11 +2113,13 @@ components:
       - VolumeId
       type: object
     DeleteVolumeResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteVpnConnectionRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -1975,11 +2131,13 @@ components:
       - VpnConnectionId
       type: object
     DeleteVpnConnectionResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeleteVpnConnectionRouteRequest:
+      additionalProperties: false
       properties:
         DestinationIpRange:
           description: The network prefix of the route to delete, in CIDR notation (for example, 10.12.0.0/16).
@@ -1995,11 +2153,13 @@ components:
       - VpnConnectionId
       type: object
     DeleteVpnConnectionRouteResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DeregisterVmsInLoadBalancerRequest:
+      additionalProperties: false
       properties:
         BackendVmIds:
           description: One or more IDs of back-end VMs.
@@ -2017,11 +2177,13 @@ components:
       - LoadBalancerName
       type: object
     DeregisterVmsInLoadBalancerResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     DhcpOptionsSet:
+      additionalProperties: false
       description: Information about the DHCP options set.
       properties:
         Default:
@@ -2053,6 +2215,7 @@ components:
           type: array
       type: object
     DirectLink:
+      additionalProperties: false
       description: Information about the DirectLink.
       properties:
         AccountId:
@@ -2088,6 +2251,7 @@ components:
           type: string
       type: object
     DirectLinkInterface:
+      additionalProperties: false
       description: Information about the DirectLink interface.
       properties:
         BgpAsn:
@@ -2118,6 +2282,7 @@ components:
       - Vlan
       type: object
     DirectLinkInterfaces:
+      additionalProperties: false
       description: Information about the DirectLink interfaces.
       properties:
         AccountId:
@@ -2161,6 +2326,7 @@ components:
           type: integer
       type: object
     ErrorResponse:
+      additionalProperties: false
       properties:
         Errors:
           description: One or more errors.
@@ -2169,7 +2335,9 @@ components:
           type: array
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
+      type: object
     Errors:
+      additionalProperties: false
       description: Information about the errors.
       properties:
         Code:
@@ -2183,6 +2351,7 @@ components:
           type: string
       type: object
     FiltersAccessKeys:
+      additionalProperties: false
       description: One or more filters.
       properties:
         AccessKeyIds:
@@ -2197,6 +2366,7 @@ components:
           type: array
       type: object
     FiltersApiLog:
+      additionalProperties: false
       description: One or more filters.
       properties:
         QueryAccessKeys:
@@ -2244,6 +2414,7 @@ components:
           type: array
       type: object
     FiltersClientGateway:
+      additionalProperties: false
       description: One or more filters.
       properties:
         BgpAsns:
@@ -2288,6 +2459,7 @@ components:
           type: array
       type: object
     FiltersDhcpOptions:
+      additionalProperties: false
       description: One or more filters.
       properties:
         Default:
@@ -2330,6 +2502,7 @@ components:
           type: array
       type: object
     FiltersDirectLink:
+      additionalProperties: false
       description: One or more filters.
       properties:
         DirectLinkIds:
@@ -2339,6 +2512,7 @@ components:
           type: array
       type: object
     FiltersDirectLinkInterface:
+      additionalProperties: false
       description: One or more filters.
       properties:
         DirectLinkIds:
@@ -2353,6 +2527,7 @@ components:
           type: array
       type: object
     FiltersExportTask:
+      additionalProperties: false
       description: One or more filters.
       properties:
         TagKeys:
@@ -2377,6 +2552,7 @@ components:
           type: array
       type: object
     FiltersFlexibleGpu:
+      additionalProperties: false
       description: One or more filters.
       properties:
         DeleteOnVmDeletion:
@@ -2409,6 +2585,7 @@ components:
           type: array
       type: object
     FiltersImage:
+      additionalProperties: false
       description: One or more filters.
       properties:
         AccountAliases:
@@ -2514,6 +2691,7 @@ components:
           type: array
       type: object
     FiltersInternetService:
+      additionalProperties: false
       description: One or more filters.
       properties:
         InternetServiceIds:
@@ -2538,6 +2716,7 @@ components:
           type: array
       type: object
     FiltersKeypair:
+      additionalProperties: false
       description: One or more filters.
       properties:
         KeypairFingerprints:
@@ -2552,6 +2731,7 @@ components:
           type: array
       type: object
     FiltersListenerRule:
+      additionalProperties: false
       description: One or more filters.
       properties:
         ListenerRuleNames:
@@ -2561,6 +2741,7 @@ components:
           type: array
       type: object
     FiltersLoadBalancer:
+      additionalProperties: false
       description: One or more filters.
       properties:
         LoadBalancerNames:
@@ -2570,6 +2751,7 @@ components:
           type: array
       type: object
     FiltersNatService:
+      additionalProperties: false
       description: One or more filters.
       properties:
         NatServiceIds:
@@ -2609,6 +2791,7 @@ components:
           type: array
       type: object
     FiltersNet:
+      additionalProperties: false
       description: One or more filters.
       properties:
         DhcpOptionsSetIds:
@@ -2648,6 +2831,7 @@ components:
           type: array
       type: object
     FiltersNetAccessPoint:
+      additionalProperties: false
       description: One or more filters.
       properties:
         NetAccessPointIds:
@@ -2687,6 +2871,7 @@ components:
           type: array
       type: object
     FiltersNetPeering:
+      additionalProperties: false
       description: One or more filters.
       properties:
         AccepterNetAccountIds:
@@ -2751,6 +2936,7 @@ components:
           type: array
       type: object
     FiltersNic:
+      additionalProperties: false
       description: One or more filters.
       properties:
         LinkNicSortNumbers:
@@ -2780,6 +2966,7 @@ components:
           type: array
       type: object
     FiltersProductType:
+      additionalProperties: false
       description: One or more filters.
       properties:
         ProductTypeIds:
@@ -2789,6 +2976,7 @@ components:
           type: array
       type: object
     FiltersPublicIp:
+      additionalProperties: false
       description: One or more filters.
       properties:
         LinkPublicIpIds:
@@ -2848,6 +3036,7 @@ components:
           type: array
       type: object
     FiltersQuota:
+      additionalProperties: false
       description: One or more filters.
       properties:
         Collections:
@@ -2872,6 +3061,7 @@ components:
           type: array
       type: object
     FiltersRouteTable:
+      additionalProperties: false
       description: One or more filters.
       properties:
         LinkRouteTableLinkRouteTableIds:
@@ -2946,6 +3136,7 @@ components:
           type: array
       type: object
     FiltersSecurityGroup:
+      additionalProperties: false
       description: One or more filters.
       properties:
         AccountIds:
@@ -2980,6 +3171,7 @@ components:
           type: array
       type: object
     FiltersServerCertificate:
+      additionalProperties: false
       description: One or more filters.
       properties:
         Paths:
@@ -2987,6 +3179,7 @@ components:
           type: string
       type: object
     FiltersService:
+      additionalProperties: false
       description: One or more filters.
       properties:
         ServiceIds:
@@ -3001,6 +3194,7 @@ components:
           type: array
       type: object
     FiltersSnapshot:
+      additionalProperties: false
       description: One or more filters.
       properties:
         AccountAliases:
@@ -3068,6 +3262,7 @@ components:
           type: array
       type: object
     FiltersSubnet:
+      additionalProperties: false
       description: One or more filters.
       properties:
         AvailableIpsCounts:
@@ -3102,6 +3297,7 @@ components:
           type: array
       type: object
     FiltersSubregion:
+      additionalProperties: false
       description: One or more filters.
       properties:
         SubregionNames:
@@ -3111,6 +3307,7 @@ components:
           type: array
       type: object
     FiltersTag:
+      additionalProperties: false
       description: One or more filters.
       properties:
         Keys:
@@ -3135,6 +3332,7 @@ components:
           type: array
       type: object
     FiltersVirtualGateway:
+      additionalProperties: false
       description: One or more filters.
       properties:
         ConnectionTypes:
@@ -3179,6 +3377,7 @@ components:
           type: array
       type: object
     FiltersVm:
+      additionalProperties: false
       description: One or more filters.
       properties:
         TagKeys:
@@ -3203,6 +3402,7 @@ components:
           type: array
       type: object
     FiltersVmType:
+      additionalProperties: false
       description: One or more filters.
       properties:
         BsuOptimized:
@@ -3236,6 +3436,7 @@ components:
           type: array
       type: object
     FiltersVmsState:
+      additionalProperties: false
       description: One or more filters.
       properties:
         SubregionNames:
@@ -3255,6 +3456,7 @@ components:
           type: array
       type: object
     FiltersVolume:
+      additionalProperties: false
       description: One or more filters.
       properties:
         CreationDates:
@@ -3334,6 +3536,7 @@ components:
           type: array
       type: object
     FiltersVpnConnection:
+      additionalProperties: false
       description: One or more filters.
       properties:
         BgpAsns:
@@ -3376,6 +3579,7 @@ components:
           type: array
       type: object
     FlexibleGpu:
+      additionalProperties: false
       description: Information about the flexible GPU (fGPU).
       properties:
         DeleteOnVmDeletion:
@@ -3401,6 +3605,7 @@ components:
           type: string
       type: object
     FlexibleGpuCatalog:
+      additionalProperties: false
       description: Information about the flexible GPU (fGPU) that is available in the public catalog.
       properties:
         Generations:
@@ -3420,6 +3625,7 @@ components:
           type: integer
       type: object
     HealthCheck:
+      additionalProperties: false
       description: Information about the health check configuration.
       properties:
         CheckInterval:
@@ -3453,6 +3659,7 @@ components:
       - UnhealthyThreshold
       type: object
     Image:
+      additionalProperties: false
       description: Information about the OMI.
       properties:
         AccountAlias:
@@ -3513,6 +3720,7 @@ components:
           type: array
       type: object
     ImageExportTask:
+      additionalProperties: false
       description: Information about the OMI export task.
       properties:
         Comment:
@@ -3539,6 +3747,7 @@ components:
           type: string
       type: object
     InternetService:
+      additionalProperties: false
       description: Information about the Internet service.
       properties:
         InternetServiceId:
@@ -3557,6 +3766,7 @@ components:
           type: array
       type: object
     Keypair:
+      additionalProperties: false
       description: Information about the keypair.
       properties:
         KeypairFingerprint:
@@ -3569,6 +3779,7 @@ components:
           type: string
       type: object
     KeypairCreated:
+      additionalProperties: false
       description: Information about the created keypair.
       properties:
         KeypairFingerprint:
@@ -3584,6 +3795,7 @@ components:
           type: string
       type: object
     LinkFlexibleGpuRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -3599,11 +3811,13 @@ components:
       - VmId
       type: object
     LinkFlexibleGpuResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     LinkInternetServiceRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -3619,11 +3833,13 @@ components:
       - NetId
       type: object
     LinkInternetServiceResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     LinkNic:
+      additionalProperties: false
       description: Information about the NIC attachment.
       properties:
         DeleteOnVmDeletion:
@@ -3646,6 +3862,7 @@ components:
           type: string
       type: object
     LinkNicLight:
+      additionalProperties: false
       description: Information about the network interface card (NIC).
       properties:
         DeleteOnVmDeletion:
@@ -3662,6 +3879,7 @@ components:
           type: string
       type: object
     LinkNicRequest:
+      additionalProperties: false
       properties:
         DeviceNumber:
           description: The index of the VM device for the NIC attachment (between 1 and 7, both included).
@@ -3681,6 +3899,7 @@ components:
       - NicId
       type: object
     LinkNicResponse:
+      additionalProperties: false
       properties:
         LinkNicId:
           description: The ID of the NIC attachment.
@@ -3689,6 +3908,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     LinkNicToUpdate:
+      additionalProperties: false
       description: Information about the NIC attachment. If you are modifying the `DeleteOnVmDeletion` attribute, you must specify the ID of the NIC attachment.
       properties:
         DeleteOnVmDeletion:
@@ -3699,6 +3919,7 @@ components:
           type: string
       type: object
     LinkPrivateIpsRequest:
+      additionalProperties: false
       properties:
         AllowRelink:
           description: If `true`, allows an IP address that is already assigned to another NIC in the same Subnet to be assigned to the NIC you specified.
@@ -3721,11 +3942,13 @@ components:
       - NicId
       type: object
     LinkPrivateIpsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     LinkPublicIp:
+      additionalProperties: false
       description: Information about the EIP association.
       properties:
         LinkPublicIpId:
@@ -3745,6 +3968,7 @@ components:
           type: string
       type: object
     LinkPublicIpLightForVm:
+      additionalProperties: false
       description: Information about the EIP associated with the NIC.
       properties:
         PublicDnsName:
@@ -3758,6 +3982,7 @@ components:
           type: string
       type: object
     LinkPublicIpRequest:
+      additionalProperties: false
       properties:
         AllowRelink:
           description: '- If `true`, allows the EIP to be associated with the VM or NIC that you specify even if it is already associated with another VM or NIC.<br />
@@ -3791,6 +4016,7 @@ components:
           type: string
       type: object
     LinkPublicIpResponse:
+      additionalProperties: false
       properties:
         LinkPublicIpId:
           description: (Net only) The ID representing the association of the EIP with the VM or the NIC.
@@ -3799,6 +4025,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     LinkRouteTable:
+      additionalProperties: false
       description: One or more associations between the route table and the Subnets.
       properties:
         LinkRouteTableId:
@@ -3815,6 +4042,7 @@ components:
           type: string
       type: object
     LinkRouteTableRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -3830,6 +4058,7 @@ components:
       - SubnetId
       type: object
     LinkRouteTableResponse:
+      additionalProperties: false
       properties:
         LinkRouteTableId:
           description: The ID of the association between the route table and the Subnet.
@@ -3838,6 +4067,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     LinkVirtualGatewayRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -3853,6 +4083,7 @@ components:
       - VirtualGatewayId
       type: object
     LinkVirtualGatewayResponse:
+      additionalProperties: false
       properties:
         NetToVirtualGatewayLink:
           $ref: '#/components/schemas/NetToVirtualGatewayLink'
@@ -3860,6 +4091,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     LinkVolumeRequest:
+      additionalProperties: false
       properties:
         DeviceName:
           description: The name of the device.
@@ -3879,11 +4111,13 @@ components:
       - VolumeId
       type: object
     LinkVolumeResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     LinkedVolume:
+      additionalProperties: false
       description: Information about volume attachment.
       properties:
         DeleteOnVmDeletion:
@@ -3903,6 +4137,7 @@ components:
           type: string
       type: object
     Listener:
+      additionalProperties: false
       description: Information about the listener.
       properties:
         BackendPort:
@@ -3927,6 +4162,7 @@ components:
           type: string
       type: object
     ListenerForCreation:
+      additionalProperties: false
       description: Information about the listener to create.
       properties:
         BackendPort:
@@ -3950,6 +4186,7 @@ components:
       - LoadBalancerProtocol
       type: object
     ListenerRule:
+      additionalProperties: false
       description: Information about the listener rule.
       properties:
         Action:
@@ -3980,6 +4217,7 @@ components:
           type: array
       type: object
     ListenerRuleForCreation:
+      additionalProperties: false
       description: Information about the listener rule.
       properties:
         Action:
@@ -4004,6 +4242,7 @@ components:
       - Priority
       type: object
     LoadBalancer:
+      additionalProperties: false
       description: Information about the load balancer.
       properties:
         AccessLog:
@@ -4070,6 +4309,7 @@ components:
           type: array
       type: object
     LoadBalancerLight:
+      additionalProperties: false
       description: Information about the load balancer.
       properties:
         LoadBalancerName:
@@ -4083,6 +4323,7 @@ components:
       - LoadBalancerPort
       type: object
     LoadBalancerStickyCookiePolicy:
+      additionalProperties: false
       description: Information about the stickiness policy.
       properties:
         PolicyName:
@@ -4090,6 +4331,7 @@ components:
           type: string
       type: object
     LoadBalancerTag:
+      additionalProperties: false
       description: Information about the load balancer tag.
       properties:
         Key:
@@ -4103,6 +4345,7 @@ components:
           type: string
       type: object
     Location:
+      additionalProperties: false
       description: Information about the DirectLink location.
       properties:
         Code:
@@ -4113,6 +4356,7 @@ components:
           type: string
       type: object
     Log:
+      additionalProperties: false
       description: Information about the log.
       properties:
         AccountId:
@@ -4166,6 +4410,7 @@ components:
           type: integer
       type: object
     MaintenanceEvent:
+      additionalProperties: false
       description: Information about the maintenance event.
       properties:
         Code:
@@ -4184,6 +4429,7 @@ components:
           type: string
       type: object
     NatService:
+      additionalProperties: false
       description: Information about the NAT service.
       properties:
         NatServiceId:
@@ -4210,6 +4456,7 @@ components:
           type: array
       type: object
     Net:
+      additionalProperties: false
       description: Information about the Net.
       properties:
         DhcpOptionsSetId:
@@ -4234,6 +4481,7 @@ components:
           type: string
       type: object
     NetAccessPoint:
+      additionalProperties: false
       description: Information about the Net access point.
       properties:
         NetAccessPointId:
@@ -4260,6 +4508,7 @@ components:
           type: array
       type: object
     NetPeering:
+      additionalProperties: false
       description: Information about the Net peering connection.
       properties:
         AccepterNet:
@@ -4278,6 +4527,7 @@ components:
           type: array
       type: object
     NetPeeringState:
+      additionalProperties: false
       description: Information about the state of the Net peering connection.
       properties:
         Message:
@@ -4288,6 +4538,7 @@ components:
           type: string
       type: object
     NetToVirtualGatewayLink:
+      additionalProperties: false
       description: Information about the attachment.
       properties:
         NetId:
@@ -4298,6 +4549,7 @@ components:
           type: string
       type: object
     Nic:
+      additionalProperties: false
       description: Information about the NIC.
       properties:
         AccountId:
@@ -4351,6 +4603,7 @@ components:
           type: array
       type: object
     NicForVmCreation:
+      additionalProperties: false
       description: Information about the network interface card (NIC) when creating a virtual machine (VM).
       properties:
         DeleteOnVmDeletion:
@@ -4383,6 +4636,7 @@ components:
           type: string
       type: object
     NicLight:
+      additionalProperties: false
       description: Information about the network interface card (NIC).
       properties:
         AccountId:
@@ -4428,6 +4682,7 @@ components:
           type: string
       type: object
     OsuApiKey:
+      additionalProperties: false
       description: Information about the OSU API key.
       properties:
         ApiKeyId:
@@ -4438,6 +4693,7 @@ components:
           type: string
       type: object
     OsuExport:
+      additionalProperties: false
       description: Information about the OSU export.
       properties:
         DiskImageFormat:
@@ -4459,6 +4715,7 @@ components:
       - OsuBucket
       type: object
     PermissionsOnResource:
+      additionalProperties: false
       description: Information about the users who have permissions for the resource.
       properties:
         AccountIds:
@@ -4471,6 +4728,7 @@ components:
           type: boolean
       type: object
     PermissionsOnResourceCreation:
+      additionalProperties: false
       description: Information about the permissions for the resource.
       properties:
         Additions:
@@ -4479,6 +4737,7 @@ components:
           $ref: '#/components/schemas/PermissionsOnResource'
       type: object
     Placement:
+      additionalProperties: false
       description: Information about the placement of the VM.
       properties:
         SubregionName:
@@ -4489,6 +4748,7 @@ components:
           type: string
       type: object
     PrivateIp:
+      additionalProperties: false
       description: Information about the private IP.
       properties:
         IsPrimary:
@@ -4504,6 +4764,7 @@ components:
           type: string
       type: object
     PrivateIpLight:
+      additionalProperties: false
       description: Information about the private IP.
       properties:
         IsPrimary:
@@ -4514,6 +4775,7 @@ components:
           type: string
       type: object
     PrivateIpLightForVm:
+      additionalProperties: false
       description: Information about the private IP of the NIC.
       properties:
         IsPrimary:
@@ -4529,6 +4791,7 @@ components:
           type: string
       type: object
     ProductType:
+      additionalProperties: false
       description: Information about the product type.
       properties:
         Description:
@@ -4542,6 +4805,7 @@ components:
           type: string
       type: object
     PublicIp:
+      additionalProperties: false
       description: Information about the public IP.
       properties:
         LinkPublicIpId:
@@ -4572,6 +4836,7 @@ components:
           type: string
       type: object
     PublicIpLight:
+      additionalProperties: false
       description: Information about the public IP.
       properties:
         PublicIp:
@@ -4582,6 +4847,7 @@ components:
           type: string
       type: object
     Quota:
+      additionalProperties: false
       description: Information about the quota.
       properties:
         AccountId:
@@ -4607,6 +4873,7 @@ components:
           type: integer
       type: object
     QuotaTypes:
+      additionalProperties: false
       description: One or more quotas.
       properties:
         QuotaType:
@@ -4619,11 +4886,13 @@ components:
           type: array
       type: object
     ReadAccessKeysRequest:
+      additionalProperties: false
       properties:
         Filters:
           $ref: '#/components/schemas/FiltersAccessKeys'
       type: object
     ReadAccessKeysResponse:
+      additionalProperties: false
       properties:
         AccessKeys:
           description: A list of access keys.
@@ -4634,12 +4903,14 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadAccountsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
       type: object
     ReadAccountsResponse:
+      additionalProperties: false
       properties:
         Accounts:
           description: The list of the accounts.
@@ -4650,6 +4921,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadAdminPasswordRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4661,6 +4933,7 @@ components:
       - VmId
       type: object
     ReadAdminPasswordResponse:
+      additionalProperties: false
       properties:
         AdminPassword:
           description: The password of the VM. After the first boot, returns an empty string.
@@ -4672,6 +4945,7 @@ components:
           type: string
       type: object
     ReadApiLogsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4688,6 +4962,7 @@ components:
           $ref: '#/components/schemas/With'
       type: object
     ReadApiLogsResponse:
+      additionalProperties: false
       properties:
         Logs:
           description: Information displayed in one or more API logs.
@@ -4701,6 +4976,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadClientGatewaysRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4709,6 +4985,7 @@ components:
           $ref: '#/components/schemas/FiltersClientGateway'
       type: object
     ReadClientGatewaysResponse:
+      additionalProperties: false
       properties:
         ClientGateways:
           description: Information about one or more client gateways.
@@ -4719,6 +4996,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadConsoleOutputRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4730,6 +5008,7 @@ components:
       - VmId
       type: object
     ReadConsoleOutputResponse:
+      additionalProperties: false
       properties:
         ConsoleOutput:
           description: The Base64-encoded output of the console. If a command line tool is used, the output is decoded by the tool.
@@ -4741,6 +5020,7 @@ components:
           type: string
       type: object
     ReadConsumptionAccountRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4758,6 +5038,7 @@ components:
       - ToDate
       type: object
     ReadConsumptionAccountResponse:
+      additionalProperties: false
       properties:
         ConsumptionEntries:
           description: Information about the resources consumed during the specified time period.
@@ -4768,6 +5049,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadDhcpOptionsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4776,6 +5058,7 @@ components:
           $ref: '#/components/schemas/FiltersDhcpOptions'
       type: object
     ReadDhcpOptionsResponse:
+      additionalProperties: false
       properties:
         DhcpOptionsSets:
           description: Information about one or more DHCP options sets.
@@ -4786,6 +5069,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadDirectLinkInterfacesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4794,6 +5078,7 @@ components:
           $ref: '#/components/schemas/FiltersDirectLinkInterface'
       type: object
     ReadDirectLinkInterfacesResponse:
+      additionalProperties: false
       properties:
         DirectLinkInterfaces:
           description: Information about one or more DirectLink interfaces.
@@ -4804,6 +5089,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadDirectLinksRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4812,6 +5098,7 @@ components:
           $ref: '#/components/schemas/FiltersDirectLink'
       type: object
     ReadDirectLinksResponse:
+      additionalProperties: false
       properties:
         DirectLinks:
           description: Information about one or more DirectLinks.
@@ -4822,12 +5109,14 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadFlexibleGpuCatalogRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
       type: object
     ReadFlexibleGpuCatalogResponse:
+      additionalProperties: false
       properties:
         FlexibleGpuCatalog:
           description: Information about one or more fGPUs available in the public catalog.
@@ -4838,6 +5127,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadFlexibleGpusRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4846,6 +5136,7 @@ components:
           $ref: '#/components/schemas/FiltersFlexibleGpu'
       type: object
     ReadFlexibleGpusResponse:
+      additionalProperties: false
       properties:
         FlexibleGpus:
           description: Information about one or more fGPUs.
@@ -4856,6 +5147,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadImageExportTasksRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4864,6 +5156,7 @@ components:
           $ref: '#/components/schemas/FiltersExportTask'
       type: object
     ReadImageExportTasksResponse:
+      additionalProperties: false
       properties:
         ImageExportTasks:
           description: Information about one or more image export tasks.
@@ -4874,6 +5167,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadImagesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4882,6 +5176,7 @@ components:
           $ref: '#/components/schemas/FiltersImage'
       type: object
     ReadImagesResponse:
+      additionalProperties: false
       properties:
         Images:
           description: Information about one or more OMIs.
@@ -4892,6 +5187,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadInternetServicesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4900,6 +5196,7 @@ components:
           $ref: '#/components/schemas/FiltersInternetService'
       type: object
     ReadInternetServicesResponse:
+      additionalProperties: false
       properties:
         InternetServices:
           description: Information about one or more Internet services.
@@ -4910,6 +5207,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadKeypairsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4918,6 +5216,7 @@ components:
           $ref: '#/components/schemas/FiltersKeypair'
       type: object
     ReadKeypairsResponse:
+      additionalProperties: false
       properties:
         Keypairs:
           description: Information about one or more keypairs.
@@ -4928,6 +5227,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadListenerRulesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4936,6 +5236,7 @@ components:
           $ref: '#/components/schemas/FiltersListenerRule'
       type: object
     ReadListenerRulesResponse:
+      additionalProperties: false
       properties:
         ListenerRules:
           description: The list of the rules to describe.
@@ -4946,6 +5247,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadLoadBalancerTagsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4959,6 +5261,7 @@ components:
       - LoadBalancerNames
       type: object
     ReadLoadBalancerTagsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -4969,6 +5272,7 @@ components:
           type: array
       type: object
     ReadLoadBalancersRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -4977,6 +5281,7 @@ components:
           $ref: '#/components/schemas/FiltersLoadBalancer'
       type: object
     ReadLoadBalancersResponse:
+      additionalProperties: false
       properties:
         LoadBalancers:
           description: Information about one or more load balancers.
@@ -4987,12 +5292,14 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadLocationsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
       type: object
     ReadLocationsResponse:
+      additionalProperties: false
       properties:
         Locations:
           description: Information about one or more locations.
@@ -5003,6 +5310,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadNatServicesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5011,6 +5319,7 @@ components:
           $ref: '#/components/schemas/FiltersNatService'
       type: object
     ReadNatServicesResponse:
+      additionalProperties: false
       properties:
         NatServices:
           description: Information about one or more NAT services.
@@ -5021,6 +5330,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadNetAccessPointServicesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5029,6 +5339,7 @@ components:
           $ref: '#/components/schemas/FiltersService'
       type: object
     ReadNetAccessPointServicesResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5039,6 +5350,7 @@ components:
           type: array
       type: object
     ReadNetAccessPointsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5047,6 +5359,7 @@ components:
           $ref: '#/components/schemas/FiltersNetAccessPoint'
       type: object
     ReadNetAccessPointsResponse:
+      additionalProperties: false
       properties:
         NetAccessPoints:
           description: One or more Net access points.
@@ -5057,6 +5370,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadNetPeeringsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5065,6 +5379,7 @@ components:
           $ref: '#/components/schemas/FiltersNetPeering'
       type: object
     ReadNetPeeringsResponse:
+      additionalProperties: false
       properties:
         NetPeerings:
           description: Information about one or more Net peering connections.
@@ -5075,6 +5390,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadNetsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5083,6 +5399,7 @@ components:
           $ref: '#/components/schemas/FiltersNet'
       type: object
     ReadNetsResponse:
+      additionalProperties: false
       properties:
         Nets:
           description: Information about the described Nets.
@@ -5093,6 +5410,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadNicsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5101,6 +5419,7 @@ components:
           $ref: '#/components/schemas/FiltersNic'
       type: object
     ReadNicsResponse:
+      additionalProperties: false
       properties:
         Nics:
           description: Information about one or more NICs.
@@ -5111,6 +5430,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadProductTypesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5119,6 +5439,7 @@ components:
           $ref: '#/components/schemas/FiltersProductType'
       type: object
     ReadProductTypesResponse:
+      additionalProperties: false
       properties:
         ProductTypes:
           description: Information about one or more product types.
@@ -5129,12 +5450,14 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadPublicIpRangesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
       type: object
     ReadPublicIpRangesResponse:
+      additionalProperties: false
       properties:
         PublicIps:
           description: The list of public IPv4 addresses used in the Region, in CIDR notation.
@@ -5145,6 +5468,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadPublicIpsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5153,6 +5477,7 @@ components:
           $ref: '#/components/schemas/FiltersPublicIp'
       type: object
     ReadPublicIpsResponse:
+      additionalProperties: false
       properties:
         PublicIps:
           description: Information about one or more EIPs.
@@ -5163,6 +5488,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadQuotasRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5171,6 +5497,7 @@ components:
           $ref: '#/components/schemas/FiltersQuota'
       type: object
     ReadQuotasResponse:
+      additionalProperties: false
       properties:
         QuotaTypes:
           description: Information about one or more quotas.
@@ -5181,12 +5508,14 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadRegionsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
       type: object
     ReadRegionsResponse:
+      additionalProperties: false
       properties:
         Regions:
           description: Information about one or more Regions.
@@ -5197,6 +5526,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadRouteTablesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5205,6 +5535,7 @@ components:
           $ref: '#/components/schemas/FiltersRouteTable'
       type: object
     ReadRouteTablesResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5215,6 +5546,7 @@ components:
           type: array
       type: object
     ReadSecretAccessKeyRequest:
+      additionalProperties: false
       properties:
         AccessKeyId:
           description: The ID of the access key.
@@ -5223,6 +5555,7 @@ components:
       - AccessKeyId
       type: object
     ReadSecretAccessKeyResponse:
+      additionalProperties: false
       properties:
         AccessKey:
           $ref: '#/components/schemas/AccessKeySecretKey'
@@ -5230,6 +5563,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadSecurityGroupsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5238,6 +5572,7 @@ components:
           $ref: '#/components/schemas/FiltersSecurityGroup'
       type: object
     ReadSecurityGroupsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5248,6 +5583,7 @@ components:
           type: array
       type: object
     ReadServerCertificatesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5256,6 +5592,7 @@ components:
           $ref: '#/components/schemas/FiltersServerCertificate'
       type: object
     ReadServerCertificatesResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5266,6 +5603,7 @@ components:
           type: array
       type: object
     ReadSnapshotExportTasksRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5274,6 +5612,7 @@ components:
           $ref: '#/components/schemas/FiltersExportTask'
       type: object
     ReadSnapshotExportTasksResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5284,6 +5623,7 @@ components:
           type: array
       type: object
     ReadSnapshotsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5292,6 +5632,7 @@ components:
           $ref: '#/components/schemas/FiltersSnapshot'
       type: object
     ReadSnapshotsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5302,6 +5643,7 @@ components:
           type: array
       type: object
     ReadSubnetsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5310,6 +5652,7 @@ components:
           $ref: '#/components/schemas/FiltersSubnet'
       type: object
     ReadSubnetsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5320,6 +5663,7 @@ components:
           type: array
       type: object
     ReadSubregionsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5328,6 +5672,7 @@ components:
           $ref: '#/components/schemas/FiltersSubregion'
       type: object
     ReadSubregionsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5338,6 +5683,7 @@ components:
           type: array
       type: object
     ReadTagsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5346,6 +5692,7 @@ components:
           $ref: '#/components/schemas/FiltersTag'
       type: object
     ReadTagsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5356,6 +5703,7 @@ components:
           type: array
       type: object
     ReadVirtualGatewaysRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5364,6 +5712,7 @@ components:
           $ref: '#/components/schemas/FiltersVirtualGateway'
       type: object
     ReadVirtualGatewaysResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5374,6 +5723,7 @@ components:
           type: array
       type: object
     ReadVmTypesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5382,6 +5732,7 @@ components:
           $ref: '#/components/schemas/FiltersVmType'
       type: object
     ReadVmTypesResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5392,6 +5743,7 @@ components:
           type: array
       type: object
     ReadVmsHealthRequest:
+      additionalProperties: false
       properties:
         BackendVmIds:
           description: One or more IDs of back-end VMs.
@@ -5408,6 +5760,7 @@ components:
       - LoadBalancerName
       type: object
     ReadVmsHealthResponse:
+      additionalProperties: false
       properties:
         BackendVmHealth:
           description: Information about the health of one or more back-end VMs.
@@ -5418,6 +5771,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadVmsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5426,6 +5780,7 @@ components:
           $ref: '#/components/schemas/FiltersVm'
       type: object
     ReadVmsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5436,6 +5791,7 @@ components:
           type: array
       type: object
     ReadVmsStateRequest:
+      additionalProperties: false
       properties:
         AllVms:
           description: If `true`, includes the status of all VMs. By default or if set to `false`, only includes the status of running VMs.
@@ -5447,6 +5803,7 @@ components:
           $ref: '#/components/schemas/FiltersVmsState'
       type: object
     ReadVmsStateResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5457,6 +5814,7 @@ components:
           type: array
       type: object
     ReadVolumesRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5465,6 +5823,7 @@ components:
           $ref: '#/components/schemas/FiltersVolume'
       type: object
     ReadVolumesResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5475,6 +5834,7 @@ components:
           type: array
       type: object
     ReadVpnConnectionsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5483,6 +5843,7 @@ components:
           $ref: '#/components/schemas/FiltersVpnConnection'
       type: object
     ReadVpnConnectionsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5493,6 +5854,7 @@ components:
           type: array
       type: object
     RebootVmsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5506,11 +5868,13 @@ components:
       - VmIds
       type: object
     RebootVmsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     Region:
+      additionalProperties: false
       description: Information about the Region.
       properties:
         Endpoint:
@@ -5521,6 +5885,7 @@ components:
           type: string
       type: object
     RegisterVmsInLoadBalancerRequest:
+      additionalProperties: false
       properties:
         BackendVmIds:
           description: 'One or more IDs of back-end VMs.<br />
@@ -5540,11 +5905,13 @@ components:
       - LoadBalancerName
       type: object
     RegisterVmsInLoadBalancerResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     RejectNetPeeringRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5556,11 +5923,13 @@ components:
       - NetPeeringId
       type: object
     RejectNetPeeringResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ResetAccountPasswordRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5576,11 +5945,13 @@ components:
       - Token
       type: object
     ResetAccountPasswordResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ResourceLoadBalancerTag:
+      additionalProperties: false
       description: Information about the tag.
       properties:
         Key:
@@ -5588,6 +5959,7 @@ components:
           type: string
       type: object
     ResourceTag:
+      additionalProperties: false
       description: Information about the tag.
       properties:
         Key:
@@ -5601,6 +5973,7 @@ components:
       - Value
       type: object
     ResponseContext:
+      additionalProperties: false
       description: Information about the context of the response.
       properties:
         RequestId:
@@ -5608,6 +5981,7 @@ components:
           type: string
       type: object
     Route:
+      additionalProperties: false
       description: Information about the route.
       properties:
         CreationMethod:
@@ -5645,6 +6019,7 @@ components:
           type: string
       type: object
     RouteLight:
+      additionalProperties: false
       description: Information about the route.
       properties:
         DestinationIpRange:
@@ -5658,6 +6033,7 @@ components:
           type: string
       type: object
     RoutePropagatingVirtualGateway:
+      additionalProperties: false
       description: Information about the route propagating virtual gateway.
       properties:
         VirtualGatewayId:
@@ -5665,6 +6041,7 @@ components:
           type: string
       type: object
     RouteTable:
+      additionalProperties: false
       description: Information about the route table.
       properties:
         LinkRouteTables:
@@ -5695,6 +6072,7 @@ components:
           type: array
       type: object
     SecurityGroup:
+      additionalProperties: false
       description: Information about the security group.
       properties:
         AccountId:
@@ -5729,6 +6107,7 @@ components:
           type: array
       type: object
     SecurityGroupLight:
+      additionalProperties: false
       description: Information about the security group.
       properties:
         SecurityGroupId:
@@ -5739,6 +6118,7 @@ components:
           type: string
       type: object
     SecurityGroupRule:
+      additionalProperties: false
       description: Information about the security group rule.
       properties:
         FromPortRange:
@@ -5767,6 +6147,7 @@ components:
           type: integer
       type: object
     SecurityGroupsMember:
+      additionalProperties: false
       description: Information about the member of a security group.
       properties:
         AccountId:
@@ -5780,6 +6161,7 @@ components:
           type: string
       type: object
     SendResetPasswordEmailRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5791,11 +6173,13 @@ components:
       - Email
       type: object
     SendResetPasswordEmailResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     ServerCertificate:
+      additionalProperties: false
       description: Information about the server certificate.
       properties:
         ExpirationDate:
@@ -5817,6 +6201,7 @@ components:
           type: string
       type: object
     Service:
+      additionalProperties: false
       description: Information about the service.
       properties:
         IpRanges:
@@ -5832,6 +6217,7 @@ components:
           type: string
       type: object
     Snapshot:
+      additionalProperties: false
       description: Information about the snapshot.
       properties:
         AccountAlias:
@@ -5867,6 +6253,7 @@ components:
           type: integer
       type: object
     SnapshotExportTask:
+      additionalProperties: false
       description: Information about the snapshot export task.
       properties:
         Comment:
@@ -5893,6 +6280,7 @@ components:
           type: string
       type: object
     SourceNet:
+      additionalProperties: false
       description: Information about the source Net.
       properties:
         AccountId:
@@ -5906,6 +6294,7 @@ components:
           type: string
       type: object
     SourceSecurityGroup:
+      additionalProperties: false
       description: 'Information about the source security group of the load balancer, which you can use as part of your inbound rules for your registered VMs.<br />
 
         To only allow traffic from load balancers, add a security group rule that specifies this source security group as the inbound source.'
@@ -5918,6 +6307,7 @@ components:
           type: string
       type: object
     StartVmsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5931,6 +6321,7 @@ components:
       - VmIds
       type: object
     StartVmsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5941,6 +6332,7 @@ components:
           type: array
       type: object
     StateComment:
+      additionalProperties: false
       description: Information about the change of state.
       properties:
         StateCode:
@@ -5951,6 +6343,7 @@ components:
           type: string
       type: object
     StopVmsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -5967,6 +6360,7 @@ components:
       - VmIds
       type: object
     StopVmsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -5977,6 +6371,7 @@ components:
           type: array
       type: object
     Subnet:
+      additionalProperties: false
       description: Information about the Subnet.
       properties:
         AvailableIpsCount:
@@ -6007,6 +6402,7 @@ components:
           type: array
       type: object
     Subregion:
+      additionalProperties: false
       description: Information about the Subregion.
       properties:
         RegionName:
@@ -6020,6 +6416,7 @@ components:
           type: string
       type: object
     Tag:
+      additionalProperties: false
       description: Information about the tag.
       properties:
         Key:
@@ -6036,6 +6433,7 @@ components:
           type: string
       type: object
     UnlinkFlexibleGpuRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6047,11 +6445,13 @@ components:
       - FlexibleGpuId
       type: object
     UnlinkFlexibleGpuResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UnlinkInternetServiceRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6067,11 +6467,13 @@ components:
       - NetId
       type: object
     UnlinkInternetServiceResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UnlinkNicRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6083,11 +6485,13 @@ components:
       - LinkNicId
       type: object
     UnlinkNicResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UnlinkPrivateIpsRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6105,11 +6509,13 @@ components:
       - PrivateIps
       type: object
     UnlinkPrivateIpsResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UnlinkPublicIpRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6122,11 +6528,13 @@ components:
           type: string
       type: object
     UnlinkPublicIpResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UnlinkRouteTableRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6138,11 +6546,13 @@ components:
       - LinkRouteTableId
       type: object
     UnlinkRouteTableResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UnlinkVirtualGatewayRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6158,11 +6568,13 @@ components:
       - VirtualGatewayId
       type: object
     UnlinkVirtualGatewayResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UnlinkVolumeRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6177,11 +6589,13 @@ components:
       - VolumeId
       type: object
     UnlinkVolumeResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateAccessKeyRequest:
+      additionalProperties: false
       properties:
         AccessKeyId:
           description: The ID of the access key.
@@ -6194,6 +6608,7 @@ components:
       - State
       type: object
     UpdateAccessKeyResponse:
+      additionalProperties: false
       properties:
         AccessKey:
           $ref: '#/components/schemas/AccessKey'
@@ -6201,6 +6616,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateAccountRequest:
+      additionalProperties: false
       properties:
         City:
           description: The new city of the account owner.
@@ -6243,6 +6659,7 @@ components:
           type: string
       type: object
     UpdateAccountResponse:
+      additionalProperties: false
       properties:
         Account:
           $ref: '#/components/schemas/Account'
@@ -6250,6 +6667,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateFlexibleGpuRequest:
+      additionalProperties: false
       properties:
         DeleteOnVmDeletion:
           description: If `true`, the fGPU is deleted when the VM is terminated.
@@ -6264,6 +6682,7 @@ components:
       - FlexibleGpuId
       type: object
     UpdateFlexibleGpuResponse:
+      additionalProperties: false
       properties:
         FlexibleGpu:
           $ref: '#/components/schemas/FlexibleGpu'
@@ -6271,6 +6690,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateImageRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6285,6 +6705,7 @@ components:
       - PermissionsToLaunch
       type: object
     UpdateImageResponse:
+      additionalProperties: false
       properties:
         Image:
           $ref: '#/components/schemas/Image'
@@ -6292,6 +6713,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateListenerRuleRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6309,6 +6731,7 @@ components:
       - ListenerRuleName
       type: object
     UpdateListenerRuleResponse:
+      additionalProperties: false
       properties:
         ListenerRule:
           $ref: '#/components/schemas/ListenerRule'
@@ -6316,6 +6739,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateLoadBalancerRequest:
+      additionalProperties: false
       properties:
         AccessLog:
           $ref: '#/components/schemas/AccessLog'
@@ -6342,6 +6766,7 @@ components:
       - LoadBalancerName
       type: object
     UpdateLoadBalancerResponse:
+      additionalProperties: false
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
@@ -6349,6 +6774,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateNetAccessPointRequest:
+      additionalProperties: false
       properties:
         AddRouteTableIds:
           description: One or more IDs of route tables to associate with the specified Net access point.
@@ -6370,6 +6796,7 @@ components:
       - NetAccessPointId
       type: object
     UpdateNetAccessPointResponse:
+      additionalProperties: false
       properties:
         NetAccessPoint:
           $ref: '#/components/schemas/NetAccessPoint'
@@ -6377,6 +6804,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateNetRequest:
+      additionalProperties: false
       properties:
         DhcpOptionsSetId:
           description: The ID of the DHCP options set (or `default` if you want to associate the default one).
@@ -6392,6 +6820,7 @@ components:
       - NetId
       type: object
     UpdateNetResponse:
+      additionalProperties: false
       properties:
         Net:
           $ref: '#/components/schemas/Net'
@@ -6399,6 +6828,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateNicRequest:
+      additionalProperties: false
       properties:
         Description:
           description: A new description for the NIC.
@@ -6422,6 +6852,7 @@ components:
       - NicId
       type: object
     UpdateNicResponse:
+      additionalProperties: false
       properties:
         Nic:
           $ref: '#/components/schemas/Nic'
@@ -6429,6 +6860,7 @@ components:
           $ref: '#/components/schemas/ResponseContext'
       type: object
     UpdateRoutePropagationRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6448,6 +6880,7 @@ components:
       - VirtualGatewayId
       type: object
     UpdateRoutePropagationResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -6455,6 +6888,7 @@ components:
           $ref: '#/components/schemas/RouteTable'
       type: object
     UpdateRouteRequest:
+      additionalProperties: false
       properties:
         DestinationIpRange:
           description: The IP range used for the destination match, in CIDR notation (for example, 10.0.0.0/24).
@@ -6485,6 +6919,7 @@ components:
       - DestinationIpRange
       type: object
     UpdateRouteResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -6492,6 +6927,7 @@ components:
           $ref: '#/components/schemas/RouteTable'
       type: object
     UpdateServerCertificateRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6507,6 +6943,7 @@ components:
           type: string
       type: object
     UpdateServerCertificateResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -6514,6 +6951,7 @@ components:
           $ref: '#/components/schemas/ServerCertificate'
       type: object
     UpdateSnapshotRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6528,6 +6966,7 @@ components:
       - PermissionsToCreateVolume
       type: object
     UpdateSnapshotResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -6535,6 +6974,7 @@ components:
           $ref: '#/components/schemas/Snapshot'
       type: object
     UpdateSubnetRequest:
+      additionalProperties: false
       properties:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -6550,6 +6990,7 @@ components:
       - MapPublicIpOnLaunch
       type: object
     UpdateSubnetResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -6557,6 +6998,7 @@ components:
           $ref: '#/components/schemas/Subnet'
       type: object
     UpdateVmRequest:
+      additionalProperties: false
       properties:
         BlockDeviceMappings:
           description: One or more block device mappings of the VM.
@@ -6608,6 +7050,7 @@ components:
       - VmId
       type: object
     UpdateVmResponse:
+      additionalProperties: false
       properties:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -6615,6 +7058,7 @@ components:
           $ref: '#/components/schemas/Vm'
       type: object
     VirtualGateway:
+      additionalProperties: false
       description: Information about the virtual gateway.
       properties:
         ConnectionType:
@@ -6638,6 +7082,7 @@ components:
           type: string
       type: object
     Vm:
+      additionalProperties: false
       description: Information about the VM.
       properties:
         Architecture:
@@ -6747,6 +7192,7 @@ components:
           type: string
       type: object
     VmState:
+      additionalProperties: false
       description: Information about the state of the VM.
       properties:
         CurrentState:
@@ -6760,6 +7206,7 @@ components:
           type: string
       type: object
     VmStates:
+      additionalProperties: false
       description: Information about the states of the VMs.
       properties:
         MaintenanceEvents:
@@ -6778,6 +7225,7 @@ components:
           type: string
       type: object
     VmType:
+      additionalProperties: false
       description: Information about the VM type.
       properties:
         BsuOptimized:
@@ -6804,6 +7252,7 @@ components:
           type: integer
       type: object
     Volume:
+      additionalProperties: false
       description: Information about the volume.
       properties:
         Iops:
@@ -6843,6 +7292,7 @@ components:
           type: string
       type: object
     VpnConnection:
+      additionalProperties: false
       description: Information about a VPN connection.
       properties:
         ClientGatewayConfiguration:
@@ -6878,6 +7328,7 @@ components:
           type: string
       type: object
     With:
+      additionalProperties: false
       description: The information to be displayed in the API logs to retrieve.
       properties:
         AccountId:
@@ -6953,7 +7404,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.0'
+  version: '1.1'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -7083,7 +7534,7 @@ paths:
       tags:
       - ClientGateway
   /CreateDhcpOptions:
-    description: Creates a new set of DHCP options that you can then associate with a Net.
+    description: Creates a new set of DHCP options, that you can then associate with a Net using the [UpdateNet](#updatenet) method.
     post:
       operationId: CreateDhcpOptions
       requestBody:
@@ -7327,7 +7778,7 @@ paths:
       tags:
       - Keypair
   /CreateListenerRule:
-    description: 'Creates a rule for traffic redirection for the specified listener. Each rule must have either the `HostNamePattern` or `PathPattern` parameter specified. Rules are treated in priority order, from the lowest value to the highest value.<br />
+    description: 'Creates a rule for traffic redirection for the specified listener. Each rule must have either the `HostNamePattern` or `PathPattern` parameter specified. Rules are treated in priority order, from the highest value to the lowest value.<br />
 
       Once the rule is created, you need to register backend VMs with it. For more information, see the [RegisterVmsInLoadBalancer](#registervmsinloadbalancer) method.'
     post:
@@ -9552,7 +10003,7 @@ paths:
                 $ref: '#/components/schemas/ReadAccessKeysResponse'
           description: Information about the response.
       tags:
-      - AccessKeys
+      - AccessKey
   /ReadAccounts:
     description: Gets information about the account that sent the request.
     post:
@@ -10326,7 +10777,7 @@ paths:
           description: The HTTP 200 response (OK).
       security: []
       tags:
-      - PublicIpRange
+      - PublicIp
   /ReadPublicIps:
     description: 'Lists one or more External IP addresses (EIPs) allocated to your account.<br />
 
@@ -10471,7 +10922,7 @@ paths:
                 $ref: '#/components/schemas/ReadSecretAccessKeyResponse'
           description: Information about the response.
       tags:
-      - SecretAccessKeys
+      - AccessKey
   /ReadSecurityGroups:
     description: 'Lists one or more security groups.<br />
 
@@ -10818,7 +11269,7 @@ paths:
                 $ref: '#/components/schemas/ReadVmsHealthResponse'
           description: The HTTP 200 response (OK).
       tags:
-      - Health
+      - LoadBalancer
   /ReadVmsState:
     description: 'Lists the status of one or more virtual machines (VMs).<br /><br />
 
@@ -11051,7 +11502,7 @@ paths:
                 $ref: '#/components/schemas/ResetAccountPasswordResponse'
           description: Information about the response.
       tags:
-      - AccountPassword
+      - Account
   /SendResetPasswordEmail:
     description: 'Sends an email to the email address provided for the account with a token to reset your password.<br />
 
@@ -11075,7 +11526,7 @@ paths:
                 $ref: '#/components/schemas/SendResetPasswordEmailResponse'
           description: Information about the response.You need to provide this token when updating the account password using the ResetAccountPassword method.
       tags:
-      - ResetPasswordEmail
+      - Account
   /StartVms:
     description: 'Start one or more virtual machines (VMs).<br />
 
@@ -11886,3 +12337,5 @@ servers:
   variables:
     region:
       default: cn-southeast-1
+      enum:
+      - cn-southeast-1
