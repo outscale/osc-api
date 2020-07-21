@@ -50,7 +50,7 @@ components:
           format: datetime
           type: string
         State:
-          description: The state of the access key (`Active` if the key is valid for API calls, or `Inactive` if not).
+          description: The state of the access key (`ACTIVE` if the key is valid for API calls, or `INACTIVE` if not).
           type: string
       type: object
     AccessKeySecretKey:
@@ -72,7 +72,7 @@ components:
           description: The secret access key that enables you to send requests.
           type: string
         State:
-          description: The state of the secret access key (`Active` if the key is valid for API calls, or `Inactive` if not).
+          description: The state of the secret access key (`ACTIVE` if the key is valid for API calls, or `INACTIVE` if not).
           type: string
       type: object
     AccessLog:
@@ -109,7 +109,7 @@ components:
           description: The country of the account owner.
           type: string
         CustomerId:
-          description: The ID of the customer. It must be 8 digits (by default, `12345678`).
+          description: The ID of the customer.
           type: string
         Email:
           description: The email address for the account.
@@ -303,7 +303,7 @@ components:
       description: Information about the client gateway.
       properties:
         BgpAsn:
-          description: An unsigned 32-bits Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find out the path to your client gateway through the Internet network.
+          description: An Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet.
           type: integer
         ClientGatewayId:
           description: The ID of the client gateway.
@@ -352,6 +352,13 @@ components:
           description: The consumed amount for the resource. The unit depends on the resource type. For more information, see the `Title` element.
           type: string
       type: object
+    CreateAccessKeyRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      type: object
     CreateAccessKeyResponse:
       additionalProperties: false
       properties:
@@ -373,7 +380,7 @@ components:
           description: The country of the account owner.
           type: string
         CustomerId:
-          description: The ID of the customer. It must be 8 digits (by default, `12345678`).
+          description: The ID of the customer. It must be 8 digits.
           type: string
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
@@ -427,7 +434,7 @@ components:
       additionalProperties: false
       properties:
         BgpAsn:
-          description: An unsigned 32-bits Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find out the path to your client gateway through the Internet network. The integer must be within the [0;4294967295] range. By default, 65000.
+          description: An Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet.
           type: integer
         ConnectionType:
           description: The communication protocol used to establish tunnel with your client gateway (only `ipsec.1` is supported).
@@ -1196,6 +1203,7 @@ components:
           type: string
         SnapshotSize:
           description: The size of the snapshot created in your account, in bytes. This size must be exactly the same as the source snapshot one.
+          format: int64
           type: integer
         SourceRegionName:
           description: The name of the source Region, which must be the same as the Region of your account.
@@ -1363,7 +1371,7 @@ components:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
           type: string
         VmType:
-          description: 'The type of VM (`tinav2.c1r2` by default).<br />
+          description: 'The type of VM (`t2.small` by default).<br />
 
             For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).'
           type: string
@@ -2360,7 +2368,7 @@ components:
             type: string
           type: array
         States:
-          description: The states of the access keys (`active` \| `inactive`).
+          description: The states of the access keys (`ACTIVE` \| `INACTIVE`).
           items:
             type: string
           type: array
@@ -2699,6 +2707,16 @@ components:
           items:
             type: string
           type: array
+        LinkNetIds:
+          description: The IDs of the Nets the Internet services are attached to.
+          items:
+            type: string
+          type: array
+        LinkStates:
+          description: The current states of the attachments between the Internet services and the Nets (only `available`, if the Internet gateway is attached to a VPC).
+          items:
+            type: string
+          type: array
         TagKeys:
           description: The keys of the tags associated with the Internet services.
           items:
@@ -2804,6 +2822,9 @@ components:
           items:
             type: string
           type: array
+        IsDefault:
+          description: If `true`, the Net used is the default one.
+          type: boolean
         NetIds:
           description: The IDs of the Nets.
           items:
@@ -3064,11 +3085,19 @@ components:
       additionalProperties: false
       description: One or more filters.
       properties:
+        LinkRouteTableIds:
+          description: The IDs of the route tables involved in the associations.
+          items:
+            type: string
+          type: array
         LinkRouteTableLinkRouteTableIds:
           description: The IDs of the associations between the route tables and the Subnets.
           items:
             type: string
           type: array
+        LinkRouteTableMain:
+          description: If `true`, the route tables are the main ones for their Nets.
+          type: boolean
         LinkSubnetIds:
           description: The IDs of the Subnets involved in the associations.
           items:
@@ -3086,6 +3115,11 @@ components:
           type: array
         RouteDestinationIpRanges:
           description: The IP ranges specified in routes in the tables.
+          items:
+            type: string
+          type: array
+        RouteDestinationServiceIds:
+          description: The service IDs specified in routes in the tables.
           items:
             type: string
           type: array
@@ -3141,6 +3175,11 @@ components:
       properties:
         AccountIds:
           description: The account IDs of the owners of the security groups.
+          items:
+            type: string
+          type: array
+        NetIds:
+          description: The IDs of the Nets specified when the security groups were created.
           items:
             type: string
           type: array
@@ -3610,7 +3649,9 @@ components:
       properties:
         Generations:
           description: The generations of VMs that the fGPU is compatible with.
-          type: string
+          items:
+            type: string
+          type: array
         MaxCpu:
           description: The maximum number of VM vCores that the fGPU is compatible with.
           type: integer
@@ -4888,6 +4929,9 @@ components:
     ReadAccessKeysRequest:
       additionalProperties: false
       properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
         Filters:
           $ref: '#/components/schemas/FiltersAccessKeys'
       type: object
@@ -5551,6 +5595,9 @@ components:
         AccessKeyId:
           description: The ID of the access key.
           type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
       required:
       - AccessKeyId
       type: object
@@ -6600,8 +6647,11 @@ components:
         AccessKeyId:
           description: The ID of the access key.
           type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
         State:
-          description: The new state for the access key (`active` \| `inactive`).
+          description: The new state for the access key (`ACTIVE` \| `INACTIVE`).
           type: string
       required:
       - AccessKeyId
@@ -7404,7 +7454,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.1'
+  version: '1.2'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -7470,11 +7520,14 @@ paths:
       tags:
       - Account
   /CreateAccessKey:
-    description: Creates a new secret access key and the corresponding access key ID for a specified user. The created key is automatically set to `active`.
+    description: Creates a new secret access key and the corresponding access key ID for a specified user. The created key is automatically set to `ACTIVE`.
     post:
       operationId: CreateAccessKey
       requestBody:
-        content: {}
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccessKeyRequest'
       responses:
         '200':
           content:
@@ -7514,9 +7567,7 @@ paths:
 
       This action registers information to identify the client gateway that you deployed in your network.<br />
 
-      To open a tunnel to the client gateway, you must at least provide the communication protocol type, the valid fixed public IP address of the gateway, and an Autonomous System Number (ASN).<br />
-
-      If you do not have any ASN assigned to your network, you may use a private ASN within the [64000; 64495] or [4200000000; 4294967294] ranges. By default, you can use 65000 as BGP ASN.'
+      To open a tunnel to the client gateway, you must provide the communication protocol type, the valid fixed public IP address of the gateway, and an Autonomous System Number (ASN).'
     post:
       operationId: CreateClientGateway
       requestBody:
@@ -11875,7 +11926,7 @@ paths:
   /UpdateAccessKey:
     description: 'Modifies the status of the specified access key associated with the account that sends the request.<br />
 
-      When set to `active`, the access key is enabled and can be used to send requests. When set to `inactive`, the access key is disabled.<br /><br />
+      When set to `ACTIVE`, the access key is enabled and can be used to send requests. When set to `INACTIVE`, the access key is disabled.<br /><br />
 
 
       **[NOTE]**<br />
