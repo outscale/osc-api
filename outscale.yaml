@@ -45,6 +45,10 @@ components:
           description: The date and time of creation of the access key.
           format: datetime
           type: string
+        ExpirationDate:
+          description: The date at which the access key expires.
+          format: datetime
+          type: string
         LastModificationDate:
           description: The date and time of the last modification of the access key.
           format: datetime
@@ -62,6 +66,10 @@ components:
           type: string
         CreationDate:
           description: The date and time of creation of the secret access key.
+          format: datetime
+          type: string
+        ExpirationDate:
+          description: The date at which the access key expires.
           format: datetime
           type: string
         LastModificationDate:
@@ -358,6 +366,10 @@ components:
         DryRun:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
+        ExpirationDate:
+          description: The date and time at which you want the access key to expire, in ISO 8601 format (for example, `2017-06-14` or `2017-06-14T00:00:00Z`). If not specified, the access key has no expiration date.
+          format: datetime
+          type: string
       type: object
     CreateAccessKeyResponse:
       additionalProperties: false
@@ -1067,7 +1079,7 @@ components:
           description: The ID of the Net for the security group.
           type: string
         SecurityGroupName:
-          description: '(Public Cloud only) The name of the security group.<br />
+          description: 'The name of the security group.<br />
 
             This name must not start with `sg-`.</br>
 
@@ -1929,7 +1941,7 @@ components:
           description: The ID of the security group you want to delete.
           type: string
         SecurityGroupName:
-          description: (Public Cloud only) The name of the security group.
+          description: The name of the security group.
           type: string
       type: object
     DeleteSecurityGroupResponse:
@@ -2393,11 +2405,11 @@ components:
             type: string
           type: array
         QueryDateAfter:
-          description: The logs of the queries made after the date and time you specify (in ISO 8601 base or extended format).
+          description: The logs of the queries made after the date you specify, in ISO 8601 format (for example, `2017-06-14`).
           format: date
           type: string
         QueryDateBefore:
-          description: The logs of the queries made before the date and time you specify (in ISO 8601 base or extended format).
+          description: The logs of the queries made before the date you specify, in ISO 8601 format (for example, `2017-06-14`).
           format: date
           type: string
         QueryIpAddresses:
@@ -2538,21 +2550,6 @@ components:
       additionalProperties: false
       description: One or more filters.
       properties:
-        TagKeys:
-          description: The keys of the tags associated with the export tasks.
-          items:
-            type: string
-          type: array
-        TagValues:
-          description: The values of the tags associated with the export tasks.
-          items:
-            type: string
-          type: array
-        Tags:
-          description: 'The key/value combination of the tags associated with the export tasks, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
-          items:
-            type: string
-          type: array
         TaskIds:
           description: The IDs of the export tasks.
           items:
@@ -2568,6 +2565,11 @@ components:
           type: boolean
         FlexibleGpuIds:
           description: One or more IDs of fGPUs.
+          items:
+            type: string
+          type: array
+        Generations:
+          description: The processor generations that the fGPUs are compatible with.
           items:
             type: string
           type: array
@@ -3334,6 +3336,21 @@ components:
           items:
             type: string
           type: array
+        TagKeys:
+          description: The keys of the tags associated with the Subnets.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the Subnets.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the Subnets, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          items:
+            type: string
+          type: array
       type: object
     FiltersSubregion:
       additionalProperties: false
@@ -3606,6 +3623,21 @@ components:
         StaticRoutesOnly:
           description: If `false`, the VPN connection uses dynamic routing with Border Gateway Protocol (BGP). If `true`, routing is controlled using static routes. For more information about how to create and delete static routes, see [CreateVpnConnectionRoute](#createvpnconnectionroute) and [DeleteVpnConnectionRoute](#deletevpnconnectionroute).
           type: boolean
+        TagKeys:
+          description: The keys of the tags associated with the VPN connections.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the VPN connections.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the VPN connections, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          items:
+            type: string
+          type: array
         VirtualGatewayIds:
           description: The IDs of the virtual gateways.
           items:
@@ -4419,7 +4451,7 @@ components:
           description: The name of the call.
           type: string
         QueryDate:
-          description: The date and time of the query (in ISO 8601 base or extended format).
+          description: The date of the query, in ISO 8601 format.
           format: date
           type: string
         QueryHeaderRaw:
@@ -5070,11 +5102,11 @@ components:
           description: If `true`, checks whether you have the required permissions to perform the action.
           type: boolean
         FromDate:
-          description: The beginning of the time period, in ISO-8601 format with the date only (for example, `2017-06-14` or `2017-06-14T00:00:00Z`).
+          description: The beginning of the time period, in ISO 8601 date-time format (for example, `2017-06-14` or `2017-06-14T00:00:00Z`).
           format: datetime
           type: string
         ToDate:
-          description: The end of the time period, in ISO-8601 format with the date only (for example, `2017-06-30` or `2017-06-30T00:00:00Z`).
+          description: The end of the time period, in ISO 8601 date-time format (for example, `2017-06-30` or `2017-06-30T00:00:00Z`).
           format: datetime
           type: string
       required:
@@ -6145,7 +6177,7 @@ components:
           description: The ID of the security group.
           type: string
         SecurityGroupName:
-          description: (Public Cloud only) The name of the security group.
+          description: The name of the security group.
           type: string
         Tags:
           description: One or more tags associated with the security group.
@@ -6161,7 +6193,7 @@ components:
           description: The ID of the security group.
           type: string
         SecurityGroupName:
-          description: (Public Cloud only) The name of the security group.
+          description: The name of the security group.
           type: string
       type: object
     SecurityGroupRule:
@@ -6204,7 +6236,7 @@ components:
           description: The ID of the security group.
           type: string
         SecurityGroupName:
-          description: (Public Cloud only) The name of the security group.
+          description: The name of the security group.
           type: string
       type: object
     SendResetPasswordEmailRequest:
@@ -6350,7 +6382,7 @@ components:
           description: The account ID of the owner of the security group.
           type: string
         SecurityGroupName:
-          description: (Public Cloud only) The name of the security group.
+          description: The name of the security group.
           type: string
       type: object
     StartVmsRequest:
@@ -7454,7 +7486,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.2'
+  version: '1.3'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -7785,9 +7817,9 @@ paths:
       This action returns the private key that you need to save. The public key is stored by 3DS OUTSCALE.<br /><br />
 
 
-      You can also use this method to import a provided public key and create a keypair.<br />
+      You can also import a public key in one of the following formats: 1024-bit RSA, 2048-bit RSA, 4096-bit RSA, ECDSA and Ed25519.<br />
 
-      This action imports the public key of a keypair created by a third-party tool and uses it to create a new keypair. The private key is never provided to 3DS OUTSCALE.'
+      This action imports the public key of a keypair created by a third-party tool and uses it to create a new 2048-bit RSA keypair. The private key is never provided to 3DS OUTSCALE.'
     post:
       operationId: CreateKeypair
       requestBody:
@@ -10219,6 +10251,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ReadConsumptionAccountResponse'
           description: Information about the response.
+      tags:
+      - Account
   /ReadDhcpOptions:
     description: 'Retrieves information about the content of one or more DHCP options sets.<br /><br />
 
@@ -12381,6 +12415,7 @@ servers:
     region:
       default: eu-west-2
       enum:
+      - cloudgouv-eu-west-1
       - eu-west-2
       - us-east-2
       - us-west-1
