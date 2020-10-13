@@ -793,9 +793,7 @@ components:
           description: 'The type of load balancer: `internet-facing` or `internal`. Use this parameter only for load balancers in a Net.'
           type: string
         SecurityGroups:
-          description: 'One or more IDs of security groups you want to assign to the load balancer.<br />
-
-            In a Net, this attribute is required. In the public Cloud, it is optional and default security groups can be applied.'
+          description: (Net only) One or more IDs of security groups you want to assign to the load balancer. If not specified, the default security group of the Net is assigned to the load balancer.
           items:
             type: string
           type: array
@@ -3725,7 +3723,6 @@ components:
       required:
       - CheckInterval
       - HealthyThreshold
-      - Path
       - Port
       - Protocol
       - Timeout
@@ -4770,18 +4767,18 @@ components:
       description: Information about the OSU export.
       properties:
         DiskImageFormat:
-          description: The format of the export disk (`qcow2` \| `vdi` \| `vmdk`).
+          description: The format of the export disk (`qcow2` \| `raw`).
           type: string
         OsuApiKey:
           $ref: '#/components/schemas/OsuApiKey'
         OsuBucket:
-          description: The name of the OSU bucket you want to export the object to.
+          description: The name of the OSU bucket where you want to export the object.
           type: string
         OsuManifestUrl:
           description: The URL of the manifest file.
           type: string
         OsuPrefix:
-          description: 'The prefix for the key of the OSU object. This key follows this format: `prefix + object_export_task_id + ''.'' + disk_image_format`.'
+          description: The prefix for the key of the OSU object.
           type: string
       required:
       - DiskImageFormat
@@ -7486,7 +7483,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.3'
+  version: '1.4'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
