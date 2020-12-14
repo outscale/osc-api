@@ -147,6 +147,32 @@ components:
           description: The ZIP code of the city.
           type: string
       type: object
+    ApiAccessRule:
+      additionalProperties: false
+      description: Information about the API access rule.
+      properties:
+        ApiAccessRuleId:
+          description: ' The ID of the API access rule.'
+          type: string
+        CaIds:
+          description: One or more IDs of Client Certificate Authorities (CAs) used for the API access rule.
+          items:
+            type: string
+          type: array
+        Cns:
+          description: One or more Client Certificate Common Names (CNs).
+          items:
+            type: string
+          type: array
+        Description:
+          description: The description of the API access rule.
+          type: string
+        IpRanges:
+          description: One or more IP ranges used for the API access rule, in CIDR notation (for example, 192.0.2.0/16).
+          items:
+            type: string
+          type: array
+      type: object
     ApplicationStickyCookiePolicy:
       additionalProperties: false
       description: Information about the stickiness policy.
@@ -287,6 +313,20 @@ components:
           description: The ID of the volume.
           type: string
       type: object
+    Ca:
+      additionalProperties: false
+      description: Information about the Client Certificate Authority (CA).
+      properties:
+        CaFingerprint:
+          description: The fingerprint of the CA.
+          type: string
+        CaId:
+          description: The ID of the CA.
+          type: string
+        Description:
+          description: The description of the CA.
+          type: string
+      type: object
     CheckAuthenticationRequest:
       additionalProperties: false
       properties:
@@ -358,7 +398,8 @@ components:
           type: string
         Value:
           description: The consumed amount for the resource. The unit depends on the resource type. For more information, see the `Title` element.
-          type: string
+          format: double
+          type: number
       type: object
     CreateAccessKeyRequest:
       additionalProperties: false
@@ -439,6 +480,62 @@ components:
       properties:
         Account:
           $ref: '#/components/schemas/Account'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    CreateApiAccessRuleRequest:
+      additionalProperties: false
+      properties:
+        CaIds:
+          description: ' One or more IDs of Client Certificate Authorities (CAs).'
+          items:
+            type: string
+          type: array
+        Cns:
+          description: One or more Client Certificate Common Names (CNs). If this parameter is specified, you must also specify the `CaIds` parameter.
+          items:
+            type: string
+          type: array
+        Description:
+          description: A description for the API access rule.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        IpRanges:
+          description: One or more IP ranges, in CIDR notation (for example, 192.0.2.0/16).
+          items:
+            type: string
+          type: array
+      type: object
+    CreateApiAccessRuleResponse:
+      additionalProperties: false
+      properties:
+        ApiAccessRule:
+          $ref: '#/components/schemas/ApiAccessRule'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    CreateCaRequest:
+      additionalProperties: false
+      properties:
+        CaPem:
+          description: The CA in PEM format.
+          type: string
+        Description:
+          description: The description of the CA.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      required:
+      - CaPem
+      type: object
+    CreateCaResponse:
+      additionalProperties: false
+      properties:
+        Ca:
+          $ref: '#/components/schemas/Ca'
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -850,6 +947,24 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    CreateMasterKeyRequest:
+      additionalProperties: false
+      properties:
+        Description:
+          description: A description for the master key, between 0 and 8192 Unicode characters.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      type: object
+    CreateMasterKeyResponse:
+      additionalProperties: false
+      properties:
+        MasterKey:
+          $ref: '#/components/schemas/MasterKey'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     CreateNatServiceRequest:
       additionalProperties: false
       properties:
@@ -891,7 +1006,7 @@ components:
             type: string
           type: array
         ServiceName:
-          description: The prefix list name corresponding to the service (for example, `com.outscale.eu-west-2.osu` for OSU).
+          description: The name of the service (in the format `com.outscale.region.service`).
           type: string
       required:
       - ServiceName
@@ -1348,7 +1463,7 @@ components:
           type: array
         Performance:
           default: high
-          description: The performance of the VM (`standard` \| `high` \|  `highest`).
+          description: The performance of the VM (`medium` \| `high` \|  `highest`).
           enum:
           - medium
           - high
@@ -1409,7 +1524,7 @@ components:
           description: The number of I/O operations per second (IOPS). This parameter must be specified only if you create an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is `13000`.
           type: integer
         Size:
-          description: 'The size of the volume, in gibibytes (GiB). The maximum allowed size for a volume is 14,901 GiB. This parameter is required if the volume is not created from a snapshot (`SnapshotId` unspecified). '
+          description: 'The size of the volume, in gibibytes (GiB). The maximum allowed size for a volume is 14901 GiB. This parameter is required if the volume is not created from a snapshot (`SnapshotId` unspecified). '
           type: integer
         SnapshotId:
           description: The ID of the snapshot from which you want to create the volume.
@@ -1486,6 +1601,34 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    DecryptCiphertextRequest:
+      additionalProperties: false
+      properties:
+        Ciphertext:
+          description: The ciphertext you want to decrypt.
+          format: byte
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        EncryptionContext:
+          $ref: '#/components/schemas/EncryptionContext'
+      required:
+      - Ciphertext
+      type: object
+    DecryptCiphertextResponse:
+      additionalProperties: false
+      properties:
+        MasterKeyId:
+          description: The ID of the master key used to decrypt the data.
+          type: string
+        Plaintext:
+          description: The decrypted ciphertext, encoded in base64.
+          format: byte
+          type: string
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     DeleteAccessKeyRequest:
       additionalProperties: false
       properties:
@@ -1499,6 +1642,42 @@ components:
       - AccessKeyId
       type: object
     DeleteAccessKeyResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    DeleteApiAccessRuleRequest:
+      additionalProperties: false
+      properties:
+        ApiAccessRuleId:
+          description: The ID of the API access rule you want to delete.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      required:
+      - ApiAccessRuleId
+      type: object
+    DeleteApiAccessRuleResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    DeleteCaRequest:
+      additionalProperties: false
+      properties:
+        CaId:
+          description: The ID of the CA you want to delete.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      required:
+      - CaId
+      type: object
+    DeleteCaResponse:
       additionalProperties: false
       properties:
         ResponseContext:
@@ -1773,6 +1952,27 @@ components:
       - Tags
       type: object
     DeleteLoadBalancerTagsResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    DeleteMasterKeyRequest:
+      additionalProperties: false
+      properties:
+        DaysUntilDeletion:
+          description: The waiting period before deletion, in days (between `7` and `30`). By default, `30`.
+          type: integer
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        MasterKeyId:
+          description: The ID of the master key.
+          type: string
+      required:
+      - MasterKeyId
+      type: object
+    DeleteMasterKeyResponse:
       additionalProperties: false
       properties:
         ResponseContext:
@@ -2207,9 +2407,6 @@ components:
         Default:
           description: If `true`, the DHCP options set is a default one. If `false`, it is not.
           type: boolean
-        DhcpOptionsName:
-          description: The name of the DHCP options set.
-          type: string
         DhcpOptionsSetId:
           description: The ID of the DHCP options set.
           type: string
@@ -2343,6 +2540,43 @@ components:
           description: The VLAN number associated with the DirectLink interface.
           type: integer
       type: object
+    EncryptPlaintextRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        EncryptionContext:
+          $ref: '#/components/schemas/EncryptionContext'
+        MasterKeyId:
+          description: The ID of the master key used to encrypt the data.
+          type: string
+        Plaintext:
+          description: 'The plaintext you want to encrypt, encoded in base64.<br />
+
+            This base64-encoded plaintext must contain between 1 and 4096 characters.'
+          format: byte
+          type: string
+      required:
+      - MasterKeyId
+      - Plaintext
+      type: object
+    EncryptPlaintextResponse:
+      additionalProperties: false
+      properties:
+        Ciphertext:
+          description: The encrypted plaintext.
+          format: byte
+          type: string
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    EncryptionContext:
+      additionalProperties:
+        description: EncryptionContext_Element
+        type: string
+      description: Information about the encryption context.
+      type: object
     ErrorResponse:
       additionalProperties: false
       properties:
@@ -2379,6 +2613,36 @@ components:
           type: array
         States:
           description: The states of the access keys (`ACTIVE` \| `INACTIVE`).
+          items:
+            type: string
+          type: array
+      type: object
+    FiltersApiAccessRule:
+      additionalProperties: false
+      description: One or more filters.
+      properties:
+        ApiAccessRuleIds:
+          description: One or more IDs of API access rules.
+          items:
+            type: string
+          type: array
+        CaIds:
+          description: One or more IDs of Client Certificate Authorities (CAs).
+          items:
+            type: string
+          type: array
+        Cns:
+          description: One or more Client Certificate Common Names (CNs).
+          items:
+            type: string
+          type: array
+        Descriptions:
+          description: One or more descriptions of API access rules.
+          items:
+            type: string
+          type: array
+        IpRanges:
+          description: One or more IP ranges, in CIDR notation (for example, 192.0.2.0/16).
           items:
             type: string
           type: array
@@ -2429,6 +2693,26 @@ components:
           description: One or more HTTP codes provided by the responses.
           items:
             type: integer
+          type: array
+      type: object
+    FiltersCa:
+      additionalProperties: false
+      description: One or more filters.
+      properties:
+        CaFingerprints:
+          description: The fingerprints of the CAs.
+          items:
+            type: string
+          type: array
+        CaIds:
+          description: The IDs of the CAs.
+          items:
+            type: string
+          type: array
+        Descriptions:
+          description: The descriptions of the CAs.
+          items:
+            type: string
           type: array
       type: object
     FiltersClientGateway:
@@ -2768,6 +3052,26 @@ components:
             type: string
           type: array
       type: object
+    FiltersMasterKey:
+      additionalProperties: false
+      description: One or more filters.
+      properties:
+        Descriptions:
+          description: The descriptions of the master keys.
+          items:
+            type: string
+          type: array
+        MasterKeyIds:
+          description: The IDs of the master keys.
+          items:
+            type: string
+          type: array
+        States:
+          description: The states of the master keys (`Enabled` \| `Disabled` \| `PendingDeletion`).
+          items:
+            type: string
+          type: array
+      type: object
     FiltersNatService:
       additionalProperties: false
       description: One or more filters.
@@ -2866,7 +3170,7 @@ components:
             type: string
           type: array
         ServiceNames:
-          description: The names of the prefix lists corresponding to the services. For more information, see [DescribePrefixLists](#describeprefixlists)
+          description: The names of the services. For more information, see [ReadNetAccessPointServices](#readnetaccesspointservices).
           items:
             type: string
           type: array
@@ -2960,11 +3264,6 @@ components:
       additionalProperties: false
       description: One or more filters.
       properties:
-        LinkNicSortNumbers:
-          description: The device numbers the NICs are attached to.
-          items:
-            type: integer
-          type: array
         LinkNicVmIds:
           description: The IDs of the VMs the NICs are attached to.
           items:
@@ -3227,7 +3526,7 @@ components:
             type: string
           type: array
         ServiceNames:
-          description: The names of the prefix lists, which identify the 3DS OUTSCALE services they are associated with.
+          description: The names of the services.
           items:
             type: string
           type: array
@@ -3579,7 +3878,7 @@ components:
             type: integer
           type: array
         VolumeStates:
-          description: The states of the volumes (`creating` \| `available` \| `in-use` \| `deleting` \| `error`).
+          description: The states of the volumes (`creating` \| `available` \| `in-use` \| `updating` \| `deleting` \| `error`).
           items:
             type: string
           type: array
@@ -3694,6 +3993,41 @@ components:
         VRam:
           description: The amount of video RAM (VRAM) of the fGPU.
           type: integer
+      type: object
+    GenerateDataKeyRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        EncryptionContext:
+          $ref: '#/components/schemas/EncryptionContext'
+        GeneratePlaintext:
+          description: If `true`, the data key is generated in plaintext and ciphertext. If `false`, the data key is generated only in ciphertext.
+          type: boolean
+        MasterKeyId:
+          description: The ID of the master key used to generate the data key.
+          type: string
+        Size:
+          description: The size of the data key you want to generate, in bytes (between 1 and 1024).
+          type: integer
+      required:
+      - MasterKeyId
+      - Size
+      type: object
+    GenerateDataKeyResponse:
+      additionalProperties: false
+      properties:
+        Ciphertext:
+          description: The encrypted data key, encoded in base64.
+          format: byte
+          type: string
+        Plaintext:
+          description: The decrypted data key, encoded in base64.
+          format: byte
+          type: string
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
       type: object
     HealthCheck:
       additionalProperties: false
@@ -4228,7 +4562,7 @@ components:
             type: string
           type: array
         ServerCertificateId:
-          description: The ID of the server certificate.
+          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
           type: string
       type: object
     ListenerForCreation:
@@ -4248,7 +4582,7 @@ components:
           description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL` \| `UDP`).
           type: string
         ServerCertificateId:
-          description: The ID of the server certificate.
+          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
           type: string
       required:
       - BackendPort
@@ -4295,9 +4629,6 @@ components:
           type: string
         HostNamePattern:
           description: 'A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except [-.?]. '
-          type: string
-        ListenerRuleId:
-          description: The ID of the listener.
           type: string
         ListenerRuleName:
           description: A human-readable name for the listener rule.
@@ -4498,6 +4829,28 @@ components:
           format: date
           type: string
       type: object
+    MasterKey:
+      additionalProperties: false
+      description: Information about a master key.
+      properties:
+        CreationDate:
+          description: The date and time of creation of the master key.
+          format: datetime
+          type: string
+        DeletionDate:
+          description: The date and time of scheduled deletion of the master key.
+          format: datetime
+          type: string
+        Description:
+          description: ' The description of the master key.'
+          type: string
+        MasterKeyId:
+          description: The ID of the master key.
+          type: string
+        State:
+          description: The state of the master key (`Enabled` \| `Disabled` \| `PendingDeletion`).
+          type: string
+      type: object
     NatService:
       additionalProperties: false
       description: Information about the NAT service.
@@ -4566,7 +4919,7 @@ components:
             type: string
           type: array
         ServiceName:
-          description: The name of the prefix list corresponding to the service with which the Net access point is associated.
+          description: The name of the service with which the Net access point is associated.
           type: string
         State:
           description: The state of the Net access point (`pending` \| `available` \| `deleting` \| `deleted`).
@@ -5017,6 +5370,26 @@ components:
           description: The ID of the VM.
           type: string
       type: object
+    ReadApiAccessRulesRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Filters:
+          $ref: '#/components/schemas/FiltersApiAccessRule'
+      type: object
+    ReadApiAccessRulesResponse:
+      additionalProperties: false
+      properties:
+        ApiAccessRules:
+          description: A list of API access rules.
+          items:
+            $ref: '#/components/schemas/ApiAccessRule'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     ReadApiLogsRequest:
       additionalProperties: false
       properties:
@@ -5045,6 +5418,26 @@ components:
         NextPageToken:
           description: The token to request the next page of results.
           type: string
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadCasRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Filters:
+          $ref: '#/components/schemas/FiltersCa'
+      type: object
+    ReadCasResponse:
+      additionalProperties: false
+      properties:
+        Cas:
+          description: Information about one or more CAs.
+          items:
+            $ref: '#/components/schemas/Ca'
+          type: array
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -5378,6 +5771,26 @@ components:
           description: Information about one or more locations.
           items:
             $ref: '#/components/schemas/Location'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadMasterKeysRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Filters:
+          $ref: '#/components/schemas/FiltersMasterKey'
+      type: object
+    ReadMasterKeysResponse:
+      additionalProperties: false
+      properties:
+        MasterKeys:
+          description: Information about one or more master keys.
+          items:
+            $ref: '#/components/schemas/MasterKey'
           type: array
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -6289,7 +6702,7 @@ components:
           description: The ID of the service.
           type: string
         ServiceName:
-          description: The name of the prefix list, which identifies the 3DS OUTSCALE service it is associated with.
+          description: The name of the service.
           type: string
       type: object
     Snapshot:
@@ -6507,6 +6920,26 @@ components:
         Value:
           description: The value of the tag, between 0 and 255 characters.
           type: string
+      type: object
+    UndeleteMasterKeyRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        MasterKeyId:
+          description: The ID of the master key.
+          type: string
+      required:
+      - MasterKeyId
+      type: object
+    UndeleteMasterKeyResponse:
+      additionalProperties: false
+      properties:
+        MasterKey:
+          $ref: '#/components/schemas/MasterKey'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
       type: object
     UnlinkFlexibleGpuRequest:
       additionalProperties: false
@@ -6745,6 +7178,67 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    UpdateApiAccessRuleRequest:
+      additionalProperties: false
+      properties:
+        ApiAccessRuleId:
+          description: The ID of the API access rule you want to update.
+          type: string
+        CaIds:
+          description: One or more IDs of Client Certificate Authorities (CAs).
+          items:
+            type: string
+          type: array
+        Cns:
+          description: One or more Client Certificate Common Names (CNs).
+          items:
+            type: string
+          type: array
+        Description:
+          description: A new description for the API access rule.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        IpRanges:
+          description: One or more IP ranges, in CIDR notation (for example, 192.0.2.0/16).
+          items:
+            type: string
+          type: array
+      required:
+      - ApiAccessRuleId
+      type: object
+    UpdateApiAccessRuleResponse:
+      additionalProperties: false
+      properties:
+        ApiAccessRule:
+          $ref: '#/components/schemas/ApiAccessRule'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    UpdateCaRequest:
+      additionalProperties: false
+      properties:
+        CaId:
+          description: The ID of the CA.
+          type: string
+        Description:
+          description: The description of the CA.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+      required:
+      - CaId
+      type: object
+    UpdateCaResponse:
+      additionalProperties: false
+      properties:
+        Ca:
+          $ref: '#/components/schemas/Ca'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     UpdateFlexibleGpuRequest:
       additionalProperties: false
       properties:
@@ -6839,7 +7333,7 @@ components:
             type: string
           type: array
         ServerCertificateId:
-          description: The Outscale Resource Name (ORN) of the SSL certificate.
+          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
           type: string
       required:
       - LoadBalancerName
@@ -6849,6 +7343,32 @@ components:
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    UpdateMasterKeyRequest:
+      additionalProperties: false
+      properties:
+        Description:
+          description: The new description for the master key, between 0 and 8192 Unicode characters.
+          type: string
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Enabled:
+          description: If `true`, the state of the master key becomes `Enabled`. If `false`, the state of the master key becomes `Disabled`.
+          type: boolean
+        MasterKeyId:
+          description: The ID of the master key.
+          type: string
+      required:
+      - MasterKeyId
+      type: object
+    UpdateMasterKeyResponse:
+      additionalProperties: false
+      properties:
+        MasterKey:
+          $ref: '#/components/schemas/MasterKey'
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -7020,6 +7540,8 @@ components:
         NewPath:
           description: A new path for the server certificate.
           type: string
+      required:
+      - Name
       type: object
     UpdateServerCertificateResponse:
       additionalProperties: false
@@ -7102,7 +7624,7 @@ components:
             To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.'
           type: string
         Performance:
-          description: The performance of the VM (`standard` \| `high` \|  `highest`).
+          description: The performance of the VM (`medium` \| `high` \|  `highest`).
           enum:
           - medium
           - high
@@ -7135,6 +7657,29 @@ components:
           $ref: '#/components/schemas/ResponseContext'
         Vm:
           $ref: '#/components/schemas/Vm'
+      type: object
+    UpdateVolumeRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If `true`, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Size:
+          description: The new size of the volume, in gibibytes (GiB). This value must be equal to or greater than the current size of the volume.
+          type: integer
+        VolumeId:
+          description: The ID of the volume you want to update.
+          type: string
+      required:
+      - VolumeId
+      type: object
+    UpdateVolumeResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+        Volume:
+          $ref: '#/components/schemas/Volume'
       type: object
     VirtualGateway:
       additionalProperties: false
@@ -7200,7 +7745,7 @@ components:
           description: The ID of the Net in which the VM is running.
           type: string
         Nics:
-          description: The network interface cards (NICs) the VMs are attached to.
+          description: (Net only) The network interface cards (NICs) the VMs are attached to.
           items:
             $ref: '#/components/schemas/NicLight'
           type: array
@@ -7208,7 +7753,7 @@ components:
           description: Indicates the operating system (OS) of the VM.
           type: string
         Performance:
-          description: The performance of the VM (`standard` \| `high` \|  `highest`).
+          description: The performance of the VM (`medium` \| `high` \|  `highest`).
           type: string
         Placement:
           $ref: '#/components/schemas/Placement'
@@ -7353,7 +7898,7 @@ components:
           description: The snapshot from which the volume was created.
           type: string
         State:
-          description: The state of the volume (`creating` \| `available` \| `in-use` \| `deleting` \| `error`).
+          description: The state of the volume (`creating` \| `available` \| `in-use` \| `updating` \| `deleting` \| `error`).
           type: string
         SubregionName:
           description: The Subregion in which the volume was created.
@@ -7483,7 +8028,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.4'
+  version: '1.6'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -7591,6 +8136,49 @@ paths:
           description: Information about the response.
       tags:
       - Account
+  /CreateApiAccessRule:
+    description: 'Creates a rule to allow access to the API from your account.<br />
+
+      You need to specify at least the `CaIds` or the `IpRanges` parameter.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      By default, your account has a set of rules allowing global access that you can delete. For more information, see [About API Access Rules](https://wiki.outscale.net/display/EN/About+API+Access+Rules).'
+    post:
+      operationId: CreateApiAccessRule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiAccessRuleRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateApiAccessRuleResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - ApiAccessRule
+  /CreateCa:
+    description: Creates a Client Certificate Authority (CA).
+    post:
+      operationId: CreateCa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCaRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCaResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - Ca
   /CreateClientGateway:
     description: 'Provides information about your client gateway.<br />
 
@@ -7966,6 +8554,29 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
+  /CreateMasterKey:
+    description: 'Creates a master key. For more information, see [About Outscale Key Management Service (OKMS)](https://wiki.outscale.net/pages/viewpage.action?pageId=49023567).<br /><br />
+
+
+      **[NOTE]**<br />
+
+      By default, your account has a quota of 20 master keys.'
+    post:
+      operationId: CreateMasterKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMasterKeyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMasterKeyResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - MasterKey
   /CreateNatService:
     description: 'Creates a network address translation (NAT) service in the specified public Subnet of a Net.<br />
 
@@ -8016,7 +8627,7 @@ paths:
   /CreateNet:
     description: 'Creates a Net with a specified IP range.<br />
 
-      The IP range (network range) of your Net must be between a /28 netmask (16 IP addresses) and a /16 netmask (65 536 IP addresses).'
+      The IP range (network range) of your Net must be between a /28 netmask (16 IP addresses) and a /16 netmask (65536 IP addresses).'
     post:
       operationId: CreateNet
       requestBody:
@@ -8060,7 +8671,7 @@ paths:
   /CreateNetAccessPoint:
     description: 'Creates a Net access point to access a 3DS OUTSCALE service from this Net without using the Internet and External IP addresses.<br />
 
-      You specify the service using its prefix list name. For more information, see [DescribePrefixLists](#describeprefixlists)<br />
+      You specify the service using its name. For more information about the available services, see [ReadNetAccessPointServices](#readnetaccesspointservices).<br />
 
       To control the routing of traffic between the Net and the specified service, you can specify one or more route tables. Virtual machines placed in Subnets associated with the specified route table thus use the Net access point to access the service. When you specify a route table, a route is automatically added to it with the destination set to the prefix list ID of the service, and the target set to the ID of the access point.'
     post:
@@ -8764,6 +9375,24 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - VpnConnection
+  /DecryptCiphertext:
+    description: Decrypts ciphertext into plaintext.
+    post:
+      operationId: DecryptCiphertext
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecryptCiphertextRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecryptCiphertextResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - MasterKey
   /DeleteAccessKey:
     description: 'Deletes the specified access key associated with the account that sends the request.<br /><br />
 
@@ -8787,6 +9416,42 @@ paths:
           description: Information about the response.
       tags:
       - AccessKey
+  /DeleteApiAccessRule:
+    description: "Deletes a specified API access rule.<br /><br />\n\n**[NOTE]**<br /> \nYou cannot delete the last remaining API access rule. However, if you delete all the API access rules that allow you to access the API, you need to contact the Support team to regain access. For more information, see [Technical Support](https://wiki.outscale.net/display/EN/Technical+Support)."
+    post:
+      operationId: DeleteApiAccessRule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteApiAccessRuleRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteApiAccessRuleResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - ApiAccessRule
+  /DeleteCa:
+    description: Deletes a specified Client Certificate Authority (CA).
+    post:
+      operationId: DeleteCa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCaRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCaResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - Ca
   /DeleteClientGateway:
     description: 'Deletes a client gateway.<br />
 
@@ -9116,6 +9781,33 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
+  /DeleteMasterKey:
+    description: 'Schedules the deletion of a master key.<br />
+
+      If the request succeeds, the state of the master key becomes `PendingDeletion` and the master key is deleted at the end of the waiting period.<br /><br />
+
+
+      **[NOTE]**<br />
+
+      - You cannot delete the default master key of your account.<br />
+
+      - You cannot modify the waiting period after you have scheduled the deletion. However, you can cancel the scheduled deletion using the [UndeleteMasterKey](#undeletemasterkey) method.'
+    post:
+      operationId: DeleteMasterKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteMasterKeyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteMasterKeyResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - MasterKey
   /DeleteNatService:
     description: 'Deletes a specified network address translation (NAT) service.<br />
 
@@ -9793,6 +10485,42 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
+  /EncryptPlaintext:
+    description: Encrypts plaintext into ciphertext using a master key.
+    post:
+      operationId: EncryptPlaintext
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptPlaintextRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptPlaintextResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - MasterKey
+  /GenerateDataKey:
+    description: Generates a data key using a master key.
+    post:
+      operationId: GenerateDataKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateDataKeyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateDataKeyResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - MasterKey
   /LinkFlexibleGpu:
     description: 'Attaches one of your allocated flexible GPUs (fGPUs) to one of your virtual machines (VMs).<br />
 
@@ -10145,6 +10873,24 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Vm
+  /ReadApiAccessRules:
+    description: Describes one or more API access rules.
+    post:
+      operationId: ReadApiAccessRules
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadApiAccessRulesRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadApiAccessRulesResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - ApiAccessRule
   /ReadApiLogs:
     description: Retrieves your API logs. Only the logs of the calls made during the last 30 days can be retrieved through this method. You can use filters to retrieve specific logs. You can also specify the information to be displayed in the logs.
     post:
@@ -10163,6 +10909,24 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - ApiLog
+  /ReadCas:
+    description: Returns information about one or more of your Client Certificate Authorities (CAs).
+    post:
+      operationId: ReadCas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadCasRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCasResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - Ca
   /ReadClientGateways:
     description: 'Describes one or more of your client gateways.<br /><br />
 
@@ -10602,6 +11366,24 @@ paths:
       security: []
       tags:
       - Location
+  /ReadMasterKeys:
+    description: Returns information about one or more master keys.
+    post:
+      operationId: ReadMasterKeys
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadMasterKeysRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadMasterKeysResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - MasterKey
   /ReadNatServices:
     description: 'Lists one or more network address translation (NAT) services.<br /><br />
 
@@ -11685,6 +12467,26 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Vm
+  /UndeleteMasterKey:
+    description: 'Cancels the deletion of a master key that is scheduled for deletion.<br />
+
+      If the request succeeds, the state of the master key becomes `Disabled`.'
+    post:
+      operationId: UndeleteMasterKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UndeleteMasterKeyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UndeleteMasterKeyResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - MasterKey
   /UnlinkFlexibleGpu:
     description: 'Detaches a flexible GPU (fGPU) from a virtual machine (VM).<br />
 
@@ -11997,6 +12799,42 @@ paths:
           description: Information about the response.
       tags:
       - Account
+  /UpdateApiAccessRule:
+    description: "Modifies a specified API access rule.<br /><br />\n\n**[NOTE]**<br /> \nThe new rule you specify fully replaces the old rule. Therefore, for a parameter that is not specified, any previously set value is deleted."
+    post:
+      operationId: UpdateApiAccessRule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApiAccessRuleRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateApiAccessRuleResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - ApiAccessRule
+  /UpdateCa:
+    description: Modifies the specified attribute of a Client Certificate Authority (CA).
+    post:
+      operationId: UpdateCa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCaRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCaResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - Ca
   /UpdateFlexibleGpu:
     description: Modifies a flexible GPU (fGPU) behavior.
     post:
@@ -12101,6 +12939,24 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
+  /UpdateMasterKey:
+    description: Modifies one or more attributes of a master key.
+    post:
+      operationId: UpdateMasterKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMasterKeyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateMasterKeyResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - MasterKey
   /UpdateNet:
     description: Associates a DHCP options set with a specified Net.
     post:
@@ -12404,6 +13260,47 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Vm
+  /UpdateVolume:
+    description: 'Modifies the specified attribute of a volume. The volume must not currently be attached to a virtual machine (VM).<br /><br />
+
+
+      **[NOTE]**<br />
+
+      When resizing a volume, the response displays the previous size of the volume because there is a delay between the execution of the call and the effective modification.'
+    post:
+      operationId: UpdateVolume
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVolumeRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateVolumeResponse'
+          description: The HTTP 200 response (OK).
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 400 response (Bad Request).
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 401 response (Unauthorized).
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 500 response (Internal Server Error).
+      tags:
+      - Volume
 security:
 - ApiKeyAuth: []
 servers:
@@ -12413,6 +13310,7 @@ servers:
       default: eu-west-2
       enum:
       - cloudgouv-eu-west-1
+      - cloudgouv-eu-west-2
       - eu-west-2
       - us-east-2
       - us-west-1
