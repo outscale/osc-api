@@ -947,24 +947,6 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
-    CreateMasterKeyRequest:
-      additionalProperties: false
-      properties:
-        Description:
-          description: A description for the master key, between 0 and 8192 Unicode characters.
-          type: string
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-      type: object
-    CreateMasterKeyResponse:
-      additionalProperties: false
-      properties:
-        MasterKey:
-          $ref: '#/components/schemas/MasterKey'
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-      type: object
     CreateNatServiceRequest:
       additionalProperties: false
       properties:
@@ -1601,34 +1583,6 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
-    DecryptCiphertextRequest:
-      additionalProperties: false
-      properties:
-        Ciphertext:
-          description: The ciphertext you want to decrypt.
-          format: byte
-          type: string
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-        EncryptionContext:
-          $ref: '#/components/schemas/EncryptionContext'
-      required:
-      - Ciphertext
-      type: object
-    DecryptCiphertextResponse:
-      additionalProperties: false
-      properties:
-        MasterKeyId:
-          description: The ID of the master key used to decrypt the data.
-          type: string
-        Plaintext:
-          description: The decrypted ciphertext, encoded in base64.
-          format: byte
-          type: string
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-      type: object
     DeleteAccessKeyRequest:
       additionalProperties: false
       properties:
@@ -1952,27 +1906,6 @@ components:
       - Tags
       type: object
     DeleteLoadBalancerTagsResponse:
-      additionalProperties: false
-      properties:
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-      type: object
-    DeleteMasterKeyRequest:
-      additionalProperties: false
-      properties:
-        DaysUntilDeletion:
-          description: The waiting period before deletion, in days (between `7` and `30`). By default, `30`.
-          type: integer
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-        MasterKeyId:
-          description: The ID of the master key.
-          type: string
-      required:
-      - MasterKeyId
-      type: object
-    DeleteMasterKeyResponse:
       additionalProperties: false
       properties:
         ResponseContext:
@@ -2540,43 +2473,6 @@ components:
           description: The VLAN number associated with the DirectLink interface.
           type: integer
       type: object
-    EncryptPlaintextRequest:
-      additionalProperties: false
-      properties:
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-        EncryptionContext:
-          $ref: '#/components/schemas/EncryptionContext'
-        MasterKeyId:
-          description: The ID of the master key used to encrypt the data.
-          type: string
-        Plaintext:
-          description: 'The plaintext you want to encrypt, encoded in base64.<br />
-
-            This base64-encoded plaintext must contain between 1 and 4096 characters.'
-          format: byte
-          type: string
-      required:
-      - MasterKeyId
-      - Plaintext
-      type: object
-    EncryptPlaintextResponse:
-      additionalProperties: false
-      properties:
-        Ciphertext:
-          description: The encrypted plaintext.
-          format: byte
-          type: string
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-      type: object
-    EncryptionContext:
-      additionalProperties:
-        description: EncryptionContext_Element
-        type: string
-      description: Information about the encryption context.
-      type: object
     ErrorResponse:
       additionalProperties: false
       properties:
@@ -3048,26 +2944,6 @@ components:
       properties:
         LoadBalancerNames:
           description: The names of the load balancers.
-          items:
-            type: string
-          type: array
-      type: object
-    FiltersMasterKey:
-      additionalProperties: false
-      description: One or more filters.
-      properties:
-        Descriptions:
-          description: The descriptions of the master keys.
-          items:
-            type: string
-          type: array
-        MasterKeyIds:
-          description: The IDs of the master keys.
-          items:
-            type: string
-          type: array
-        States:
-          description: The states of the master keys (`Enabled` \| `Disabled` \| `PendingDeletion`).
           items:
             type: string
           type: array
@@ -4183,41 +4059,6 @@ components:
           description: The amount of video RAM (VRAM) of the fGPU.
           type: integer
       type: object
-    GenerateDataKeyRequest:
-      additionalProperties: false
-      properties:
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-        EncryptionContext:
-          $ref: '#/components/schemas/EncryptionContext'
-        GeneratePlaintext:
-          description: If true, the data key is generated in plaintext and ciphertext. If false, the data key is generated only in ciphertext.
-          type: boolean
-        MasterKeyId:
-          description: The ID of the master key used to generate the data key.
-          type: string
-        Size:
-          description: The size of the data key you want to generate, in bytes (between 1 and 1024).
-          type: integer
-      required:
-      - MasterKeyId
-      - Size
-      type: object
-    GenerateDataKeyResponse:
-      additionalProperties: false
-      properties:
-        Ciphertext:
-          description: The encrypted data key, encoded in base64.
-          format: byte
-          type: string
-        Plaintext:
-          description: The decrypted data key, encoded in base64.
-          format: byte
-          type: string
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-      type: object
     HealthCheck:
       additionalProperties: false
       description: Information about the health check configuration.
@@ -5017,28 +4858,6 @@ components:
         NotBefore:
           description: The earliest scheduled start time for the event.
           format: date
-          type: string
-      type: object
-    MasterKey:
-      additionalProperties: false
-      description: Information about a master key.
-      properties:
-        CreationDate:
-          description: The date and time of creation of the master key.
-          format: datetime
-          type: string
-        DeletionDate:
-          description: The date and time of scheduled deletion of the master key.
-          format: datetime
-          type: string
-        Description:
-          description: ' The description of the master key.'
-          type: string
-        MasterKeyId:
-          description: The ID of the master key.
-          type: string
-        State:
-          description: The state of the master key (`Enabled` \| `Disabled` \| `PendingDeletion`).
           type: string
       type: object
     NatService:
@@ -5961,26 +5780,6 @@ components:
           description: Information about one or more locations.
           items:
             $ref: '#/components/schemas/Location'
-          type: array
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-      type: object
-    ReadMasterKeysRequest:
-      additionalProperties: false
-      properties:
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-        Filters:
-          $ref: '#/components/schemas/FiltersMasterKey'
-      type: object
-    ReadMasterKeysResponse:
-      additionalProperties: false
-      properties:
-        MasterKeys:
-          description: Information about one or more master keys.
-          items:
-            $ref: '#/components/schemas/MasterKey'
           type: array
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -7111,26 +6910,6 @@ components:
           description: The value of the tag, between 0 and 255 characters.
           type: string
       type: object
-    UndeleteMasterKeyRequest:
-      additionalProperties: false
-      properties:
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-        MasterKeyId:
-          description: The ID of the master key.
-          type: string
-      required:
-      - MasterKeyId
-      type: object
-    UndeleteMasterKeyResponse:
-      additionalProperties: false
-      properties:
-        MasterKey:
-          $ref: '#/components/schemas/MasterKey'
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-      type: object
     UnlinkFlexibleGpuRequest:
       additionalProperties: false
       properties:
@@ -7533,32 +7312,6 @@ components:
       properties:
         LoadBalancer:
           $ref: '#/components/schemas/LoadBalancer'
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-      type: object
-    UpdateMasterKeyRequest:
-      additionalProperties: false
-      properties:
-        Description:
-          description: The new description for the master key, between 0 and 8192 Unicode characters.
-          type: string
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-        Enabled:
-          description: If true, the state of the master key becomes `Enabled`. If false, the state of the master key becomes `Disabled`.
-          type: boolean
-        MasterKeyId:
-          description: The ID of the master key.
-          type: string
-      required:
-      - MasterKeyId
-      type: object
-    UpdateMasterKeyResponse:
-      additionalProperties: false
-      properties:
-        MasterKey:
-          $ref: '#/components/schemas/MasterKey'
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -8744,29 +8497,6 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
-  /CreateMasterKey:
-    description: 'Creates a master key. For more information, see [About Outscale Key Management Service (OKMS)](https://wiki.outscale.net/pages/viewpage.action?pageId=49023567).<br /><br />
-
-
-      **[NOTE]**<br />
-
-      By default, your account has a quota of 20 master keys.'
-    post:
-      operationId: CreateMasterKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateMasterKeyRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateMasterKeyResponse'
-          description: The HTTP 200 response (OK).
-      tags:
-      - MasterKey
   /CreateNatService:
     description: 'Creates a network address translation (NAT) service in the specified public Subnet of a Net.<br />
 
@@ -9565,24 +9295,6 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - VpnConnection
-  /DecryptCiphertext:
-    description: Decrypts ciphertext into plaintext.
-    post:
-      operationId: DecryptCiphertext
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DecryptCiphertextRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DecryptCiphertextResponse'
-          description: The HTTP 200 response (OK).
-      tags:
-      - MasterKey
   /DeleteAccessKey:
     description: 'Deletes the specified access key associated with the account that sends the request.<br /><br />
 
@@ -9971,33 +9683,6 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
-  /DeleteMasterKey:
-    description: 'Schedules the deletion of a master key.<br />
-
-      If the request succeeds, the state of the master key becomes `PendingDeletion` and the master key is deleted at the end of the waiting period.<br /><br />
-
-
-      **[NOTE]**<br />
-
-      - You cannot delete the default master key of your account.<br />
-
-      - You cannot modify the waiting period after you have scheduled the deletion. However, you can cancel the scheduled deletion using the [UndeleteMasterKey](#undeletemasterkey) method.'
-    post:
-      operationId: DeleteMasterKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeleteMasterKeyRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeleteMasterKeyResponse'
-          description: The HTTP 200 response (OK).
-      tags:
-      - MasterKey
   /DeleteNatService:
     description: 'Deletes a specified network address translation (NAT) service.<br />
 
@@ -10675,42 +10360,6 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
-  /EncryptPlaintext:
-    description: Encrypts plaintext into ciphertext using a master key.
-    post:
-      operationId: EncryptPlaintext
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EncryptPlaintextRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EncryptPlaintextResponse'
-          description: The HTTP 200 response (OK).
-      tags:
-      - MasterKey
-  /GenerateDataKey:
-    description: Generates a data key using a master key.
-    post:
-      operationId: GenerateDataKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateDataKeyRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenerateDataKeyResponse'
-          description: The HTTP 200 response (OK).
-      tags:
-      - MasterKey
   /LinkFlexibleGpu:
     description: 'Attaches one of your allocated flexible GPUs (fGPUs) to one of your virtual machines (VMs).<br />
 
@@ -11556,24 +11205,6 @@ paths:
       security: []
       tags:
       - Location
-  /ReadMasterKeys:
-    description: Returns information about one or more master keys.
-    post:
-      operationId: ReadMasterKeys
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReadMasterKeysRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReadMasterKeysResponse'
-          description: The HTTP 200 response (OK).
-      tags:
-      - MasterKey
   /ReadNatServices:
     description: 'Lists one or more network address translation (NAT) services.<br /><br />
 
@@ -12657,26 +12288,6 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Vm
-  /UndeleteMasterKey:
-    description: 'Cancels the deletion of a master key that is scheduled for deletion.<br />
-
-      If the request succeeds, the state of the master key becomes `Disabled`.'
-    post:
-      operationId: UndeleteMasterKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UndeleteMasterKeyRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UndeleteMasterKeyResponse'
-          description: The HTTP 200 response (OK).
-      tags:
-      - MasterKey
   /UnlinkFlexibleGpu:
     description: 'Detaches a flexible GPU (fGPU) from a virtual machine (VM).<br />
 
@@ -13129,24 +12740,6 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
-  /UpdateMasterKey:
-    description: Modifies one or more attributes of a master key.
-    post:
-      operationId: UpdateMasterKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateMasterKeyRequest'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UpdateMasterKeyResponse'
-          description: The HTTP 200 response (OK).
-      tags:
-      - MasterKey
   /UpdateNet:
     description: Associates a DHCP options set with a specified Net.
     post:
