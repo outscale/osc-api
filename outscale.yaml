@@ -91,13 +91,13 @@ components:
           description: If true, access logs are enabled for your load balancer. If false, they are not. If you set this to true in your request, the `OsuBucketName` parameter is required.
           type: boolean
         OsuBucketName:
-          description: The name of the Object Storage Unit (OSU) bucket for the access logs.
+          description: The name of the OOS bucket for the access logs.
           type: string
         OsuBucketPrefix:
-          description: The path to the folder of the access logs in your Object Storage Unit (OSU) bucket (by default, the `root` level of your bucket).
+          description: The path to the folder of the access logs in your OOS bucket (by default, the `root` level of your bucket).
           type: string
         PublicationInterval:
-          description: The time interval for the publication of access logs in the Object Storage Unit (OSU) bucket, in minutes. This value can be either 5 or 60 (by default, 60).
+          description: The time interval for the publication of access logs in the OOS bucket, in minutes. This value can be either 5 or 60 (by default, 60).
           type: integer
       type: object
     Account:
@@ -385,7 +385,7 @@ components:
           description: The API call that triggered the resource consumption (for example, `RunInstances` or `CreateVolume`).
           type: string
         Service:
-          description: The service of the API call (`TinaOS-FCU`, `TinaOS-LBU`, `TinaOS-OSU` or `TinaOS-DirectLink`).
+          description: The service of the API call (`TinaOS-FCU`, `TinaOS-LBU`, `TinaOS-DirectLink`, `TinaOS-OOS`, or `TinaOS-OSU`).
           type: string
         Title:
           description: A description of the consumed resource.
@@ -718,7 +718,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         FileLocation:
-          description: The pre-signed URL of the OMI manifest file, or the full path to the OMI stored in an OSU bucket. If you specify this parameter, a copy of the OMI is created in your account.
+          description: The pre-signed URL of the OMI manifest file, or the full path to the OMI stored in a bucket. If you specify this parameter, a copy of the OMI is created in your account.
           type: string
         ImageName:
           description: 'A unique name for the new OMI.<br />
@@ -1306,7 +1306,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         FileLocation:
-          description: The pre-signed URL of the snapshot you want to import from the OSU bucket.
+          description: The pre-signed URL of the snapshot you want to import from the bucket.
           type: string
         SnapshotSize:
           description: The size of the snapshot created in your account, in bytes. This size must be exactly the same as the source snapshot one.
@@ -2415,7 +2415,7 @@ components:
           description: The name of the DirectLink interface.
           type: string
         OutscalePrivateIp:
-          description: The IP address on 3DS OUTSCALE's side of the DirectLink interface.
+          description: The IP address on the OUTSCALE side of the DirectLink interface.
           type: string
         VirtualGatewayId:
           description: The ID of the target virtual gateway.
@@ -2461,7 +2461,7 @@ components:
           description: The datacenter where the DirectLink interface is located.
           type: string
         OutscalePrivateIp:
-          description: The IP address on 3DS OUTSCALE's side of the DirectLink interface.
+          description: The IP address on the OUTSCALE side of the DirectLink interface.
           type: string
         State:
           description: The state of the DirectLink interface (`pending` \| `available` \| `deleting` \| `deleted` \| `confirming` \| `rejected` \| `expired`).
@@ -2651,7 +2651,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the client gateways, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the client gateways, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -2694,7 +2694,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the DHCP options sets, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the DHCP options sets, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -2820,7 +2820,7 @@ components:
             type: string
           type: array
         FileLocations:
-          description: The locations where the OMI files are stored on Object Storage Unit (OSU).
+          description: The locations of the buckets where the OMI files are stored.
           items:
             type: string
           type: array
@@ -2868,7 +2868,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the OMIs, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the OMIs, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -2908,7 +2908,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the Internet services, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the Internet services, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -2983,7 +2983,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the NAT services, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the NAT services, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3026,7 +3026,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the Nets, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the Nets, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3066,7 +3066,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the Net access points, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the Net access points, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3131,7 +3131,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the Net peering connections, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the Net peering connections, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3270,7 +3270,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the NICs, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the NICs, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3335,7 +3335,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the EIPs, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the EIPs, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3453,7 +3453,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the route tables, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the route tables, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3568,7 +3568,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the security groups, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the security groups, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3649,7 +3649,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the snapshots, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the snapshots, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3709,7 +3709,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the Subnets, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the Subnets, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3784,7 +3784,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the virtual gateways, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the virtual gateways, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3809,7 +3809,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the VMs, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the VMs, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3928,7 +3928,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the volumes, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the volumes, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3996,7 +3996,7 @@ components:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the VPN connections, in the following format: "Filters":{"Tags":["TAGKEY=TAGVALUE"]}.'
+          description: 'The key/value combination of the tags associated with the VPN connections, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -4118,7 +4118,7 @@ components:
           description: The description of the OMI.
           type: string
         FileLocation:
-          description: The location where the OMI file is stored on Object Storage Unit (OSU).
+          description: The location of the bucket where the OMI files are stored.
           type: string
         ImageId:
           description: The ID of the OMI.
@@ -4592,7 +4592,7 @@ components:
             type: string
           type: array
         ServerCertificateId:
-          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
+          description: The OUTSCALE Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > OUTSCALE Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
           type: string
       type: object
     ListenerForCreation:
@@ -4612,7 +4612,7 @@ components:
           description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL` \| `UDP`).
           type: string
         ServerCertificateId:
-          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
+          description: The OUTSCALE Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > OUTSCALE Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
           type: string
       required:
       - BackendPort
@@ -4639,7 +4639,7 @@ components:
           description: A human-readable name for the listener rule.
           type: string
         PathPattern:
-          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~"'@:+?].
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~&quot;'@:+?].
           type: string
         Priority:
           description: The priority level of the listener rule, between `1` and `19999` both included. Each rule must have a unique priority level. Otherwise, an error is returned.
@@ -4664,7 +4664,7 @@ components:
           description: A human-readable name for the listener rule.
           type: string
         PathPattern:
-          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~"'@:+?].
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~&quot;'@:+?].
           type: string
         Priority:
           description: The priority level of the listener rule, between `1` and `19999` both included. Each rule must have a unique priority level. Otherwise, an error is returned.
@@ -5115,18 +5115,18 @@ components:
       type: object
     OsuApiKey:
       additionalProperties: false
-      description: Information about the OSU API key.
+      description: Information about the OOS API key.
       properties:
         ApiKeyId:
-          description: The API key of the OSU account that enables you to access the bucket.
+          description: The API key of the OOS account that enables you to access the bucket.
           type: string
         SecretKey:
-          description: The secret key of the OSU account that enables you to access the bucket.
+          description: The secret key of the OOS account that enables you to access the bucket.
           type: string
       type: object
     OsuExport:
       additionalProperties: false
-      description: Information about the OSU export.
+      description: Information about the OOS export.
       properties:
         DiskImageFormat:
           description: The format of the export disk (`qcow2` \| `raw`).
@@ -5134,13 +5134,13 @@ components:
         OsuApiKey:
           $ref: '#/components/schemas/OsuApiKey'
         OsuBucket:
-          description: The name of the OSU bucket where you want to export the object.
+          description: The name of the OOS bucket where you want to export the object.
           type: string
         OsuManifestUrl:
           description: The URL of the manifest file.
           type: string
         OsuPrefix:
-          description: The prefix for the key of the OSU object.
+          description: The prefix for the key of the OOS object.
           type: string
       required:
       - DiskImageFormat
@@ -5289,7 +5289,7 @@ components:
           description: The description of the quota.
           type: string
         MaxValue:
-          description: The maximum value of the quota for the 3DS OUTSCALE user account (if there is no limit, `0`).
+          description: The maximum value of the quota for the OUTSCALE user account (if there is no limit, `0`).
           type: integer
         Name:
           description: The unique name of the quota.
@@ -5301,7 +5301,7 @@ components:
           description: The description of the quota.
           type: string
         UsedValue:
-          description: The limit value currently used by the 3DS OUTSCALE user account.
+          description: The limit value currently used by the OUTSCALE user account.
           type: integer
       type: object
     QuotaTypes:
@@ -6469,7 +6469,7 @@ components:
           description: The IP range used for the destination match, in CIDR notation (for example, 10.0.0.0/24).
           type: string
         DestinationServiceId:
-          description: The ID of the 3DS OUTSCALE service.
+          description: The ID of the OUTSCALE service.
           type: string
         GatewayId:
           description: The ID of the Internet service or virtual gateway attached to the Net.
@@ -6616,7 +6616,7 @@ components:
             $ref: '#/components/schemas/SecurityGroupsMember'
           type: array
         ServiceIds:
-          description: One or more service IDs to allow traffic from a Net to access the corresponding 3DS OUTSCALE services. For more information, see [ReadNetAccessPointServices](#readnetaccesspointservices).
+          description: One or more service IDs to allow traffic from a Net to access the corresponding OUTSCALE services. For more information, see [ReadNetAccessPointServices](#readnetaccesspointservices).
           items:
             type: string
           type: array
@@ -7267,7 +7267,7 @@ components:
           description: The name of the listener rule.
           type: string
         PathPattern:
-          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~"'@:+?].
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~&quot;'@:+?].
           type: string
       required:
       - ListenerRuleName
@@ -7294,15 +7294,15 @@ components:
           description: The name of the load balancer.
           type: string
         LoadBalancerPort:
-          description: The port on which the load balancer is listening (between `1` and `65535`, both included).
+          description: The port on which the load balancer is listening (between `1` and `65535`, both included). This parameter is required if you want to update the server certificate.
           type: integer
         PolicyNames:
-          description: The list of policy names (must contain all the policies to be enabled).
+          description: The name of the policy you want to enable for the listener.
           items:
             type: string
           type: array
         ServerCertificateId:
-          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
+          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat). If this parameter is specified, you must also specify the `LoadBalancerPort` parameter.
           type: string
       required:
       - LoadBalancerName
@@ -7863,7 +7863,7 @@ components:
       description: Information about a VPN connection.
       properties:
         ClientGatewayConfiguration:
-          description: The configuration to apply to the client gateway to establish the VPN connection, in XML format.
+          description: Example configuration for the client gateway.
           type: string
         ClientGatewayId:
           description: The ID of the client gateway used on the client end of the connection.
@@ -7888,7 +7888,7 @@ components:
             $ref: '#/components/schemas/ResourceTag'
           type: array
         VirtualGatewayId:
-          description: The ID of the virtual gateway used on the 3DS OUTSCALE end of the connection.
+          description: The ID of the virtual gateway used on the OUTSCALE end of the connection.
           type: string
         VpnConnectionId:
           description: The ID of the VPN connection.
@@ -7956,13 +7956,13 @@ components:
 info:
   contact:
     email: support@outscale.com
-  description: 'Welcome to the 3DS OUTSCALE''s API documentation.<br /><br />
+  description: 'Welcome to the OUTSCALE API documentation.<br /><br />
 
 
-    The 3DS OUTSCALE API enables you to manage your resources in the 3DS OUTSCALE Cloud. This documentation describes the different actions available along with code examples.<br /><br />
+    The OUTSCALE API enables you to manage your resources in the OUTSCALE Cloud. This documentation describes the different actions available along with code examples.<br /><br />
 
 
-    Note that the 3DS OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the 3DS OUTSCALE API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/3DS+OUTSCALE+APIs+Reference).<br /><br />
+    Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the OUTSCALE API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/3DS+OUTSCALE+APIs+Reference).<br /><br />
 
 
     You can also manage your resources using the [Cockpit](https://wiki.outscale.net/display/EN/About+Cockpit) web interface.'
@@ -8033,7 +8033,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CheckAuthenticationResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Account
   /CreateAccessKey:
@@ -8051,18 +8051,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateAccessKeyResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - AccessKey
   /CreateAccount:
-    description: 'Creates a new 3DS OUTSCALE account.<br /><br />
+    description: 'Creates a new OUTSCALE account.<br /><br />
 
 
       **[NOTE]**<br />
 
-      * You need 3DS OUTSCALE credentials and the appropriate quotas to create a new account via API. To get quotas, you can send an email to sales@outscale.com.<br />
+      * You need OUTSCALE credentials and the appropriate quotas to create a new account via API. To get quotas, you can send an email to sales@outscale.com.<br />
 
-      * If you want to pass a numeral value as a string instead of an integer, you must wrap your string in additional quotes (for example, `''&#34;92000&#34;''`).'
+      * If you want to pass a numeral value as a string instead of an integer, you must wrap your string in additional quotes (for example, `''&quot;92000&quot;''`).'
     post:
       operationId: CreateAccount
       requestBody:
@@ -8076,7 +8076,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateAccountResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Account
   /CreateApiAccessRule:
@@ -8221,21 +8221,21 @@ paths:
       tags:
       - FlexibleGpu
   /CreateImage:
-    description: 'Creates an Outscale machine image (OMI) from an existing virtual machine (VM) which is either running or stopped.<br />
+    description: 'Creates an OUTSCALE machine image (OMI) from an existing virtual machine (VM) which is either running or stopped.<br />
 
       This action also creates a snapshot of the root volume of the VM, as well as a snapshot of each Block Storage Unit (BSU) volume attached to the VM.<br /><br />
 
 
       You can also use this method to copy an OMI to your account, from an account in the same Region. To do so, the owner of the source OMI must share it with your account. For more information about how to share an OMI with another account in the same Region, see [UpdateImage](#updateimage).<br />
 
-      To copy an OMI between accounts in different Regions, the owner of the source OMI must first export it to an Object Storage Unit (OSU) bucket using the [CreateImageExportTask](#createimageexporttask) method, and then you need to create a copy of the image in your account.<br />
+      To copy an OMI between accounts in different Regions, the owner of the source OMI must first export it to an OUTSCALE Object Storage (OOS) bucket using the [CreateImageExportTask](#createimageexporttask) method, and then you need to create a copy of the image in your account.<br />
 
       The copy of the source OMI is independent and belongs to you.<br /><br />
 
 
       You can also use this method to register an OMI to finalize its creation process.<br />
 
-      You can register an OMI from a snapshot of a root device to create an OMI based on this snapshot. You can also register an OMI that has been exported to an OSU bucket to create a copy of it in your account. For more information about OMI export to an OSU bucket, see [CreateImageExportTask](#createimageexporttask).<br />
+      You can register an OMI from a snapshot of a root device to create an OMI based on this snapshot. You can also register an OMI that has been exported to an S3-compatible bucket to create a copy of it in your account. For more information about OMI export to an OOS bucket, see [CreateImageExportTask](#createimageexporttask).<br />
 
       You can register an OMI using a pre-signed URL of the manifest file of the OMI. You do not need any permission for this OMI, or the bucket in which it is contained. The manifest file is obsolete seven days after a completed export as it contains pre-signed URLs to the appropriate snapshots (pre-signed URLs are valid for only seven days).<br />
 
@@ -8275,7 +8275,7 @@ paths:
       tags:
       - Image
   /CreateImageExportTask:
-    description: 'Exports an Outscale machine image (OMI) to an Object Storage Unit (OSU) bucket.<br />
+    description: 'Exports an Outscale machine image (OMI) to an OUTSCALE Object Storage (OOS) bucket.<br />
 
       This action enables you to copy an OMI between accounts in different Regions. To copy an OMI in the same Region, you can also use the [CreateImage](#createimage) method.<br />
 
@@ -8405,7 +8405,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateListenerRuleResponse'
-          description: Information about the reponse.
+          description: The HTTP 200 response (OK).
       tags:
       - Listener
   /CreateLoadBalancer:
@@ -8589,7 +8589,7 @@ paths:
       tags:
       - Net
   /CreateNetAccessPoint:
-    description: 'Creates a Net access point to access a 3DS OUTSCALE service from this Net without using the Internet and External IP addresses.<br />
+    description: 'Creates a Net access point to access an OUTSCALE service from this Net without using the Internet and External IP addresses.<br />
 
       You specify the service using its name. For more information about the available services, see [ReadNetAccessPointServices](#readnetaccesspointservices).<br />
 
@@ -8880,7 +8880,7 @@ paths:
 
       You can also add one or more ingress rules to a security group.<br />
 
-      In the public Cloud, this action allows one or more IP address ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own 3DS OUTSCALE account or another one.<br />
+      In the public Cloud, this action allows one or more IP address ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own OUTSCALE account or another one.<br />
 
       In a Net, this action allows one or more  IP address ranges to access a security group for your Net, or allows one or more other security groups (source groups) to access a security group for your Net. All the security groups must be for the same Net.<br /><br />
 
@@ -8947,7 +8947,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateServerCertificateResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - ServerCertificate
   /CreateSnapshot:
@@ -8963,7 +8963,7 @@ paths:
       The copy of the source snapshot is independent and belongs to you.<br /><br />
 
 
-      To copy a snapshot between accounts in different Regions, the owner of the source snapshot must export it to an Object Storage Unit (OSU) bucket using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. You then need to import it from the OSU bucket to create a copy of this snapshot in your account.<br />
+      To copy a snapshot between accounts in different Regions, the owner of the source snapshot must export it to an OUTSCALE Object Storage (OOS) bucket using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. You then need to import it from the bucket to create a copy of this snapshot in your account.<br />
 
       You can import a snapshot using a pre-signed URL. You do not need any permission for this snapshot, or the bucket in which it is contained. The pre-signed URL is valid for seven days (you can regenerate a new one if needed).'
     post:
@@ -9001,9 +9001,9 @@ paths:
       tags:
       - Snapshot
   /CreateSnapshotExportTask:
-    description: 'Exports a snapshot to an Object Storage Unit (OSU) bucket.<br />
+    description: 'Exports a snapshot to an OUTSCALE Object Storage (OOS) bucket.<br />
 
-      This action enables you to create a backup of your snapshot or to copy it to another account. You, or other users you send a pre-signed URL to, can then download this snapshot from the OSU bucket using the [CreateSnapshot](#createsnapshot) method.<br />
+      This action enables you to create a backup of your snapshot or to copy it to another account. You, or other users you send a pre-signed URL to, can then download this snapshot from the bucket using the [CreateSnapshot](#createsnapshot) method.<br />
 
       This procedure enables you to copy a snapshot between accounts within the same Region or in different Regions. To copy a snapshot within the same Region, you can also use the [CreateSnapshot](#createsnapshot) direct method. The copy of the source snapshot is independent and belongs to you.'
     post:
@@ -9172,7 +9172,7 @@ paths:
   /CreateVms:
     description: 'Creates new virtual machines (VMs), and then launches them.<br />
 
-      This action enables you to create a specified number of VMs using an Outscale machine image (OMI) that you are allowed to use, and then to automatically launch them.<br />
+      This action enables you to create a specified number of VMs using an OUTSCALE machine image (OMI) that you are allowed to use, and then to automatically launch them.<br />
 
       The VMs remain in the `pending` state until they are created and ready to be used. Once automatically launched, they are in the `running` state.<br />
 
@@ -9315,7 +9315,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeleteAccessKeyResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - AccessKey
   /DeleteApiAccessRule:
@@ -9478,7 +9478,7 @@ paths:
       tags:
       - FlexibleGpu
   /DeleteImage:
-    description: Deletes an Outscale machine image (OMI) so that you cannot use it anymore to launch virtual machines (VMs). However, you can still use VMs already launched from this OMI.
+    description: Deletes an OUTSCALE machine image (OMI) so that you cannot use it anymore to launch virtual machines (VMs). However, you can still use VMs already launched from this OMI.
     post:
       operationId: DeleteImage
       requestBody:
@@ -9606,7 +9606,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeleteListenerRuleResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Listener
   /DeleteLoadBalancer:
@@ -10093,13 +10093,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeleteServerCertificateResponse'
-          description: Informaton about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - ServerCertificate
   /DeleteSnapshot:
     description: 'Deletes a specified snapshot.<br />
 
-      You cannot delete a snapshot that is currently used by an Outscale machine image (OMI). To do so, you first need to delete the corresponding OMI. For more information, see the [DeleteImage](#deleteimage) method.'
+      You cannot delete a snapshot that is currently used by an OUTSCALE machine image (OMI). To do so, you first need to delete the corresponding OMI. For more information, see the [DeleteImage](#deleteimage) method.'
     post:
       operationId: DeleteSnapshot
       requestBody:
@@ -10632,7 +10632,7 @@ paths:
       tags:
       - Volume
   /ReadAccessKeys:
-    description: 'Returns information about the access key IDs of a specified user.<br />
+    description: 'Gets information about the access key IDs of a specified user.<br />
 
       If the user does not have any access key ID, this action returns an empty list.'
     post:
@@ -10648,7 +10648,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReadAccessKeysResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - AccessKey
   /ReadAccounts:
@@ -10666,11 +10666,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReadAccountsResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Account
   /ReadAdminPassword:
-    description: 'Retrieves the administrator password for a Windows running virtual machine (VM).<br />
+    description: 'Gets the administrator password for a Windows running virtual machine (VM).<br />
 
       The administrator password is encrypted using the keypair you specified when launching the VM.<br /><br />
 
@@ -10713,7 +10713,7 @@ paths:
       tags:
       - Vm
   /ReadApiAccessRules:
-    description: Describes one or more API access rules.
+    description: Lists one or more API access rules.
     post:
       operationId: ReadApiAccessRules
       requestBody:
@@ -10731,7 +10731,7 @@ paths:
       tags:
       - ApiAccessRule
   /ReadApiLogs:
-    description: Retrieves your API logs. Only the logs of the calls made during the last 30 days can be retrieved through this method. You can use filters to retrieve specific logs. You can also specify the information to be displayed in the logs.
+    description: Gets your API logs. Only the logs of the calls made during the last 30 days can be retrieved through this method. You can use filters to retrieve specific logs. You can also specify the information to be displayed in the logs.
     post:
       operationId: ReadApiLogs
       requestBody:
@@ -10749,7 +10749,7 @@ paths:
       tags:
       - ApiLog
   /ReadCas:
-    description: Returns information about one or more of your Client Certificate Authorities (CAs).
+    description: Gets information about one or more of your Client Certificate Authorities (CAs).
     post:
       operationId: ReadCas
       requestBody:
@@ -10767,7 +10767,7 @@ paths:
       tags:
       - Ca
   /ReadClientGateways:
-    description: 'Describes one or more of your client gateways.<br /><br />
+    description: 'Lists one or more of your client gateways.<br /><br />
 
 
       **[NOTE]**<br />
@@ -10831,7 +10831,7 @@ paths:
       tags:
       - Vm
   /ReadConsumptionAccount:
-    description: 'Displays information about the consumption of your account for each billable resource within the specified time period.<br /><br />
+    description: 'Gets information about the consumption of your account for each billable resource within the specified time period.<br /><br />
 
 
       **[NOTE]**<br />
@@ -10850,11 +10850,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReadConsumptionAccountResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Account
   /ReadDhcpOptions:
-    description: 'Retrieves information about the content of one or more DHCP options sets.<br /><br />
+    description: 'Gets information about the content of one or more DHCP options sets.<br /><br />
 
 
       **[NOTE]**<br />
@@ -10993,7 +10993,7 @@ paths:
       tags:
       - Image
   /ReadImages:
-    description: 'Lists one or more Outscale machine images (OMIs) you can use.<br /><br />
+    description: 'Lists one or more OUTSCALE machine images (OMIs) you can use.<br /><br />
 
 
       **[NOTE]**<br />
@@ -11118,7 +11118,7 @@ paths:
       tags:
       - Keypair
   /ReadListenerRules:
-    description: Describes one or more listener rules. By default, this action returns the full list of listener rules for the account.
+    description: Lists one or more listener rules. By default, this action returns the full list of listener rules for the account.
     post:
       operationId: ReadListenerRules
       requestBody:
@@ -11132,11 +11132,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReadListenerRulesResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Listener
   /ReadLoadBalancerTags:
-    description: 'Describes the tags associated with one or more specified load balancers.<br /><br />
+    description: 'Lists the tags associated with one or more specified load balancers.<br /><br />
 
 
       **[NOTE]**<br />
@@ -11247,7 +11247,7 @@ paths:
       tags:
       - NatService
   /ReadNetAccessPointServices:
-    description: 'Describes 3DS OUTSCALE services available to create Net access points.<br />
+    description: 'Lists OUTSCALE services available to create Net access points.<br />
 
       For more information, see [CreateNetAccessPoint](#createnetaccesspoint).<br /><br />
 
@@ -11273,7 +11273,7 @@ paths:
       tags:
       - NetAccessPoint
   /ReadNetAccessPoints:
-    description: 'Describes one or more Net access points.<br /><br />
+    description: 'Lists one or more Net access points.<br /><br />
 
 
       **[NOTE]**<br />
@@ -11421,7 +11421,7 @@ paths:
       tags:
       - Nic
   /ReadProductTypes:
-    description: 'Describes one or more product types.<br /><br />
+    description: 'Lists one or more product types.<br /><br />
 
 
       **[NOTE]**<br />
@@ -11445,7 +11445,7 @@ paths:
       tags:
       - ProductType
   /ReadPublicIpRanges:
-    description: Returns the public IPv4 addresses in CIDR notation for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints and Availability Zones Reference](https://wiki.outscale.net/display/EN/Regions%2C+Endpoints+and+Availability+Zones+Reference).
+    description: Gets the public IPv4 addresses in CIDR notation for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints and Availability Zones Reference](https://wiki.outscale.net/display/EN/Regions%2C+Endpoints+and+Availability+Zones+Reference).
     post:
       operationId: ReadPublicIpRanges
       requestBody:
@@ -11507,7 +11507,7 @@ paths:
       tags:
       - PublicIp
   /ReadQuotas:
-    description: 'Describes one or more of your quotas.<br /><br />
+    description: 'Lists one or more of your quotas.<br /><br />
 
 
       **[NOTE]**<br />
@@ -11530,7 +11530,7 @@ paths:
       tags:
       - Quota
   /ReadRegions:
-    description: Describes one or more Regions of the 3DS OUTSCALE Cloud.
+    description: Lists one or more Regions of the OUTSCALE Cloud.
     post:
       operationId: ReadRegions
       requestBody:
@@ -11544,7 +11544,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReadRegionsResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Region
   /ReadRouteTables:
@@ -11605,7 +11605,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReadSecretAccessKeyResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - AccessKey
   /ReadSecurityGroups:
@@ -11652,7 +11652,7 @@ paths:
       tags:
       - SecurityGroup
   /ReadServerCertificates:
-    description: List your server certificates.
+    description: Lists your server certificates.
     post:
       operationId: ReadServerCertificates
       requestBody:
@@ -11666,7 +11666,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReadServerCertificatesResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - ServerCertificate
   /ReadSnapshotExportTasks:
@@ -12038,7 +12038,7 @@ paths:
       tags:
       - Volume
   /ReadVpnConnections:
-    description: 'Describes one or more VPN connections.<br /><br />
+    description: 'Lists one or more VPN connections.<br /><br />
 
 
       **[NOTE]**<br />
@@ -12185,7 +12185,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResetAccountPasswordResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Account
   /SendResetPasswordEmail:
@@ -12209,7 +12209,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SendResetPasswordEmailResponse'
-          description: Information about the response.You need to provide this token when updating the account password using the ResetAccountPassword method.
+          description: The HTTP 200 response (OK).You need to provide this token when updating the account password using the ResetAccountPassword method.
       tags:
       - Account
   /StartVms:
@@ -12579,7 +12579,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateAccessKeyResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - AccessKey
   /UpdateAccount:
@@ -12597,7 +12597,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateAccountResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Account
   /UpdateApiAccessRule:
@@ -12655,7 +12655,7 @@ paths:
       tags:
       - FlexibleGpu
   /UpdateImage:
-    description: 'Modifies the specified attribute of an Outscale machine image (OMI).<br />
+    description: 'Modifies the specified attribute of an OUTSCALE machine image (OMI).<br />
 
       You can specify only one attribute at a time. You can modify the permissions to access the OMI by adding or removing account IDs or groups. You can share an OMI with a user that is in the same Region. The user can create a copy of the OMI you shared, obtaining all the rights for the copy of the OMI. For more information, see [CreateImage](#createimage).'
     post:
@@ -12709,11 +12709,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateListenerRuleResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - Listener
   /UpdateLoadBalancer:
-    description: 'Modifies the specified attributes of a load balancer.<br /><br />
+    description: 'Modifies the specified attribute of a load balancer. You can specify only one attribute at a time.<br /><br />
 
 
       You can set a new SSL certificate to an SSL or HTTPS listener of a load balancer.<br />
@@ -12721,9 +12721,9 @@ paths:
       This certificate replaces any certificate used on the same load balancer and port.<br /><br />
 
 
-      You can also replace the current set of policies for a load balancer with another specified one.<br />
+      You can also replace the currently enabled policy for the load balancer with another one.<br />
 
-      If the `PolicyNames` parameter is empty, all current policies are disabled.'
+      If the `PolicyNames` parameter is empty, the currently enabled policy is disabled.'
     post:
       operationId: UpdateLoadBalancer
       requestBody:
@@ -12919,7 +12919,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateServerCertificateResponse'
-          description: Information about the response.
+          description: The HTTP 200 response (OK).
       tags:
       - ServerCertificate
   /UpdateSnapshot:
@@ -13092,6 +13092,7 @@ servers:
     region:
       default: eu-west-2
       enum:
+      - ap-northeast-1
       - cloudgouv-eu-west-1
       - cloudgouv-eu-west-2
       - eu-west-2
@@ -13103,3 +13104,9 @@ servers:
       default: cn-southeast-1
       enum:
       - cn-southeast-1
+- url: https://api.{region}.outscale.jp/api/v1
+  variables:
+    region:
+      default: ap-northeast-1
+      enum:
+      - ap-northeast-1
