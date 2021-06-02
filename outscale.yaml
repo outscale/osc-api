@@ -4478,10 +4478,10 @@ components:
           description: (Net only) The primary or secondary private IP address of the specified NIC. By default, the primary private IP address.
           type: string
         PublicIp:
-          description: The EIP. In the public Cloud, this parameter is required.
+          description: The EIP. This parameter is required unless you use the `PublicIpId` parameter.
           type: string
         PublicIpId:
-          description: The allocation ID of the EIP. In a Net, this parameter is required.
+          description: The allocation ID of the EIP. This parameter is required unless you use the `PublicIp` parameter.
           type: string
         VmId:
           description: 'The ID of the VM.<br />
@@ -7144,10 +7144,10 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         LinkPublicIpId:
-          description: (Required in a Net) The ID representing the association of the EIP with the VM or the NIC.
+          description: The ID representing the association of the EIP with the VM or the NIC. This parameter is required unless you use the `PublicIp` parameter.
           type: string
         PublicIp:
-          description: The External IP address. In the public Cloud, this parameter is required.
+          description: The EIP. This parameter is required unless you use the `LinkPublicIpId` parameter.
           type: string
       type: object
     UnlinkPublicIpResponse:
@@ -13274,7 +13274,6 @@ servers:
       enum:
       - ap-northeast-1
       - cloudgouv-eu-west-1
-      - cloudgouv-eu-west-2
       - eu-west-2
       - us-east-2
       - us-west-1
