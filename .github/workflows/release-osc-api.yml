@@ -1,0 +1,20 @@
+name: Outscale API release
+on:
+  release:
+    types: published
+
+jobs:
+  osc-sdk-go:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Getting release details
+        id: release
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+      - name: Trigger osc-sdk-go build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_GO }}
+          API_VERSION: ${{ steps.release.outputs.TAG }}
+        run: .github/scripts/build-osc-sdk-go.sh
