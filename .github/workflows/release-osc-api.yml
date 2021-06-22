@@ -18,3 +18,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_GO }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
         run: .github/scripts/build-osc-sdk-go.sh
+      - name: Trigger osc-sdk-python build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_PYTHON }}
+          API_VERSION: ${{ steps.release.outputs.TAG }}
+        run: .github/scripts/build-osc-sdk-python.sh
