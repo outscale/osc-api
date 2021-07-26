@@ -916,9 +916,6 @@ components:
         LoadBalancerType:
           description: 'The type of load balancer: `internet-facing` or `internal`. Use this parameter only for load balancers in a Net.'
           type: string
-        PublicIp:
-          description: (internet-facing only) The External IP address (EIP) you want to associate with the load balancer. If not specified, an EIP owned by 3DS OUTSCALE is associated.
-          type: string
         SecurityGroups:
           description: (Net only) One or more IDs of security groups you want to assign to the load balancer. If not specified, the default security group of the Net is assigned to the load balancer.
           items:
@@ -1089,8 +1086,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         PrivateIps:
-          description: 'The primary private IP address for the NIC.<br /><br />
-
+          description: 'The primary private IP address for the NIC.<br />
 
             This IP address must be within the IP address range of the Subnet that you specify with the `SubnetId` attribute.<br />
 
@@ -4479,12 +4475,7 @@ components:
       additionalProperties: false
       properties:
         AllowRelink:
-          description: '- If true, allows the EIP to be associated with the VM or NIC that you specify even if it is already associated with another VM or NIC.<br />
-
-            - If false, prevents the EIP from being associated with the VM or NIC that you specify if it is already associated with another VM or NIC.<br /><br />
-
-
-            (By default, true in the public Cloud, false in a Net.)'
+          description: If true, allows the EIP to be associated with the VM or NIC that you specify even if it is already associated with another VM or NIC. If false, prevents the EIP from being associated with the VM or NIC that you specify if it is already associated with another VM or NIC. (By default, true in the public Cloud, false in a Net.)
           type: boolean
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -4776,9 +4767,6 @@ components:
           type: string
         NetId:
           description: The ID of the Net for the load balancer.
-          type: string
-        PublicIp:
-          description: (internet-facing only) The EIP associated with the load balancer.
           type: string
         SecurityGroups:
           description: One or more IDs of security groups for the load balancers. Valid only for load balancers in a Net.
@@ -7507,9 +7495,6 @@ components:
           items:
             type: string
           type: array
-        PublicIp:
-          description: (internet-facing only) The EIP you want to associate with the load balancer. The former EIP of the load balancer is then disassociated. If you specify an empty string and the former EIP belonged to you, it is disassociated and replaced by an EIP owned by 3DS OUTSCALE.
-          type: string
         SecurityGroups:
           description: (Net only) One or more IDs of security groups you want to assign to the load balancer. You need to specify the already assigned security groups that you want to keep along with the new ones you are assigning. If the list is empty, the default security group of the Net is assigned to the load balancer.
           items:
@@ -8962,7 +8947,7 @@ paths:
   /CreatePublicIp:
     description: 'Acquires an External IP address (EIP) for your account.<br />
 
-      An EIP is a static IP address designed for dynamic Cloud computing. It can be associated with a virtual machine (VM) in the public Cloud (`standard`) or in a Net, a network interface card (NIC), a NAT service or an internet-facing load balancer.'
+      An EIP is a static IP address designed for dynamic Cloud computing. It can be associated with a virtual machine (VM) in the public Cloud or in a Net, a network interface card (NIC), a NAT service.'
     post:
       operationId: CreatePublicIp
       requestBody:
@@ -10781,9 +10766,7 @@ paths:
 
       **[NOTE]**<br />
 
-      You can associate an EIP with a network address translation (NAT) service only when creating the NAT service. To modify its EIP, you need to delete the NAT service and re-create it with the new EIP. For more information, see the [CreateNatService](#createnatservice) method.<br />
-
-      To associate an EIP with an internet-facing load balancer, see the [CreateLoadBalancer](#createloadbalancer) and [UpdateLoadBalancer](#updateloadbalancer) methods.'
+      You can associate an EIP with a network address translation (NAT) service only when creating the NAT service. To modify its EIP, you need to delete the NAT service and re-create it with the new EIP. For more information, see the [CreateNatService](#createnatservice) method.'
     post:
       operationId: LinkPublicIp
       requestBody:
@@ -11792,7 +11775,7 @@ paths:
   /ReadPublicIps:
     description: 'Lists one or more External IP addresses (EIPs) allocated to your account.<br />
 
-      By default, this action returns information about all your EIPs: available or associated with a virtual machine (VM), a network interface card (NIC), a NAT service or an internet-facing load balancer.<br /><br />
+      By default, this action returns information about all your EIPs: available or associated with a virtual machine (VM), a network interface card (NIC) or a NAT service.<br /><br />
 
 
       **[NOTE]**<br />
@@ -12755,9 +12738,7 @@ paths:
 
       **[NOTE]**<br />
 
-      To disassociate the EIP from a NAT service, you need to delete the NAT service. For more information, see the [DeleteNatService](#deletenatservice) method.<br />
-
-      To replace the EIP associated with an internet-facing load balancer, see the [UpdateLoadBalancer](#updateloadbalancer) method.'
+      To disassociate the EIP from a NAT service, you need to delete the NAT service. For more information, see the [DeleteNatService](#deletenatservice) method.'
     post:
       operationId: UnlinkPublicIp
       requestBody:
