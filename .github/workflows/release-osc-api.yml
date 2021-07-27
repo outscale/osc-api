@@ -1,7 +1,7 @@
 name: Outscale API release
 on:
   release:
-    types: published
+    types: [released]
 
 jobs:
   osc-sdk-go:
