@@ -798,7 +798,7 @@ components:
           description: A unique name for the keypair, with a maximum length of 255 [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
           type: string
         PublicKey:
-          description: The public key. It must be base64-encoded.
+          description: The public key. It must be Base64-encoded.
           type: string
       required:
       - KeypairName
@@ -1498,7 +1498,7 @@ components:
           description: The ID of the Subnet in which you want to create the VM.
           type: string
         UserData:
-          description: Data or script used to add a specific configuration to the VM. It must be base64-encoded.
+          description: Data or script used to add a specific configuration to the VM. It must be Base64-encoded and is limited to 500 kibibytes (KiB).
           type: string
         VmInitiatedShutdownBehavior:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
@@ -2588,14 +2588,6 @@ components:
           items:
             type: string
           type: array
-        QueryDateAfter:
-          description: The date after which you want to retrieve logged calls, in ISO 8601 format (for example, `2020-06-14`). By default, this date is set to 2 days ago.
-          format: date
-          type: string
-        QueryDateBefore:
-          description: The date before which you want to retrieve logged calls, in ISO 8601 format (for example, `2020-06-30`). By default, this date is set to now.
-          format: date
-          type: string
         QueryIpAddresses:
           description: The IP addresses used for the logged calls.
           items:
@@ -5324,7 +5316,7 @@ components:
           description: The lifetime for phase 2 of the Internet Key Exchange (IKE) negociation process, in seconds.
           type: integer
         PreSharedKey:
-          description: The pre-shared key to establish the initial authentication between the client gateway and the virtual gateway.
+          description: The pre-shared key to establish the initial authentication between the client gateway and the virtual gateway. This key can contain any character except line breaks and double quotes (&quot;).
           type: string
       type: object
     Placement:
@@ -7248,8 +7240,12 @@ components:
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
+        ExpirationDate:
+          description: The date and time at which you want the access key to expire, in ISO 8601 format (for example, `2017-06-14` or `2017-06-14T00:00:00Z`). If not specified, the access key is set to not expire.
+          format: datetime
+          type: string
         State:
-          description: The new state for the access key (`ACTIVE` \| `INACTIVE`).
+          description: The new state for the access key (`ACTIVE` \| `INACTIVE`). When set to `ACTIVE`, the access key is enabled and can be used to send requests. When set to `INACTIVE`, the access key is disabled.
           type: string
       required:
       - AccessKeyId
@@ -7778,7 +7774,7 @@ components:
             type: string
           type: array
         UserData:
-          description: The Base64-encoded MIME user data.
+          description: The Base64-encoded MIME user data, limited to 500 kibibytes (KiB).
           type: string
         VmId:
           description: The ID of the VM.
@@ -8114,7 +8110,7 @@ components:
         Phase2Options:
           $ref: '#/components/schemas/Phase2Options'
         TunnelInsideIpRange:
-          description: The IP range for the tunnel in your VPN connection.
+          description: The range of inside IP addresses for the tunnel. This must be a /30 CIDR block from the 169.254.254.0/24 range.
           type: string
       type: object
     With:
@@ -8209,7 +8205,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.14'
+  version: '1.15'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -12870,14 +12866,14 @@ paths:
       tags:
       - Volume
   /UpdateAccessKey:
-    description: 'Modifies the status of the specified access key associated with the account that sends the request.<br />
-
-      When set to `ACTIVE`, the access key is enabled and can be used to send requests. When set to `INACTIVE`, the access key is disabled.<br /><br />
+    description: 'Modifies the attributes of the specified access key associated with the account that sends the request.<br /><br />
 
 
       **[NOTE]**<br />
 
-      To protect against brute force attacks, the number of requests allowed for this method in a given time period is limited.'
+      * To remove the expiration date of the access key after you have set one, use this method without specifying `ExpirationDate`.<br />
+
+      * To protect against brute force attacks, the number of requests allowed for this method in a given time period is limited.'
     post:
       operationId: UpdateAccessKey
       requestBody:
