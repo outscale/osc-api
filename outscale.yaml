@@ -916,6 +916,9 @@ components:
         LoadBalancerType:
           description: 'The type of load balancer: `internet-facing` or `internal`. Use this parameter only for load balancers in a Net.'
           type: string
+        PublicIp:
+          description: (internet-facing only) The public IP you want to associate with the load balancer. If not specified, a public IP owned by 3DS OUTSCALE is associated.
+          type: string
         SecurityGroups:
           description: (Net only) One or more IDs of security groups you want to assign to the load balancer. If not specified, the default security group of the Net is assigned to the load balancer.
           items:
@@ -981,9 +984,9 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         PublicIpId:
-          description: 'The allocation ID of the EIP to associate with the NAT service.<br />
+          description: 'The allocation ID of the public IP to associate with the NAT service.<br />
 
-            If the EIP is already associated with another resource, you must first disassociate it.'
+            If the public IP is already associated with another resource, you must first disassociate it.'
           type: string
         SubnetId:
           description: The ID of the Subnet in which you want to create the NAT service.
@@ -2034,10 +2037,10 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         PublicIp:
-          description: The EIP. In the public Cloud, this parameter is required.
+          description: The public IP. In the public Cloud, this parameter is required.
           type: string
         PublicIpId:
-          description: The ID representing the association of the EIP with the VM or the NIC. In a Net, this parameter is required.
+          description: The ID representing the association of the public IP with the VM or the NIC. In a Net, this parameter is required.
           type: string
       type: object
     DeletePublicIpResponse:
@@ -3205,22 +3208,22 @@ components:
             type: string
           type: array
         LinkPublicIpAccountIds:
-          description: The account IDs of the owners of the EIPs associated with the NICs.
+          description: The account IDs of the owners of the public IPs associated with the NICs.
           items:
             type: string
           type: array
         LinkPublicIpLinkPublicIpIds:
-          description: The association IDs returned when the EIPs were associated with the NICs.
+          description: The association IDs returned when the public IPs were associated with the NICs.
           items:
             type: string
           type: array
         LinkPublicIpPublicIpIds:
-          description: The allocation IDs returned when the EIPs were allocated to their accounts.
+          description: The allocation IDs returned when the public IPs were allocated to their accounts.
           items:
             type: string
           type: array
         LinkPublicIpPublicIps:
-          description: The EIPs associated with the NICs.
+          description: The public IPs associated with the NICs.
           items:
             type: string
           type: array
@@ -3245,17 +3248,17 @@ components:
             type: string
           type: array
         PrivateIpsLinkPublicIpAccountIds:
-          description: The account IDs of the owner of the EIPs associated with the private IP addresses.
+          description: The account IDs of the owner of the public IPs associated with the private IP addresses.
           items:
             type: string
           type: array
         PrivateIpsLinkPublicIpPublicIps:
-          description: The EIPs associated with the private IP addresses.
+          description: The public IPs associated with the private IP addresses.
           items:
             type: string
           type: array
         PrivateIpsPrimaryIp:
-          description: The primary private IP addresses of the NICs.
+          description: Whether the private IP address is the primary IP address associated with the NIC.
           type: boolean
         PrivateIpsPrivateIps:
           description: The private IP addresses of the NICs.
@@ -3318,7 +3321,7 @@ components:
       description: One or more filters.
       properties:
         LinkPublicIpIds:
-          description: The IDs representing the associations of EIPs with VMs or NICs.
+          description: The IDs representing the associations of public IPs with VMs or NICs.
           items:
             type: string
           type: array
@@ -3333,37 +3336,37 @@ components:
             type: string
           type: array
         Placements:
-          description: Whether the EIPs are for use in the public Cloud or in a Net.
+          description: Whether the public IPs are for use in the public Cloud or in a Net.
           items:
             type: string
           type: array
         PrivateIps:
-          description: The private IP addresses associated with the EIPs.
+          description: The private IP addresses associated with the public IPs.
           items:
             type: string
           type: array
         PublicIpIds:
-          description: The IDs of the External IP addresses (EIPs).
+          description: The IDs of the public IPs.
           items:
             type: string
           type: array
         PublicIps:
-          description: The External IP addresses (EIPs).
+          description: The public IPs.
           items:
             type: string
           type: array
         TagKeys:
-          description: The keys of the tags associated with the EIPs.
+          description: The keys of the tags associated with the public IPs.
           items:
             type: string
           type: array
         TagValues:
-          description: The values of the tags associated with the EIPs.
+          description: The values of the tags associated with the public IPs.
           items:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the EIPs, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
+          description: 'The key/value combination of the tags associated with the public IPs, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3888,7 +3891,7 @@ components:
       description: One or more filters.
       properties:
         MaintenanceEventCodes:
-          description: The code for the scheduled event (`system-reboot` | `system-maintenance`).
+          description: The code for the scheduled event (`system-reboot` \| `system-maintenance`).
           items:
             type: string
           type: array
@@ -4243,7 +4246,7 @@ components:
           description: The ID of the Net attached to the Internet service.
           type: string
         State:
-          description: The state of the attachment of the Net to the Internet service (always `available`).
+          description: The state of the attachment of the Internet service to the Net (always `available`).
           type: string
         Tags:
           description: One or more tags associated with the Internet service.
@@ -4273,7 +4276,7 @@ components:
           description: The name of the keypair.
           type: string
         PrivateKey:
-          description: The private key.
+          description: The private key. When saving the private key in a .rsa file, replace the `\n` escape sequences with line breaks.
           type: string
       type: object
     LinkFlexibleGpuRequest:
@@ -4431,43 +4434,43 @@ components:
       type: object
     LinkPublicIp:
       additionalProperties: false
-      description: Information about the EIP association.
+      description: Information about the public IP association.
       properties:
         LinkPublicIpId:
-          description: (Required in a Net) The ID representing the association of the EIP with the VM or the NIC.
+          description: (Required in a Net) The ID representing the association of the public IP with the VM or the NIC.
           type: string
         PublicDnsName:
           description: The name of the public DNS.
           type: string
         PublicIp:
-          description: The External IP address (EIP) associated with the NIC.
+          description: The public IP associated with the NIC.
           type: string
         PublicIpAccountId:
-          description: The account ID of the owner of the EIP.
+          description: The account ID of the owner of the public IP.
           type: string
         PublicIpId:
-          description: The allocation ID of the EIP.
+          description: The allocation ID of the public IP.
           type: string
       type: object
     LinkPublicIpLightForVm:
       additionalProperties: false
-      description: Information about the EIP associated with the NIC.
+      description: Information about the public IP associated with the NIC.
       properties:
         PublicDnsName:
           description: The name of the public DNS.
           type: string
         PublicIp:
-          description: The External IP address (EIP) associated with the NIC.
+          description: The public IP associated with the NIC.
           type: string
         PublicIpAccountId:
-          description: The account ID of the owner of the EIP.
+          description: The account ID of the owner of the public IP.
           type: string
       type: object
     LinkPublicIpRequest:
       additionalProperties: false
       properties:
         AllowRelink:
-          description: If true, allows the EIP to be associated with the VM or NIC that you specify even if it is already associated with another VM or NIC. If false, prevents the EIP from being associated with the VM or NIC that you specify if it is already associated with another VM or NIC. (By default, true in the public Cloud, false in a Net.)
+          description: If true, allows the public IP to be associated with the VM or NIC that you specify even if it is already associated with another VM or NIC. If false, prevents the public IP from being associated with the VM or NIC that you specify if it is already associated with another VM or NIC. (By default, true in the public Cloud, false in a Net.)
           type: boolean
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -4479,10 +4482,10 @@ components:
           description: (Net only) The primary or secondary private IP address of the specified NIC. By default, the primary private IP address.
           type: string
         PublicIp:
-          description: The EIP. This parameter is required unless you use the `PublicIpId` parameter.
+          description: The public IP. This parameter is required unless you use the `PublicIpId` parameter.
           type: string
         PublicIpId:
-          description: The allocation ID of the EIP. This parameter is required unless you use the `PublicIp` parameter.
+          description: The allocation ID of the public IP. This parameter is required unless you use the `PublicIp` parameter.
           type: string
         VmId:
           description: 'The ID of the VM.<br />
@@ -4496,7 +4499,7 @@ components:
       additionalProperties: false
       properties:
         LinkPublicIpId:
-          description: (Net only) The ID representing the association of the EIP with the VM or the NIC.
+          description: (Net only) The ID representing the association of the public IP with the VM or the NIC.
           type: string
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -4753,12 +4756,15 @@ components:
         LoadBalancerType:
           description: 'The type of load balancer. Valid only for load balancers in a Net.<br />
 
-            If `LoadBalancerType` is `internet-facing`, the load balancer has a public DNS name that resolves to a public IP address.<br />
+            If `LoadBalancerType` is `internet-facing`, the load balancer has a public DNS name that resolves to a public IP.<br />
 
             If `LoadBalancerType` is `internal`, the load balancer has a public DNS name that resolves to a private IP address.'
           type: string
         NetId:
           description: The ID of the Net for the load balancer.
+          type: string
+        PublicIp:
+          description: (internet-facing only) The public IP associated with the load balancer.
           type: string
         SecurityGroups:
           description: One or more IDs of security groups for the load balancers. Valid only for load balancers in a Net.
@@ -4919,7 +4925,7 @@ components:
           description: The ID of the Net in which the NAT service is.
           type: string
         PublicIps:
-          description: Information about the External IP address or addresses (EIPs) associated with the NAT service.
+          description: Information about the public IP or IPs associated with the NAT service.
           items:
             $ref: '#/components/schemas/PublicIpLight'
           type: array
@@ -5392,30 +5398,30 @@ components:
       description: Information about the public IP.
       properties:
         LinkPublicIpId:
-          description: (Required in a Net) The ID representing the association of the EIP with the VM or the NIC.
+          description: (Required in a Net) The ID representing the association of the public IP with the VM or the NIC.
           type: string
         NicAccountId:
           description: The account ID of the owner of the NIC.
           type: string
         NicId:
-          description: The ID of the NIC the EIP is associated with (if any).
+          description: The ID of the NIC the public IP is associated with (if any).
           type: string
         PrivateIp:
-          description: The private IP address associated with the EIP.
+          description: The private IP address associated with the public IP.
           type: string
         PublicIp:
-          description: The External IP address (EIP) associated with the NAT service.
+          description: The public IP.
           type: string
         PublicIpId:
-          description: The allocation ID of the EIP associated with the NAT service.
+          description: The allocation ID of the public IP.
           type: string
         Tags:
-          description: One or more tags associated with the EIP.
+          description: One or more tags associated with the public IP.
           items:
             $ref: '#/components/schemas/ResourceTag'
           type: array
         VmId:
-          description: The ID of the VM the External IP (EIP) is associated with (if any).
+          description: The ID of the VM the public IP is associated with (if any).
           type: string
       type: object
     PublicIpLight:
@@ -5423,10 +5429,10 @@ components:
       description: Information about the public IP.
       properties:
         PublicIp:
-          description: The External IP address (EIP) associated with the NAT service.
+          description: The public IP associated with the NAT service.
           type: string
         PublicIpId:
-          description: The allocation ID of the EIP associated with the NAT service.
+          description: The allocation ID of the public IP associated with the NAT service.
           type: string
       type: object
     Quota:
@@ -5529,6 +5535,13 @@ components:
         VmId:
           description: The ID of the VM.
           type: string
+      type: object
+    ReadApiAccessPolicyRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If true, checks whether you have the required permissions to perform the action.
+          type: boolean
       type: object
     ReadApiAccessPolicyResponse:
       additionalProperties: false
@@ -6114,7 +6127,7 @@ components:
       additionalProperties: false
       properties:
         PublicIps:
-          description: Information about one or more EIPs.
+          description: Information about one or more public IPs.
           items:
             $ref: '#/components/schemas/PublicIp'
           type: array
@@ -6863,6 +6876,10 @@ components:
         AccountId:
           description: The account ID of the owner of the snapshot.
           type: string
+        CreationDate:
+          description: The date and time of creation of the snapshot.
+          format: datetime
+          type: string
         Description:
           description: The description of the snapshot.
           type: string
@@ -7018,7 +7035,7 @@ components:
           description: The IP range in the Subnet, in CIDR notation (for example, 10.0.0.0/16).
           type: string
         MapPublicIpOnLaunch:
-          description: If true, a public IP address is assigned to the network interface cards (NICs) created in the specified Subnet.
+          description: If true, a public IP is assigned to the network interface cards (NICs) created in the specified Subnet.
           type: boolean
         NetId:
           description: The ID of the Net in which the Subnet is.
@@ -7158,10 +7175,10 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         LinkPublicIpId:
-          description: The ID representing the association of the EIP with the VM or the NIC. This parameter is required unless you use the `PublicIp` parameter.
+          description: The ID representing the association of the public IP with the VM or the NIC. This parameter is required unless you use the `PublicIp` parameter.
           type: string
         PublicIp:
-          description: The EIP. This parameter is required unless you use the `LinkPublicIpId` parameter.
+          description: The public IP. This parameter is required unless you use the `LinkPublicIpId` parameter.
           type: string
       type: object
     UnlinkPublicIpResponse:
@@ -7491,6 +7508,9 @@ components:
           items:
             type: string
           type: array
+        PublicIp:
+          description: (internet-facing only) The public IP you want to associate with the load balancer. The former public IP of the load balancer is then disassociated. If you specify an empty string and the former public IP belonged to you, it is disassociated and replaced by a public IP owned by 3DS OUTSCALE.
+          type: string
         SecurityGroups:
           description: (Net only) One or more IDs of security groups you want to assign to the load balancer. You need to specify the already assigned security groups that you want to keep along with the new ones you are assigning. If the list is empty, the default security group of the Net is assigned to the load balancer.
           items:
@@ -7719,7 +7739,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         MapPublicIpOnLaunch:
-          description: If true, a public IP address is assigned to the network interface cards (NICs) created in the specified Subnet.
+          description: If true, a public IP is assigned to the network interface cards (NICs) created in the specified Subnet.
           type: boolean
         SubnetId:
           description: The ID of the Subnet.
@@ -7825,6 +7845,34 @@ components:
         Volume:
           $ref: '#/components/schemas/Volume'
       type: object
+    UpdateVpnConnectionRequest:
+      additionalProperties: false
+      properties:
+        ClientGatewayId:
+          description: The ID of the client gateway.
+          type: string
+        DryRun:
+          description: If true, checks whether you have the required permissions to perform the action.
+          type: boolean
+        VirtualGatewayId:
+          description: The ID of the virtual gateway.
+          type: string
+        VpnConnectionId:
+          description: The ID of the VPN connection you want to modify.
+          type: string
+        VpnOptions:
+          $ref: '#/components/schemas/VpnOptions'
+      required:
+      - VpnConnectionId
+      type: object
+    UpdateVpnConnectionResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+        VpnConnection:
+          $ref: '#/components/schemas/VpnConnection'
+      type: object
     VirtualGateway:
       additionalProperties: false
       description: Information about the virtual gateway.
@@ -7920,7 +7968,7 @@ components:
           description: The name of the public DNS.
           type: string
         PublicIp:
-          description: The public IP address of the VM.
+          description: The public IP of the VM.
           type: string
         ReservationId:
           description: The reservation ID of the VM.
@@ -8027,6 +8075,10 @@ components:
       additionalProperties: false
       description: Information about the volume.
       properties:
+        CreationDate:
+          description: The date and time of creation of the volume.
+          format: datetime
+          type: string
         Iops:
           description: 'The number of I/O operations per second (IOPS):<br />
 
@@ -8205,7 +8257,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.15'
+  version: '1.16'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -8374,7 +8426,7 @@ paths:
 
       This action registers information to identify the client gateway that you deployed in your network.<br />
 
-      To open a tunnel to the client gateway, you must provide the communication protocol type, the valid fixed public IP address of the gateway, and an Autonomous System Number (ASN).'
+      To open a tunnel to the client gateway, you must provide the communication protocol type, the fixed public IP of the gateway, and an Autonomous System Number (ASN).'
     post:
       operationId: CreateClientGateway
       requestBody:
@@ -8551,7 +8603,7 @@ paths:
   /CreateInternetService:
     description: 'Creates an Internet service you can use with a Net.<br />
 
-      An Internet service enables your virtual machines (VMs) launched in a Net to connect to the Internet. By default, a Net includes an Internet service, and each Subnet is public. Every VM launched within a default Subnet has a private and a public IP addresses.'
+      An Internet service enables your virtual machines (VMs) launched in a Net to connect to the Internet. By default, a Net includes an Internet service, and each Subnet is public. Every VM launched within a default Subnet has a private IP and a public IP.'
     post:
       operationId: CreateInternetService
       requestBody:
@@ -8660,7 +8712,7 @@ paths:
 
       The load balancer is created with a unique Domain Name Service (DNS) name. It receives the incoming traffic and routes it to its registered virtual machines (VMs).<br />
 
-      By default, this action creates an Internet-facing load balancer, resolving to public IP addresses. To create an internal load balancer in a Net, resolving to private IP addresses, use the `LoadBalancerType` parameter.<br />
+      By default, this action creates an Internet-facing load balancer, resolving to public IPs. To create an internal load balancer in a Net, resolving to private IP addresses, use the `LoadBalancerType` parameter.<br />
 
       You must specify either the `Subnets` or the `SubregionNames` parameters.'
     post:
@@ -8751,14 +8803,14 @@ paths:
 
       A NAT service enables virtual machines (VMs) placed in the private Subnet of this Net to connect to the Internet, without being accessible from the Internet.<br />
 
-      When creating a NAT service, you specify the allocation ID of the External IP (EIP) you want to use as public IP for the NAT service. Once the NAT service is created, you need to create a route in the route table of the private Subnet, with 0.0.0.0/0 as destination and the ID of the NAT service as target. For more information, see [LinkPublicIP](#linkpublicip) and [CreateRoute](#createroute).<br />
+      When creating a NAT service, you specify the allocation ID of the public IP you want to use as public IP for the NAT service. Once the NAT service is created, you need to create a route in the route table of the private Subnet, with 0.0.0.0/0 as destination and the ID of the NAT service as target. For more information, see [LinkPublicIP](#linkpublicip) and [CreateRoute](#createroute).<br />
 
       This action also enables you to create multiple NAT services in the same Net (one per public Subnet).<br /><br />
 
 
       **[NOTE]**<br />
 
-      You cannot modify the EIP associated with a NAT service after its creation. To do so, you need to delete the NAT service and create a new one with another EIP.'
+      You cannot modify the public IP associated with a NAT service after its creation. To do so, you need to delete the NAT service and create a new one with another public IP.'
     post:
       operationId: CreateNatService
       requestBody:
@@ -8838,7 +8890,7 @@ paths:
       tags:
       - Net
   /CreateNetAccessPoint:
-    description: 'Creates a Net access point to access an OUTSCALE service from this Net without using the Internet and External IP addresses.<br />
+    description: 'Creates a Net access point to access an OUTSCALE service from this Net without using the Internet and public IPs.<br />
 
       You specify the service using its name. For more information about the available services, see [ReadNetAccessPointServices](#readnetaccesspointservices).<br />
 
@@ -8941,9 +8993,9 @@ paths:
       tags:
       - Nic
   /CreatePublicIp:
-    description: 'Acquires an External IP address (EIP) for your account.<br />
+    description: 'Acquires a public IP for your account.<br />
 
-      An EIP is a static IP address designed for dynamic Cloud computing. It can be associated with a virtual machine (VM) in the public Cloud or in a Net, a network interface card (NIC), a NAT service.'
+      A public IP is a static IP address designed for dynamic Cloud computing. It can be associated with a virtual machine (VM), a network interface card (NIC), a NAT service or an internet-facing load balancer.'
     post:
       operationId: CreatePublicIp
       requestBody:
@@ -9335,7 +9387,7 @@ paths:
 
       * Snapshots (snap-xxxxxxxx)<br />
 
-      * EIPs (eipalloc-xxxxxxxx)<br />
+      * Public IPs (eipalloc-xxxxxxxx)<br />
 
       * Security groups (sg-xxxxxxxx)<br />
 
@@ -9946,7 +9998,7 @@ paths:
   /DeleteNatService:
     description: 'Deletes a specified network address translation (NAT) service.<br />
 
-      This action disassociates the External IP address (EIP) from the NAT service, but does not release this EIP from your account. However, it does not delete any NAT service routes in your route tables.'
+      This action disassociates the public IP from the NAT service, but does not release this public IP from your account. However, it does not delete any NAT service routes in your route tables.'
     post:
       operationId: DeleteNatService
       requestBody:
@@ -9993,7 +10045,7 @@ paths:
 
       * Custom route tables<br />
 
-      * External IP addresses (EIPs) allocated to resources in the Net<br />
+      * Public IPs allocated to resources in the Net<br />
 
       * Network Interface Cards (NICs) created in the Subnets<br />
 
@@ -10145,9 +10197,9 @@ paths:
       tags:
       - Nic
   /DeletePublicIp:
-    description: 'Releases an External IP address (EIP).<br />
+    description: 'Releases a public IP.<br />
 
-      You can release an EIP associated with your account. This address is released in the EIP pool and can be used by someone else. Before releasing an EIP, ensure you updated all your resources communicating with this address.'
+      You can release a public IP associated with your account. This address is released in the public IP pool and can be used by someone else. Before releasing a public IP, ensure you updated all your resources communicating with this address.'
     post:
       operationId: DeletePublicIp
       requestBody:
@@ -10753,16 +10805,18 @@ paths:
       tags:
       - Nic
   /LinkPublicIp:
-    description: 'Associates an External IP address (EIP) with a virtual machine (VM) or a network interface card (NIC), in the public Cloud or in a Net. You can associate an EIP with only one VM or network interface at a time.<br />
+    description: 'Associates a public IP with a virtual machine (VM) or a network interface card (NIC). You can associate a public IP with only one VM or network interface at a time.<br />
 
-      To associate an EIP in a Net, ensure that the Net has an Internet service attached. For more information, see the [LinkInternetService](#linkinternetservice) method.<br />
+      To associate a public IP in a Net, ensure that the Net has an Internet service attached. For more information, see the [LinkInternetService](#linkinternetservice) method.<br />
 
-      By default, the EIP is disassociated every time you stop and start the VM. For a persistent association, you can add the `osc.fcu.eip.auto-attach` tag to the VM with the EIP as value. For more information, see the [CreateTags](#createtags) method.<br /><br />
+      By default, the public IP is disassociated every time you stop and start the VM. For a persistent association, you can add the `osc.fcu.eip.auto-attach` tag to the VM with the public IP as value. For more information, see the [CreateTags](#createtags) method.<br /><br />
 
 
       **[NOTE]**<br />
 
-      You can associate an EIP with a network address translation (NAT) service only when creating the NAT service. To modify its EIP, you need to delete the NAT service and re-create it with the new EIP. For more information, see the [CreateNatService](#createnatservice) method.'
+      You can associate a public IP with a network address translation (NAT) service only when creating the NAT service. To modify its public IP, you need to delete the NAT service and re-create it with the new public IP. For more information, see the [CreateNatService](#createnatservice) method.<br />
+
+      To associate a public IP with an internet-facing load balancer, see the [CreateLoadBalancer](#createloadbalancer) and [UpdateLoadBalancer](#updateloadbalancer) methods.'
     post:
       operationId: LinkPublicIp
       requestBody:
@@ -10980,7 +11034,10 @@ paths:
     post:
       operationId: ReadApiAccessPolicy
       requestBody:
-        content: {}
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadApiAccessPolicyRequest'
       responses:
         '200':
           content:
@@ -11341,7 +11398,7 @@ paths:
   /ReadInternetServices:
     description: 'Lists one or more of your Internet services.<br />
 
-      An Internet service enables your virtual machines (VMs) launched in a Net to connect to the Internet. By default, a Net includes an Internet service, and each Subnet is public. Every VM launched within a default Subnet has a private and a public IP addresses.<br /><br />
+      An Internet service enables your virtual machines (VMs) launched in a Net to connect to the Internet. By default, a Net includes an Internet service, and each Subnet is public. Every VM launched within a default Subnet has a private IP and a public IP.<br /><br />
 
 
       **[NOTE]**<br />
@@ -11769,9 +11826,9 @@ paths:
       tags:
       - PublicIp
   /ReadPublicIps:
-    description: 'Lists one or more External IP addresses (EIPs) allocated to your account.<br />
+    description: 'Lists one or more public IPs allocated to your account.<br />
 
-      By default, this action returns information about all your EIPs: available or associated with a virtual machine (VM), a network interface card (NIC) or a NAT service.<br /><br />
+      By default, this action returns information about all your public IPs: available or associated with a virtual machine (VM), a network interface card (NIC), a NAT service or an internet-facing load balancer.<br /><br />
 
 
       **[NOTE]**<br />
@@ -11850,6 +11907,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ReadRegionsResponse'
           description: The HTTP 200 response (OK).
+      security: []
       tags:
       - Region
   /ReadRouteTables:
@@ -12494,6 +12552,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResetAccountPasswordResponse'
           description: The HTTP 200 response (OK).
+      security: []
       tags:
       - Account
   /SendResetPasswordEmail:
@@ -12518,6 +12577,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SendResetPasswordEmailResponse'
           description: The HTTP 200 response (OK).You need to provide this token when updating the account password using the ResetAccountPassword method.
+      security: []
       tags:
       - Account
   /StartVms:
@@ -12619,7 +12679,7 @@ paths:
   /UnlinkInternetService:
     description: 'Detaches an Internet service from a Net.<br />
 
-      This action disables and detaches an Internet service from a Net. The Net must not contain any running virtual machine (VM) using an External IP address (EIP).'
+      This action disables and detaches an Internet service from a Net. The Net must not contain any running virtual machine (VM) using a public IP.'
     post:
       operationId: UnlinkInternetService
       requestBody:
@@ -12729,12 +12789,14 @@ paths:
       tags:
       - Nic
   /UnlinkPublicIp:
-    description: 'Disassociates an External IP address (EIP) from the virtual machine (VM) or network interface card (NIC) it is associated with.<br /><br />
+    description: 'Disassociates a public IP from the virtual machine (VM) or network interface card (NIC) it is associated with.<br /><br />
 
 
       **[NOTE]**<br />
 
-      To disassociate the EIP from a NAT service, you need to delete the NAT service. For more information, see the [DeleteNatService](#deletenatservice) method.'
+      To disassociate the public IP from a NAT service, you need to delete the NAT service. For more information, see the [DeleteNatService](#deletenatservice) method.<br />
+
+      To replace the public IP associated with an internet-facing load balancer, see the [UpdateLoadBalancer](#updateloadbalancer) method.'
     post:
       operationId: UnlinkPublicIp
       requestBody:
@@ -13447,6 +13509,42 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Volume
+  /UpdateVpnConnection:
+    description: Modifies the specified attributes of a VPN connection.
+    post:
+      operationId: UpdateVpnConnection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVpnConnectionRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateVpnConnectionResponse'
+          description: The HTTP 200 response (OK).
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 400 response (Bad Request).
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 401 response (Unauthorized).
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 500 response (Internal Server Error).
+      tags:
+      - VpnConnection
 security:
 - ApiKeyAuth: []
 servers:
