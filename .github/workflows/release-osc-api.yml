@@ -23,3 +23,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_PYTHON }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
         run: .github/scripts/build-osc-sdk-python.sh
+      - name: Trigger osc-sdk-rust build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_RUST }}
+          API_VERSION: ${{ steps.release.outputs.TAG }}
+        run: .github/scripts/build-osc-sdk-rust.sh
