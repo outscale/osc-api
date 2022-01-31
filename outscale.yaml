@@ -42,15 +42,15 @@ components:
           description: The ID of the access key.
           type: string
         CreationDate:
-          description: The date and time of creation of the access key.
+          description: The date and time (UTC) of creation of the access key.
           format: datetime
           type: string
         ExpirationDate:
-          description: The date at which the access key expires.
+          description: The date (UTC) at which the access key expires.
           format: datetime
           type: string
         LastModificationDate:
-          description: The date and time of the last modification of the access key.
+          description: The date and time (UTC) of the last modification of the access key.
           format: datetime
           type: string
         State:
@@ -311,7 +311,7 @@ components:
         VolumeType:
           description: 'The type of the volume (`standard` \| `io1` \| `gp2`). If not specified in the request, a `standard` volume is created.<br />
 
-            For more information about volume types, see [Volume Types and IOPS](https://wiki.outscale.net/display/EN/About+Volumes#AboutVolumes-VolumeTypesVolumeTypesandIOPS).'
+            For more information about volume types, see [About Volumes > Volume Types and IOPS](https://docs.outscale.com/en/userguide/About-Volumes.html#_volume_types_and_iops).'
           type: string
       type: object
     BsuToUpdateVm:
@@ -598,7 +598,7 @@ components:
           description: Specify a domain name (for example, MyCompany.com). You can specify only one domain name.
           type: string
         DomainNameServers:
-          description: The IP addresses of domain name servers. If no IP addresses are specified, the `OutscaleProvidedDNS` value is set by default.
+          description: The IPs of domain name servers. If no IPs are specified, the `OutscaleProvidedDNS` value is set by default.
           items:
             type: string
           type: array
@@ -606,7 +606,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         NtpServers:
-          description: The IP addresses of the Network Time Protocol (NTP) servers.
+          description: The IPs of the Network Time Protocol (NTP) servers.
           items:
             type: string
           type: array
@@ -684,7 +684,7 @@ components:
           description: The processor generation that the fGPU must be compatible with. If not specified, the oldest possible processor generation is selected (as provided by [ReadFlexibleGpuCatalog](#readflexiblegpucatalog) for the specified model of fGPU).
           type: string
         ModelName:
-          description: The model of fGPU you want to allocate. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
+          description: The model of fGPU you want to allocate. For more information, see [About Flexible GPUs](https://docs.outscale.com/en/userguide/About-Flexible-GPUs.html).
           type: string
         SubregionName:
           description: The Subregion in which you want to create the fGPU.
@@ -1089,11 +1089,11 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         PrivateIps:
-          description: 'The primary private IP address for the NIC.<br />
+          description: 'The primary private IP for the NIC.<br />
 
-            This IP address must be within the IP address range of the Subnet that you specify with the `SubnetId` attribute.<br />
+            This IP must be within the IP range of the Subnet that you specify with the `SubnetId` attribute.<br />
 
-            If you do not specify this attribute, a random private IP address is selected within the IP address range of the Subnet.'
+            If you do not specify this attribute, a random private IP is selected within the IP range of the Subnet.'
           items:
             $ref: '#/components/schemas/PrivateIpLight'
           type: array
@@ -1483,7 +1483,7 @@ components:
         Placement:
           $ref: '#/components/schemas/Placement'
         PrivateIps:
-          description: One or more private IP addresses of the VM.
+          description: One or more private IPs of the VM.
           items:
             type: string
           type: array
@@ -1509,7 +1509,7 @@ components:
         VmType:
           description: 'The type of VM (`t2.small` by default).<br />
 
-            For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).'
+            For more information, see [Instance Types](https://docs.outscale.com/en/userguide/Instance-Types.html).'
           type: string
       required:
       - ImageId
@@ -1546,7 +1546,7 @@ components:
         VolumeType:
           description: 'The type of volume you want to create (`io1` \| `gp2` \| `standard`). If not specified, a `standard` volume is created.<br />
 
-            For more information about volume types, see [Volume Types and IOPS](https://wiki.outscale.net/display/EN/About+Volumes#AboutVolumes-VolumeTypesVolumeTypesandIOPS).'
+            For more information about volume types, see [About Volumes > Volume Types and IOPS](https://docs.outscale.com/en/userguide/About-Volumes.html#_volume_types_and_iops).'
           type: string
       required:
       - SubregionName
@@ -2376,12 +2376,12 @@ components:
           description: The domain name.
           type: string
         DomainNameServers:
-          description: One or more IP addresses for the domain name servers.
+          description: One or more IPs for the domain name servers.
           items:
             type: string
           type: array
         NtpServers:
-          description: One or more IP addresses for the NTP servers.
+          description: One or more IPs for the NTP servers.
           items:
             type: string
           type: array
@@ -2438,13 +2438,13 @@ components:
           description: The BGP authentication key.
           type: string
         ClientPrivateIp:
-          description: The IP address on the customer's side of the DirectLink interface.
+          description: The IP on the customer's side of the DirectLink interface.
           type: string
         DirectLinkInterfaceName:
           description: The name of the DirectLink interface.
           type: string
         OutscalePrivateIp:
-          description: The IP address on the OUTSCALE side of the DirectLink interface.
+          description: The IP on the OUTSCALE side of the DirectLink interface.
           type: string
         VirtualGatewayId:
           description: The ID of the target virtual gateway.
@@ -2472,7 +2472,7 @@ components:
           description: The BGP authentication key.
           type: string
         ClientPrivateIp:
-          description: The IP address on the customer's side of the DirectLink interface.
+          description: The IP on the customer's side of the DirectLink interface.
           type: string
         DirectLinkId:
           description: The ID of the DirectLink.
@@ -2490,7 +2490,7 @@ components:
           description: The datacenter where the DirectLink interface is located.
           type: string
         OutscalePrivateIp:
-          description: The IP address on the OUTSCALE side of the DirectLink interface.
+          description: The IP on the OUTSCALE side of the DirectLink interface.
           type: string
         State:
           description: The state of the DirectLink interface (`pending` \| `available` \| `deleting` \| `deleted` \| `confirming` \| `rejected` \| `expired`).
@@ -2592,7 +2592,7 @@ components:
             type: string
           type: array
         QueryIpAddresses:
-          description: The IP addresses used for the logged calls.
+          description: The IPs used for the logged calls.
           items:
             type: string
           type: array
@@ -2773,7 +2773,7 @@ components:
             type: string
           type: array
         ModelNames:
-          description: One or more models of fGPUs. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
+          description: One or more models of fGPUs. For more information, see [About Flexible GPUs](https://docs.outscale.com/en/userguide/About-Flexible-GPUs.html).
           items:
             type: string
           type: array
@@ -3243,25 +3243,25 @@ components:
             type: string
           type: array
         PrivateDnsNames:
-          description: The private DNS names associated with the primary private IP addresses.
+          description: The private DNS names associated with the primary private IPs.
           items:
             type: string
           type: array
         PrivateIpsLinkPublicIpAccountIds:
-          description: The account IDs of the owner of the public IPs associated with the private IP addresses.
+          description: The account IDs of the owner of the public IPs associated with the private IPs.
           items:
             type: string
           type: array
         PrivateIpsLinkPublicIpPublicIps:
-          description: The public IPs associated with the private IP addresses.
+          description: The public IPs associated with the private IPs.
           items:
             type: string
           type: array
         PrivateIpsPrimaryIp:
-          description: Whether the private IP address is the primary IP address associated with the NIC.
+          description: Whether the private IP is the primary IP associated with the NIC.
           type: boolean
         PrivateIpsPrivateIps:
-          description: The private IP addresses of the NICs.
+          description: The private IPs of the NICs.
           items:
             type: string
           type: array
@@ -3341,7 +3341,7 @@ components:
             type: string
           type: array
         PrivateIps:
-          description: The private IP addresses associated with the public IPs.
+          description: The private IPs associated with the public IPs.
           items:
             type: string
           type: array
@@ -3871,7 +3871,7 @@ components:
             type: integer
           type: array
         VmTypeNames:
-          description: The names of the VM types. For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).
+          description: The names of the VM types. For more information, see [Instance Types](https://docs.outscale.com/en/userguide/Instance-Types.html).
           items:
             type: string
           type: array
@@ -4080,7 +4080,7 @@ components:
           description: The compatible processor generation.
           type: string
         ModelName:
-          description: The model of fGPU. For more information, see [About Flexible GPUs](https://wiki.outscale.net/display/EN/About+Flexible+GPUs).
+          description: The model of fGPU. For more information, see [About Flexible GPUs](https://docs.outscale.com/en/userguide/About-Flexible-GPUs.html).
           type: string
         State:
           description: The state of the fGPU (`allocated` \| `attaching` \| `attached` \| `detaching`).
@@ -4407,7 +4407,7 @@ components:
       additionalProperties: false
       properties:
         AllowRelink:
-          description: If true, allows an IP address that is already assigned to another NIC in the same Subnet to be assigned to the NIC you specified.
+          description: If true, allows an IP that is already assigned to another NIC in the same Subnet to be assigned to the NIC you specified.
           type: boolean
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -4416,12 +4416,12 @@ components:
           description: The ID of the NIC.
           type: string
         PrivateIps:
-          description: The secondary private IP address or addresses you want to assign to the NIC within the IP address range of the Subnet.
+          description: The secondary private IP or IPs you want to assign to the NIC within the IP range of the Subnet.
           items:
             type: string
           type: array
         SecondaryPrivateIpCount:
-          description: The number of secondary private IP addresses to assign to the NIC.
+          description: The number of secondary private IPs to assign to the NIC.
           type: integer
       required:
       - NicId
@@ -4470,7 +4470,7 @@ components:
       additionalProperties: false
       properties:
         AllowRelink:
-          description: If true, allows the public IP to be associated with the VM or NIC that you specify even if it is already associated with another VM or NIC. If false, prevents the public IP from being associated with the VM or NIC that you specify if it is already associated with another VM or NIC. (By default, true in the public Cloud, false in a Net.)
+          description: If true, allows the public IP to be associated with the VM or NIC that you specify even if it is already associated with another VM or NIC. If false, prevents the EIP from being associated with the VM or NIC that you specify if it is already associated with another VM or NIC. (By default, true in the public Cloud, false in a Net.)
           type: boolean
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -4479,7 +4479,7 @@ components:
           description: (Net only) The ID of the NIC. This parameter is required if the VM has more than one NIC attached. Otherwise, you need to specify the `VmId` parameter instead. You cannot specify both parameters at the same time.
           type: string
         PrivateIp:
-          description: (Net only) The primary or secondary private IP address of the specified NIC. By default, the primary private IP address.
+          description: (Net only) The primary or secondary private IP of the specified NIC. By default, the primary private IP.
           type: string
         PublicIp:
           description: The public IP. This parameter is required unless you use the `PublicIpId` parameter.
@@ -4638,7 +4638,7 @@ components:
             type: string
           type: array
         ServerCertificateId:
-          description: The OUTSCALE Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > OUTSCALE Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
+          description: The OUTSCALE Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > OUTSCALE Resource Names (ORNs)](https://docs.outscale.com/en/userguide/Resource-Identifiers.html#_outscale_resource_names_orns).
           type: string
       type: object
     ListenerForCreation:
@@ -4658,7 +4658,7 @@ components:
           description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
           type: string
         ServerCertificateId:
-          description: The OUTSCALE Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > OUTSCALE Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat).
+          description: The OUTSCALE Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > OUTSCALE Resource Names (ORNs)](https://docs.outscale.com/en/userguide/Resource-Identifiers.html#_outscale_resource_names_orns).
           type: string
       required:
       - BackendPort
@@ -4730,6 +4730,11 @@ components:
           items:
             $ref: '#/components/schemas/ApplicationStickyCookiePolicy'
           type: array
+        BackendIps:
+          description: One or more public IPs of back-end VMs.
+          items:
+            type: string
+          type: array
         BackendVmIds:
           description: One or more IDs of back-end VMs for the load balancer.
           items:
@@ -4758,7 +4763,7 @@ components:
 
             If `LoadBalancerType` is `internet-facing`, the load balancer has a public DNS name that resolves to a public IP.<br />
 
-            If `LoadBalancerType` is `internal`, the load balancer has a public DNS name that resolves to a private IP address.'
+            If `LoadBalancerType` is `internal`, the load balancer has a public DNS name that resolves to a private IP.'
           type: string
         NetId:
           description: The ID of the Net for the load balancer.
@@ -4874,7 +4879,7 @@ components:
           description: The size of the raw header of the HTTP request of the logged call, in bytes.
           type: integer
         QueryIpAddress:
-          description: The IP address used for the logged call.
+          description: The IP used for the logged call.
           type: string
         QueryPayloadRaw:
           description: The raw payload of the HTTP request of the logged call.
@@ -5064,7 +5069,7 @@ components:
           description: The name of the private DNS.
           type: string
         PrivateIps:
-          description: The private IP addresses of the NIC.
+          description: The private IPs of the NIC.
           items:
             $ref: '#/components/schemas/PrivateIp'
           type: array
@@ -5105,12 +5110,12 @@ components:
           description: The ID of the NIC, if you are attaching an existing NIC when creating a VM.
           type: string
         PrivateIps:
-          description: One or more private IP addresses to assign to the NIC, if you create a NIC when creating a VM. Only one private IP address can be the primary private IP address.
+          description: One or more private IPs to assign to the NIC, if you create a NIC when creating a VM. Only one private IP can be the primary private IP.
           items:
             $ref: '#/components/schemas/PrivateIpLight'
           type: array
         SecondaryPrivateIpCount:
-          description: The number of secondary private IP addresses, if you create a NIC when creating a VM. This parameter cannot be specified if you specified more than one private IP address in the `PrivateIps` parameter.
+          description: The number of secondary private IPs, if you create a NIC when creating a VM. This parameter cannot be specified if you specified more than one private IP in the `PrivateIps` parameter.
           type: integer
         SecurityGroupIds:
           description: One or more IDs of security groups for the NIC, if you acreate a NIC when creating a VM.
@@ -5151,7 +5156,7 @@ components:
           description: The name of the private DNS.
           type: string
         PrivateIps:
-          description: The private IP address or addresses of the NIC.
+          description: The private IP or IPs of the NIC.
           items:
             $ref: '#/components/schemas/PrivateIpLightForVm'
           type: array
@@ -5341,7 +5346,7 @@ components:
       description: Information about the private IP.
       properties:
         IsPrimary:
-          description: If true, the IP address is the primary private IP address of the NIC.
+          description: If true, the IP is the primary private IP of the NIC.
           type: boolean
         LinkPublicIp:
           $ref: '#/components/schemas/LinkPublicIp'
@@ -5349,7 +5354,7 @@ components:
           description: The name of the private DNS.
           type: string
         PrivateIp:
-          description: The private IP address of the NIC.
+          description: The private IP of the NIC.
           type: string
       type: object
     PrivateIpLight:
@@ -5357,10 +5362,10 @@ components:
       description: Information about the private IP.
       properties:
         IsPrimary:
-          description: If true, the IP address is the primary private IP address of the NIC.
+          description: If true, the IP is the primary private IP of the NIC.
           type: boolean
         PrivateIp:
-          description: The private IP address of the NIC.
+          description: The private IP of the NIC.
           type: string
       type: object
     PrivateIpLightForVm:
@@ -5368,7 +5373,7 @@ components:
       description: Information about the private IP of the NIC.
       properties:
         IsPrimary:
-          description: If true, the IP address is the primary private IP address of the NIC.
+          description: If true, the IP is the primary private IP of the NIC.
           type: boolean
         LinkPublicIp:
           $ref: '#/components/schemas/LinkPublicIpLightForVm'
@@ -5376,7 +5381,7 @@ components:
           description: The name of the private DNS.
           type: string
         PrivateIp:
-          description: The private IP address.
+          description: The private IP.
           type: string
       type: object
     ProductType:
@@ -5407,7 +5412,7 @@ components:
           description: The ID of the NIC the public IP is associated with (if any).
           type: string
         PrivateIp:
-          description: The private IP address associated with the public IP.
+          description: The private IP associated with the public IP.
           type: string
         PublicIp:
           description: The public IP.
@@ -7029,7 +7034,7 @@ components:
       description: Information about the Subnet.
       properties:
         AvailableIpsCount:
-          description: The number of available IP addresses in the Subnets.
+          description: The number of available IPs in the Subnets.
           type: integer
         IpRange:
           description: The IP range in the Subnet, in CIDR notation (for example, 10.0.0.0/16).
@@ -7154,7 +7159,7 @@ components:
           description: The ID of the NIC.
           type: string
         PrivateIps:
-          description: One or more secondary private IP addresses you want to unassign from the NIC.
+          description: One or more secondary private IPs you want to unassign from the NIC.
           items:
             type: string
           type: array
@@ -7517,7 +7522,7 @@ components:
             type: string
           type: array
         ServerCertificateId:
-          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://wiki.outscale.net/display/EN/Resource+Identifiers#ResourceIdentifiers-ORNFormat). If this parameter is specified, you must also specify the `LoadBalancerPort` parameter.
+          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://docs.outscale.com/en/userguide/Resource-Identifiers.html#_outscale_resource_names_orns). If this parameter is specified, you must also specify the `LoadBalancerPort` parameter.
           type: string
       required:
       - LoadBalancerName
@@ -7803,7 +7808,7 @@ components:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
           type: string
         VmType:
-          description: The type of VM. For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).
+          description: The type of VM. For more information, see [Instance Types](https://docs.outscale.com/en/userguide/Instance-Types.html).
           type: string
       required:
       - VmId
@@ -7957,7 +7962,7 @@ components:
           description: The name of the private DNS.
           type: string
         PrivateIp:
-          description: The primary private IP address of the VM.
+          description: The primary private IP of the VM.
           type: string
         ProductCodes:
           description: The product code associated with the OMI used to create the VM (`0001` Linux/Unix \| `0002` Windows \| `0004` Linux/Oracle \| `0005` Windows 10).
@@ -8008,7 +8013,7 @@ components:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is deleted.
           type: string
         VmType:
-          description: The type of VM. For more information, see [Instance Types](https://wiki.outscale.net/display/EN/Instance+Types).
+          description: The type of VM. For more information, see [Instance Types](https://docs.outscale.com/en/userguide/Instance-Types.html).
           type: string
       type: object
     VmState:
@@ -8052,7 +8057,7 @@ components:
           description: Indicates whether the VM is optimized for BSU I/O.
           type: boolean
         MaxPrivateIps:
-          description: The maximum number of private IP addresses per network interface card (NIC).
+          description: The maximum number of private IPs per network interface card (NIC).
           type: integer
         MemorySize:
           description: The amount of memory, in gibibytes.
@@ -8162,7 +8167,7 @@ components:
         Phase2Options:
           $ref: '#/components/schemas/Phase2Options'
         TunnelInsideIpRange:
-          description: The range of inside IP addresses for the tunnel. This must be a /30 CIDR block from the 169.254.254.0/24 range.
+          description: The range of inside IPs for the tunnel. This must be a /30 CIDR block from the 169.254.254.0/24 range.
           type: string
       type: object
     With:
@@ -8197,7 +8202,7 @@ components:
           description: If set to true, the size of the raw header of the HTTP request is displayed.
           type: boolean
         QueryIpAddress:
-          description: If set to true, the IP address is displayed.
+          description: If set to true, the IP is displayed.
           type: boolean
         QueryPayloadRaw:
           description: If set to true, the raw payload of the HTTP request is displayed.
@@ -8220,23 +8225,23 @@ components:
       type: object
   securitySchemes:
     ApiKeyAuth:
-      description: 'With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://wiki.outscale.net/display/EN/About+Signatures+of+API+Requests).<br />
+      description: 'With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://docs.outscale.com/en/userguide/About-Signatures-of-API-Requests.html).<br />
 
-        In addition to your access key, you can configure API access rules with Certificate Authorities (CAs), requiring you to provide a certificate to perform actions. In that case, you can bypass systematically providing a certificate by activating a trusted session. For more information, see the [UpdateApiAccessPolicy](#updateapiaccesspolicy) method and [About Your API Access Policy](https://wiki.outscale.net/display/EN/About+Your+API+Access+Policy).'
+        In addition to your access key, you can configure API access rules with Certificate Authorities (CAs), requiring you to provide a certificate to perform actions. In that case, you can bypass systematically providing a certificate by activating a trusted session. For more information, see the [UpdateApiAccessPolicy](#updateapiaccesspolicy) method and [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).'
       in: header
       name: Authorization
       type: apiKey
     ApiKeyAuthSec:
-      description: 'With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://wiki.outscale.net/display/EN/About+Signatures+of+API+Requests).<br />
+      description: 'With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://docs.outscale.com/en/userguide/About-Signatures-of-API-Requests.html).<br />
 
-        In addition to your access key, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://wiki.outscale.net/display/EN/About+Your+API+Access+Policy).'
+        In addition to your access key, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).'
       in: header
       name: Authorization
       type: apiKey
     BasicAuth:
       description: 'With this authentication scheme, you must specify an authentication field in the header of your API request, containing the following information: `Authorization: Basic XXXX`, where `XXXX` is your `email:password` encoded in Base64.<br />
 
-        In addition to your email and password combination, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://wiki.outscale.net/display/EN/About+Your+API+Access+Policy).'
+        In addition to your email and password combination, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).'
       scheme: basic
       type: http
 info:
@@ -8248,16 +8253,16 @@ info:
     The OUTSCALE API enables you to manage your resources in the OUTSCALE Cloud. This documentation describes the different actions available along with code examples.<br /><br />
 
 
-    Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the OUTSCALE API. You can find a list of the differences [here](https://wiki.outscale.net/display/EN/3DS+OUTSCALE+APIs+Reference).<br /><br />
+    Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the OUTSCALE API. You can find a list of the differences [here](https://docs.outscale.com/en/userguide/OUTSCALE-APIs-Reference.html).<br /><br />
 
 
-    You can also manage your resources using the [Cockpit](https://wiki.outscale.net/display/EN/About+Cockpit) web interface.'
+    You can also manage your resources using the [Cockpit](https://docs.outscale.com/en/userguide/About-Cockpit.html) web interface.'
   license:
     name: BSD 3 Clause
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.16'
+  version: '1.17'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -8380,7 +8385,7 @@ paths:
 
       **[NOTE]**<br />
 
-      By default, your account has a set of rules allowing global access that you can delete. For more information, see [About API Access Rules](https://wiki.outscale.net/display/EN/About+API+Access+Rules).'
+      By default, your account has a set of rules allowing global access that you can delete. For more information, see [About API Access Rules](https://docs.outscale.com/en/userguide/About-API-Access-Rules.html).'
     post:
       operationId: CreateApiAccessRule
       requestBody:
@@ -8522,7 +8527,7 @@ paths:
   /CreateImage:
     description: 'Creates an OUTSCALE machine image (OMI) from an existing virtual machine (VM) which is either running or stopped.<br />
 
-      This action also creates a snapshot of the root volume of the VM, as well as a snapshot of each Block Storage Unit (BSU) volume attached to the VM.<br /><br />
+      This action also creates a snapshot of the root volume of the VM, as well as a snapshot of each Block Storage Unit (BSU) volume attached to the VM. For more information, see [About OMIs](https://docs.outscale.com/en/userguide/About-OMIs.html).<br /><br />
 
 
       You can also use this method to copy an OMI to your account, from an account in the same Region. To do so, the owner of the source OMI must share it with your account. For more information about how to share an OMI with another account in the same Region, see [UpdateImage](#updateimage).<br />
@@ -8712,7 +8717,7 @@ paths:
 
       The load balancer is created with a unique Domain Name Service (DNS) name. It receives the incoming traffic and routes it to its registered virtual machines (VMs).<br />
 
-      By default, this action creates an Internet-facing load balancer, resolving to public IPs. To create an internal load balancer in a Net, resolving to private IP addresses, use the `LoadBalancerType` parameter.<br />
+      By default, this action creates an Internet-facing load balancer, resolving to public IPs. To create an internal load balancer in a Net, resolving to private IPs, use the `LoadBalancerType` parameter.<br />
 
       You must specify either the `Subnets` or the `SubregionNames` parameters.'
     post:
@@ -8848,7 +8853,7 @@ paths:
   /CreateNet:
     description: 'Creates a Net with a specified IP range.<br />
 
-      The IP range (network range) of your Net must be between a /28 netmask (16 IP addresses) and a /16 netmask (65536 IP addresses).'
+      The IP range (network range) of your Net must be between a /28 netmask (16 IPs) and a /16 netmask (65536 IPs).'
     post:
       operationId: CreateNet
       requestBody:
@@ -8995,7 +9000,7 @@ paths:
   /CreatePublicIp:
     description: 'Acquires a public IP for your account.<br />
 
-      A public IP is a static IP address designed for dynamic Cloud computing. It can be associated with a virtual machine (VM), a network interface card (NIC), a NAT service or an internet-facing load balancer.'
+      A public IP is a static IP designed for dynamic Cloud computing. It can be associated with a virtual machine (VM) in the public Cloud or in a Net, a network interface card (NIC), a NAT service.'
     post:
       operationId: CreatePublicIp
       requestBody:
@@ -9176,21 +9181,21 @@ paths:
 
       You can add one or more egress rules to a security group for use with a Net.<br />
 
-      It allows VMs to send traffic to either one or more destination IP address ranges or destination security groups for the same Net.<br />
+      It allows VMs to send traffic to either one or more destination IP ranges or destination security groups for the same Net.<br />
 
       We recommend using a set of IP permissions to authorize outbound access to a destination security group. We also recommended this method to create a rule with a specific IP protocol and a specific port range.  In a set of IP permissions, we recommend to specify the the protocol.<br /><br />
 
 
       You can also add one or more ingress rules to a security group.<br />
 
-      In the public Cloud, this action allows one or more IP address ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own OUTSCALE account or another one.<br />
+      In the public Cloud, this action allows one or more IP ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own OUTSCALE account or another one.<br />
 
-      In a Net, this action allows one or more  IP address ranges to access a security group for your Net, or allows one or more other security groups (source groups) to access a security group for your Net. All the security groups must be for the same Net.<br /><br />
+      In a Net, this action allows one or more  IP ranges to access a security group for your Net, or allows one or more other security groups (source groups) to access a security group for your Net. All the security groups must be for the same Net.<br /><br />
 
 
       **[NOTE]**<br />
 
-      By default, traffic between two security groups is allowed through both public and private IP addresses. To restrict it to private IP addresses only, contact our Support team: support@outscale.com.'
+      By default, traffic between two security groups is allowed through both public and private IPs. To restrict it to private IPs only, contact our Support team: support@outscale.com.'
     post:
       operationId: CreateSecurityGroupRule
       requestBody:
@@ -9330,7 +9335,7 @@ paths:
 
       To create a Subnet in a Net, you have to provide the ID of the Net and the IP range for the Subnet (its network range). Once the Subnet is created, you cannot modify its IP range.<br />
 
-      The IP range of the Subnet can be either the same as the Net one if you create only a single Subnet in this Net, or a subset of the Net one. In case of several Subnets in a Net, their IP ranges must not overlap. The smallest Subnet you can create uses a /30 netmask (four IP addresses).'
+      The IP range of the Subnet can be either the same as the Net one if you create only a single Subnet in this Net, or a subset of the Net one. In case of several Subnets in a Net, their IP ranges must not overlap. The smallest Subnet you can create uses a /30 netmask (four IPs).'
     post:
       operationId: CreateSubnet
       requestBody:
@@ -9625,7 +9630,7 @@ paths:
       tags:
       - AccessKey
   /DeleteApiAccessRule:
-    description: "Deletes a specified API access rule.<br /><br />\n\n**[NOTE]**<br /> \nYou cannot delete the last remaining API access rule. However, if you delete all the API access rules that allow you to access the API, you need to contact the Support team to regain access. For more information, see [Technical Support](https://wiki.outscale.net/display/EN/Technical+Support)."
+    description: "Deletes a specified API access rule.<br /><br />\n\n**[NOTE]**<br /> \nYou cannot delete the last remaining API access rule. However, if you delete all the API access rules that allow you to access the API, you need to contact the Support team to regain access. For more information, see [Technical Support](https://docs.outscale.com/en/userguide/Technical-Support.html)."
     post:
       operationId: DeleteApiAccessRule
       requestBody:
@@ -10353,7 +10358,7 @@ paths:
 
       In case of TCP and UDP protocols, you have to indicate the destination port or range of ports. In case of ICMP protocol, you have to specify the ICMP type and code.<br />
 
-      Rules (IP permissions) consist of the protocol, IP address range or source security group.<br />
+      Rules (IP permissions) consist of the protocol, IP range or source security group.<br />
 
       To remove outbound access to a destination security group, we recommend to use a set of IP permissions. We also recommend to specify the protocol in a set of IP permissions.'
     post:
@@ -10449,7 +10454,16 @@ paths:
   /DeleteSubnet:
     description: 'Deletes a specified Subnet.<br />
 
-      You must terminate all the running virtual machines (VMs) in the Subnet before deleting it.'
+      Before deleting the Subnet, you need to delete all resources associated with the Subnet:<br /><br />
+
+
+      * Virtual machines (VMs)<br />
+
+      * Network Interface Cards (NICs)<br />
+
+      * Network Address Translation (NAT) gateways<br />
+
+      * Load balancers'
     post:
       operationId: DeleteSubnet
       requestBody:
@@ -10769,7 +10783,7 @@ paths:
       tags:
       - Nic
   /LinkPrivateIps:
-    description: Assigns one or more secondary private IP addresses to a specified network interface card (NIC). This action is only available in a Net. The private IP addresses to be assigned can be added individually using the `PrivateIps` parameter, or you can specify the number of private IP addresses to be automatically chosen within the Subnet range using the `SecondaryPrivateIpCount` parameter. You can specify only one of these two parameters. If none of these parameters are specified, a private IP address is chosen within the Subnet range.
+    description: Assigns one or more secondary private IPs to a specified network interface card (NIC). This action is only available in a Net. The private IPs to be assigned can be added individually using the `PrivateIps` parameter, or you can specify the number of private IPs to be automatically chosen within the Subnet range using the `SecondaryPrivateIpCount` parameter. You can specify only one of these two parameters. If none of these parameters are specified, a private IP is chosen within the Subnet range.
     post:
       operationId: LinkPrivateIps
       requestBody:
@@ -10805,7 +10819,7 @@ paths:
       tags:
       - Nic
   /LinkPublicIp:
-    description: 'Associates a public IP with a virtual machine (VM) or a network interface card (NIC). You can associate a public IP with only one VM or network interface at a time.<br />
+    description: 'Associates a public IP with a virtual machine (VM) or a network interface card (NIC), in the public Cloud or in a Net. You can associate a public IP with only one VM or network interface at a time.<br />
 
       To associate a public IP in a Net, ensure that the Net has an Internet service attached. For more information, see the [LinkInternetService](#linkinternetservice) method.<br />
 
@@ -10814,9 +10828,7 @@ paths:
 
       **[NOTE]**<br />
 
-      You can associate a public IP with a network address translation (NAT) service only when creating the NAT service. To modify its public IP, you need to delete the NAT service and re-create it with the new public IP. For more information, see the [CreateNatService](#createnatservice) method.<br />
-
-      To associate a public IP with an internet-facing load balancer, see the [CreateLoadBalancer](#createloadbalancer) and [UpdateLoadBalancer](#updateloadbalancer) methods.'
+      You can associate a public IP with a network address translation (NAT) service only when creating the NAT service. To modify its public IP, you need to delete the NAT service and re-create it with the new public IP. For more information, see the [CreateNatService](#createnatservice) method.'
     post:
       operationId: LinkPublicIp
       requestBody:
@@ -11090,7 +11102,7 @@ paths:
       tags:
       - ApiAccessRule
   /ReadApiLogs:
-    description: Lists the logs of the API calls you have performed with this account. Past logs are accessible for up to 30 days. For more information, see [About OUTSCALE Monitoring Services (OMS)](https://wiki.outscale.net/pages/viewpage.action?pageId=49023581).
+    description: Lists the logs of the API calls you have performed with this account. Past logs are accessible for up to 32 days. For more information, see [About OUTSCALE Monitoring Services (OMS)](https://docs.outscale.com/en/userguide/About-OUTSCALE-Monitoring-Services-(OMS).html).
     post:
       operationId: ReadApiLogs
       requestBody:
@@ -11807,7 +11819,7 @@ paths:
       tags:
       - ProductType
   /ReadPublicIpRanges:
-    description: Gets the public IPv4 addresses in CIDR notation for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints and Availability Zones Reference](https://wiki.outscale.net/display/EN/Regions%2C+Endpoints+and+Availability+Zones+Reference).
+    description: Gets the public IPv4 addresses in CIDR notation for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints and Availability Zones Reference](https://docs.outscale.com/en/userguide/Regions-Endpoints-and-Availability-Zones-Reference.html).
     post:
       operationId: ReadPublicIpRanges
       requestBody:
@@ -11828,7 +11840,7 @@ paths:
   /ReadPublicIps:
     description: 'Lists one or more public IPs allocated to your account.<br />
 
-      By default, this action returns information about all your public IPs: available or associated with a virtual machine (VM), a network interface card (NIC), a NAT service or an internet-facing load balancer.<br /><br />
+      By default, this action returns information about all your public IPs: available or associated with a virtual machine (VM), a network interface card (NIC) or a NAT service.<br /><br />
 
 
       **[NOTE]**<br />
@@ -12576,7 +12588,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SendResetPasswordEmailResponse'
-          description: The HTTP 200 response (OK).You need to provide this token when updating the account password using the ResetAccountPassword method.
+          description: The HTTP 200 response (OK). You need to provide this token when updating the account password using the ResetAccountPassword method.
       security: []
       tags:
       - Account
@@ -12679,7 +12691,7 @@ paths:
   /UnlinkInternetService:
     description: 'Detaches an Internet service from a Net.<br />
 
-      This action disables and detaches an Internet service from a Net. The Net must not contain any running virtual machine (VM) using a public IP.'
+      This action disables and detaches an Internet service from a Net. The Net must not contain virtual machines (VMs) using public IPs nor internet-facing load balancers.'
     post:
       operationId: UnlinkInternetService
       requestBody:
@@ -12794,9 +12806,7 @@ paths:
 
       **[NOTE]**<br />
 
-      To disassociate the public IP from a NAT service, you need to delete the NAT service. For more information, see the [DeleteNatService](#deletenatservice) method.<br />
-
-      To replace the public IP associated with an internet-facing load balancer, see the [UpdateLoadBalancer](#updateloadbalancer) method.'
+      To disassociate the public IP from a NAT service, you need to delete the NAT service. For more information, see the [DeleteNatService](#deletenatservice) method.'
     post:
       operationId: UnlinkPublicIp
       requestBody:
