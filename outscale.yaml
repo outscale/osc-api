@@ -59,28 +59,28 @@ components:
       type: object
     AccessKeySecretKey:
       additionalProperties: false
-      description: Information about the secret access key.
+      description: Information about the access key.
       properties:
         AccessKeyId:
-          description: The ID of the secret access key.
+          description: The ID of the access key.
           type: string
         CreationDate:
-          description: The date and time of creation of the secret access key.
+          description: The date and time (UTC) of creation of the access key.
           format: datetime
           type: string
         ExpirationDate:
-          description: The date at which the access key expires.
+          description: The date and time (UTC) at which the access key expires.
           format: datetime
           type: string
         LastModificationDate:
-          description: The date and time of the last modification of the secret access key.
+          description: The date and time (UTC) of the last modification of the access key.
           format: datetime
           type: string
         SecretKey:
-          description: The secret access key that enables you to send requests.
+          description: The access key that enables you to send requests.
           type: string
         State:
-          description: The state of the secret access key (`ACTIVE` if the key is valid for API calls, or `INACTIVE` if not).
+          description: The state of the access key (`ACTIVE` if the key is valid for API calls, or `INACTIVE` if not).
           type: string
       type: object
     AccessLog:
@@ -366,7 +366,7 @@ components:
       description: Information about the client gateway.
       properties:
         BgpAsn:
-          description: An Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet.
+          description: The Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet.
           type: integer
         ClientGatewayId:
           description: The ID of the client gateway.
@@ -432,7 +432,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         ExpirationDate:
-          description: The date and time at which you want the access key to expire, in ISO 8601 format (for example, `2017-06-14` or `2017-06-14T00:00:00Z`). If not specified, the access key has no expiration date.
+          description: The date and time at which you want the access key to expire, in ISO 8601 format (for example, `2017-06-14` or `2017-06-14T00:00:00Z`). To remove an existing expiration date, use the method without specifying this parameter.
           format: datetime
           type: string
       type: object
@@ -544,7 +544,7 @@ components:
       additionalProperties: false
       properties:
         CaPem:
-          description: The CA in PEM format.
+          description: The CA in PEM format. It must be a single-line string, containing literal line breaks (`\n`).
           type: string
         Description:
           description: The description of the CA.
@@ -567,7 +567,7 @@ components:
       additionalProperties: false
       properties:
         BgpAsn:
-          description: An Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet.
+          description: The Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet. This number must be between 1 and 4294967295.
           type: integer
         ConnectionType:
           description: The communication protocol used to establish tunnel with your client gateway (only `ipsec.1` is supported).
@@ -2591,6 +2591,14 @@ components:
           items:
             type: string
           type: array
+        QueryDateAfter:
+          description: The date after which you want to retrieve logged calls, in ISO 8601 format (for example, `2020-06-14`). By default, this date is set to 48 hours before the `QueryDateBefore` parameter value.
+          format: date
+          type: string
+        QueryDateBefore:
+          description: The date before which you want to retrieve logged calls, in ISO 8601 format (for example, `2020-06-30`). By default, this date is set to now, or 48 hours after the `QueryDateAfter` parameter value.
+          format: date
+          type: string
         QueryIpAddresses:
           description: The IPs used for the logged calls.
           items:
@@ -4318,6 +4326,34 @@ components:
       - NetId
       type: object
     LinkInternetServiceResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    LinkLoadBalancerBackendMachinesRequest:
+      additionalProperties: false
+      properties:
+        BackendIps:
+          description: ' One or more public IPs of back-end VMs.'
+          items:
+            type: string
+          type: array
+        BackendVmIds:
+          description: ' One or more IDs of back-end VMs.'
+          items:
+            type: string
+          type: array
+        DryRun:
+          description: ' If true, checks whether you have the required permissions to perform the action.'
+          type: boolean
+        LoadBalancerName:
+          description: ' The name of the load balancer. '
+          type: string
+      required:
+      - LoadBalancerName
+      type: object
+    LinkLoadBalancerBackendMachinesResponse:
       additionalProperties: false
       properties:
         ResponseContext:
@@ -7131,6 +7167,34 @@ components:
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
+    UnlinkLoadBalancerBackendMachinesRequest:
+      additionalProperties: false
+      properties:
+        BackendIps:
+          description: ' One or more public IPs of back-end VMs.'
+          items:
+            type: string
+          type: array
+        BackendVmIds:
+          description: ' One or more IDs of back-end VMs.'
+          items:
+            type: string
+          type: array
+        DryRun:
+          description: ' If true, checks whether you have the required permissions to perform the action.'
+          type: boolean
+        LoadBalancerName:
+          description: ' The name of the load balancer.'
+          type: string
+      required:
+      - LoadBalancerName
+      type: object
+    UnlinkLoadBalancerBackendMachinesResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
     UnlinkNicRequest:
       additionalProperties: false
       properties:
@@ -8262,7 +8326,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.17'
+  version: '1.18'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -8332,7 +8396,7 @@ paths:
       tags:
       - Account
   /CreateAccessKey:
-    description: Creates a new secret access key and the corresponding access key ID for a specified user. The created key is automatically set to `ACTIVE`.
+    description: Creates an access key for your account. The new key is automatically set to `ACTIVE`.
     post:
       operationId: CreateAccessKey
       requestBody:
@@ -8406,7 +8470,18 @@ paths:
       tags:
       - ApiAccessRule
   /CreateCa:
-    description: Creates a Client Certificate Authority (CA).
+    description: 'Creates a Client Certificate Authority (CA).<br /><br />
+
+
+      **[NOTE]**<br />
+
+      If you use OSC CLI, the content of your certificate file must be enclosed in quotes before you pass it into this command. For example:<br />
+
+      `$ cat ca-string.pem`<br />
+
+      `''-----BEGIN CERTIFICATE-----\nXXXX\nXXXX\nXXXX\n-----END CERTIFICATE-----\n''`<br />
+
+      `$ osc-cli api CreateCa --CaPem &quot;$(cat ca-string.pem)&quot;`'
     post:
       operationId: CreateCa
       requestBody:
@@ -9604,7 +9679,7 @@ paths:
       tags:
       - VpnConnection
   /DeleteAccessKey:
-    description: 'Deletes the specified access key associated with the account that sends the request.<br /><br />
+    description: 'Deletes the specified access key of your account.<br /><br />
 
 
       **[NOTE]**<br />
@@ -10744,6 +10819,26 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - InternetService
+  /LinkLoadBalancerBackendMachines:
+    description: 'Attaches one or more virtual machines (VMs) to a specified load balancer. You need to specify at least the `BackendIps` or the `BackendVmIds` parameter.<br />
+
+      The VMs can be in different Subnets and different Subregions than the load balancer, as long as the VMs and load balancers are all in the public Cloud or all in the same Net. It may take a little time for a VM to be registered with the load balancer. Once the VM is registered with a load balancer, it receives traffic and requests from this load balancer and is called a back-end VM.'
+    post:
+      operationId: LinkLoadBalancerBackendMachines
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkLoadBalancerBackendMachinesRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkLoadBalancerBackendMachinesResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - LoadBalancer
   /LinkNic:
     description: 'Attaches a network interface card (NIC) to a virtual machine (VM).<br />
 
@@ -10958,9 +11053,7 @@ paths:
       tags:
       - Volume
   /ReadAccessKeys:
-    description: 'Gets information about the access key IDs of a specified user.<br />
-
-      If the user does not have any access key ID, this action returns an empty list.'
+    description: Lists the access key IDs of your account.
     post:
       operationId: ReadAccessKeys
       requestBody:
@@ -11102,7 +11195,14 @@ paths:
       tags:
       - ApiAccessRule
   /ReadApiLogs:
-    description: Lists the logs of the API calls you have performed with this account. Past logs are accessible for up to 32 days. For more information, see [About OUTSCALE Monitoring Services (OMS)](https://docs.outscale.com/en/userguide/About-OUTSCALE-Monitoring-Services-(OMS).html).
+    description: 'Lists the logs of the API calls you have performed with this account. For more information, see [About OUTSCALE Monitoring Services (OMS)](https://docs.outscale.com/en/userguide/About-OUTSCALE-Monitoring-Services-(OMS).html).<br /><br />
+
+
+      **[NOTE]**<br />
+
+      Past logs are accessible for up to 32 days.<br />
+
+      By default, the retrieved interval is 48 hours. If neither of the `QueryDateBefore` nor `QueryDateAfter` parameters are specified, logs from the past 48 hours are retrieved. If you only specify one of two, logs are retrieved from a 2-day interval based on the date you provided. To retrieve logs beyond a 2-day interval, specify both parameters.'
     post:
       operationId: ReadApiLogs
       requestBody:
@@ -11966,7 +12066,7 @@ paths:
       tags:
       - RouteTable
   /ReadSecretAccessKey:
-    description: Gets information about the secret access key associated with the account that sends the request.
+    description: Lists information about the specified access key of your account, including its secret key.
     post:
       operationId: ReadSecretAccessKey
       requestBody:
@@ -12726,6 +12826,24 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - InternetService
+  /UnlinkLoadBalancerBackendMachines:
+    description: Detaches one or more back-end virtual machines (VMs) from a load balancer. You need to specify at least the `BackendIps` or the `BackendVmIds` parameter.
+    post:
+      operationId: UnlinkLoadBalancerBackendMachines
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnlinkLoadBalancerBackendMachinesRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnlinkLoadBalancerBackendMachinesResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - LoadBalancer
   /UnlinkNic:
     description: 'Detaches a network interface card (NIC) from a virtual machine (VM).<br />
 
@@ -12938,14 +13056,12 @@ paths:
       tags:
       - Volume
   /UpdateAccessKey:
-    description: 'Modifies the attributes of the specified access key associated with the account that sends the request.<br /><br />
+    description: 'Modifies the attributes of the specified access key of your account.<br /><br />
 
 
       **[NOTE]**<br />
 
-      * To remove the expiration date of the access key after you have set one, use this method without specifying `ExpirationDate`.<br />
-
-      * To protect against brute force attacks, the number of requests allowed for this method in a given time period is limited.'
+      To protect against brute force attacks, the number of requests allowed for this method in a given time period is limited.'
     post:
       operationId: UpdateAccessKey
       requestBody:
