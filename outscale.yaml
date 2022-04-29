@@ -107,6 +107,12 @@ components:
         AccountId:
           description: The ID of the account.
           type: string
+        AdditionalEmails:
+          description: One or more additional email addresses for the account. These addresses are used for notifications only.
+          items:
+            pattern: ^.+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$
+            type: string
+          type: array
         City:
           description: The city of the account owner.
           type: string
@@ -120,7 +126,7 @@ components:
           description: The ID of the customer.
           type: string
         Email:
-          description: The email address for the account.
+          description: The main email address for the account. This address is used for your credentials and for notifications.
           type: string
         FirstName:
           description: The first name of the account owner.
@@ -232,7 +238,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToCreate'
         DeviceName:
-          description: The name of the device.
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX` or `/dev/xvdX` (where `X` is a letter between `b` and `z`).
           type: string
         VirtualDeviceName:
           description: The name of the virtual device (ephemeralN).
@@ -245,7 +251,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToCreate'
         DeviceName:
-          description: The name of the device.
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX` or `/dev/xvdX` (where `X` is a letter between `b` and `z`).
           type: string
         NoDevice:
           description: Removes the device which is included in the block device mapping of the OMI.
@@ -261,7 +267,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToUpdateVm'
         DeviceName:
-          description: The name of the device.
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX` or `/dev/xvdX` (where `X` is a letter between `b` and `z`).
           type: string
         NoDevice:
           description: Removes the device which is included in the block device mapping of the OMI.
@@ -338,6 +344,46 @@ components:
         Description:
           description: The description of the CA.
           type: string
+      type: object
+    Catalog:
+      additionalProperties: false
+      description: Information about our catalog of prices.
+      properties:
+        Entries:
+          description: One or more catalog entries.
+          items:
+            $ref: '#/components/schemas/CatalogEntry'
+          type: array
+      type: object
+    CatalogEntry:
+      additionalProperties: false
+      description: Information about the catalog entry.
+      properties:
+        Category:
+          description: The category of the catalog entry (for example, `network`).
+          type: string
+        Flags:
+          description: When returned and equal to `PER_MONTH`, the price of the catalog entry is calculated on a monthly basis.
+          type: string
+        Operation:
+          description: The API call associated with the catalog entry (for example, `CreateVms` or `RunInstances`).
+          type: string
+        Service:
+          description: The service associated with the catalog entry (`TinaOS-FCU`, `TinaOS-LBU`, `TinaOS-DirectLink`, or `TinaOS-OOS`).
+          type: string
+        SubregionName:
+          description: The Subregion associated with the catalog entry.
+          type: string
+        Title:
+          description: The description of the catalog entry.
+          type: string
+        Type:
+          description: The type of resource associated with the catalog entry.
+          type: string
+        UnitPrice:
+          description: The unit price of the catalog entry, in the currency of the catalog of the Region where the API method was used.
+          format: float
+          type: number
       type: object
     CheckAuthenticationRequest:
       additionalProperties: false
@@ -447,6 +493,12 @@ components:
     CreateAccountRequest:
       additionalProperties: false
       properties:
+        AdditionalEmails:
+          description: One or more additional email addresses for the account. These addresses are used for notifications only. If you already have a list of additional emails registered, you cannot add to it, only replace it. To remove all registered additional emails, specify an empty list.
+          items:
+            pattern: ^.+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$
+            type: string
+          type: array
         City:
           description: The city of the account owner.
           type: string
@@ -463,7 +515,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Email:
-          description: The email address for the account.
+          description: The main email address for the account. This address is used for your credentials and notifications.
           type: string
         FirstName:
           description: The first name of the account owner.
@@ -595,10 +647,10 @@ components:
       additionalProperties: false
       properties:
         DomainName:
-          description: Specify a domain name (for example, MyCompany.com). You can specify only one domain name.
+          description: 'Specify a domain name (for example, MyCompany.com). You can specify only one domain name. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers` or `NtpServers`.'
           type: string
         DomainNameServers:
-          description: The IPs of domain name servers. If no IPs are specified, the `OutscaleProvidedDNS` value is set by default.
+          description: 'The IPs of domain name servers. If no IPs are specified, the `OutscaleProvidedDNS` value is set by default. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers` or `NtpServers`.'
           items:
             type: string
           type: array
@@ -606,7 +658,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         NtpServers:
-          description: The IPs of the Network Time Protocol (NTP) servers.
+          description: 'The IPs of the Network Time Protocol (NTP) servers. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers` or `NtpServers`.'
           items:
             type: string
           type: array
@@ -728,7 +780,7 @@ components:
       additionalProperties: false
       properties:
         Architecture:
-          description: The architecture of the OMI (by default, `i386`).
+          description: The architecture of the OMI (by default, `i386` if you specified the `FileLocation` or `RootDeviceName` parameter).
           type: string
         BlockDeviceMappings:
           description: One or more block device mappings.
@@ -742,7 +794,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         FileLocation:
-          description: The pre-signed URL of the OMI manifest file, or the full path to the OMI stored in a bucket. If you specify this parameter, a copy of the OMI is created in your account.
+          description: 'The pre-signed URL of the OMI manifest file, or the full path to the OMI stored in a bucket. If you specify this parameter, a copy of the OMI is created in your account. You must specify only one of the following parameters: `FileLocation`, `RootDeviceName`, `SourceImageId` or `VmId`.'
           type: string
         ImageName:
           description: 'A unique name for the new OMI.<br />
@@ -753,16 +805,16 @@ components:
           description: If false, the VM shuts down before creating the OMI and then reboots. If true, the VM does not.
           type: boolean
         RootDeviceName:
-          description: The name of the root device.
+          description: 'The name of the root device. You must specify only one of the following parameters: `FileLocation`, `RootDeviceName`, `SourceImageId` or `VmId`.'
           type: string
         SourceImageId:
-          description: The ID of the OMI you want to copy.
+          description: 'The ID of the OMI you want to copy. You must specify only one of the following parameters: `FileLocation`, `RootDeviceName`, `SourceImageId` or `VmId`.'
           type: string
         SourceRegionName:
           description: The name of the source Region, which must be the same as the Region of your account.
           type: string
         VmId:
-          description: The ID of the VM from which you want to create the OMI.
+          description: 'The ID of the VM from which you want to create the OMI. You must specify only one of the following parameters: `FileLocation`, `RootDeviceName`, `SourceImageId` or `VmId`.'
           type: string
       type: object
     CreateImageResponse:
@@ -1231,16 +1283,16 @@ components:
           description: 'The direction of the flow: `Inbound` or `Outbound`. You can specify `Outbound` for Nets only.'
           type: string
         FromPortRange:
-          description: The beginning of the port range for the TCP and UDP protocols, or an ICMP type number.
+          description: The beginning of the port range for the TCP and UDP protocols, or an ICMP type number. If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
           type: integer
         IpProtocol:
-          description: The IP protocol name (`tcp`, `udp`, `icmp`, or `-1` for all protocols). By default, `-1`. In a Net, this can also be an IP protocol number. For more information, see the [IANA.org website](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
+          description: The IP protocol name (`tcp`, `udp`, `icmp`, or `-1` for all protocols). By default, `-1`. In a Net, this can also be an IP protocol number. For more information, see the [IANA.org website](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
           type: string
         IpRange:
-          description: The IP range for the security group rule, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP range for the security group rule, in CIDR notation (for example, 10.0.0.0/16). If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
           type: string
         Rules:
-          description: Information about the security group rule to create.
+          description: 'Information about the security group rule to create. If you specify this parent parameter and its subparameters, you cannot specify the following parent parameters: `FromPortRange`, `IpProtocol`, `IpRange`, and `ToPortRange`.'
           items:
             $ref: '#/components/schemas/SecurityGroupRule'
           type: array
@@ -1254,7 +1306,7 @@ components:
           description: The ID of the source security group. If you are in the Public Cloud, you can also specify the name of the source security group.
           type: string
         ToPortRange:
-          description: The end of the port range for the TCP and UDP protocols, or an ICMP type number.
+          description: The end of the port range for the TCP and UDP protocols, or an ICMP type number. If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
           type: integer
       required:
       - SecurityGroupId
@@ -1444,7 +1496,7 @@ components:
           description: By default or if true, the VM is started on creation. If false, the VM is stopped on creation.
           type: boolean
         BsuOptimized:
-          description: If true, the VM is created with optimized BSU I/O.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: boolean
         ClientToken:
           description: A unique identifier which enables you to manage the idempotency.
@@ -1468,7 +1520,7 @@ components:
           description: The minimum number of VMs you want to create. If this number of VMs cannot be created, no VMs are created.
           type: integer
         Nics:
-          description: One or more NICs. If you specify this parameter, you must define one NIC as the primary network interface of the VM with `0` as its device number.
+          description: One or more NICs. If you specify this parameter, you must not specify the `SubnetId` and `SubregionName` parameters. You also must define one NIC as the primary network interface of the VM with `0` as its device number.
           items:
             $ref: '#/components/schemas/NicForVmCreation'
           type: array
@@ -1498,7 +1550,7 @@ components:
             type: string
           type: array
         SubnetId:
-          description: The ID of the Subnet in which you want to create the VM.
+          description: The ID of the Subnet in which you want to create the VM. If you specify this parameter, you must not specify the `Nics` parameter.
           type: string
         UserData:
           description: Data or script used to add a specific configuration to the VM. It must be Base64-encoded and is limited to 500 kibibytes (KiB).
@@ -2882,7 +2934,7 @@ components:
             type: string
           type: array
         RootDeviceNames:
-          description: The device names of the root devices (for example, `/dev/sda1`).
+          description: The name of the root device. This value must be /dev/sda1.
           items:
             type: string
           type: array
@@ -3865,7 +3917,7 @@ components:
       description: One or more filters.
       properties:
         BsuOptimized:
-          description: Indicates whether the VM is optimized for BSU I/O.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: boolean
         MemorySizes:
           description: The amounts of memory, in gibibytes (GiB).
@@ -4433,7 +4485,7 @@ components:
       description: Information about the NIC attachment. If you are modifying the `DeleteOnVmDeletion` attribute, you must specify the ID of the NIC attachment.
       properties:
         DeleteOnVmDeletion:
-          description: By default or if set to false, the NIC is detached from the VM when the VM is terminated. If true, the NIC is deleted.
+          description: If true, the NIC is deleted when the VM is terminated. If false, the NIC is detached from the VM.
           type: boolean
         LinkNicId:
           description: The ID of the NIC attachment.
@@ -5134,7 +5186,7 @@ components:
       description: Information about the network interface card (NIC) when creating a virtual machine (VM).
       properties:
         DeleteOnVmDeletion:
-          description: By default or if set to true, the NIC is deleted when the VM is terminated. You can specify this parameter only for a new NIC. To modify this value for an existing NIC, see [UpdateNic](#updatenic).
+          description: If true, the NIC is deleted when the VM is terminated. You can specify this parameter only for a new NIC. To modify this value for an existing NIC, see [UpdateNic](#updatenic).
           type: boolean
         Description:
           description: The description of the NIC, if you are creating a NIC when creating the VM.
@@ -5154,12 +5206,12 @@ components:
           description: The number of secondary private IPs, if you create a NIC when creating a VM. This parameter cannot be specified if you specified more than one private IP in the `PrivateIps` parameter.
           type: integer
         SecurityGroupIds:
-          description: One or more IDs of security groups for the NIC, if you acreate a NIC when creating a VM.
+          description: One or more IDs of security groups for the NIC, if you create a NIC when creating a VM.
           items:
             type: string
           type: array
         SubnetId:
-          description: The ID of the Subnet for the NIC, if you create a NIC when creating a VM.
+          description: The ID of the Subnet for the NIC, if you create a NIC when creating a VM. This parameter is required if you create a NIC when creating the VM.
           type: string
       type: object
     NicLight:
@@ -5371,7 +5423,7 @@ components:
       description: Information about the placement of the VM.
       properties:
         SubregionName:
-          description: The name of the Subregion.
+          description: The name of the Subregion. If you specify this parameter, you must not specify the `Nics` parameter.
           type: string
         Tenancy:
           description: The tenancy of the VM (`default` \| `dedicated`).
@@ -5660,6 +5712,21 @@ components:
           items:
             $ref: '#/components/schemas/Ca'
           type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadCatalogRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If true, checks whether you have the required permissions to perform the action.
+          type: boolean
+      type: object
+    ReadCatalogResponse:
+      additionalProperties: false
+      properties:
+        Catalog:
+          $ref: '#/components/schemas/Catalog'
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -6134,6 +6201,21 @@ components:
           items:
             $ref: '#/components/schemas/ProductType'
           type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadPublicCatalogRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If true, checks whether you have the required permissions to perform the action.
+          type: boolean
+      type: object
+    ReadPublicCatalogResponse:
+      additionalProperties: false
+      properties:
+        Catalog:
+          $ref: '#/components/schemas/Catalog'
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -7348,6 +7430,12 @@ components:
     UpdateAccountRequest:
       additionalProperties: false
       properties:
+        AdditionalEmails:
+          description: One or more additional email addresses for the account. These addresses are used for notifications only. If you already have a list of additional emails registered, you cannot add to it, only replace it. To remove all registered additional emails, specify an empty list.
+          items:
+            pattern: ^.+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$
+            type: string
+          type: array
         City:
           description: The new city of the account owner.
           type: string
@@ -7361,7 +7449,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Email:
-          description: The new email address for the account.
+          description: The main email address for the account. This address is used for your credentials and notifications.
           type: string
         FirstName:
           description: The new first name of the account owner.
@@ -7403,7 +7491,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         MaxAccessKeyExpirationSeconds:
-          description: The maximum possible lifetime for your access keys, in seconds (between `0` and `3153600000`, both included). By default or if set to `O`, your access keys can have unlimited lifetimes. Otherwise, all your access keys must have an expiration date. This value must be greater than the remaining lifetime of each access key of your account.
+          description: The maximum possible lifetime for your access keys, in seconds (between `0` and `3153600000`, both included). If set to `O`, your access keys can have unlimited lifetimes, but a trusted session cannot be activated. Otherwise, all your access keys must have an expiration date. This value must be greater than the remaining lifetime of each access key of your account.
           format: int64
           type: integer
         RequireTrustedEnv:
@@ -7834,7 +7922,7 @@ components:
             $ref: '#/components/schemas/BlockDeviceMappingVmUpdate'
           type: array
         BsuOptimized:
-          description: If true, the VM is optimized for BSU I/O.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: boolean
         DeletionProtection:
           description: If true, you cannot terminate the VM using Cockpit, the CLI or the API. If false, you can.
@@ -7869,7 +7957,7 @@ components:
           description: The ID of the VM.
           type: string
         VmInitiatedShutdownBehavior:
-          description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
+          description: The VM behavior when you stop it. If set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
           type: string
         VmType:
           description: The type of VM. For more information, see [Instance Types](https://docs.outscale.com/en/userguide/Instance-Types.html).
@@ -7942,6 +8030,27 @@ components:
         VpnConnection:
           $ref: '#/components/schemas/VpnConnection'
       type: object
+    VgwTelemetry:
+      additionalProperties: false
+      description: Information about the current state of a VPN tunnel.
+      properties:
+        AcceptedRouteCount:
+          description: The number of routes accepted through BGP (Border Gateway Protocol) route exchanges.
+          type: integer
+        LastStateChangeDate:
+          description: The date and time (UTC) of the latest state update.
+          format: datetime
+          type: string
+        OutsideIpAddress:
+          description: The IP on the OUTSCALE side of the tunnel.
+          type: string
+        State:
+          description: The state of the IPSEC tunnel (`UP` \| `DOWN`).
+          type: string
+        StateDescription:
+          description: A description of the current state of the tunnel.
+          type: string
+      type: object
     VirtualGateway:
       additionalProperties: false
       description: Information about the virtual gateway.
@@ -7979,7 +8088,7 @@ components:
             $ref: '#/components/schemas/BlockDeviceMappingCreated'
           type: array
         BsuOptimized:
-          description: If true, the VM is optimized for BSU I/O.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: boolean
         ClientToken:
           description: The idempotency token provided when launching the VM.
@@ -8043,7 +8152,7 @@ components:
           description: The reservation ID of the VM.
           type: string
         RootDeviceName:
-          description: The name of the root device for the VM (for example, /dev/vda1).
+          description: The name of the root device for the VM (for example, `/dev/vda1`).
           type: string
         RootDeviceType:
           description: The type of root device used by the VM (always `bsu`).
@@ -8074,7 +8183,7 @@ components:
           description: The ID of the VM.
           type: string
         VmInitiatedShutdownBehavior:
-          description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is deleted.
+          description: The VM behavior when you stop it. If set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is deleted.
           type: string
         VmType:
           description: The type of VM. For more information, see [Instance Types](https://docs.outscale.com/en/userguide/Instance-Types.html).
@@ -8118,7 +8227,7 @@ components:
       description: Information about the VM type.
       properties:
         BsuOptimized:
-          description: Indicates whether the VM is optimized for BSU I/O.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: boolean
         MaxPrivateIps:
           description: The maximum number of private IPs per network interface card (NIC).
@@ -8213,6 +8322,11 @@ components:
           items:
             $ref: '#/components/schemas/ResourceTag'
           type: array
+        VgwTelemetries:
+          description: Information about the current state of one or more of the VPN tunnels.
+          items:
+            $ref: '#/components/schemas/VgwTelemetry'
+          type: array
         VirtualGatewayId:
           description: The ID of the virtual gateway used on the OUTSCALE end of the connection.
           type: string
@@ -8236,7 +8350,7 @@ components:
       type: object
     With:
       additionalProperties: false
-      description: The information to display in each returned log. If this parameter is not specified, all available fields are considered as true.
+      description: The information to display in each returned log. If this parameter is not specified, all available response elements are displayed. If this parameter is specified, by default `AccountId` and `RequestId` are also included in the response, unless you explicitly specify them as false.
       properties:
         AccountId:
           description: By default or if set to true, the account ID is displayed.
@@ -8278,7 +8392,7 @@ components:
           description: If set to true, the user agent of the HTTP request is displayed.
           type: boolean
         RequestId:
-          description: By default ot if set to true, the request ID is displayed.
+          description: By default or if set to true, the request ID is displayed.
           type: boolean
         ResponseSize:
           description: If set to true, the size of the response is displayed.
@@ -8326,7 +8440,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.18'
+  version: '1.19'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -8417,12 +8531,12 @@ paths:
       tags:
       - AccessKey
   /CreateAccount:
-    description: 'Creates a new OUTSCALE account.<br /><br />
+    description: 'Creates an OUTSCALE account.<br /><br />
 
 
       **[NOTE]**<br />
 
-      * You need OUTSCALE credentials and the appropriate quotas to create a new account via API. To get quotas, you can send an email to sales@outscale.com.<br />
+      * You need OUTSCALE credentials and the appropriate quotas to create an account via API. To get quotas, you can send an email to sales@outscale.com.<br />
 
       * If you want to pass a numeral value as a string instead of an integer, you must wrap your string in additional quotes (for example, `''&quot;92000&quot;''`).'
     post:
@@ -8524,7 +8638,7 @@ paths:
       tags:
       - ClientGateway
   /CreateDhcpOptions:
-    description: Creates a new set of DHCP options, that you can then associate with a Net using the [UpdateNet](#updatenet) method.
+    description: Creates a set of DHCP options, that you can then associate with a Net using the [UpdateNet](#updatenet) method.
     post:
       operationId: CreateDhcpOptions
       requestBody:
@@ -8542,7 +8656,7 @@ paths:
       tags:
       - DhcpOption
   /CreateDirectLink:
-    description: Creates a new DirectLink between a customer network and a specified DirectLink location.
+    description: Creates a DirectLink between a customer network and a specified DirectLink location.
     post:
       operationId: CreateDirectLink
       requestBody:
@@ -8726,7 +8840,7 @@ paths:
 
       You can also import a public key in one of the following formats: 1024-bit RSA, 2048-bit RSA, 4096-bit RSA, ECDSA and Ed25519.<br />
 
-      This action imports the public key of a keypair created by a third-party tool and uses it to create a new 2048-bit RSA keypair. The private key is never provided to 3DS OUTSCALE.'
+      This action imports the public key of a keypair created by a third-party tool and uses it to create a 2048-bit RSA keypair. The private key is never provided to 3DS OUTSCALE.'
     post:
       operationId: CreateKeypair
       requestBody:
@@ -9553,7 +9667,7 @@ paths:
       tags:
       - VirtualGateway
   /CreateVms:
-    description: 'Creates new virtual machines (VMs), and then launches them.<br />
+    description: 'Creates virtual machines (VMs), and then launches them.<br />
 
       This action enables you to create a specified number of VMs using an OUTSCALE machine image (OMI) that you are allowed to use, and then to automatically launch them.<br />
 
@@ -9601,7 +9715,7 @@ paths:
   /CreateVolume:
     description: 'Creates a Block Storage Unit (BSU) volume in a specified Region.<br />
 
-      BSU volumes can be attached to a virtual machine (VM) in the same Subregion. You can create a new empty volume or restore a volume from an existing snapshot.<br />
+      BSU volumes can be attached to a virtual machine (VM) in the same Subregion. You can create an empty volume or restore a volume from an existing snapshot.<br />
 
       You can create the following volume types: Enterprise (`io1`) for provisioned IOPS SSD volumes, Performance (`gp2`) for general purpose SSD volumes, or Magnetic (`standard`) volumes.'
     post:
@@ -10842,7 +10956,7 @@ paths:
   /LinkNic:
     description: 'Attaches a network interface card (NIC) to a virtual machine (VM).<br />
 
-      The interface and the VM must be in the same Subregion. The VM can be either `running` or `stopped`. The NIC must be in the `available` state.'
+      The interface and the VM must be in the same Subregion. The VM can be either `running` or `stopped`. The NIC must be in the `available` state. For more information, see [Attaching an FNI to an Instance](https://docs.outscale.com/en/userguide/Attaching-an-FNI-to-an-Instance.html).'
     post:
       operationId: LinkNic
       requestBody:
@@ -11240,6 +11354,24 @@ paths:
       - BasicAuth: []
       tags:
       - Ca
+  /ReadCatalog:
+    description: Returns the price list of OUTSCALE products and services for the current Region.
+    post:
+      operationId: ReadCatalog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadCatalogRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCatalogResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - Catalog
   /ReadClientGateways:
     description: 'Lists one or more of your client gateways.<br /><br />
 
@@ -11918,6 +12050,25 @@ paths:
       security: []
       tags:
       - ProductType
+  /ReadPublicCatalog:
+    description: Returns the price list of OUTSCALE products and services for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints and Availability Zones Reference](https://docs.outscale.com/en/userguide/Regions-Endpoints-and-Availability-Zones-Reference.html).
+    post:
+      operationId: ReadPublicCatalog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadPublicCatalogRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadPublicCatalogResponse'
+          description: The HTTP 200 response (OK).
+      security: []
+      tags:
+      - PublicCatalog
   /ReadPublicIpRanges:
     description: Gets the public IPv4 addresses in CIDR notation for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints and Availability Zones Reference](https://docs.outscale.com/en/userguide/Regions-Endpoints-and-Availability-Zones-Reference.html).
     post:
@@ -13552,8 +13703,6 @@ paths:
 
       You must stop the VM before modifying the following attributes:<br /><br />
 
-
-      * `BsuOptimized`<br />
 
       * `Performance`<br />
 
