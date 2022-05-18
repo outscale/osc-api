@@ -28,3 +28,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_RUST }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
         run: .github/scripts/build-osc-sdk-rust.sh
+      - name: Trigger osc-sdk-js build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_JS }}
+          API_VERSION: ${{ steps.release.outputs.TAG }}
+        run: .github/scripts/build-osc-sdk-js.sh
