@@ -28,7 +28,7 @@ components:
           description: The account ID of the owner of the accepter Net.
           type: string
         IpRange:
-          description: The IP range for the accepter Net, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP range for the accepter Net, in CIDR notation (for example, `10.0.0.0/16`).
           type: string
         NetId:
           description: The ID of the accepter Net.
@@ -97,7 +97,7 @@ components:
           description: The path to the folder of the access logs in your OOS bucket (by default, the `root` level of your bucket).
           type: string
         PublicationInterval:
-          description: The time interval for the publication of access logs in the OOS bucket, in minutes. This value can be either 5 or 60 (by default, 60).
+          description: The time interval for the publication of access logs in the OOS bucket, in minutes. This value can be either `5` or `60` (by default, `60`).
           type: integer
       type: object
     Account:
@@ -186,7 +186,7 @@ components:
           description: The description of the API access rule.
           type: string
         IpRanges:
-          description: One or more IP ranges used for the API access rule, in CIDR notation (for example, 192.0.2.0/16).
+          description: One or more IP ranges used for the API access rule, in CIDR notation (for example, `192.0.2.0/16`).
           items:
             type: string
           type: array
@@ -241,7 +241,7 @@ components:
           description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX` or `/dev/xvdX` (where `X` is a letter between `b` and `z`).
           type: string
         VirtualDeviceName:
-          description: The name of the virtual device (ephemeralN).
+          description: The name of the virtual device (`ephemeralN`).
           type: string
       type: object
     BlockDeviceMappingVmCreation:
@@ -257,7 +257,7 @@ components:
           description: Removes the device which is included in the block device mapping of the OMI.
           type: string
         VirtualDeviceName:
-          description: The name of the virtual device (ephemeralN).
+          description: The name of the virtual device (`ephemeralN`).
           type: string
       type: object
     BlockDeviceMappingVmUpdate:
@@ -273,7 +273,7 @@ components:
           description: Removes the device which is included in the block device mapping of the OMI.
           type: string
         VirtualDeviceName:
-          description: The name of the virtual device (ephemeralN).
+          description: The name of the virtual device (`ephemeralN`).
           type: string
       type: object
     BsuCreated:
@@ -299,6 +299,7 @@ components:
       description: Information about the BSU volume to create.
       properties:
         DeleteOnVmDeletion:
+          default: true
           description: By default or if set to true, the volume is deleted when terminating the VM. If false, the volume is not deleted when terminating the VM.
           type: boolean
         Iops:
@@ -444,6 +445,7 @@ components:
           type: string
         FromDate:
           description: The beginning of the time period.
+          format: datetime
           type: string
         Operation:
           description: The API call that triggered the resource consumption (for example, `RunInstances` or `CreateVolume`).
@@ -462,6 +464,7 @@ components:
           type: string
         ToDate:
           description: The end of the time period.
+          format: datetime
           type: string
         Type:
           description: The type of resource, depending on the API call.
@@ -579,7 +582,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         IpRanges:
-          description: One or more IP ranges, in CIDR notation (for example, 192.0.2.0/16).
+          description: One or more IP ranges, in CIDR notation (for example, `192.0.2.0/16`).
           items:
             type: string
           type: array
@@ -619,7 +622,7 @@ components:
       additionalProperties: false
       properties:
         BgpAsn:
-          description: The Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet. This number must be between 1 and 4294967295.
+          description: The Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet. This number must be between `1` and `4294967295`.
           type: integer
         ConnectionType:
           description: The communication protocol used to establish tunnel with your client gateway (only `ipsec.1` is supported).
@@ -647,18 +650,23 @@ components:
       additionalProperties: false
       properties:
         DomainName:
-          description: 'Specify a domain name (for example, MyCompany.com). You can specify only one domain name. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers` or `NtpServers`.'
+          description: 'Specify a domain name (for example, `MyCompany.com`). You can specify only one domain name. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers`, `LogServers`, or `NtpServers`.'
           type: string
         DomainNameServers:
-          description: 'The IPs of domain name servers. If no IPs are specified, the `OutscaleProvidedDNS` value is set by default. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers` or `NtpServers`.'
+          description: 'The IPs of domain name servers. If no IPs are specified, the `OutscaleProvidedDNS` value is set by default. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers`, `LogServers`, or `NtpServers`.'
           items:
             type: string
           type: array
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
+        LogServers:
+          description: 'The IPs of the log servers. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers`, `LogServers`, or `NtpServers`.'
+          items:
+            type: string
+          type: array
         NtpServers:
-          description: 'The IPs of the Network Time Protocol (NTP) servers. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers` or `NtpServers`.'
+          description: 'The IPs of the Network Time Protocol (NTP) servers. You must specify at least one of the following parameters: `DomainName`, `DomainNameServers`, `LogServers`, or `NtpServers`.'
           items:
             type: string
           type: array
@@ -921,7 +929,7 @@ components:
       additionalProperties: false
       properties:
         CookieExpirationPeriod:
-          description: The lifetime of the cookie, in seconds. If not specified, the default value of this parameter is 1, which means that the sticky session lasts for the duration of the browser session.
+          description: The lifetime of the cookie, in seconds. If not specified, the default value of this parameter is `1`, which means that the sticky session lasts for the duration of the browser session.
           type: integer
         CookieName:
           description: The name of the application cookie used for stickiness. This parameter is required if you create a stickiness policy based on an application-generated cookie.
@@ -1115,7 +1123,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         IpRange:
-          description: The IP range for the Net, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP range for the Net, in CIDR notation (for example, `10.0.0.0/16`).
           type: string
         Tenancy:
           description: The tenancy options for the VMs (`default` if a VM created in a Net can be launched with any tenancy, `dedicated` if it can be launched with dedicated tenancy VMs running on single-tenant hardware).
@@ -1187,7 +1195,7 @@ components:
       additionalProperties: false
       properties:
         DestinationIpRange:
-          description: The IP range used for the destination match, in CIDR notation (for example, 10.0.0.0/24).
+          description: The IP range used for the destination match, in CIDR notation (for example, `10.0.0.0/24`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1306,7 +1314,7 @@ components:
           description: The ID of the source security group. If you are in the Public Cloud, you can also specify the name of the source security group.
           type: string
         ToPortRange:
-          description: The end of the port range for the TCP and UDP protocols, or an ICMP type number. If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
+          description: The end of the port range for the TCP and UDP protocols, or an ICMP code number. If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
           type: integer
       required:
       - SecurityGroupId
@@ -1418,7 +1426,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         IpRange:
-          description: The IP range in the Subnet, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP range in the Subnet, in CIDR notation (for example, `10.0.0.0/16`).
           type: string
         NetId:
           description: The ID of the Net for which you want to create a Subnet.
@@ -1493,6 +1501,7 @@ components:
             $ref: '#/components/schemas/BlockDeviceMappingVmCreation'
           type: array
         BootOnCreation:
+          default: true
           description: By default or if true, the VM is started on creation. If false, the VM is stopped on creation.
           type: boolean
         BsuOptimized:
@@ -1502,7 +1511,7 @@ components:
           description: A unique identifier which enables you to manage the idempotency.
           type: string
         DeletionProtection:
-          description: If true, you cannot terminate the VM using Cockpit, the CLI or the API. If false, you can.
+          description: If true, you cannot delete the VM unless you change this parameter back to false.
           type: boolean
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1556,6 +1565,7 @@ components:
           description: Data or script used to add a specific configuration to the VM. It must be Base64-encoded and is limited to 500 kibibytes (KiB).
           type: string
         VmInitiatedShutdownBehavior:
+          default: stop
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
           type: string
         VmType:
@@ -1646,7 +1656,7 @@ components:
       additionalProperties: false
       properties:
         DestinationIpRange:
-          description: The network prefix of the route, in CIDR notation (for example, 10.12.0.0/16).
+          description: The network prefix of the route, in CIDR notation (for example, `10.12.0.0/16`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -2178,7 +2188,7 @@ components:
           description: The IP protocol name (`tcp`, `udp`, `icmp`, or `-1` for all protocols). By default, `-1`. In a Net, this can also be an IP protocol number. For more information, see the [IANA.org website](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
           type: string
         IpRange:
-          description: The IP range for the security group rule, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP range for the security group rule, in CIDR notation (for example, `10.0.0.0/16`).
           type: string
         Rules:
           description: One or more rules you want to delete from the security group.
@@ -2195,7 +2205,7 @@ components:
           description: The ID of the source security group. If you are in the Public Cloud, you can also specify the name of the source security group.
           type: string
         ToPortRange:
-          description: The end of the port range for the TCP and UDP protocols, or an ICMP type number.
+          description: The end of the port range for the TCP and UDP protocols, or an ICMP code number.
           type: integer
       required:
       - SecurityGroupId
@@ -2372,7 +2382,7 @@ components:
       additionalProperties: false
       properties:
         DestinationIpRange:
-          description: The network prefix of the route to delete, in CIDR notation (for example, 10.12.0.0/16).
+          description: The network prefix of the route to delete, in CIDR notation (for example, `10.12.0.0/16`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -2432,6 +2442,11 @@ components:
           items:
             type: string
           type: array
+        LogServers:
+          description: One or more IPs for the log servers.
+          items:
+            type: string
+          type: array
         NtpServers:
           description: One or more IPs for the NTP servers.
           items:
@@ -2454,7 +2469,7 @@ components:
           description: The physical link bandwidth (either 1 Gbps or 10 Gbps).
           type: string
         DirectLinkId:
-          description: The ID of the DirectLink (for example, dxcon-xxxxxxxx).
+          description: The ID of the DirectLink (for example, `dxcon-xxxxxxxx`).
           type: string
         DirectLinkName:
           description: The name of the DirectLink.
@@ -2541,6 +2556,9 @@ components:
         Location:
           description: The datacenter where the DirectLink interface is located.
           type: string
+        Mtu:
+          description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (by default, `1500`).
+          type: integer
         OutscalePrivateIp:
           description: The IP on the OUTSCALE side of the DirectLink interface.
           type: string
@@ -2619,7 +2637,7 @@ components:
             type: string
           type: array
         IpRanges:
-          description: One or more IP ranges, in CIDR notation (for example, 192.0.2.0/16).
+          description: One or more IP ranges, in CIDR notation (for example, `192.0.2.0/16`).
           items:
             type: string
           type: array
@@ -2750,7 +2768,7 @@ components:
             type: string
           type: array
         DomainNameServers:
-          description: The domain name servers used for the DHCP options sets.
+          description: The IPs of the domain name servers used for the DHCP options sets.
           items:
             type: string
           type: array
@@ -2759,8 +2777,13 @@ components:
           items:
             type: string
           type: array
+        LogServers:
+          description: The IPs of the log servers used for the DHCP options sets.
+          items:
+            type: string
+          type: array
         NtpServers:
-          description: The Network Time Protocol (NTP) servers used for the DHCP options sets.
+          description: The IPs of the Network Time Protocol (NTP) servers used for the DHCP options sets.
           items:
             type: string
           type: array
@@ -3089,7 +3112,7 @@ components:
             type: string
           type: array
         IpRanges:
-          description: The IP ranges for the Nets, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP ranges for the Nets, in CIDR notation (for example, `10.0.0.0/16`).
           items:
             type: string
           type: array
@@ -3172,7 +3195,7 @@ components:
             type: string
           type: array
         AccepterNetIpRanges:
-          description: The IP ranges of the peer Nets, in CIDR notation (for example, 10.0.0.0/24).
+          description: The IP ranges of the peer Nets, in CIDR notation (for example, `10.0.0.0/24`).
           items:
             type: string
           type: array
@@ -3574,7 +3597,7 @@ components:
             type: integer
           type: array
         InboundRuleIpRanges:
-          description: The IP ranges that have been granted permissions, in CIDR notation (for example, 10.0.0.0/24).
+          description: The IP ranges that have been granted permissions, in CIDR notation (for example, `10.0.0.0/24`).
           items:
             type: string
           type: array
@@ -3594,7 +3617,7 @@ components:
             type: string
           type: array
         InboundRuleToPortRanges:
-          description: The ends of the port ranges for the TCP and UDP protocols, or the ICMP codes.
+          description: The ends of the port ranges for the TCP and UDP protocols, or the ICMP code numbers.
           items:
             type: integer
           type: array
@@ -3614,7 +3637,7 @@ components:
             type: integer
           type: array
         OutboundRuleIpRanges:
-          description: The IP ranges that have been granted permissions, in CIDR notation (for example, 10.0.0.0/24).
+          description: The IP ranges that have been granted permissions, in CIDR notation (for example, `10.0.0.0/24`).
           items:
             type: string
           type: array
@@ -3634,7 +3657,7 @@ components:
             type: string
           type: array
         OutboundRuleToPortRanges:
-          description: The ends of the port ranges for the TCP and UDP protocols, or the ICMP codes.
+          description: The ends of the port ranges for the TCP and UDP protocols, or the ICMP code numbers.
           items:
             type: integer
           type: array
@@ -3767,7 +3790,7 @@ components:
             type: integer
           type: array
         IpRanges:
-          description: The IP ranges in the Subnets, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP ranges in the Subnets, in CIDR notation (for example, `10.0.0.0/16`).
           items:
             type: string
           type: array
@@ -4419,7 +4442,7 @@ components:
           description: If true, the NIC is deleted when the VM is terminated.
           type: boolean
         DeviceNumber:
-          description: The device index for the NIC attachment (between 1 and 7, both included).
+          description: The device index for the NIC attachment (between `1` and `7`, both included).
           type: integer
         LinkNicId:
           description: The ID of the NIC to attach.
@@ -4442,7 +4465,7 @@ components:
           description: If true, the NIC is deleted when the VM is terminated.
           type: boolean
         DeviceNumber:
-          description: The device index for the NIC attachment (between 1 and 7, both included).
+          description: The device index for the NIC attachment (between `1` and `7`, both included).
           type: integer
         LinkNicId:
           description: The ID of the NIC to attach.
@@ -4455,7 +4478,7 @@ components:
       additionalProperties: false
       properties:
         DeviceNumber:
-          description: The index of the VM device for the NIC attachment (between 1 and 7, both included).
+          description: The index of the VM device for the NIC attachment (between `1` and `7`, both included).
           type: integer
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -4715,7 +4738,7 @@ components:
           description: The protocol for routing traffic to back-end VMs (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
           type: string
         LoadBalancerPort:
-          description: The port on which the load balancer is listening (between 1 and `65535`, both included).
+          description: The port on which the load balancer is listening (between `1` and `65535`, both included).
           type: integer
         LoadBalancerProtocol:
           description: The routing protocol (`HTTP` \| `HTTPS` \| `TCP` \| `SSL`).
@@ -5042,7 +5065,7 @@ components:
           description: The ID of the DHCP options set (or `default` if you want to associate the default one).
           type: string
         IpRange:
-          description: The IP range for the Net, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP range for the Net, in CIDR notation (for example, `10.0.0.0/16`).
           type: string
         NetId:
           description: The ID of the Net.
@@ -5192,7 +5215,7 @@ components:
           description: The description of the NIC, if you are creating a NIC when creating the VM.
           type: string
         DeviceNumber:
-          description: The index of the VM device for the NIC attachment (between 0 and 7, both included). This parameter is required if you create a NIC when creating the VM.
+          description: The index of the VM device for the NIC attachment (between `0` and `7`, both included). This parameter is required if you create a NIC when creating the VM.
           type: integer
         NicId:
           description: The ID of the NIC, if you are attaching an existing NIC when creating a VM.
@@ -5676,6 +5699,7 @@ components:
           description: The token to request the next page of results.
           type: string
         ResultsPerPage:
+          default: 100
           description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
           type: integer
         With:
@@ -5784,6 +5808,10 @@ components:
           description: The beginning of the time period, in ISO 8601 date-time format (for example, `2017-06-14` or `2017-06-14T00:00:00Z`).
           format: datetime
           type: string
+        Overall:
+          default: true
+          description: By default or if true, returns either the overall consumption of your paying account and all linked accounts (if the account that sends this request is a paying account) or returns nothing (if the account that sends this request is a linked account). If false, returns only the consumption of the specific account that sends this request.
+          type: boolean
         ToDate:
           description: The end of the time period, in ISO 8601 date-time format (for example, `2017-06-30` or `2017-06-30T00:00:00Z`).
           format: datetime
@@ -6567,6 +6595,7 @@ components:
       additionalProperties: false
       properties:
         AllVms:
+          default: false
           description: If true, includes the status of all VMs. By default or if set to false, only includes the status of running VMs.
           type: boolean
         DryRun:
@@ -6761,7 +6790,7 @@ components:
           description: The method used to create the route.
           type: string
         DestinationIpRange:
-          description: The IP range used for the destination match, in CIDR notation (for example, 10.0.0.0/24).
+          description: The IP range used for the destination match, in CIDR notation (for example, `10.0.0.0/24`).
           type: string
         DestinationServiceId:
           description: The ID of the OUTSCALE service.
@@ -6796,7 +6825,7 @@ components:
       description: Information about the route.
       properties:
         DestinationIpRange:
-          description: The IP range used for the destination match, in CIDR notation (for example, 10.0.0.0/24).
+          description: The IP range used for the destination match, in CIDR notation (for example, `10.0.0.0/24`).
           type: string
         RouteType:
           description: The type of route (always `static`).
@@ -6901,7 +6930,7 @@ components:
           description: The IP protocol name (`tcp`, `udp`, `icmp`, or `-1` for all protocols). By default, `-1`. In a Net, this can also be an IP protocol number. For more information, see the [IANA.org website](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
           type: string
         IpRanges:
-          description: One or more IP ranges for the security group rules, in CIDR notation (for example, 10.0.0.0/16).
+          description: One or more IP ranges for the security group rules, in CIDR notation (for example, `10.0.0.0/16`).
           items:
             type: string
           type: array
@@ -6916,7 +6945,7 @@ components:
             type: string
           type: array
         ToPortRange:
-          description: The end of the port range for the TCP and UDP protocols, or an ICMP type number.
+          description: The end of the port range for the TCP and UDP protocols, or an ICMP code number.
           type: integer
       type: object
     SecurityGroupsMember:
@@ -6964,6 +6993,9 @@ components:
           type: string
         Name:
           description: The name of the server certificate.
+          type: string
+        Orn:
+          description: The Outscale Resource Name (ORN) of the server certificate. For more information, see [Resource Identifiers > Outscale Resource Names (ORNs)](https://docs.outscale.com/en/userguide/Resource-Identifiers.html#_outscale_resource_names_orns).
           type: string
         Path:
           description: The path to the server certificate.
@@ -7064,7 +7096,7 @@ components:
           description: The account ID of the owner of the source Net.
           type: string
         IpRange:
-          description: The IP range for the source Net, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP range for the source Net, in CIDR notation (for example, `10.0.0.0/16`).
           type: string
         NetId:
           description: The ID of the source Net.
@@ -7155,7 +7187,7 @@ components:
           description: The number of available IPs in the Subnets.
           type: integer
         IpRange:
-          description: The IP range in the Subnet, in CIDR notation (for example, 10.0.0.0/16).
+          description: The IP range in the Subnet, in CIDR notation (for example, `10.0.0.0/16`).
           type: string
         MapPublicIpOnLaunch:
           description: If true, a public IP is assigned to the network interface cards (NICs) created in the specified Subnet.
@@ -7182,6 +7214,9 @@ components:
       additionalProperties: false
       description: Information about the Subregion.
       properties:
+        LocationCode:
+          description: The location code of the Subregion.
+          type: string
         RegionName:
           description: The name of the Region containing the Subregion.
           type: string
@@ -7532,7 +7567,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         IpRanges:
-          description: One or more IP ranges, in CIDR notation (for example, 192.0.2.0/16).
+          description: One or more IP ranges, in CIDR notation (for example, `192.0.2.0/16`).
           items:
             type: string
           type: array
@@ -7567,6 +7602,33 @@ components:
       properties:
         Ca:
           $ref: '#/components/schemas/Ca'
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    UpdateDirectLinkInterfaceRequest:
+      additionalProperties: false
+      properties:
+        DirectLinkInterfaceId:
+          description: The ID of the DirectLink interface you want to update.
+          type: string
+        DryRun:
+          description: If true, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Mtu:
+          default: 1500
+          description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (between `1500` and `9001`, both included).
+          maximum: 9001
+          minimum: 1500
+          type: integer
+      required:
+      - DirectLinkInterfaceId
+      - Mtu
+      type: object
+    UpdateDirectLinkInterfaceResponse:
+      additionalProperties: false
+      properties:
+        DirectLinkInterface:
+          $ref: '#/components/schemas/DirectLinkInterfaces'
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -7805,7 +7867,7 @@ components:
       additionalProperties: false
       properties:
         DestinationIpRange:
-          description: The IP range used for the destination match, in CIDR notation (for example, 10.0.0.0/24).
+          description: The IP range used for the destination match, in CIDR notation (for example, `10.0.0.0/24`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -7925,7 +7987,7 @@ components:
           description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: boolean
         DeletionProtection:
-          description: If true, you cannot terminate the VM using Cockpit, the CLI or the API. If false, you can.
+          description: If true, you cannot delete the VM unless you change this parameter back to false.
           type: boolean
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -8098,7 +8160,7 @@ components:
           format: datetime
           type: string
         DeletionProtection:
-          description: If true, you cannot terminate the VM using Cockpit, the CLI or the API. If false, you can.
+          description: If true, you cannot delete the VM unless you change this parameter back to false.
           type: boolean
         Hypervisor:
           description: The hypervisor type of the VMs (`ovm` \| `xen`).
@@ -8113,7 +8175,7 @@ components:
           description: The name of the keypair used when launching the VM.
           type: string
         LaunchNumber:
-          description: The number for the VM when launching a group of several VMs (for example, 0, 1, 2, and so on).
+          description: The number for the VM when launching a group of several VMs (for example, `0`, `1`, `2`, and so on).
           type: integer
         NetId:
           description: The ID of the Net in which the VM is running.
@@ -8350,55 +8412,71 @@ components:
       type: object
     With:
       additionalProperties: false
-      description: The information to display in each returned log. If this parameter is not specified, all available response elements are displayed. If this parameter is specified, by default `AccountId` and `RequestId` are also included in the response, unless you explicitly specify them as false.
+      description: The information to display in each returned log.
       properties:
         AccountId:
+          default: true
           description: By default or if set to true, the account ID is displayed.
           type: boolean
         CallDuration:
-          description: If set to true, the duration of the call is displayed.
+          default: true
+          description: By default or if set to true, the duration of the call is displayed.
           type: boolean
         QueryAccessKey:
-          description: If set to true, the access key is displayed.
+          default: true
+          description: By default or if set to true, the access key is displayed.
           type: boolean
         QueryApiName:
-          description: If set to true, the name of the API is displayed.
+          default: true
+          description: By default or if set to true, the name of the API is displayed.
           type: boolean
         QueryApiVersion:
-          description: If set to true, the version of the API is displayed.
+          default: true
+          description: By default or if set to true, the version of the API is displayed.
           type: boolean
         QueryCallName:
-          description: If set to true, the name of the call is displayed.
+          default: true
+          description: By default or if set to true, the name of the call is displayed.
           type: boolean
         QueryDate:
-          description: If set to true, the date of the call is displayed.
+          default: true
+          description: By default or if set to true, the date of the call is displayed.
           type: boolean
         QueryHeaderRaw:
-          description: If set to true, the raw header of the HTTP request is displayed.
+          default: true
+          description: By default or if set to true, the raw header of the HTTP request is displayed.
           type: boolean
         QueryHeaderSize:
-          description: If set to true, the size of the raw header of the HTTP request is displayed.
+          default: true
+          description: By default or if set to true, the size of the raw header of the HTTP request is displayed.
           type: boolean
         QueryIpAddress:
-          description: If set to true, the IP is displayed.
+          default: true
+          description: By default or if set to true, the IP is displayed.
           type: boolean
         QueryPayloadRaw:
-          description: If set to true, the raw payload of the HTTP request is displayed.
+          default: true
+          description: By default or if set to true, the raw payload of the HTTP request is displayed.
           type: boolean
         QueryPayloadSize:
-          description: If set to true, the size of the raw payload of the HTTP request is displayed.
+          default: true
+          description: By default or if set to true, the size of the raw payload of the HTTP request is displayed.
           type: boolean
         QueryUserAgent:
-          description: If set to true, the user agent of the HTTP request is displayed.
+          default: true
+          description: By default or if set to true, the user agent of the HTTP request is displayed.
           type: boolean
         RequestId:
+          default: true
           description: By default or if set to true, the request ID is displayed.
           type: boolean
         ResponseSize:
-          description: If set to true, the size of the response is displayed.
+          default: true
+          description: By default or if set to true, the size of the response is displayed.
           type: boolean
         ResponseStatusCode:
-          description: If set to true, the HTTP status code of the response is displayed.
+          default: true
+          description: By default or if set to true, the HTTP status code of the response is displayed.
           type: boolean
       type: object
   securitySchemes:
@@ -8425,14 +8503,13 @@ components:
 info:
   contact:
     email: support@outscale.com
-  description: 'Welcome to the OUTSCALE API documentation.<br /><br />
-
+  description: 'Welcome to the OUTSCALE API documentation.<br />
 
     The OUTSCALE API enables you to manage your resources in the OUTSCALE Cloud. This documentation describes the different actions available along with code examples.<br /><br />
 
+    You can learn more about errors returned by the API in the dedicated [errors page](api/errors).<br /><br />
 
-    Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but some resources have different names in AWS than in the OUTSCALE API. You can find a list of the differences [here](https://docs.outscale.com/en/userguide/OUTSCALE-APIs-Reference.html).<br /><br />
-
+    Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but there are [differences in resource names](https://docs.outscale.com/en/userguide/OUTSCALE-APIs-Reference.html) between AWS and the OUTSCALE API.<br />
 
     You can also manage your resources using the [Cockpit](https://docs.outscale.com/en/userguide/About-Cockpit.html) web interface.'
   license:
@@ -8440,7 +8517,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.19'
+  version: '1.20'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -10545,7 +10622,7 @@ paths:
   /DeleteSecurityGroupRule:
     description: 'Deletes one or more inbound or outbound rules from a security group. For the rule to be deleted, the values specified in the deletion request must exactly match the value of the existing rule.<br />
 
-      In case of TCP and UDP protocols, you have to indicate the destination port or range of ports. In case of ICMP protocol, you have to specify the ICMP type and code.<br />
+      In case of TCP and UDP protocols, you have to indicate the destination port or range of ports. In case of ICMP protocol, you have to specify the ICMP type and code numbers.<br />
 
       Rules (IP permissions) consist of the protocol, IP range or source security group.<br />
 
@@ -13336,6 +13413,24 @@ paths:
       - BasicAuth: []
       tags:
       - Ca
+  /UpdateDirectLinkInterface:
+    description: Modifies the maximum transmission unit (MTU) of a DirectLink interface.
+    post:
+      operationId: UpdateDirectLinkInterface
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDirectLinkInterfaceRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateDirectLinkInterfaceResponse'
+          description: The HTTP 200 response (OK).
+      tags:
+      - DirectLinkInterface
   /UpdateFlexibleGpu:
     description: Modifies a flexible GPU (fGPU) behavior.
     post:
@@ -13697,12 +13792,9 @@ paths:
       tags:
       - Subnet
   /UpdateVm:
-    description: 'Modifies a specific attribute of a virtual machine (VM).<br />
+    description: 'Modifies the specified attributes of a virtual machine (VM).<br />
 
-      You can modify only one attribute at a time. You can modify the `IsSourceDestChecked` attribute only if the VM is in a Net.<br />
-
-      You must stop the VM before modifying the following attributes:<br /><br />
-
+      You must stop the VM before modifying the following attributes:<br />
 
       * `Performance`<br />
 
