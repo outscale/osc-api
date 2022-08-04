@@ -1528,6 +1528,10 @@ components:
         MinVmsCount:
           description: The minimum number of VMs you want to create. If this number of VMs cannot be created, no VMs are created.
           type: integer
+        NestedVirtualization:
+          default: false
+          description: (dedicated tenancy only) If true, nested virtualization is enabled. If false, it is disabled.
+          type: boolean
         Nics:
           description: One or more NICs. If you specify this parameter, you must not specify the `SubnetId` and `SubregionName` parameters. You also must define one NIC as the primary network interface of the VM with `0` as its device number.
           items:
@@ -1535,7 +1539,7 @@ components:
           type: array
         Performance:
           default: high
-          description: The performance of the VM (`medium` \| `high` \|  `highest`).
+          description: The performance of the VM (`medium` \| `high` \|  `highest`). By default, `high`. This parameter is ignored if you specify a performance flag directly in the `VmType` parameter.
           enum:
           - medium
           - high
@@ -1569,9 +1573,9 @@ components:
           description: The VM behavior when you stop it. By default or if set to `stop`, the VM stops. If set to `restart`, the VM stops then automatically restarts. If set to `terminate`, the VM stops and is terminated.
           type: string
         VmType:
-          description: 'The type of VM (`t2.small` by default).<br />
+          description: 'The type of VM. You can specify a TINA type (in the `tinavW.cXrYpZ` or `tinavW.cXrY` format), or an AWS type (for example, `t2.small`, which is the default value).<br />
 
-            For more information, see [Instance Types](https://docs.outscale.com/en/userguide/Instance-Types.html).'
+            If you specify an AWS type, it is converted in the background to its corresponding TINA type, but the AWS type is still returned. If the specified or converted TINA type includes a performance flag, this performance flag is applied regardless of the value you may have provided in the `Performance` parameter. For more information, see [Instance Types](https://docs.outscale.com/en/userguide/Instance-Types.html).'
           type: string
       required:
       - ImageId
@@ -3125,7 +3129,7 @@ components:
             type: string
           type: array
         States:
-          description: The states of the Nets (`pending` \| `available`).
+          description: The states of the Nets (`pending` \| `available` \| `deleted`).
           items:
             type: string
           type: array
@@ -3800,7 +3804,7 @@ components:
             type: string
           type: array
         States:
-          description: The states of the Subnets (`pending` \| `available`).
+          description: The states of the Subnets (`pending` \| `available` \| `deleted`).
           items:
             type: string
           type: array
@@ -4882,6 +4886,9 @@ components:
         PublicIp:
           description: (internet-facing only) The public IP associated with the load balancer.
           type: string
+        SecuredCookies:
+          description: Whether secure cookies are enabled for the load balancer.
+          type: boolean
         SecurityGroups:
           description: One or more IDs of security groups for the load balancers. Valid only for load balancers in a Net.
           items:
@@ -5071,7 +5078,7 @@ components:
           description: The ID of the Net.
           type: string
         State:
-          description: The state of the Net (`pending` \| `available`).
+          description: The state of the Net (`pending` \| `available` \| `deleted`).
           type: string
         Tags:
           description: One or more tags associated with the Net.
@@ -7196,7 +7203,7 @@ components:
           description: The ID of the Net in which the Subnet is.
           type: string
         State:
-          description: The state of the Subnet (`pending` \| `available`).
+          description: The state of the Subnet (`pending` \| `available` \| `deleted`).
           type: string
         SubnetId:
           description: The ID of the Subnet.
@@ -7615,8 +7622,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Mtu:
-          default: 1500
-          description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (between `1500` and `9001`, both included).
+          description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (either `1500` or `9000`).
           maximum: 9001
           minimum: 1500
           type: integer
@@ -7730,6 +7736,9 @@ components:
         PublicIp:
           description: (internet-facing only) The public IP you want to associate with the load balancer. The former public IP of the load balancer is then disassociated. If you specify an empty string and the former public IP belonged to you, it is disassociated and replaced by a public IP owned by 3DS OUTSCALE.
           type: string
+        SecuredCookies:
+          description: If true, secure cookies are enabled for the load balancer.
+          type: boolean
         SecurityGroups:
           description: (Net only) One or more IDs of security groups you want to assign to the load balancer. You need to specify the already assigned security groups that you want to keep along with the new ones you are assigning. If the list is empty, the default security group of the Net is assigned to the load balancer.
           items:
@@ -8000,6 +8009,9 @@ components:
 
             To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.'
           type: string
+        NestedVirtualization:
+          description: (dedicated tenancy only) If true, nested virtualization is enabled. If false, it is disabled.
+          type: boolean
         Performance:
           description: The performance of the VM (`medium` \| `high` \|  `highest`).
           enum:
@@ -8177,6 +8189,9 @@ components:
         LaunchNumber:
           description: The number for the VM when launching a group of several VMs (for example, `0`, `1`, `2`, and so on).
           type: integer
+        NestedVirtualization:
+          description: If true, nested virtualization is enabled. If false, it is disabled.
+          type: boolean
         NetId:
           description: The ID of the Net in which the VM is running.
           type: string
@@ -8517,7 +8532,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.20'
+  version: '1.21'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -8915,9 +8930,9 @@ paths:
       This action returns the private key that you need to save. The public key is stored by 3DS OUTSCALE.<br /><br />
 
 
-      You can also import a public key in one of the following formats: 1024-bit RSA, 2048-bit RSA, 4096-bit RSA, ECDSA and Ed25519.<br />
+      You can also import a public key. The following types of key can be imported: RSA (minimum 2048 bits, recommended 4096 bits), ECDSA (minimum and recommended 256 bits), and Ed25519. The following formats can be used: PEM, PKCS8, RFC4716, and OpenSSH.<br />
 
-      This action imports the public key of a keypair created by a third-party tool and uses it to create a 2048-bit RSA keypair. The private key is never provided to 3DS OUTSCALE.'
+      This action imports the public key of a keypair created by a third-party tool and uses it to create a keypair. The private key is never provided to 3DS OUTSCALE.'
     post:
       operationId: CreateKeypair
       requestBody:
@@ -13795,6 +13810,8 @@ paths:
     description: 'Modifies the specified attributes of a virtual machine (VM).<br />
 
       You must stop the VM before modifying the following attributes:<br />
+
+      * `NestedVirtualization`<br />
 
       * `Performance`<br />
 
