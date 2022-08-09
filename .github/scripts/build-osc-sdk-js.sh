@@ -14,7 +14,7 @@ if [ -z "$GH_TOKEN" ]; then
 fi
 
 ghurl="https://api.github.com"
-data="{\"ref\": \"master\", \"inputs\": {\"api_version\": \"$API_VERSION\"}"
+data="{\"ref\": \"main\", \"inputs\": {\"api_version\": \"$API_VERSION\"}"
 curl \
     -X POST \
     -H "Authorization: token $GH_TOKEN" \
