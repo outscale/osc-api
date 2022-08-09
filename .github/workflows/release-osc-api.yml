@@ -18,16 +18,43 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_GO }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
         run: .github/scripts/build-osc-sdk-go.sh
+  osc-sdk-python:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Getting release details
+        id: release
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
       - name: Trigger osc-sdk-python build
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_PYTHON }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
         run: .github/scripts/build-osc-sdk-python.sh
+  osc-sdk-rust:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Getting release details
+        id: release
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
       - name: Trigger osc-sdk-rust build
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_RUST }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
         run: .github/scripts/build-osc-sdk-rust.sh
+  osc-sdk-js:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Getting release details
+        id: release
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
       - name: Trigger osc-sdk-js build
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_JS }}
