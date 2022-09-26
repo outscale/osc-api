@@ -238,7 +238,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToCreate'
         DeviceName:
-          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX` or `/dev/xvdX` (where `X` is a letter between `b` and `z`).
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXY`, `/dev/xvdX`, or `/dev/xvdXY` (where `X` is a letter between `b` and `z` and where `Y` is a letter between `a` and `z`).
           type: string
         VirtualDeviceName:
           description: The name of the virtual device (`ephemeralN`).
@@ -251,7 +251,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToCreate'
         DeviceName:
-          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX` or `/dev/xvdX` (where `X` is a letter between `b` and `z`).
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXY`, `/dev/xvdX`, or `/dev/xvdXY` (where `X` is a letter between `b` and `z` and where `Y` is a letter between `a` and `z`).
           type: string
         NoDevice:
           description: Removes the device which is included in the block device mapping of the OMI.
@@ -267,7 +267,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToUpdateVm'
         DeviceName:
-          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX` or `/dev/xvdX` (where `X` is a letter between `b` and `z`).
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXY`, `/dev/xvdX`, or `/dev/xvdXY` (where `X` is a letter between `b` and `z` and where `Y` is a letter between `a` and `z`).
           type: string
         NoDevice:
           description: Removes the device which is included in the block device mapping of the OMI.
@@ -1395,20 +1395,20 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         FileLocation:
-          description: The pre-signed URL of the snapshot you want to import from the bucket.
+          description: (When importing) The pre-signed URL of the snapshot you want to import, or the normal URL of the snapshot if you have permission on the OOS bucket. For more information, see [Configuring a Pre-signed URL](https://docs.outscale.com/en/userguide/Configuring-a-Pre-signed-URL.html) or [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).
           type: string
         SnapshotSize:
-          description: The size of the snapshot you want to create in your account, in bytes. This size must be greater than or equal to the size of the original, uncompressed snapshot.
+          description: (When importing) The size of the snapshot you want to create in your account, in bytes. This size must be greater than or equal to the size of the original, uncompressed snapshot.
           format: int64
           type: integer
         SourceRegionName:
-          description: The name of the source Region, which must be the same as the Region of your account.
+          description: (When copying) The name of the source Region, which must be the same as the Region of your account.
           type: string
         SourceSnapshotId:
-          description: The ID of the snapshot you want to copy.
+          description: (When copying) The ID of the snapshot you want to copy.
           type: string
         VolumeId:
-          description: The ID of the volume you want to create a snapshot of.
+          description: (When creating) The ID of the volume you want to create a snapshot of.
           type: string
       type: object
     CreateSnapshotResponse:
@@ -1426,7 +1426,9 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         IpRange:
-          description: The IP range in the Subnet, in CIDR notation (for example, `10.0.0.0/16`).
+          description: 'The IP range in the Subnet, in CIDR notation (for example, `10.0.0.0/16`).<br />
+
+            The IP range of the Subnet can be either the same as the Net one if you create only a single Subnet in this Net, or a subset of the Net one. In case of several Subnets in a Net, their IP ranges must not overlap. The smallest Subnet you can create uses a /29 netmask (eight IPs). For more information, see [About VPCs](https://docs.outscale.com/en/userguide/About-VPCs.html).'
           type: string
         NetId:
           description: The ID of the Net for which you want to create a Subnet.
@@ -3546,7 +3548,7 @@ components:
             type: string
           type: array
         RouteStates:
-          description: The states of routes in the route tables (`active` \| `blackhole`). The `blackhole` state indicates that the target of the route is not available.
+          description: The states of routes in the route tables (always `active`).
           items:
             type: string
           type: array
@@ -4689,7 +4691,7 @@ components:
       additionalProperties: false
       properties:
         DeviceName:
-          description: The name of the device.
+          description: The name of the device. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXY`, `/dev/xvdX`, or `/dev/xvdXY` (where `X` is a letter between `b` and `z` and where `Y` is a letter between `a` and `z`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -5816,8 +5818,8 @@ components:
           format: datetime
           type: string
         Overall:
-          default: true
-          description: By default or if true, returns either the overall consumption of your paying account and all linked accounts (if the account that sends this request is a paying account) or returns nothing (if the account that sends this request is a linked account). If false, returns only the consumption of the specific account that sends this request.
+          default: false
+          description: By default or if false, returns only the consumption of the specific account that sends this request. If true, returns either the overall consumption of your paying account and all linked accounts (if the account that sends this request is a paying account) or returns nothing (if the account that sends this request is a linked account).
           type: boolean
         ToDate:
           description: The end of the time period, in ISO 8601 date-time format (for example, `2017-06-30` or `2017-06-30T00:00:00Z`).
@@ -6818,7 +6820,7 @@ components:
           description: The ID of the NIC.
           type: string
         State:
-          description: The state of a route in the route table (`active` \| `blackhole`). The `blackhole` state indicates that the target of the route is not available.
+          description: 'The state of a route in the route table (always `active`). '
           type: string
         VmAccountId:
           description: The account ID of the owner of the VM.
@@ -7623,8 +7625,9 @@ components:
           type: boolean
         Mtu:
           description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (either `1500` or `9000`).
-          maximum: 9001
-          minimum: 1500
+          enum:
+          - 1500
+          - 9000
           type: integer
       required:
       - DirectLinkInterfaceId
@@ -8526,13 +8529,15 @@ info:
 
     Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but there are [differences in resource names](https://docs.outscale.com/en/userguide/OUTSCALE-APIs-Reference.html) between AWS and the OUTSCALE API.<br />
 
-    You can also manage your resources using the [Cockpit](https://docs.outscale.com/en/userguide/About-Cockpit.html) web interface.'
+    You can also manage your resources using the [Cockpit](https://docs.outscale.com/en/userguide/About-Cockpit.html) web interface.<br /><br />
+
+    An OpenAPI description of the OUTSCALE API is also available in this [GitHub repository](https://github.com/outscale/osc-api).'
   license:
     name: BSD 3 Clause
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.21'
+  version: '1.22'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -9540,21 +9545,15 @@ paths:
       tags:
       - ServerCertificate
   /CreateSnapshot:
-    description: 'Creates a snapshot of a Block storage Unit (BSU) volume.<br />
+    description: 'Creates a snapshot. Snapshots are point-in-time images of a volume that you can use to back up your data or to create replicas of this volume.<br />
 
-      Snapshots are point-in-time images of a volume you can use to back up your data or to create replicas of this volume at the time the snapshot was created.<br /><br />
+      You can use this method in three different ways:
 
+      * **Creating**: You create a snapshot from one of your volumes.<br></li>
 
-      You can also use this method to copy a snapshot to your account, from an account in the same Region.<br />
+      * **Copying**: You copy an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br></li>
 
-      To do so, the owner of the source snapshot must share it with your account. For more information about how to share a snapshot with another account, see [UpdateSnapshot](#updatesnapshot).<br />
-
-      The copy of the source snapshot is independent and belongs to you.<br /><br />
-
-
-      To copy a snapshot between accounts in different Regions, the owner of the source snapshot must export it to an OUTSCALE Object Storage (OOS) bucket using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. You then need to import it from the bucket to create a copy of this snapshot in your account.<br />
-
-      You can import a snapshot using a pre-signed URL. You do not need any permission for this snapshot, or the bucket in which it is contained. The pre-signed URL is valid for seven days (you can regenerate a new one if needed).'
+      * **Importing**: You import a snapshot located in an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source snapshot must export it to the bucket by using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. Then, they must grant you read permission on the bucket via a pre-signed URL or Access Control Lists. For more information, see [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).'
     post:
       operationId: CreateSnapshot
       requestBody:
@@ -9614,9 +9613,7 @@ paths:
   /CreateSubnet:
     description: 'Creates a Subnet in an existing Net.<br />
 
-      To create a Subnet in a Net, you have to provide the ID of the Net and the IP range for the Subnet (its network range). Once the Subnet is created, you cannot modify its IP range.<br />
-
-      The IP range of the Subnet can be either the same as the Net one if you create only a single Subnet in this Net, or a subset of the Net one. In case of several Subnets in a Net, their IP ranges must not overlap. The smallest Subnet you can create uses a /30 netmask (four IPs).'
+      To create a Subnet in a Net, you have to provide the ID of the Net and the IP range for the Subnet (its network range). Once the Subnet is created, you cannot modify its IP range.'
     post:
       operationId: CreateSubnet
       requestBody:
