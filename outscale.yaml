@@ -7,7 +7,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         NetPeeringId:
-          description: The ID of the Net peering connection you want to accept.
+          description: The ID of the Net peering you want to accept.
           type: string
       required:
       - NetPeeringId
@@ -238,7 +238,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToCreate'
         DeviceName:
-          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXY`, `/dev/xvdX`, or `/dev/xvdXY` (where `X` is a letter between `b` and `z` and where `Y` is a letter between `a` and `z`).
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXX`, `/dev/xvdX`, or `/dev/xvdXX` (where the first `X` is a letter between `b` and `z`, and the second `X` is a letter between `a` and `z`).
           type: string
         VirtualDeviceName:
           description: The name of the virtual device (`ephemeralN`).
@@ -251,7 +251,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToCreate'
         DeviceName:
-          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXY`, `/dev/xvdX`, or `/dev/xvdXY` (where `X` is a letter between `b` and `z` and where `Y` is a letter between `a` and `z`).
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXX`, `/dev/xvdX`, or `/dev/xvdXX` (where the first `X` is a letter between `b` and `z`, and the second `X` is a letter between `a` and `z`).
           type: string
         NoDevice:
           description: Removes the device which is included in the block device mapping of the OMI.
@@ -267,7 +267,7 @@ components:
         Bsu:
           $ref: '#/components/schemas/BsuToUpdateVm'
         DeviceName:
-          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXY`, `/dev/xvdX`, or `/dev/xvdXY` (where `X` is a letter between `b` and `z` and where `Y` is a letter between `a` and `z`).
+          description: The device name for the volume. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXX`, `/dev/xvdX`, or `/dev/xvdXX` (where the first `X` is a letter between `b` and `z`, and the second `X` is a letter between `a` and `z`).
           type: string
         NoDevice:
           description: Removes the device which is included in the block device mapping of the OMI.
@@ -303,7 +303,7 @@ components:
           description: By default or if set to true, the volume is deleted when terminating the VM. If false, the volume is not deleted when terminating the VM.
           type: boolean
         Iops:
-          description: The number of I/O operations per second (IOPS). This parameter must be specified only if you create an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is `13000`.
+          description: The number of I/O operations per second (IOPS). This parameter must be specified only if you create an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is `13000` with a maximum performance ratio of 300 IOPS per gibibyte.
           type: integer
         SnapshotId:
           description: The ID of the snapshot used to create the volume.
@@ -582,7 +582,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         IpRanges:
-          description: One or more IP ranges, in CIDR notation (for example, `192.0.2.0/16`).
+          description: One or more IP addresses or CIDR blocks (for example, `192.0.2.0/16`).
           items:
             type: string
           type: array
@@ -1207,7 +1207,7 @@ components:
           description: The ID of a NAT service.
           type: string
         NetPeeringId:
-          description: The ID of a Net peering connection.
+          description: The ID of a Net peering.
           type: string
         NicId:
           description: The ID of a NIC.
@@ -1600,7 +1600,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Iops:
-          description: The number of I/O operations per second (IOPS). This parameter must be specified only if you create an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is `13000`.
+          description: The number of I/O operations per second (IOPS). This parameter must be specified only if you create an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is `13000` with a maximum performance ratio of 300 IOPS per gibibyte.
           type: integer
         Size:
           description: 'The size of the volume, in gibibytes (GiB). The maximum allowed size for a volume is 14901 GiB. This parameter is required if the volume is not created from a snapshot (`SnapshotId` unspecified). '
@@ -2051,7 +2051,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         NetPeeringId:
-          description: The ID of the Net peering connection you want to delete.
+          description: The ID of the Net peering you want to delete.
           type: string
       required:
       - NetPeeringId
@@ -2643,7 +2643,7 @@ components:
             type: string
           type: array
         IpRanges:
-          description: One or more IP ranges, in CIDR notation (for example, `192.0.2.0/16`).
+          description: One or more IP addresses or CIDR blocks (for example, `192.0.2.0/16`).
           items:
             type: string
           type: array
@@ -3211,7 +3211,7 @@ components:
             type: string
           type: array
         NetPeeringIds:
-          description: The IDs of the Net peering connections.
+          description: The IDs of the Net peerings.
           items:
             type: string
           type: array
@@ -3231,27 +3231,27 @@ components:
             type: string
           type: array
         StateMessages:
-          description: Additional information about the states of the Net peering connections.
+          description: Additional information about the states of the Net peerings.
           items:
             type: string
           type: array
         StateNames:
-          description: The states of the Net peering connections (`pending-acceptance` \| `active` \| `rejected` \| `failed` \| `expired` \| `deleted`).
+          description: The states of the Net peerings (`pending-acceptance` \| `active` \| `rejected` \| `failed` \| `expired` \| `deleted`).
           items:
             type: string
           type: array
         TagKeys:
-          description: The keys of the tags associated with the Net peering connections.
+          description: The keys of the tags associated with the Net peerings.
           items:
             type: string
           type: array
         TagValues:
-          description: The values of the tags associated with the Net peering connections.
+          description: The values of the tags associated with the Net peerings.
           items:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the Net peering connections, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
+          description: 'The key/value combination of the tags associated with the Net peerings, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3543,7 +3543,7 @@ components:
             type: string
           type: array
         RouteNetPeeringIds:
-          description: The IDs of the Net peering connections specified in routes in the tables.
+          description: The IDs of the Net peerings specified in routes in the tables.
           items:
             type: string
           type: array
@@ -4691,7 +4691,7 @@ components:
       additionalProperties: false
       properties:
         DeviceName:
-          description: The name of the device. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXY`, `/dev/xvdX`, or `/dev/xvdXY` (where `X` is a letter between `b` and `z` and where `Y` is a letter between `a` and `z`).
+          description: The name of the device. For a root device, you must use `/dev/sda1`. For other volumes, you must use `/dev/sdX`, `/dev/sdXX`, `/dev/xvdX`, or `/dev/xvdXX` (where the first `X` is a letter between `b` and `z`, and the second `X` is a letter between `a` and `z`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -5120,32 +5120,32 @@ components:
       type: object
     NetPeering:
       additionalProperties: false
-      description: Information about the Net peering connection.
+      description: Information about the Net peering.
       properties:
         AccepterNet:
           $ref: '#/components/schemas/AccepterNet'
         NetPeeringId:
-          description: The ID of the Net peering connection.
+          description: The ID of the Net peering.
           type: string
         SourceNet:
           $ref: '#/components/schemas/SourceNet'
         State:
           $ref: '#/components/schemas/NetPeeringState'
         Tags:
-          description: One or more tags associated with the Net peering connection.
+          description: One or more tags associated with the Net peering.
           items:
             $ref: '#/components/schemas/ResourceTag'
           type: array
       type: object
     NetPeeringState:
       additionalProperties: false
-      description: Information about the state of the Net peering connection.
+      description: Information about the state of the Net peering.
       properties:
         Message:
-          description: Additional information about the state of the Net peering connection.
+          description: Additional information about the state of the Net peering.
           type: string
         Name:
-          description: The state of the Net peering connection (`pending-acceptance` \| `active` \| `rejected` \| `failed` \| `expired` \| `deleted`).
+          description: The state of the Net peering (`pending-acceptance` \| `active` \| `rejected` \| `failed` \| `expired` \| `deleted`).
           type: string
       type: object
     NetToVirtualGatewayLink:
@@ -6174,7 +6174,7 @@ components:
       additionalProperties: false
       properties:
         NetPeerings:
-          description: Information about one or more Net peering connections.
+          description: Information about one or more Net peerings.
           items:
             $ref: '#/components/schemas/NetPeering'
           type: array
@@ -6728,7 +6728,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         NetPeeringId:
-          description: The ID of the Net peering connection you want to reject.
+          description: The ID of the Net peering you want to reject.
           type: string
       required:
       - NetPeeringId
@@ -6814,7 +6814,7 @@ components:
           description: The ID of the Net access point.
           type: string
         NetPeeringId:
-          description: The ID of the Net peering connection.
+          description: The ID of the Net peering.
           type: string
         NicId:
           description: The ID of the NIC.
@@ -7576,7 +7576,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         IpRanges:
-          description: One or more IP ranges, in CIDR notation (for example, `192.0.2.0/16`).
+          description: One or more IP addresses or CIDR blocks (for example, `192.0.2.0/16`).
           items:
             type: string
           type: array
@@ -7891,7 +7891,7 @@ components:
           description: The ID of a NAT service.
           type: string
         NetPeeringId:
-          description: The ID of a Net peering connection.
+          description: The ID of a Net peering.
           type: string
         NicId:
           description: The ID of a network interface card (NIC).
@@ -8057,7 +8057,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Iops:
-          description: The new number of I/O operations per second (IOPS). This parameter can be specified only if you update an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is `13000`. This modification is instantaneous on a cold volume, not on a hot one.
+          description: The new number of I/O operations per second (IOPS). This parameter can be specified only if you update an `io1` volume. The maximum number of IOPS allowed for `io1` volumes is `13000` with a maximum performance ratio of 300 IOPS per gibibyte. This modification is instantaneous on a cold volume, not on a hot one.
           type: integer
         Size:
           description: (cold volume only) The new size of the volume, in gibibytes (GiB). This value must be equal to or greater than the current size of the volume. This modification is not instantaneous.
@@ -8499,23 +8499,17 @@ components:
       type: object
   securitySchemes:
     ApiKeyAuth:
-      description: 'With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://docs.outscale.com/en/userguide/About-Signatures-of-API-Requests.html).<br />
-
-        In addition to your access key, you can configure API access rules with Certificate Authorities (CAs), requiring you to provide a certificate to perform actions. In that case, you can bypass systematically providing a certificate by activating a trusted session. For more information, see the [UpdateApiAccessPolicy](#updateapiaccesspolicy) method and [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).'
+      description: "With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://docs.outscale.com/en/userguide/About-Signatures-of-API-Requests.html).<br />\n  * In addition to your access key, you can configure API access rules with Certificate Authorities (CAs), requiring you to provide a certificate to perform actions. In that case, you can bypass systematically providing a certificate by activating a trusted session. For more information, see the [UpdateApiAccessPolicy](#updateapiaccesspolicy) method and [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html)."
       in: header
       name: Authorization
       type: apiKey
     ApiKeyAuthSec:
-      description: 'With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://docs.outscale.com/en/userguide/About-Signatures-of-API-Requests.html).<br />
-
-        In addition to your access key, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).'
+      description: "With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://docs.outscale.com/en/userguide/About-Signatures-of-API-Requests.html).<br />\n  * In addition to your access key, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html)."
       in: header
       name: Authorization
       type: apiKey
     BasicAuth:
-      description: 'With this authentication scheme, you must specify an authentication field in the header of your API request, containing the following information: `Authorization: Basic XXXX`, where `XXXX` is your `email:password` encoded in Base64.<br />
-
-        In addition to your email and password combination, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).'
+      description: "With this authentication scheme, you must specify the following headers in your API request:<br />\n  * `Authorization: Basic XXXX`, where `XXXX` is your `email:password` encoded in Base64\n  * `X-Osc-Date` in the `YYYYMMDDTHHMMSSZ` format\n  * Example with Curl: ``$ curl -X POST https://api.eu-west-2.outscale.com/api/v1/ReadAccessKeys -H &quot;Authorization: Basic `echo -n &quot;MYEMAIL:MYPASSWORD&quot; | base64`&quot; -H &quot;X-Osc-Date: `TZ=GMT date &quot;+%Y%m%dT%H%M%SZ&quot;`&quot;``\n  * In addition to your email and password combination, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html)."
       scheme: basic
       type: http
 info:
@@ -8537,13 +8531,13 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.22'
+  version: '1.23'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
-    description: 'Accepts a Net peering connection request.<br />
+    description: 'Accepts a Net peering request.<br />
 
-      To accept this request, you must be the owner of the peer Net. If you do not accept the request within 7 days, the state of the Net peering connection becomes `expired`.<br /><br />
+      To accept this request, you must be the owner of the peer Net. If you do not accept the request within 7 days, the state of the Net peering becomes `expired`.<br /><br />
 
       **[NOTE]**<br />
 
@@ -9203,14 +9197,16 @@ paths:
       tags:
       - NetAccessPoint
   /CreateNetPeering:
-    description: 'Requests a Net peering connection between a Net you own and a peer Net that belongs to you or another account.<br />
+    description: 'Requests a Net peering between a Net you own and a peer Net that belongs to you or another account.<br />
 
-      This action creates a Net peering connection that remains in the `pending-acceptance` state until it is accepted by the owner of the peer Net. If the owner of the peer Net does not accept the request within 7 days, the state of the Net peering connection becomes `expired`. For more information, see [AcceptNetPeering](#acceptnetpeering).<br /><br />
+      This action creates a Net peering that remains in the `pending-acceptance` state until it is accepted by the owner of the peer Net. If the owner of the peer Net does not accept the request within 7 days, the state of the Net peering becomes `expired`. For more information, see [AcceptNetPeering](#acceptnetpeering).<br /><br />
 
 
       **[NOTE]**<br />
 
-      * The two Nets must not have overlapping IP ranges. Otherwise, the Net peering connection is in the `failed` state.
+      * Peered Nets must contain at least one virtual machine (VM) each before the creation of the Net peering.<br />
+
+      * The two Nets must not have overlapping IP ranges. Otherwise, the Net peering is in the `failed` state.<br />
 
       * A peering connection between two Nets works both ways. Therefore, you do not need to create a B-to-A connection if an A-to-B connection is created and accepted.'
     post:
@@ -9327,7 +9323,7 @@ paths:
       You must specify one of the following elements as the target:<br /><br />
 
 
-      * Net peering connection<br />
+      * Net peering<br />
 
       * NAT VM<br />
 
@@ -9682,7 +9678,7 @@ paths:
 
       * Subnets (subnet-xxxxxxxx)<br />
 
-      * Net peering connections (vpcx-xxxxxxxx)<br />
+      * Net peerings (vpcx-xxxxxxxx)<br />
 
       * Net endpoints (vpce-xxxxxxxx)<br />
 
@@ -10324,7 +10320,7 @@ paths:
 
       * Virtual machines (VMs)<br />
 
-      * Net peering connections<br />
+      * Net peerings<br />
 
       * Custom route tables<br />
 
@@ -10394,9 +10390,9 @@ paths:
       tags:
       - NetAccessPoint
   /DeleteNetPeering:
-    description: 'Deletes a Net peering connection.<br />
+    description: 'Deletes a Net peering.<br />
 
-      If the Net peering connection is in the `active` state, it can be deleted either by the owner of the requester Net or the owner of the peer Net.<br />
+      If the Net peering is in the `active` state, it can be deleted either by the owner of the requester Net or the owner of the peer Net.<br />
 
       If it is in the `pending-acceptance` state, it can be deleted only by the owner of the requester Net.<br />
 
@@ -12837,9 +12833,9 @@ paths:
       tags:
       - LoadBalancer
   /RejectNetPeering:
-    description: 'Rejects a Net peering connection request.<br />
+    description: 'Rejects a Net peering request.<br />
 
-      The Net peering connection must be in the `pending-acceptance` state to be rejected. The rejected Net peering connection is then in the `rejected` state.'
+      The Net peering must be in the `pending-acceptance` state to be rejected. The rejected Net peering is then in the `rejected` state.'
     post:
       operationId: RejectNetPeering
       requestBody:
@@ -12928,7 +12924,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SendResetPasswordEmailResponse'
-          description: The HTTP 200 response (OK). You need to provide this token when updating the account password using the ResetAccountPassword method.
+          description: The HTTP 200 response (OK).
       security: []
       tags:
       - Account
@@ -13645,7 +13641,7 @@ paths:
       You must specify one of the following elements as the target:<br /><br />
 
 
-      * Net peering connection<br />
+      * Net peering<br />
 
       * NAT virtual machine (VM)<br />
 
