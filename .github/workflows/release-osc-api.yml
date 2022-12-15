@@ -31,7 +31,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_PYTHON }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
-        run: .github/scripts/build-osc-sdk-python.sh
+        run: .github/scripts/build-osc-sdk.sh osc-sdk-python
   osc-sdk-rust:
     runs-on: ubuntu-20.04
     steps:
@@ -45,7 +45,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_RUST }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
-        run: .github/scripts/build-osc-sdk-rust.sh
+        run: .github/scripts/build-osc-sdk.sh osc-sdk-rust
   osc-sdk-c:
     runs-on: ubuntu-20.04
     steps:
