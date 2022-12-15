@@ -17,7 +17,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_GO }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
-        run: .github/scripts/build-osc-sdk-go.sh
+        run: .github/scripts/build-osc-sdk.sh osc-sdk-go v2
   osc-sdk-python:
     runs-on: ubuntu-20.04
     steps:
@@ -73,4 +73,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_JS }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
-        run: .github/scripts/build-osc-sdk-js.sh
+        run: .github/scripts/build-osc-sdk.sh osc-sdk-js main
