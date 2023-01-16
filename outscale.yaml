@@ -599,7 +599,7 @@ components:
       additionalProperties: false
       properties:
         CaPem:
-          description: The CA in PEM format. It must be a single-line string, containing literal line breaks (`\n`).
+          description: 'The CA in PEM format.<br />With OSC CLI, use the following syntax to make sure your CA file is correctly parsed: `--CaPem=&quot;$(cat FILENAME)&quot;`.'
           type: string
         Description:
           description: The description of the CA.
@@ -1332,10 +1332,10 @@ components:
       additionalProperties: false
       properties:
         Body:
-          description: The PEM-encoded X509 certificate.
+          description: 'The PEM-encoded X509 certificate.<br />With OSC CLI, use the following syntax to make sure your CA file is correctly parsed: `--CaPem=&quot;$(cat FILENAME)&quot;`.'
           type: string
         Chain:
-          description: The PEM-encoded intermediate certification authorities.
+          description: 'The PEM-encoded intermediate certification authorities.<br />With OSC CLI, use the following syntax to make sure your CA file is correctly parsed: `--CaPem=&quot;$(cat FILENAME)&quot;`.'
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1347,7 +1347,7 @@ components:
           description: The path to the server certificate, set to a slash (/) if not specified.
           type: string
         PrivateKey:
-          description: The PEM-encoded private key matching the certificate.
+          description: 'The PEM-encoded private key matching the certificate.<br />With OSC CLI, use the following syntax to make sure your CA file is correctly parsed: `--CaPem=&quot;$(cat FILENAME)&quot;`.'
           type: string
       required:
       - Body
@@ -4022,7 +4022,7 @@ components:
       description: One or more filters.
       properties:
         CreationDates:
-          description: The dates and times at which the volumes were created.
+          description: The dates and times of creation of the volumes.
           items:
             format: date
             type: string
@@ -4036,7 +4036,7 @@ components:
             type: string
           type: array
         LinkVolumeLinkDates:
-          description: The dates and times at which the volumes were created.
+          description: The dates and times of creation of the volumes.
           items:
             format: date
             type: string
@@ -4255,7 +4255,7 @@ components:
             $ref: '#/components/schemas/BlockDeviceMappingImage'
           type: array
         CreationDate:
-          description: The date and time at which the OMI was created.
+          description: The date and time of creation of the OMI.
           format: date
           type: string
         Description:
@@ -5705,7 +5705,7 @@ components:
         Filters:
           $ref: '#/components/schemas/FiltersApiLog'
         NextPageToken:
-          description: The token to request the next page of results.
+          description: The token to request the next page of results. Each token refers to a specific page.
           type: string
         ResultsPerPage:
           default: 100
@@ -5723,7 +5723,7 @@ components:
             $ref: '#/components/schemas/Log'
           type: array
         NextPageToken:
-          description: The token to request the next page of results.
+          description: The token to request the next page of results. Each token refers to a specific page.
           type: string
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
@@ -8171,7 +8171,7 @@ components:
           description: The idempotency token provided when launching the VM.
           type: string
         CreationDate:
-          description: The date and time at which the VM was created.
+          description: The date and time of creation of the VM.
           format: datetime
           type: string
         DeletionProtection:
@@ -8531,7 +8531,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.23'
+  version: '1.24'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -8675,18 +8675,7 @@ paths:
       tags:
       - ApiAccessRule
   /CreateCa:
-    description: 'Creates a Client Certificate Authority (CA).<br /><br />
-
-
-      **[NOTE]**<br />
-
-      If you use OSC CLI, the content of your certificate file must be enclosed in quotes before you pass it into this command. For example:<br />
-
-      `$ cat ca-string.pem`<br />
-
-      `''-----BEGIN CERTIFICATE-----\nXXXX\nXXXX\nXXXX\n-----END CERTIFICATE-----\n''`<br />
-
-      `$ osc-cli api CreateCa --CaPem &quot;$(cat ca-string.pem)&quot;`'
+    description: Creates a Client Certificate Authority (CA).
     post:
       operationId: CreateCa
       requestBody:
@@ -9904,7 +9893,7 @@ paths:
       tags:
       - AccessKey
   /DeleteApiAccessRule:
-    description: "Deletes a specified API access rule.<br /><br />\n\n**[NOTE]**<br /> \nYou cannot delete the last remaining API access rule. However, if you delete all the API access rules that allow you to access the API, you need to contact the Support team to regain access. For more information, see [Technical Support](https://docs.outscale.com/en/userguide/Technical-Support.html)."
+    description: "Deletes a specified API access rule.<br /><br />\n\n**[NOTE]**<br /> \nYou cannot delete the last remaining API access rule. However, if you delete all the API access rules that allow you to access the APIs, you need to contact the Support team to regain access. For more information, see [Technical Support](https://docs.outscale.com/en/userguide/Technical-Support.html)."
     post:
       operationId: DeleteApiAccessRule
       requestBody:
@@ -10370,7 +10359,7 @@ paths:
       tags:
       - Net
   /DeleteNetAccessPoint:
-    description: 'Deletes one or more Net access point.<br />
+    description: 'Deletes a specified Net access point.<br />
 
       This action also deletes the corresponding routes added to the route tables you specified for the Net access point.'
     post:
@@ -10829,7 +10818,7 @@ paths:
       tags:
       - VirtualGateway
   /DeleteVms:
-    description: 'Performs a shut down for at least one virtual machine (VM).<br />
+    description: 'Terminates one or more virtual machines (VMs).<br />
 
       This operation is idempotent, that means that all calls succeed if you terminate a VM more than once.'
     post:
@@ -13380,7 +13369,7 @@ paths:
       tags:
       - ApiAccessPolicy
   /UpdateApiAccessRule:
-    description: "Modifies a specified API access rule.<br /><br />\n\n**[NOTE]**<br /> \nThe new rule you specify fully replaces the old rule. Therefore, for a parameter that is not specified, any previously set value is deleted."
+    description: "Modifies a specified API access rule.<br /><br />\n\n**[NOTE]**<br /> \n- The new rule you specify fully replaces the old rule. Therefore, for a parameter that is not specified, any previously set value is deleted.<br />\n- If, as result of your modification, you no longer have access to the APIs, you will need to contact the Support team to regain access. For more information, see [Technical Support](https://docs.outscale.com/en/userguide/Technical-Support.html)."
     post:
       operationId: UpdateApiAccessRule
       requestBody:
