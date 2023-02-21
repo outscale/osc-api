@@ -1305,13 +1305,13 @@ components:
             $ref: '#/components/schemas/SecurityGroupRule'
           type: array
         SecurityGroupAccountIdToLink:
-          description: The account ID of the owner of the security group for which you want to create a rule.
+          description: The account ID that owns the source or destination security group specified in the `SecurityGroupNameToLink` parameter.
           type: string
         SecurityGroupId:
           description: The ID of the security group for which you want to create a rule.
           type: string
         SecurityGroupNameToLink:
-          description: The ID of the source security group. If you are in the Public Cloud, you can also specify the name of the source security group.
+          description: The ID of a source or destination security group that you want to link to the security group of the rule.
           type: string
         ToPortRange:
           description: The end of the port range for the TCP and UDP protocols, or an ICMP code number. If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
@@ -2505,7 +2505,7 @@ components:
       description: Information about the DirectLink interface.
       properties:
         BgpAsn:
-          description: The BGP (Border Gateway Protocol) ASN (Autonomous System Number) on the customer's side of the DirectLink interface.
+          description: The BGP (Border Gateway Protocol) ASN (Autonomous System Number) on the customer's side of the DirectLink interface. This number must be between `64512` and `65534`.
           type: integer
         BgpKey:
           description: The BGP authentication key.
@@ -2563,7 +2563,7 @@ components:
           description: The datacenter where the DirectLink interface is located.
           type: string
         Mtu:
-          description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (by default, `1500`).
+          description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (always `1500`).
           type: integer
         OutscalePrivateIp:
           description: The IP on the OUTSCALE side of the DirectLink interface.
@@ -5364,20 +5364,26 @@ components:
       type: object
     PermissionsOnResource:
       additionalProperties: false
-      description: Information about the users who have permissions for the resource.
+      description: Permissions for the resource.
       properties:
         AccountIds:
-          description: The account ID of one or more users who have permissions for the resource.
+          description: One or more account IDs that the permission is associated with.
           items:
             type: string
           type: array
         GlobalPermission:
-          description: If true, the resource is public. If false, the resource is private.
+          description: 'A global permission for all accounts.<br />
+
+            (Request) Set this parameter to true to make the resource public (if the parent parameter is `Additions`) or to make the resource private (if the parent parameter is `Removals`).<br />
+
+            (Response) If true, the resource is public. If false, the resource is private.'
           type: boolean
       type: object
     PermissionsOnResourceCreation:
       additionalProperties: false
-      description: Information about the permissions for the resource.
+      description: 'Information about the permissions for the resource.<br />
+
+        Specify either the `Additions` or the `Removals` parameter.'
       properties:
         Additions:
           $ref: '#/components/schemas/PermissionsOnResource'
@@ -6944,7 +6950,7 @@ components:
             type: string
           type: array
         SecurityGroupsMembers:
-          description: Information about one or more members of a security group.
+          description: Information about one or more source or destination security groups.
           items:
             $ref: '#/components/schemas/SecurityGroupsMember'
           type: array
@@ -6959,16 +6965,16 @@ components:
       type: object
     SecurityGroupsMember:
       additionalProperties: false
-      description: Information about the member of a security group.
+      description: Information about a source or destination security group.
       properties:
         AccountId:
-          description: The account ID of a user.
+          description: The account ID that owns the source or destination security group.
           type: string
         SecurityGroupId:
-          description: The ID of the security group.
+          description: The ID of a source or destination security group that you want to link to the security group of the rule.
           type: string
         SecurityGroupName:
-          description: The name of the security group.
+          description: (Public Cloud only) The name of a source or destination security group that you want to link to the security group of the rule.
           type: string
       type: object
     SendResetPasswordEmailRequest:
@@ -7624,7 +7630,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Mtu:
-          description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (either `1500` or `9000`).
+          description: The maximum transmission unit (MTU) of the DirectLink interface, in bytes (always `1500`).
           enum:
           - 1500
           - 9000
@@ -8008,9 +8014,9 @@ components:
           description: (Net only) If true, the source/destination check is enabled. If false, it is disabled. This value must be false for a NAT VM to perform network address translation (NAT) in a Net.
           type: boolean
         KeypairName:
-          description: 'The name of the keypair.<br />
+          description: 'The name of a keypair you want to associate with the VM.<br />
 
-            To complete the replacement, manually replace the old public key with the new public key in the ~/.ssh/authorized_keys file located in the VM. Restart the VM to apply the change.'
+            When you replace the keypair of a VM with another one, the metadata of the VM is modified to reflect the new public key, but the replacement is still not effective in the operating system of the VM. To complete the replacement and effectively apply the new keypair, you need to perform other actions inside the VM. For more information, see [Modifying the Keypair of an Instance](https://docs.outscale.com/en/userguide/Modifying-the-Keypair-of-an-Instance.html).'
           type: string
         NestedVirtualization:
           description: (dedicated tenancy only) If true, nested virtualization is enabled. If false, it is disabled.
@@ -8531,7 +8537,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: '1.24'
+  version: '1.25'
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
@@ -9445,28 +9451,30 @@ paths:
       tags:
       - SecurityGroup
   /CreateSecurityGroupRule:
-    description: 'Configures the rules for a security group.<br />
+    description: 'Adds one or more rules to a security group.<br />
 
-      The modifications are effective at virtual machine (VM) level as quickly as possible, but a small delay may occur.<br /><br />
+      Use the `SecurityGroupId` parameter to specify the security group for which you want to create a rule.<br />
+
+      Use the `Flow` parameter to specify if you want an inbound rule or an outbound rule.<br /><br />
+
+      An inbound rule allows the security group to receive traffic:
+
+      * Either from a specific IP range (`IpRange` parameter) on a specific port range (`FromPortRange` and `ToPortRange` parameters) and specific protocol (`IpProtocol` parameter).
+
+      * Or from another specific security group (`SecurityGroupAccountIdToLink` and `SecurityGroupNameToLink` parameters).<br />
 
 
-      You can add one or more egress rules to a security group for use with a Net.<br />
-
-      It allows VMs to send traffic to either one or more destination IP ranges or destination security groups for the same Net.<br />
-
-      We recommend using a set of IP permissions to authorize outbound access to a destination security group. We also recommended this method to create a rule with a specific IP protocol and a specific port range.  In a set of IP permissions, we recommend to specify the the protocol.<br /><br />
+      (Net only) An outbound rule works similarly but allows the security group to send traffic rather than receive traffic.<br />
 
 
-      You can also add one or more ingress rules to a security group.<br />
-
-      In the public Cloud, this action allows one or more IP ranges to access a security group for your account, or allows one or more security groups (source groups) to access a security group for your own OUTSCALE account or another one.<br />
-
-      In a Net, this action allows one or more  IP ranges to access a security group for your Net, or allows one or more other security groups (source groups) to access a security group for your Net. All the security groups must be for the same Net.<br /><br />
+      Alternatively, you can use the `Rules` parameter to add several rules at the same time.
 
 
       **[NOTE]**<br />
 
-      By default, traffic between two security groups is allowed through both public and private IPs. To restrict it to private IPs only, contact our Support team: support@outscale.com.'
+      * The modifications are effective as quickly as possible, but a small delay may occur.<br />
+
+      * By default, traffic between two security groups is allowed through both public and private IPs. To restrict traffic to private IPs only, contact our Support team at support@outscale.com.'
     post:
       operationId: CreateSecurityGroupRule
       requestBody:
@@ -13447,9 +13455,11 @@ paths:
       tags:
       - FlexibleGpu
   /UpdateImage:
-    description: 'Modifies the specified attribute of an OUTSCALE machine image (OMI).<br />
+    description: 'Modifies the access permissions for an OUTSCALE machine image (OMI).<br />
 
-      You can specify only one attribute at a time. You can modify the permissions to access the OMI by adding or removing account IDs or groups. You can share an OMI with a user that is in the same Region. The user can create a copy of the OMI you shared, obtaining all the rights for the copy of the OMI. For more information, see [CreateImage](#createimage).'
+      You must specify either the `Additions` or the `Removals` parameter.<br />
+
+      After sharing an OMI with an account, the other account can create a copy of it that they own. For more information about copying OMIs, see [CreateImage](#createimage).'
     post:
       operationId: UpdateImage
       requestBody:
@@ -13717,7 +13727,9 @@ paths:
   /UpdateSnapshot:
     description: 'Modifies the permissions for a specified snapshot.<br />
 
-      You can add or remove permissions for specified account IDs or groups. You can share a snapshot with a user that is in the same Region. The user can create a copy of the snapshot you shared, obtaining all the rights for the copy of the snapshot.'
+      You must specify either the `Additions` or the `Removals` parameter.<br />
+
+      After sharing a snapshot with an account, the other account can create a copy of it that they own. For more information about copying snapshots, see [CreateSnapshot](#createsnapshot).'
     post:
       operationId: UpdateSnapshot
       requestBody:
@@ -13835,7 +13847,9 @@ paths:
       tags:
       - Vm
   /UpdateVolume:
-    description: 'Modifies the specified attributes of a volume. Cold volumes are volumes that are attached to stopped VMs or that are detached. Hot volumes are volumes that are attached to running VMs.<br /><br />
+    description: 'Modifies the specified attributes of a volume.<br />
+
+      Cold volumes are volumes that are attached to stopped or stopping VMs, or that are detached. Hot volumes are volumes that are attached to running VMs.<br /><br />
 
 
       **[NOTE]**<br />
