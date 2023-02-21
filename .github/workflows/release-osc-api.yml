@@ -74,3 +74,17 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_JS }}
           API_VERSION: ${{ steps.release.outputs.TAG }}
         run: .github/scripts/build-osc-sdk.sh osc-sdk-js main
+  osc-sdk-java:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Getting release details
+        id: release
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+      - name: Trigger osc-sdk-java build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_OSC_SDK_JAVA }}
+          API_VERSION: ${{ steps.release.outputs.TAG }}
+        run: .github/scripts/build-osc-sdk.sh osc-sdk-java main
