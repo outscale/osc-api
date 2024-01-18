@@ -7170,6 +7170,8 @@ components:
           items:
             $ref: '#/components/schemas/Keypair'
           type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
     ReadLinkedPoliciesFilters:
       additionalProperties: false
       description: One or more filters.
