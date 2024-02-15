@@ -10347,7 +10347,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.28.6
+  version: 1.28.7
 openapi: 3.0.0
 paths:
   /AcceptNetPeering:
