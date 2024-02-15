@@ -384,7 +384,7 @@ components:
           description: The type of resource associated with the catalog entry.
           type: string
         UnitPrice:
-          description: The unit price of the catalog entry, in the currency of the catalog of the Region where the API method was used.
+          description: The unit price of the catalog entry, in the currency of the Region's catalog.
           format: float
           type: number
       type: object
@@ -480,7 +480,7 @@ components:
           description: The ID of the TINA account which is billed for your consumption. It can be different from your account in the `AccountId` parameter.
           type: string
         Price:
-          description: The total price of the consumed resource during the specified time period, in the currency of the catalog of the Region where the API method was used.
+          description: The total price of the consumed resource during the specified time period, in the currency of the Region's catalog.
           format: double
           type: number
         Service:
@@ -500,7 +500,7 @@ components:
           description: The type of resource, depending on the API call.
           type: string
         UnitPrice:
-          description: The unit price of the consumed resource, in the currency of the catalog of the Region where the API method was used.
+          description: The unit price of the consumed resource, in the currency of the Region's catalog.
           format: double
           type: number
         Value:
@@ -858,7 +858,7 @@ components:
       additionalProperties: false
       properties:
         Architecture:
-          description: '**(when registering from a snapshot, or from a bucket without using a manifest file)** The architecture of the OMI (`i386` or `x84_64`).'
+          description: '**(when registering from a snapshot, or from a bucket without using a manifest file)** The architecture of the OMI (`i386` or `x86_64`).'
           type: string
         BlockDeviceMappings:
           description: '**(when registering from a snapshot, or from a bucket without using a manifest file)** One or more block device mappings.'
@@ -6929,7 +6929,7 @@ components:
           description: By default or if false, returns only the consumption of the specific account that sends this request. If true, returns either the overall consumption of your paying account and all linked accounts (if the account that sends this request is a paying account) or returns nothing (if the account that sends this request is a linked account).
           type: boolean
         ShowPrice:
-          description: By default or if false, returns only the consumption of the specific account that sends this request. If true, returns the unit price of the consumed resource, and the total price of the consumed resource during the specified time period in the currency of the catalog of the Region where the API method was used.
+          description: If true, the response also includes the unit price of the consumed resource (`UnitPrice`) and the total price of the consumed resource during the specified time period (`Price`), in the currency of the Region's catalog.
           type: boolean
         ToDate:
           description: The end of the time period, in ISO 8601 date format (for example, `2020-06-30`). The date-time format is also accepted, but only with a time set to midnight (for example, `2020-06-30T00:00:00.000Z`).
@@ -7465,7 +7465,7 @@ components:
           description: The path prefix you can use to filter the results, set to a slash (`/`) by default.
           type: string
         Scope:
-          description: The scope to filter policies (`ALL` \| `OWS` \| `local`).
+          description: The scope to filter policies (`OWS` \| `LOCAL`).
           enum:
           - LOCAL
           - OWS
@@ -10383,18 +10383,19 @@ paths:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     NetPeering:
                       Tags: []
+                      State:
+                        Name: active
+                        Message: Active
+                      AccepterNet:
+                        NetId: vpc-12345678
+                        IpRange: 172.16.0.0/16
+                        AccountId: '123456789012'
+                      ExpirationDate: '2063-04-05T00:00:00.000Z'
                       SourceNet:
                         NetId: vpc-12345678
                         IpRange: 10.0.0.0/16
                         AccountId: '123456789012'
                       NetPeeringId: pcx-12345678
-                      AccepterNet:
-                        NetId: vpc-12345678
-                        IpRange: 172.16.0.0/16
-                        AccountId: '123456789012'
-                      State:
-                        Name: active
-                        Message: Active
           description: The HTTP 200 response (OK).
         '400':
           content:
@@ -11263,7 +11264,7 @@ paths:
 
       When you save the returned private key, make sure you replace the `\n` escape sequences with real line breaks.
 
-      * **Importing a keypair created locally**: If you already have a keypair that you have created locally with a third-party tool, you can import its public key in your account. The following types of key can be imported: RSA (2048 bits or preferably 4096 bits), ECDSA (256 bits), and Ed25519. The following formats can be used: PEM, PKCS8, RFC4716, and OpenSSH.
+      * **Importing a keypair created locally**: If you already have a keypair that you have created locally with a third-party tool, you can import its public key in your account. The following types of key can be imported: RSA (2048 bits or preferably 4096 bits), Ed25519, and ECDSA (256 bits, 384 bits, or 521 bits). The following formats can be used: PEM, PKCS8, RFC4716, and OpenSSH.
 
 
       For more information, see [About Keypairs](https://docs.outscale.com/en/userguide/About-Keypairs.html).'
@@ -11302,6 +11303,7 @@ paths:
                         ...
 
                         -----END RSA PRIVATE KEY-----'
+                      KeypairType: ssh-rsa
                       KeypairName: create-keypair-example
                       KeypairFingerprint: 11:22:33:44:55:66:77:88:99:00:aa:bb:cc:dd:ee:ff
                 ex2:
@@ -11310,6 +11312,7 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     Keypair:
+                      KeypairType: ssh-rsa
                       KeypairName: create-keypair-example
                       KeypairFingerprint: 11:22:33:44:55:66:77:88:99:00:aa:bb:cc:dd:ee:ff
           description: The HTTP 200 response (OK).
@@ -12049,18 +12052,18 @@ paths:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     NetPeering:
                       Tags: []
+                      State:
+                        Name: pending-acceptance
+                        Message: Pending acceptance by 123456789012
+                      AccepterNet:
+                        NetId: vpc-12345678
+                        IpRange: 172.16.0.0/16
+                        AccountId: '123456789012'
                       SourceNet:
                         NetId: vpc-12345678
                         IpRange: 10.0.0.0/16
                         AccountId: '123456789012'
                       NetPeeringId: pcx-12345678
-                      AccepterNet:
-                        NetId: vpc-12345678
-                        IpRange: 172.16.0.0/16
-                        AccountId: '123456789012'
-                      State:
-                        Name: pending-acceptance
-                        Message: Pending acceptance by 123456789012
           description: The HTTP 200 response (OK).
         '400':
           content:
@@ -12206,7 +12209,7 @@ paths:
               ex1:
                 value:
                   Description: Example of description
-                  Document: '{"Statement": [ {"Action": ["*"],"Effect","Allow","Resource": ["*"]} ]}'
+                  Document: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
                   Path: /example/
                   PolicyName: example-user-policy
       responses:
@@ -12221,16 +12224,16 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     Policy:
-                      CreationDate: '2010-10-01T12:34:56.789Z'
-                      Description: Example of description
-                      IsLinkable: true
-                      LastModificationDate: '2010-10-01T12:34:56.789Z'
-                      Orn: orn:ows:idauth::012345678910:user-policy/Policy
-                      Path: /example/
-                      PolicyDefaultVersionId: version-12345678
-                      PolicyId: policy-12345678
-                      PolicyName: example-user-policy
                       ResourcesCount: 0
+                      PolicyName: example-user-policy
+                      PolicyDefaultVersionId: v1
+                      Path: /example/
+                      CreationDate: 2010-10-01T12:34:56.789+0000
+                      Description: Example of description
+                      PolicyId: ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
+                      Orn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+                      IsLinkable: true
+                      LastModificationDate: 2010-10-01T12:34:56.789+0000
           description: The HTTP 200 response (OK).
       tags:
       - Policy
@@ -12248,8 +12251,8 @@ paths:
             examples:
               ex1:
                 value:
-                  Document: '{"Statement": [ {"Action": ["*"],"Effect","Allow","Resource": ["*"]} ]}'
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
+                  Document: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
                   SetAsDefault: true
       responses:
         '200':
@@ -12263,10 +12266,10 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     PolicyVersion:
-                      Body: '{"Statement": [ {"Action": ["*"],"Effect","Allow","Resource": ["*"]} ]}'
-                      CreationDate: '2010-10-01T12:34:56.789Z'
+                      VersionId: v2
                       DefaultVersion: true
-                      VersionId: version-12345678
+                      CreationDate: 2017-05-10T12:34:56.789+0000
+                      Body: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
           description: The HTTP 200 response (OK).
       tags:
       - Policy
@@ -14772,7 +14775,7 @@ paths:
             examples:
               ex1:
                 value:
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
       responses:
         '200':
           content:
@@ -14799,8 +14802,8 @@ paths:
             examples:
               ex1:
                 value:
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
-                  VersionId: version-12345678
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+                  VersionId: v1
       responses:
         '200':
           content:
@@ -15808,7 +15811,7 @@ paths:
             examples:
               ex1:
                 value:
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
                   UserName: example-user
       responses:
         '200':
@@ -16588,6 +16591,7 @@ paths:
                 value:
                   FromDate: '2023-06-01'
                   ToDate: '2023-07-01'
+                  ShowPrice: true
       responses:
         '200':
           content:
@@ -17164,7 +17168,8 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     Keypairs:
-                    - KeypairName: keypair-example
+                    - KeypairType: ssh-rsa
+                      KeypairName: keypair-example
                       KeypairFingerprint: 11:22:33:44:55:66:77:88:99:00:aa:bb:cc:dd:ee:ff
           description: The HTTP 200 response (OK).
         '400':
@@ -17200,8 +17205,7 @@ paths:
               ex1:
                 value:
                   Filters:
-                    PathPrefix:
-                    - /
+                    PathPrefix: /example/
                   FirstItem: 1
                   ResultsPerPage: 30
                   UserName: example-user
@@ -17214,17 +17218,17 @@ paths:
               examples:
                 ex1:
                   value:
-                    HasMoreItems: true
-                    MaxResultsLimit: 30
-                    MaxResultsTruncated: false
-                    Policies:
-                      CreationDate: '2010-10-01T12:34:56.789Z'
-                      LastModificationDate: '2010-10-01T12:34:56.789Z'
-                      Orn: orn:ows:idauth::012345678910:user-policy/Policy
-                      PolicyId: policy-12345678
-                      PolicyName: example-user-policy
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    HasMoreItems: true
+                    Policies:
+                    - PolicyName: example-user-policy
+                      CreationDate: 2010-10-01T12:34:56.789+0000
+                      LastModificationDate: 2010-10-01T12:34:56.789+0000
+                      Orn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+                      PolicyId: ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
+                    MaxResultsLimit: 30
+                    MaxResultsTruncated: false
           description: The HTTP 200 response (OK).
       tags:
       - Policy
@@ -17603,18 +17607,18 @@ paths:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     NetPeerings:
                     - Tags: []
+                      State:
+                        Name: active
+                        Message: Active
+                      AccepterNet:
+                        NetId: vpc-12345678
+                        IpRange: 172.16.0.0/16
+                        AccountId: '123456789012'
                       SourceNet:
                         NetId: vpc-12345678
                         IpRange: 10.0.0.0/16
                         AccountId: '123456789012'
                       NetPeeringId: pcx-12345678
-                      AccepterNet:
-                        NetId: vpc-12345678
-                        IpRange: 172.16.0.0/16
-                        AccountId: '123456789012'
-                      State:
-                        Name: active
-                        Message: Active
           description: The HTTP 200 response (OK).
         '400':
           content:
@@ -17788,12 +17792,9 @@ paths:
               ex1:
                 value:
                   Filters:
-                    OnlyLinked:
-                    - true
-                    PathPrefix:
-                    - /
-                    Scope:
-                    - ALL
+                    OnlyLinked: true
+                    PathPrefix: /
+                    Scope: OWS
                   FirstItem: 1
                   ResultsPerPage: 30
       responses:
@@ -17805,22 +17806,22 @@ paths:
               examples:
                 ex1:
                   value:
-                    HasMoreItems: true
-                    MaxResultsLimit: 30
-                    MaxResultsTruncated: false
-                    Policies:
-                      CreationDate: '2010-10-01T12:34:56.789Z'
-                      Description: Example of description
-                      IsLinkable: true
-                      LastModificationDate: '2010-10-01T12:34:56.789Z'
-                      Orn: orn:ows:idauth::012345678910:user-policy/Policy
-                      Path: /example/
-                      PolicyDefaultVersionId: version-12345678
-                      PolicyId: policy-12345678
-                      PolicyName: example-user-policy
-                      ResourcesCount: 0
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    HasMoreItems: true
+                    Policies:
+                    - ResourcesCount: 1
+                      PolicyName: example-user-policy
+                      PolicyDefaultVersionId: v1
+                      Path: /example/
+                      CreationDate: 2010-10-01T12:34:56.789+0000
+                      Description: Example of description
+                      PolicyId: ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
+                      Orn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+                      IsLinkable: true
+                      LastModificationDate: 2010-10-01T12:34:56.789+0000
+                    MaxResultsLimit: 30
+                    MaxResultsTruncated: false
           description: The HTTP 200 response (OK).
       tags:
       - Policy
@@ -17836,7 +17837,7 @@ paths:
             examples:
               ex1:
                 value:
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
       responses:
         '200':
           content:
@@ -17847,16 +17848,16 @@ paths:
                 ex1:
                   value:
                     Policy:
-                      CreationDate: '2010-10-01T12:34:56.789Z'
-                      Description: Example of description
-                      IsLinkable: true
-                      LastModificationDate: '2010-10-01T12:34:56.789Z'
-                      Orn: orn:ows:idauth::012345678910:user-policy/Policy
-                      Path: /example/
-                      PolicyDefaultVersionId: version-12345678
-                      PolicyId: policy-12345678
-                      PolicyName: example-user-policy
                       ResourcesCount: 0
+                      PolicyName: example-user-policy
+                      PolicyDefaultVersionId: v1
+                      Path: /example/
+                      CreationDate: 2010-10-01T12:34:56.789+0000
+                      Description: Example of description
+                      PolicyId: ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
+                      Orn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+                      IsLinkable: true
+                      LastModificationDate: 2010-10-01T12:34:56.789+0000
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
           description: The HTTP 200 response (OK).
@@ -17874,8 +17875,8 @@ paths:
             examples:
               ex1:
                 value:
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
-                  VersionId: version-12345678
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+                  VersionId: v1
       responses:
         '200':
           content:
@@ -17885,13 +17886,13 @@ paths:
               examples:
                 ex1:
                   value:
-                    PolicyVersion:
-                      Body: '{"Statement": [ {"Action": ["*"],"Effect","Allow","Resource": ["*"]} ]}'
-                      CreationDate: '2010-10-01T12:34:56.789Z'
-                      DefaultVersion: true
-                      VersionId: version-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    PolicyVersion:
+                      VersionId: v1
+                      DefaultVersion: true
+                      CreationDate: 2010-10-01T12:34:56.789+0000
+                      Body: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
           description: The HTTP 200 response (OK).
       tags:
       - Policy
@@ -17908,7 +17909,7 @@ paths:
               ex1:
                 value:
                   FirstItem: 1
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
                   ResultsPerPage: 30
       responses:
         '200':
@@ -17919,15 +17920,15 @@ paths:
               examples:
                 ex1:
                   value:
-                    HasMoreItems: true
                     MaxResultsLimit: 30
-                    PolicyVersions:
-                      Body: '{"Statement": [ {"Action": ["*"],"Effect","Allow","Resource": ["*"]} ]}'
-                      CreationDate: '2010-10-01T12:34:56.789Z'
-                      DefaultVersion: true
-                      VersionId: version-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    PolicyVersions:
+                    - VersionId: v1
+                      DefaultVersion: true
+                      CreationDate: 2010-10-01T12:34:56.789+0000
+                      Body: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
+                    HasMoreItems: true
           description: The HTTP 200 response (OK).
       tags:
       - Policy
@@ -18241,9 +18242,10 @@ paths:
                         CreationMethod: CreateRouteTable
                         State: active
                       LinkRouteTables:
-                      - RouteTableId: rtb-12345678
-                        Main: true
+                      - Main: true
                         LinkRouteTableId: rtbassoc-12345678
+                        RouteTableId: rtb-12345678
+                        NetId: vpc-12345678
                       NetId: vpc-12345678
                       Tags: []
                       RoutePropagatingVirtualGateways: []
@@ -19566,8 +19568,8 @@ paths:
             examples:
               ex1:
                 value:
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
-                  VersionId: version-12345678
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+                  VersionId: v1
       responses:
         '200':
           content:
@@ -19866,7 +19868,7 @@ paths:
             examples:
               ex1:
                 value:
-                  PolicyOrn: orn:ows:idauth::012345678910:user-policy/Policy
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
                   UserName: example-user
       responses:
         '200':
