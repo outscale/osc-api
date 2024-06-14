@@ -42,15 +42,15 @@ components:
           description: The ID of the access key.
           type: string
         CreationDate:
-          description: The date and time (UTC) of creation of the access key.
+          description: The date and time (UTC) at which the access key was created.
           format: date-time
           type: string
         ExpirationDate:
-          description: The date (UTC) at which the access key expires.
+          description: The date and time (UTC) at which the access key expires.
           format: date-time
           type: string
         LastModificationDate:
-          description: The date and time (UTC) of the last modification of the access key.
+          description: The date and time (UTC) at which the access key was last modified.
           format: date-time
           type: string
         State:
@@ -65,7 +65,7 @@ components:
           description: The ID of the access key.
           type: string
         CreationDate:
-          description: The date and time (UTC) of creation of the access key.
+          description: The date and time (UTC) at which the access key was created.
           format: date-time
           type: string
         ExpirationDate:
@@ -73,11 +73,11 @@ components:
           format: date-time
           type: string
         LastModificationDate:
-          description: The date and time (UTC) of the last modification of the access key.
+          description: The date and time (UTC) at which the access key was last modified.
           format: date-time
           type: string
         SecretKey:
-          description: The access key that enables you to send requests.
+          description: The secret key that enables you to send requests.
           type: string
         State:
           description: The state of the access key (`ACTIVE` if the key is valid for API calls, or `INACTIVE` if not).
@@ -314,7 +314,7 @@ components:
           description: If true, the volume is deleted when terminating the VM. If false, the volume is not deleted when terminating the VM.
           type: boolean
         LinkDate:
-          description: The date and time (UTC) of attachment of the volume to the VM, in ISO 8601 date-time format.
+          description: The date and time (UTC) at which the volume was attached to the VM, in ISO 8601 date-time format.
           format: date-time
           type: string
         State:
@@ -472,7 +472,7 @@ components:
           description: The ID of the client gateway.
           type: string
         ConnectionType:
-          description: The type of communication tunnel used by the client gateway (only `ipsec.1` is supported).
+          description: The type of communication tunnel used by the client gateway (always `ipsec.1`).
           type: string
         PublicIp:
           description: The public IPv4 address of the client gateway (must be a fixed address into a NATed network).
@@ -694,7 +694,7 @@ components:
             This number must be between `1` and `4294967295`. If you do not have an ASN, you can choose one between 64512 and 65534, or between 4200000000 and 4294967294.
           type: integer
         ConnectionType:
-          description: The communication protocol used to establish tunnel with your client gateway (only `ipsec.1` is supported).
+          description: The communication protocol used to establish tunnel with your client gateway (always `ipsec.1`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1045,7 +1045,7 @@ components:
           description: The name of the load balancer for which you want to create a policy.
           type: string
         PolicyName:
-          description: The name of the policy. This name must be unique and consist of alphanumeric characters and dashes (-).
+          description: The unique name of the policy, with a maximum length of 32 alphanumeric characters and dashes (-).
           type: string
         PolicyType:
           description: 'The type of stickiness policy you want to create: `app` or `load_balancer`.'
@@ -1075,7 +1075,7 @@ components:
             $ref: '#/components/schemas/ListenerForCreation'
           type: array
         LoadBalancerName:
-          description: The unique name of the load balancer (32 alphanumeric or hyphen characters maximum, but cannot start or end with a hyphen).
+          description: The unique name of the load balancer, with a maximum length of 32 alphanumeric characters and dashes (-). This name must not start or end with a dash.
           type: string
         LoadBalancerType:
           description: 'The type of load balancer: `internet-facing` or `internal`. Use this parameter only for load balancers in a Net.'
@@ -1293,7 +1293,7 @@ components:
           description: A description for the policy.
           type: string
         Document:
-          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html).
+          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1320,7 +1320,7 @@ components:
       additionalProperties: false
       properties:
         Document:
-          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html).
+          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
           type: string
         PolicyOrn:
           description: The OUTSCALE Resource Name (ORN) of the policy. For more information, see [Resource Identifiers](https://docs.outscale.com/en/userguide/Resource-Identifiers.html).
@@ -1713,7 +1713,7 @@ components:
       additionalProperties: false
       properties:
         ConnectionType:
-          description: The type of VPN connection supported by the virtual gateway (only `ipsec.1` is supported).
+          description: The type of VPN connection supported by the virtual gateway (always `ipsec.1`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1978,7 +1978,7 @@ components:
           description: The ID of the client gateway.
           type: string
         ConnectionType:
-          description: The type of VPN connection (only `ipsec.1` is supported).
+          description: The type of VPN connection (always `ipsec.1`).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -3289,7 +3289,7 @@ components:
             type: string
           type: array
         ConnectionTypes:
-          description: The types of communication tunnels used by the client gateways (only `ipsec.1` is supported).
+          description: The types of communication tunnels used by the client gateways (always `ipsec.1`).
           items:
             type: string
           type: array
@@ -4511,7 +4511,7 @@ components:
       description: One or more filters.
       properties:
         ConnectionTypes:
-          description: The types of the virtual gateways (only `ipsec.1` is supported).
+          description: The types of the virtual gateways (always `ipsec.1`).
           items:
             type: string
           type: array
@@ -4935,6 +4935,7 @@ components:
       type: object
     FiltersVmTemplate:
       additionalProperties: false
+      description: One or more filters.
       properties:
         CpuCores:
           description: The number of vCores.
@@ -5093,7 +5094,7 @@ components:
       description: One or more filters.
       properties:
         CreationDates:
-          description: The dates and times of creation of the volumes, in ISO 8601 date-time format (for example, `2020-06-30T00:00:00.000Z`).
+          description: The dates and times at which the volumes were created, in ISO 8601 date-time format (for example, `2020-06-30T00:00:00.000Z`).
           items:
             format: date-time
             type: string
@@ -5107,7 +5108,7 @@ components:
             type: string
           type: array
         LinkVolumeLinkDates:
-          description: The dates and times of creation of the volumes, in ISO 8601 date-time format (for example, `2020-06-30T00:00:00.000Z`).
+          description: The dates and times at which the volumes were attached, in ISO 8601 date-time format (for example, `2020-06-30T00:00:00.000Z`).
           items:
             format: date-time
             type: string
@@ -5183,7 +5184,7 @@ components:
             type: string
           type: array
         ConnectionTypes:
-          description: The types of the VPN connections (only `ipsec.1` is supported).
+          description: The types of the VPN connections (always `ipsec.1`).
           items:
             type: string
           type: array
@@ -5257,7 +5258,7 @@ components:
       description: Information about the flexible GPU (fGPU) that is available in the public catalog.
       properties:
         Generations:
-          description: The generations of VMs that the fGPU is compatible with.
+          description: The processor generations that the fGPUs are compatible with.
           items:
             type: string
           type: array
@@ -5326,7 +5327,7 @@ components:
             $ref: '#/components/schemas/BlockDeviceMappingImage'
           type: array
         CreationDate:
-          description: The date and time (UTC) of creation of the OMI.
+          description: The date and time (UTC) at which the OMI was created.
           format: date-time
           type: string
         Description:
@@ -5400,7 +5401,7 @@ components:
       description: Information about an inline policy.
       properties:
         Body:
-          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html).
+          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
           type: string
         Name:
           description: The name of the policy.
@@ -5853,7 +5854,7 @@ components:
       description: Information about the linked policy.
       properties:
         CreationDate:
-          description: The date and time (UTC) of creation of the linked policy.
+          description: The date and time (UTC) at which the linked policy was created.
           format: date-time
           type: string
         LastModificationDate:
@@ -6334,7 +6335,7 @@ components:
           description: The description of the NIC.
           type: string
         IsSourceDestChecked:
-          description: (Net only) If true, the source/destination check is enabled. If false, it is disabled. This value must be false for a NAT VM to perform network address translation (NAT) in a Net.
+          description: (Net only) If true, the source/destination check is enabled. If false, it is disabled.
           type: boolean
         LinkNic:
           $ref: '#/components/schemas/LinkNic'
@@ -6421,7 +6422,7 @@ components:
           description: The description of the NIC.
           type: string
         IsSourceDestChecked:
-          description: (Net only) If true, the source/destination check is enabled. If false, it is disabled. This value must be false for a NAT VM to perform network address translation (NAT) in a Net.
+          description: (Net only) If true, the source/destination check is enabled. If false, it is disabled.
           type: boolean
         LinkNic:
           $ref: '#/components/schemas/LinkNicLight'
@@ -6635,7 +6636,7 @@ components:
       description: Information about the policy.
       properties:
         CreationDate:
-          description: The date and time (UTC) of creation of the policy.
+          description: The date and time (UTC) at which the policy was created.
           format: date-time
           type: string
         Description:
@@ -6672,10 +6673,10 @@ components:
       description: Information about the policy version.
       properties:
         Body:
-          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html).
+          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
           type: string
         CreationDate:
-          description: The date and time (UTC) of creation of the version.
+          description: The date and time (UTC) at which the version was created.
           format: date-time
           type: string
         DefaultVersion:
@@ -6791,7 +6792,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         PolicyDocument:
-          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html).
+          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
           type: string
         PolicyName:
           description: The name of the policy.
@@ -8862,6 +8863,8 @@ components:
         Key:
           description: The key of the tag, with a minimum of 1 character.
           type: string
+      required:
+      - Key
       type: object
     ResourceTag:
       additionalProperties: false
@@ -9114,7 +9117,7 @@ components:
       description: Information about the server certificate.
       properties:
         ExpirationDate:
-          description: The date at which the server certificate expires.
+          description: The date on which the server certificate expires.
           format: date
           type: string
         Id:
@@ -9130,7 +9133,7 @@ components:
           description: The path to the server certificate.
           type: string
         UploadDate:
-          description: The date at which the server certificate has been uploaded.
+          description: The date on which the server certificate has been uploaded.
           format: date
           type: string
       type: object
@@ -9181,7 +9184,7 @@ components:
           description: The account ID of the owner of the snapshot.
           type: string
         CreationDate:
-          description: The date and time (UTC) of creation of the snapshot.
+          description: The date and time (UTC) at which the snapshot was created.
           format: date-time
           type: string
         Description:
@@ -10342,7 +10345,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         IsSourceDestChecked:
-          description: (Net only) If true, the source/destination check is enabled. If false, it is disabled. This value must be false for a NAT VM to perform network address translation (NAT) in a Net.
+          description: (Net only) If true, the source/destination check is enabled. If false, it is disabled.
           type: boolean
         KeypairName:
           description: |-
@@ -10555,7 +10558,7 @@ components:
       description: Information about the virtual gateway.
       properties:
         ConnectionType:
-          description: The type of VPN connection supported by the virtual gateway (only `ipsec.1` is supported).
+          description: The type of VPN connection supported by the virtual gateway (always `ipsec.1`).
           type: string
         NetToVirtualGatewayLinks:
           description: The Net to which the virtual gateway is attached.
@@ -10593,7 +10596,7 @@ components:
           description: The idempotency token provided when launching the VM.
           type: string
         CreationDate:
-          description: The date and time (UTC) of creation of the VM.
+          description: The date and time (UTC) at which the VM was created.
           format: date-time
           type: string
         DeletionProtection:
@@ -10606,7 +10609,7 @@ components:
           description: The ID of the OMI used to create the VM.
           type: string
         IsSourceDestChecked:
-          description: (Net only) If true, the source/destination check is enabled. If false, it is disabled. This value must be false for a NAT VM to perform network address translation (NAT) in a Net.
+          description: (Net only) If true, the source/destination check is enabled. If false, it is disabled.
           type: boolean
         KeypairName:
           description: The name of the keypair used when launching the VM.
@@ -10696,7 +10699,7 @@ components:
       description: Information about the VM group.
       properties:
         CreationDate:
-          description: The date and time (UTC) of creation of the VM group.
+          description: The date and time (UTC) at which the VM group was created.
           format: date-time
           type: string
         Description:
@@ -10715,6 +10718,7 @@ components:
             type: string
           type: array
         State:
+          description: The state of the VM group (`pending` \| `available` \| `scaling up` \| `scaling down` \| `deleting` \| `deleted`).
           enum:
           - available
           - deleted
@@ -10784,6 +10788,7 @@ components:
       type: object
     VmTemplate:
       additionalProperties: false
+      description: Information about the VM template.
       properties:
         CpuCores:
           description: The number of vCores.
@@ -10799,7 +10804,7 @@ components:
           - highest
           type: string
         CreationDate:
-          description: The date and time (UTC) of creation of the VM template.
+          description: The date and time (UTC) at which the VM was created.
           format: date-time
           type: string
         Description:
@@ -10874,7 +10879,7 @@ components:
       description: Information about the volume.
       properties:
         CreationDate:
-          description: The date and time (UTC) of creation of the volume.
+          description: The date and time (UTC) at which the volume was created.
           format: date-time
           type: string
         Iops:
@@ -11068,7 +11073,7 @@ info:
     The OUTSCALE API enables you to manage your resources in the OUTSCALE Cloud. This documentation describes the different actions available along with code examples.<br /><br />
     Throttling: To protect against overloads, the number of identical requests allowed in a given time period is limited.<br />
     Brute force: To protect against brute force attacks, the number of failed authentication attempts in a given time period is limited.<br /><br />
-    Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but there are [differences in resource names](https://docs.outscale.com/en/userguide/OUTSCALE-APIs-Reference.html) between AWS and the OUTSCALE API.<br />
+    Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but there are [differences in resource names](https://docs.outscale.com/en/userguide/About-the-APIs.html) between AWS and the OUTSCALE API.<br />
     You can also manage your resources using the [Cockpit](https://docs.outscale.com/en/userguide/About-Cockpit.html) web interface.<br /><br />
     An OpenAPI description of the OUTSCALE API is also available in this [GitHub repository](https://github.com/outscale/osc-api).<br />
     # Authentication Schemes
@@ -11113,7 +11118,7 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.29.3
+  version: 1.30.0
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -12719,8 +12724,9 @@ paths:
   /CreateNetAccessPoint:
     description: |-
       Creates a Net access point to access an OUTSCALE service from this Net without using the Internet and public IPs.<br />
-      You specify the service using its name. For more information about the available services, see [ReadNetAccessPointServices](#readnetaccesspointservices).<br />
+      You specify the service using its name. For more information about the available services, see [ReadNetAccessPointServices](#readnetaccesspointservices).<br /> <br />
       To control the routing of traffic between the Net and the specified service, you can specify one or more route tables. Virtual machines placed in Subnets associated with the specified route table thus use the Net access point to access the service. When you specify a route table, a route is automatically added to it with the destination set to the prefix list ID of the service, and the target set to the ID of the access point.<br /><br />
+      When a Net access point is created, a public IP is automatically allocated to your account and used for the Net access point. This public IP is not connected to the Internet. It is counted in your quota, but it is not billed.<br /> <br />
       For more information, see [About Net Access Points](https://docs.outscale.com/en/userguide/About-Net-Access-Points.html).
     post:
       operationId: CreateNetAccessPoint
@@ -13473,7 +13479,7 @@ paths:
       You can use this method in three different ways:
       * **Creating from a volume**: You create a snapshot from one of your volumes.<br />
       * **Copying a snapshot**: You copy an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br />
-      * **Importing from a bucket**: You import a snapshot located in an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source snapshot must export it to the bucket by using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. Then, they must grant you permission to read the snapshot via a pre-signed URL or Access Control Lists. For more information, see [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).
+      * **Importing from a bucket**: You import a snapshot located in an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source snapshot must export it to a bucket by using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. Then, they must grant you permission to read the snapshot via a pre-signed URL or Access Control Lists. For more information, see [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).
 
       **[NOTE]**<br />
       In case of excessive use of the snapshot creation feature on the same volume over a short period of time, 3DS OUTSCALE reserves the right to temporarily block the feature.
@@ -13588,9 +13594,8 @@ paths:
       - Snapshot
   /CreateSnapshotExportTask:
     description: |-
-      Exports a snapshot to an OUTSCALE Object Storage (OOS) bucket.<br />
-      This action enables you to create a backup of your snapshot or to copy it to another account. You, or other accounts you send a pre-signed URL to, can then download this snapshot from the bucket using the [CreateSnapshot](#createsnapshot) method.<br />
-      This procedure enables you to copy a snapshot between accounts within the same Region or in different Regions. To copy a snapshot within the same Region, you can also use the [CreateSnapshot](#createsnapshot) direct method. The copy of the source snapshot is independent and belongs to you.<br /><br />
+      Exports a snapshot to an OUTSCALE Object Storage (OOS) bucket that belongs to you. This action enables you to create a backup of your snapshot.<br /><br />
+      You can share this snapshot with others accounts by granting permission to read it via pre-signed URLs or Access Control Lists (ACLs). For more information, see [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).<br /><br />
       For more information, see [About Snapshots](https://docs.outscale.com/en/userguide/About-Snapshots.html).
     post:
       operationId: CreateSnapshotExportTask
