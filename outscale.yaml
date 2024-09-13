@@ -411,7 +411,7 @@ components:
           description: The type of resource associated with the catalog entry.
           type: string
         UnitPrice:
-          description: The unit price of the catalog entry, in the currency of the Region's catalog.
+          description: The unit price of the catalog entry in the currency of your account, in the ISO-4217 format (for example, `EUR`).
           format: float
           type: number
       type: object
@@ -527,7 +527,7 @@ components:
           description: The type of resource, depending on the API call.
           type: string
         UnitPrice:
-          description: The unit price of the consumed resource, in the currency of the Region's catalog.
+          description: The unit price of the consumed resource in the currency of your account, in the ISO-4217 format (for example, `EUR`).
           format: double
           type: number
         Value:
@@ -885,10 +885,10 @@ components:
       additionalProperties: false
       properties:
         Architecture:
-          description: '**(when registering from a snapshot, or from a bucket without using a manifest file)** The architecture of the OMI (`i386` or `x86_64`).'
+          description: '**(when registering from a snapshot)** The architecture of the OMI (`i386` or `x86_64`).'
           type: string
         BlockDeviceMappings:
-          description: '**(when registering from a snapshot, or from a bucket without using a manifest file)** One or more block device mappings.'
+          description: '**(when registering from a snapshot)** One or more block device mappings.'
           items:
             $ref: '#/components/schemas/BlockDeviceMappingImage'
           type: array
@@ -899,9 +899,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         FileLocation:
-          description: |-
-            **(when registering from a bucket by using a manifest file)** The pre-signed URL of the manifest file for the OMI you want to register. For more information, see [Configuring a Pre-signed URL](https://docs.outscale.com/en/userguide/Configuring-a-Pre-signed-URL.html) or [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).<br />
-            You can also specify the normal URL of the OMI if you have permission on the OOS bucket, without using the manifest file, but in that case, you need to manually specify through the other parameters all the information that would otherwise be read from the manifest file.
+          description: '**(when registering from a bucket by using a manifest file)** The pre-signed URL of the manifest file for the OMI you want to register. For more information, see [Creating a Pre-signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).'
           type: string
         ImageName:
           description: |-
@@ -917,7 +915,7 @@ components:
             type: string
           type: array
         RootDeviceName:
-          description: '**(when registering from a snapshot, or from a bucket without using a manifest file)** The name of the root device for the new OMI.'
+          description: '**(when registering from a snapshot)** The name of the root device for the new OMI.'
           type: string
         SourceImageId:
           description: '**(when copying an OMI)** The ID of the OMI you want to copy.'
@@ -1045,7 +1043,7 @@ components:
           description: The name of the load balancer for which you want to create a policy.
           type: string
         PolicyName:
-          description: The unique name of the policy, with a maximum length of 32 alphanumeric characters and dashes (-).
+          description: The unique name of the policy, with a maximum length of 32 alphanumeric characters and dashes (`-`).
           type: string
         PolicyType:
           description: 'The type of stickiness policy you want to create: `app` or `load_balancer`.'
@@ -1075,7 +1073,7 @@ components:
             $ref: '#/components/schemas/ListenerForCreation'
           type: array
         LoadBalancerName:
-          description: The unique name of the load balancer, with a maximum length of 32 alphanumeric characters and dashes (-). This name must not start or end with a dash.
+          description: The unique name of the load balancer, with a maximum length of 32 alphanumeric characters and dashes (`-`). This name must not start or end with a dash.
           type: string
         LoadBalancerType:
           description: 'The type of load balancer: `internet-facing` or `internal`. Use this parameter only for load balancers in a Net.'
@@ -1204,6 +1202,9 @@ components:
       properties:
         AccepterNetId:
           description: The ID of the Net you want to connect with.
+          type: string
+        AccepterOwnerId:
+          description: The account ID of the owner of the Net you want to connect with. By default, the account ID of the owner of the Net from which the peering request is sent.
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1530,10 +1531,10 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Name:
-          description: 'A unique name for the certificate. Constraints: 1-128 alphanumeric characters, pluses (+), equals (=), commas (,), periods (.), at signs (@), minuses (-), or underscores (_).'
+          description: 'A unique name for the certificate. Constraints: 1-128 alphanumeric characters, pluses (`+`), equals (`=`), commas (`,`), periods (`.`), at signs (`@`), minuses (`-`), or underscores (`_`).'
           type: string
         Path:
-          description: The path to the server certificate, set to a slash (/) if not specified.
+          description: The path to the server certificate, set to a slash (`/`) if not specified.
           type: string
         PrivateKey:
           description: 'The PEM-encoded private key matching the certificate.<br />With OSC CLI, use the following syntax to make sure your key file is correctly parsed: `--PrivateKey=&quot;$(cat FILENAME)&quot;`.'
@@ -1584,7 +1585,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         FileLocation:
-          description: '**(when importing from a bucket)** The pre-signed URL of the snapshot you want to import, or the normal URL of the snapshot if you have permission on the OOS bucket. For more information, see [Configuring a Pre-signed URL](https://docs.outscale.com/en/userguide/Configuring-a-Pre-signed-URL.html) or [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).'
+          description: '**(when importing from a bucket)** The pre-signed URL of the snapshot you want to import. For more information, see [Creating a Pre-signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).'
           type: string
         SnapshotSize:
           description: '**(when importing from a bucket)** The size of the snapshot you want to create in your account, in bytes. This size must be greater than or equal to the size of the original, uncompressed snapshot.'
@@ -1693,10 +1694,13 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Path:
-          description: The path to the EIM user you want to create (by default, `/`). This path name must begin and end with a slash (`/`), and contain between 1 and 512 alphanumeric characters and/or slashes (`/`), or underscores (_).
+          description: The path to the EIM user you want to create (by default, `/`). This path name must begin and end with a slash (`/`), and contain between 1 and 512 alphanumeric characters and/or slashes (`/`), or underscores (`_`).
+          type: string
+        UserEmail:
+          description: The email address of the EIM user.
           type: string
         UserName:
-          description: The name of the EIM user. This user name must contain between 1 and 64 alphanumeric characters and/or pluses (+), equals (=), commas (,), periods (.), at signs (@), dashes (-), or underscores (_).
+          description: The name of the EIM user. This user name must contain between 1 and 64 alphanumeric characters and/or pluses (`+`), equals (`=`), commas (`,`), periods (`.`), at signs (`@`), dashes (`-`), or underscores (`_`).
           type: string
       required:
       - UserName
@@ -1912,7 +1916,7 @@ components:
           description: The ID of the Subnet in which you want to create the VM. If you specify this parameter, you must not specify the `Nics` parameter.
           type: string
         UserData:
-          description: Data or script used to add a specific configuration to the VM. It must be Base64-encoded and is limited to 500 kibibytes (KiB).
+          description: Data or script used to add a specific configuration to the VM. It must be Base64-encoded and is limited to 500 kibibytes (KiB). For more information about user data, see [Configuring a VM with User Data and OUTSCALE Tags](https://docs.outscale.com/en/userguide/Configuring-a-VM-with-User-Data-and-OUTSCALE-Tags.html).
           type: string
         VmInitiatedShutdownBehavior:
           default: stop
@@ -4506,6 +4510,16 @@ components:
             type: string
           type: array
       type: object
+    FiltersUsers:
+      additionalProperties: false
+      description: One or more filters.
+      properties:
+        UserIds:
+          description: The IDs of the users.
+          items:
+            type: string
+          type: array
+      type: object
     FiltersVirtualGateway:
       additionalProperties: false
       description: One or more filters.
@@ -5948,7 +5962,7 @@ components:
           description: The type of action for the rule (always `forward`).
           type: string
         HostNamePattern:
-          description: A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except [-.?].
+          description: A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except `-.?`.
           type: string
         ListenerId:
           description: The ID of the listener.
@@ -5960,7 +5974,7 @@ components:
           description: A human-readable name for the listener rule.
           type: string
         PathPattern:
-          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~&quot;'@:+?].
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except `_-.$/~&quot;'@:+?`.
           type: string
         Priority:
           description: The priority level of the listener rule, between `1` and `19999` both included. Each rule must have a unique priority level. Otherwise, an error is returned.
@@ -5979,13 +5993,13 @@ components:
           description: The type of action for the rule (always `forward`).
           type: string
         HostNamePattern:
-          description: A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except [-.?].
+          description: A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except `-.?`.
           type: string
         ListenerRuleName:
           description: A human-readable name for the listener rule.
           type: string
         PathPattern:
-          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~&quot;'@:+?].
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except `_-.$/~&quot;'@:+?`.
           type: string
         Priority:
           description: The priority level of the listener rule, between `1` and `19999` both included. Each rule must have a unique priority level. Otherwise, an error is returned.
@@ -6194,6 +6208,20 @@ components:
         NotBefore:
           description: The earliest scheduled start date and time (UTC) for the event.
           format: date
+          type: string
+      type: object
+    MinimalPolicy:
+      additionalProperties: false
+      description: Information about the entity.
+      properties:
+        Id:
+          description: The ID of the entity.
+          type: string
+        Name:
+          description: The name of the entity.
+          type: string
+        Orn:
+          description: The OUTSCALE Resource Name (ORN) of the entity. For more information, see [Resource Identifiers](https://docs.outscale.com/en/userguide/Resource-Identifiers.html).
           type: string
       type: object
     NatService:
@@ -6668,6 +6696,35 @@ components:
           description: The number of resources attached to the policy.
           type: integer
       type: object
+    PolicyEntities:
+      additionalProperties: false
+      description: Information about the policy entities.
+      properties:
+        Accounts:
+          items:
+            $ref: '#/components/schemas/MinimalPolicy'
+          type: array
+        Groups:
+          items:
+            $ref: '#/components/schemas/MinimalPolicy'
+          type: array
+        HasMoreItems:
+          description: If true, there are more items to return using the `FirstItem` parameter in a new request.
+          type: boolean
+        ItemsCount:
+          description: The number of entities the specified policy is linked to.
+          type: integer
+        MaxResultsLimit:
+          description: Indicates maximum results defined for the operation.
+          type: integer
+        MaxResultsTruncated:
+          description: If true, indicates whether requested page size is more than allowed.
+          type: boolean
+        Users:
+          items:
+            $ref: '#/components/schemas/MinimalPolicy'
+          type: array
+      type: object
     PolicyVersion:
       additionalProperties: false
       description: Information about the policy version.
@@ -6966,7 +7023,7 @@ components:
           type: string
         ResultsPerPage:
           default: 100
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
         With:
           $ref: '#/components/schemas/With'
@@ -7053,7 +7110,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadClientGatewaysResponse:
@@ -7154,7 +7211,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadDedicatedGroupsResponse:
@@ -7185,7 +7242,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadDhcpOptionsResponse:
@@ -7216,7 +7273,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadDirectLinkInterfacesResponse:
@@ -7247,7 +7304,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadDirectLinksResponse:
@@ -7262,6 +7319,37 @@ components:
           description: The token to request the next page of results. Each token refers to a specific page.
           format: byte
           type: string
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    ReadEntitiesLinkedToPolicyRequest:
+      additionalProperties: false
+      properties:
+        EntitiesType:
+          description: The type of entity linked to the policy (`ACCOUNT` \| `USER` \| `GROUP`) you want to get information about.
+          items:
+            enum:
+            - ACCOUNT
+            - USER
+            - GROUP
+            type: string
+          type: array
+        FirstItem:
+          description: The item starting the list of entities requested.
+          type: integer
+        PolicyOrn:
+          description: The OUTSCALE Resource Name (ORN) of the policy. For more information, see [Resource Identifiers](https://docs.outscale.com/en/userguide/Resource-Identifiers.html).
+          pattern: ^orn:ows:(iam|idauth):\S*:\d{12}:policy/\S+$
+          type: string
+        ResultsPerPage:
+          description: The maximum number of items that can be returned in a single response (by default, 100).
+          type: integer
+      type: object
+    ReadEntitiesLinkedToPolicyResponse:
+      additionalProperties: false
+      properties:
+        PolicyEntities:
+          $ref: '#/components/schemas/PolicyEntities'
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
       type: object
@@ -7316,7 +7404,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadImageExportTasksResponse:
@@ -7347,7 +7435,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadImagesResponse:
@@ -7378,7 +7466,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadInternetServicesResponse:
@@ -7409,7 +7497,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadKeypairsResponse:
@@ -7551,7 +7639,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadLocationsResponse:
@@ -7622,7 +7710,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadNatServicesResponse:
@@ -7653,7 +7741,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadNetAccessPointServicesResponse:
@@ -7684,7 +7772,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadNetAccessPointsResponse:
@@ -7715,7 +7803,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadNetPeeringsResponse:
@@ -7746,7 +7834,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadNetsResponse:
@@ -7922,7 +8010,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadProductTypesResponse:
@@ -7966,7 +8054,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadPublicIpRangesResponse:
@@ -7997,7 +8085,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadPublicIpsResponse:
@@ -8028,7 +8116,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadQuotasResponse:
@@ -8077,7 +8165,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadRouteTablesResponse:
@@ -8128,7 +8216,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadSecurityGroupsResponse:
@@ -8179,7 +8267,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadSnapshotExportTasksResponse:
@@ -8210,7 +8298,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadSnapshotsResponse:
@@ -8241,7 +8329,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadSubnetsResponse:
@@ -8272,7 +8360,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadSubregionsResponse:
@@ -8303,7 +8391,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadTagsResponse:
@@ -8320,6 +8408,31 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
           type: array
+      type: object
+    ReadUnitPriceRequest:
+      additionalProperties: false
+      properties:
+        Operation:
+          description: The operation associated with the catalog entry (for example, `RunInstances-OD` or `CreateVolume`).
+          type: string
+        Service:
+          description: The service associated with the catalog entry (for example, `TinaOS-FCU` or `TinaOS-OOS`).
+          type: string
+        Type:
+          description: The type associated with the catalog entry (for example, `BSU:VolumeIOPS:io1` or `BoxUsage:tinav6.c6r16p3`).
+          type: string
+      required:
+      - Operation
+      - Service
+      - Type
+      type: object
+    ReadUnitPriceResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+        UnitPriceEntry:
+          $ref: '#/components/schemas/UnitPriceEntry'
       type: object
     ReadUserGroupPoliciesRequest:
       additionalProperties: false
@@ -8484,10 +8597,27 @@ components:
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
+        Filters:
+          $ref: '#/components/schemas/FiltersUsers'
+        FirstItem:
+          description: The item starting the list of users requested.
+          type: integer
+        ResultsPerPage:
+          description: The maximum number of items that can be returned in a single response (by default, `100`).
+          type: integer
       type: object
     ReadUsersResponse:
       additionalProperties: false
       properties:
+        HasMoreItems:
+          description: If true, there are more items to return using the `FirstItem` parameter in a new request.
+          type: boolean
+        MaxResultsLimit:
+          description: Indicates maximum results defined for the operation.
+          type: integer
+        MaxResultsTruncated:
+          description: If true, indicates whether requested page size is more than allowed.
+          type: boolean
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
         Users:
@@ -8509,7 +8639,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadVirtualGatewaysResponse:
@@ -8579,7 +8709,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadVmTypesResponse:
@@ -8638,7 +8768,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadVmsResponse:
@@ -8673,7 +8803,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadVmsStateResponse:
@@ -8704,7 +8834,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadVolumesResponse:
@@ -8735,7 +8865,7 @@ components:
           format: byte
           type: string
         ResultsPerPage:
-          description: The maximum number of logs returned in a single response (between `1`and `1000`, both included). By default, `100`.
+          description: The maximum number of logs returned in a single response (between `1` and `1000`, both included). By default, `100`.
           type: integer
       type: object
     ReadVpnConnectionsResponse:
@@ -9367,7 +9497,7 @@ components:
       description: Information about the Subregion.
       properties:
         LocationCode:
-          description: The location code of the Subregion.
+          description: The location code (physical zone) of the Subregion. For more information, see [About Regions > Mapping Between Subregions and Physical Zones](https://docs.outscale.com/en/userguide/About-Regions-and-Subregions.html#_mapping_between_subregions_and_physical_zones).
           type: string
         RegionName:
           description: The name of the Region containing the Subregion.
@@ -9395,6 +9525,30 @@ components:
         Value:
           description: The value of the tag, between 0 and 255 characters.
           type: string
+      type: object
+    UnitPriceEntry:
+      additionalProperties: false
+      description: Information about the unit price entry.
+      properties:
+        Currency:
+          description: The currency of your account for the `UnitPrice` parameter, in the ISO-4217 format (for example, `EUR`).
+          type: string
+        Operation:
+          description: The operation associated with the catalog entry (for example, `RunInstances-OD` or `CreateVolume`).
+          type: string
+        Service:
+          description: The service associated with the catalog entry (for example, `TinaOS-FCU` or `TinaOS-OOS`).
+          type: string
+        Type:
+          description: The type associated with the catalog entry (for example, `BSU:VolumeIOPS:io1` or `BoxUsage:tinav6.c6r16p3`).
+          type: string
+        Unit:
+          description: The unit associated with the catalog entry (for example, `PER_MONTH` or `PER_COUNT`).
+          type: string
+        UnitPrice:
+          description: The unit price of the catalog entry in the currency of your account, in the ISO-4217 format (for example, `EUR`).
+          format: double
+          type: number
       type: object
     UnlinkFlexibleGpuRequest:
       additionalProperties: false
@@ -9915,14 +10069,14 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         HostPattern:
-          description: A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except [-.?].
+          description: A host-name pattern for the rule, with a maximum length of 128 characters. This host-name pattern supports maximum three wildcards, and must not contain any special characters except `-.?`.
           nullable: true
           type: string
         ListenerRuleName:
           description: The name of the listener rule.
           type: string
         PathPattern:
-          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except [_-.$/~&quot;'@:+?].
+          description: A path pattern for the rule, with a maximum length of 128 characters. This path pattern supports maximum three wildcards, and must not contain any special characters except `_-.$/~&quot;'@:+?`.
           nullable: true
           type: string
       required:
@@ -10276,6 +10430,9 @@ components:
         NewPath:
           description: A new path for the EIM user.
           type: string
+        NewUserEmail:
+          description: A new email address for the EIM user.
+          type: string
         NewUserName:
           description: A new name for the EIM user.
           type: string
@@ -10499,6 +10656,9 @@ components:
           type: string
         Path:
           description: The path to the EIM user.
+          type: string
+        UserEmail:
+          description: The email address of the EIM user.
           type: string
         UserId:
           description: The ID of the EIM user.
@@ -11110,7 +11270,9 @@ info:
     A few API actions do not require any authentication. They are indicated as such in this documentation.<br />
     ### Other Security Mechanisms
     In parallel with the authentication schemes, you can add other security mechanisms to your OUTSCALE account, for example to restrict API requests by IP or other criteria.<br />
-    For more information, see [Managing Your API Accesses](https://docs.outscale.com/en/userguide/Managing-Your-API-Accesses.html).<br />
+    For more information, see [Managing Your API Accesses](https://docs.outscale.com/en/userguide/Managing-Your-API-Accesses.html).
+    # Pagination Tutorial
+    You can learn more about the pagination methods for read calls in the dedicated [pagination tutorial](https://docs.outscale.com/en/userguide/Tutorial-Paginating-an-API-Request.html).
     # Error Codes Reference
     You can learn more about errors returned by the API in the dedicated [errors page](api-errors.html).
   license:
@@ -11118,7 +11280,8 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.30.0
+  version: 1.33.1
+  x-osc-api-oapi: 1.33.1
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -11733,8 +11896,7 @@ paths:
       * **Creating from a VM**: You create an OMI from one of your virtual machines (VMs).<br>
       * **Copying an OMI**: You copy an existing OMI. The source OMI can be one of your own OMIs, or an OMI owned by another account that has granted you permission via the [UpdateImage](#updateimage) method.<br>
       * **Registering from a snapshot**: You register an OMI from an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br>
-      * **Registering from a bucket by using a manifest file**: You register an OMI from the manifest file of an OMI that was exported to an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source OMI must export it to the bucket by using the [CreateImageExportTask](#createimageexporttask) method. Then, they must grant you permission to read the manifest file via a pre-signed URL or Access Control Lists. For more information, see [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).<br />
-      * **Registering from a bucket without using a manifest file**: This is similar to the previous case but you manually specify all the information that would be in a manifest file instead of using a manifest file.
+      * **Registering from a bucket by using a manifest file**: You register an OMI from the manifest file of an OMI that was exported to an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source OMI must export it to the bucket by using the [CreateImageExportTask](#createimageexporttask) method. Then, they must grant you permission to read the manifest file via a pre-signed URL. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).
 
       **[TIP]**<br />
       Registering from a bucket enables you to copy an OMI across Regions.
@@ -11934,8 +12096,9 @@ paths:
   /CreateImageExportTask:
     description: |-
       Exports an OUTSCALE machine image (OMI) to an OUTSCALE Object Storage (OOS) bucket.<br />
-      This action enables you to copy an OMI between accounts in different Regions. To copy an OMI in the same Region, you can also use the [CreateImage](#createimage) method.<br />
-      The copy of the OMI belongs to you and is independent from the source OMI.<br /><br />
+      This enables you to copy an OMI between accounts in different Regions.<br /><br />
+      This action creates the necessary snapshots and manifest file in the bucket. The OMI can then be imported to another account using a pre-signed URL of its manifest file. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).<br /><br />
+      To copy an OMI in the same Region, you can also use the [CreateImage](#createimage) method.<br />
 
       **[IMPORTANT]**<br />
       You cannot export a shared or public OMI, as they do not belong to you. To do so, you must first copy it to your account. The copy then belongs to you and you can export it.<br /><br />
@@ -11983,7 +12146,7 @@ paths:
   /CreateInternetService:
     description: |-
       Creates an Internet service you can use with a Net.<br />
-      An Internet service enables your virtual machines (VMs) launched in a Net to connect to the Internet. By default, a Net includes an Internet service, and each Subnet is public. Every VM launched within a default Subnet has a private IP and a public IP.<br /><br />
+      An Internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IP addresses.<br /><br />
       For more information, see [About Internet Services](https://docs.outscale.com/en/userguide/About-Internet-Services.html).
     post:
       operationId: CreateInternetService
@@ -12772,7 +12935,7 @@ paths:
       **[IMPORTANT]**<br />
       * Peered Nets must contain at least one virtual machine (VM) each before the creation of the Net peering.<br />
       * The two Nets must not have overlapping IP ranges. Otherwise, the Net peering is in the `failed` state.<br />
-      * A peering connection between two Nets works both ways. Therefore, you do not need to create a B-to-A connection if an A-to-B connection is created and accepted.
+      * A peering connection between two Nets works both ways. If an A-to-B connection is already created and accepted, creating a B-to-A connection is not necessary and would be automatically rejected.
 
       For more information, see [About Net Peerings](https://docs.outscale.com/en/userguide/About-Net-Peerings.html).
     post:
@@ -12787,6 +12950,7 @@ paths:
                 value:
                   SourceNetId: vpc-12345678
                   AccepterNetId: vpc-87654321
+                  AccepterOwnerId: '123456789012'
       responses:
         '200':
           content:
@@ -13479,7 +13643,7 @@ paths:
       You can use this method in three different ways:
       * **Creating from a volume**: You create a snapshot from one of your volumes.<br />
       * **Copying a snapshot**: You copy an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br />
-      * **Importing from a bucket**: You import a snapshot located in an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source snapshot must export it to a bucket by using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. Then, they must grant you permission to read the snapshot via a pre-signed URL or Access Control Lists. For more information, see [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).
+      * **Importing from a bucket**: You import a snapshot located in an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source snapshot must export it to a bucket by using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. Then, they must grant you permission to read the snapshot via a pre-signed URL. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).
 
       **[NOTE]**<br />
       In case of excessive use of the snapshot creation feature on the same volume over a short period of time, 3DS OUTSCALE reserves the right to temporarily block the feature.
@@ -13595,7 +13759,7 @@ paths:
   /CreateSnapshotExportTask:
     description: |-
       Exports a snapshot to an OUTSCALE Object Storage (OOS) bucket that belongs to you. This action enables you to create a backup of your snapshot.<br /><br />
-      You can share this snapshot with others accounts by granting permission to read it via pre-signed URLs or Access Control Lists (ACLs). For more information, see [Managing Access to Your Buckets and Objects](https://docs.outscale.com/en/userguide/Managing-Access-to-Your-Buckets-and-Objects.html).<br /><br />
+      You can share this snapshot with others accounts by granting permission to read it via pre-signed URLs. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).<br /><br />
       For more information, see [About Snapshots](https://docs.outscale.com/en/userguide/About-Snapshots.html).
     post:
       operationId: CreateSnapshotExportTask
@@ -13790,6 +13954,7 @@ paths:
             examples:
               ex1:
                 value:
+                  UserEmail: user@example.com
                   UserName: example-user
                   Path: /documentation/
       responses:
@@ -13802,6 +13967,7 @@ paths:
                 ex1:
                   value:
                     User:
+                      UserEmail: user@example.com
                       UserName: example-user
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
                       Path: /documentation/
@@ -16379,7 +16545,7 @@ paths:
   /LinkFlexibleGpu:
     description: |-
       Attaches one of your allocated flexible GPUs (fGPUs) to one of your virtual machines (VMs).<br />
-      The fGPU is in the `attaching` state until the VM is stopped, after which it becomes `attached`. <br /><br />
+      To complete the linking of the fGPU, you need to do a stop/start of the VM. A simple restart is not sufficient, as the linking of the fGPU is done when the VM goes through the `stopped` state. For the difference between stop/start and restart, see [About VM Lifecycle](https://docs.outscale.com/en/userguide/About-VM-Lifecycle.html).<br /><br />
 
       **[NOTE]**<br />
       You can attach fGPUs only to VMs with the `highest` (1) performance flag. For more information see [About Flexible GPUs](https://docs.outscale.com/en/userguide/About-Flexible-GPUs.html) and [VM Types](https://docs.outscale.com/en/userguide/VM-Types.html).
@@ -17621,6 +17787,65 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - DirectLink
+  /ReadEntitiesLinkedToPolicy:
+    description: Lists all entities (account, users, or user groups) linked to a specific managed policy.
+    post:
+      operationId: ReadEntitiesLinkedToPolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadEntitiesLinkedToPolicyRequest'
+            examples:
+              ex1:
+                summary: Reading all entities linked to a specific policy
+                value:
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+                  ResultsPerPage: 2
+              ex2:
+                summary: Reading only users linked to a specific policy
+                value:
+                  EntitiesType:
+                  - USER
+                  PolicyOrn: orn:ows:idauth::012345678910:policy/example/example-user-policy
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadEntitiesLinkedToPolicyResponse'
+              examples:
+                ex1:
+                  summary: Reading all entities linked to a specific policy
+                  value:
+                    ResponseContext:
+                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    PolicyEntities:
+                      Users:
+                      - Id: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
+                        Name: example-user
+                        Orn: orn:ows:idauth::012345678910:user/example/user-example
+                      Groups:
+                      - Id: ug-12345678
+                        Name: example-usergroup
+                        Orn: orn:ows:idauth::012345678910:usergroup/example/usergroup-example
+                      HasMoreItems: true
+                      ItemsCount: 3
+                      MaxResultsLimit: 100
+                      MaxResultsTruncated: false
+                ex2:
+                  summary: Reading only users linked to a specific policy
+                  value:
+                    ResponseContext:
+                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    PolicyEntities:
+                      Users:
+                      - Id: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
+                        Name: example-user
+                        Orn: orn:ows:idauth::012345678910:user/example/user-example
+          description: The HTTP 200 response (OK).
+      tags:
+      - Policy
   /ReadFlexibleGpuCatalog:
     description: Lists all flexible GPUs available in the public catalog.
     post:
@@ -17885,7 +18110,7 @@ paths:
   /ReadInternetServices:
     description: |-
       Lists one or more of your Internet services.<br />
-      An Internet service enables your virtual machines (VMs) launched in a Net to connect to the Internet. By default, a Net includes an Internet service, and each Subnet is public. Every VM launched within a default Subnet has a private IP and a public IP.
+      An Internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IP addresses.
     post:
       operationId: ReadInternetServices
       requestBody:
@@ -18813,7 +19038,7 @@ paths:
       tags:
       - ProductType
   /ReadPublicCatalog:
-    description: Returns the price list of OUTSCALE products and services for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints, and Subregions Reference](https://docs.outscale.com/en/userguide/Regions-Endpoints-and-Subregions-Reference.html).
+    description: Returns the price list of OUTSCALE products and services for the Region specified in the endpoint of the request. For more information, see [About Regions and Subregions](https://docs.outscale.com/en/userguide/About-Regions-and-Subregions.html).
     post:
       operationId: ReadPublicCatalog
       requestBody:
@@ -18849,7 +19074,7 @@ paths:
       tags:
       - PublicCatalog
   /ReadPublicIpRanges:
-    description: Gets the public IPv4 addresses in CIDR notation for the Region specified in the endpoint of the request. For more information, see [Regions, Endpoints, and Subregions Reference](https://docs.outscale.com/en/userguide/Regions-Endpoints-and-Subregions-Reference.html).
+    description: Gets the public IPv4 addresses in CIDR notation for the Region specified in the endpoint of the request. For more information, see [About Regions and Subregions](https://docs.outscale.com/en/userguide/About-Regions-and-Subregions.html).
     post:
       operationId: ReadPublicIpRanges
       requestBody:
@@ -19017,7 +19242,7 @@ paths:
   /ReadRegions:
     description: |-
       Lists one or more Regions of the OUTSCALE Cloud.<br /><br />
-      For more information, see [About Regions, Endpoints, and Subregions](https://docs.outscale.com/en/userguide/About-Regions-Endpoints-and-Subregions.html).
+      For more information, see [About Regions and Subregions](https://docs.outscale.com/en/userguide/About-Regions-and-Subregions.html).
     post:
       operationId: ReadRegions
       requestBody:
@@ -19121,7 +19346,11 @@ paths:
       tags:
       - RouteTable
   /ReadSecretAccessKey:
-    description: Lists information about the specified access key of your root account, including its secret key.
+    description: |-
+      > [WARNING]<br />
+      > Deprecated: This call will be removed after October 1, 2024.<br />
+
+      Lists information about the specified access key of your root account, including its secret key.
     post:
       operationId: ReadSecretAccessKey
       requestBody:
@@ -19462,7 +19691,7 @@ paths:
     description: |-
       Lists one or more of the enabled Subregions that you can access in the current Region.<br /><br />
 
-      For more information, see [About Regions, Endpoints, and Subregions](https://docs.outscale.com/en/userguide/About-Regions-Endpoints-and-Subregions.html).
+      For more information, see [About Regions and Subregions](https://docs.outscale.com/en/userguide/About-Regions-and-Subregions.html).
     post:
       operationId: ReadSubregions
       requestBody:
@@ -19572,6 +19801,42 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - Tag
+  /ReadUnitPrice:
+    description: Gets unit price information for the specified parameters.
+    post:
+      operationId: ReadUnitPrice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadUnitPriceRequest'
+            examples:
+              ex1:
+                value:
+                  Operation: CreateVolume
+                  Service: TinaOS-FCU
+                  Type: BSU:VolumeIOPS:io1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadUnitPriceResponse'
+              examples:
+                ex1:
+                  value:
+                    ResponseContext:
+                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    UnitPriceEntry:
+                      UnitPrice: 0.01
+                      Unit: PER_IOPS_PER_MONTH
+                      Currency: EUR
+                      Operation: CreateVolume
+                      Type: BSU:VolumeIOPS:io1
+                      Service: TinaOS-FCU
+          description: The HTTP 200 response (OK).
+      tags:
+      - Catalog
   /ReadUserGroup:
     description: Lists information about a specified user group, including its users.
     post:
@@ -19608,6 +19873,7 @@ paths:
                     - CreationDate: '2010-10-01T12:34:56.789Z'
                       LastModificationDate: '2010-10-01T12:34:56.789Z'
                       Path: /example/
+                      UserEmail: user@example.com
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
                       UserName: example-user
           description: The HTTP 200 response (OK).
@@ -19784,7 +20050,8 @@ paths:
                 ex1:
                   value:
                     Users:
-                    - UserName: example-user
+                    - UserEmail: user@example.com
+                      UserName: example-user
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
                       Path: /documentation/
                     ResponseContext:
@@ -22731,6 +22998,7 @@ paths:
               ex1:
                 value:
                   UserName: example-user
+                  NewUserEmail: user@example.com
                   NewUserName: test-user
                   NewPath: /product/
       responses:
@@ -22743,6 +23011,7 @@ paths:
                 ex1:
                   value:
                     User:
+                      UserEmail: user@example.com
                       UserName: test-user
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
                       Path: /product/
@@ -22789,6 +23058,7 @@ paths:
                     - CreationDate: '2010-10-01T12:34:56.789Z'
                       LastModificationDate: '2010-10-01T12:34:56.789Z'
                       Path: /example/
+                      UserEmail: user@example.com
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
                       UserName: example-user
           description: The HTTP 200 response (OK).
