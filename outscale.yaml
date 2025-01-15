@@ -691,7 +691,8 @@ components:
         BgpAsn:
           description: |-
             The Autonomous System Number (ASN) used by the Border Gateway Protocol (BGP) to find the path to your client gateway through the Internet. <br/>
-            This number must be between `1` and `4294967295`. If you do not have an ASN, you can choose one between 64512 and 65534, or between 4200000000 and 4294967294.
+            This number must be between `1` and `4294967295`, except `50624`, `53306`, and `132418`. <br/>
+            If you do not have an ASN, you can choose one between `64512` and `65534` (both included), or between `4200000000` and `4294967295` (both included).
           type: integer
         ConnectionType:
           description: The communication protocol used to establish tunnel with your client gateway (always `ipsec.1`).
@@ -885,10 +886,10 @@ components:
       additionalProperties: false
       properties:
         Architecture:
-          description: '**(when registering from a snapshot)** The architecture of the OMI (`i386` or `x86_64`).'
+          description: '**When registering from a snapshot:** The architecture of the OMI (`i386` or `x86_64`).'
           type: string
         BlockDeviceMappings:
-          description: '**(when registering from a snapshot)** One or more block device mappings.'
+          description: '**(required) When registering from a snapshot:** One or more block device mappings.'
           items:
             $ref: '#/components/schemas/BlockDeviceMappingImage'
           type: array
@@ -899,7 +900,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         FileLocation:
-          description: '**(when registering from a bucket by using a manifest file)** The pre-signed URL of the manifest file for the OMI you want to register. For more information, see [Creating a Pre-signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).'
+          description: '**(required) When registering from a bucket by using a manifest file:** The pre-signed URL of the manifest file for the OMI you want to register. For more information, see [Creating a Pre-signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).'
           type: string
         ImageName:
           description: |-
@@ -907,7 +908,7 @@ components:
             Constraints: 3-128 alphanumeric characters, underscores (`_`), spaces (` `), parentheses (`()`), slashes (`/`), periods (`.`), or dashes (`-`).
           type: string
         NoReboot:
-          description: '**(when creating from a VM)** If false, the VM shuts down before creating the OMI and then reboots. If true, the VM does not.'
+          description: '**When creating from a VM:** If false, the VM shuts down before creating the OMI and then reboots. If true, the VM does not.'
           type: boolean
         ProductCodes:
           description: The product codes associated with the OMI.
@@ -915,16 +916,16 @@ components:
             type: string
           type: array
         RootDeviceName:
-          description: '**(when registering from a snapshot)** The name of the root device for the new OMI.'
+          description: '**(required) When registering from a snapshot:** The name of the root device for the new OMI.'
           type: string
         SourceImageId:
-          description: '**(when copying an OMI)** The ID of the OMI you want to copy.'
+          description: '**(required) When copying an OMI:** The ID of the OMI you want to copy.'
           type: string
         SourceRegionName:
-          description: '**(when copying an OMI)** The name of the source Region (always the same as the Region of your account).'
+          description: '**(required) When copying an OMI:** The name of the source Region (always the same as the Region of your account).'
           type: string
         VmId:
-          description: '**(when creating from a VM)** The ID of the VM from which you want to create the OMI.'
+          description: '**(required) When creating from a VM:** The ID of the VM from which you want to create the OMI.'
           type: string
       type: object
     CreateImageResponse:
@@ -1201,10 +1202,14 @@ components:
       additionalProperties: false
       properties:
         AccepterNetId:
-          description: The ID of the Net you want to connect with.
+          description: |-
+            The ID of the Net you want to connect with. <br/ > <br/ > 
+            If the Net does not belong to you, you must also specify the `AccepterOwnerId` parameter with the account ID owning the Net you want to connect with.
           type: string
         AccepterOwnerId:
-          description: The account ID of the owner of the Net you want to connect with. By default, the account ID of the owner of the Net from which the peering request is sent.
+          description: |-
+            The account ID of the owner of the Net you want to connect with. By default, the account ID of the owner of the Net from which the peering request is sent. <br /><br/ > 
+            This parameter is required if the Net you want to connect with does not belong to you.
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1294,7 +1299,7 @@ components:
           description: A description for the policy.
           type: string
         Document:
-          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
+          description: The policy document, corresponding to a JSON string that contains the policy. This policy document can contain a maximum of 5120 non-whitespace characters. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1321,7 +1326,7 @@ components:
       additionalProperties: false
       properties:
         Document:
-          description: The policy document, corresponding to a JSON string that contains the policy. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
+          description: The policy document, corresponding to a JSON string that contains the policy. This policy document can contain a maximum of 5120 non-whitespace characters. For more information, see [EIM Reference Information](https://docs.outscale.com/en/userguide/EIM-Reference-Information.html) and [EIM Policy Generator](https://docs.outscale.com/en/userguide/EIM-Policy-Generator.html).
           type: string
         PolicyOrn:
           description: The OUTSCALE Resource Name (ORN) of the policy. For more information, see [Resource Identifiers](https://docs.outscale.com/en/userguide/Resource-Identifiers.html).
@@ -1390,7 +1395,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         GatewayId:
-          description: The ID of an Internet service or virtual gateway attached to your Net.
+          description: The ID of an internet service or virtual gateway attached to your Net.
           type: string
         NatServiceId:
           description: The ID of a NAT service.
@@ -2269,7 +2274,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         InternetServiceId:
-          description: The ID of the Internet service you want to delete.
+          description: The ID of the internet service you want to delete.
           type: string
       required:
       - InternetServiceId
@@ -2286,11 +2291,12 @@ components:
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
+        KeypairId:
+          description: The ID of the keypair you want to delete.
+          type: string
         KeypairName:
           description: The name of the keypair you want to delete.
           type: string
-      required:
-      - KeypairName
       type: object
     DeleteKeypairResponse:
       additionalProperties: false
@@ -2534,6 +2540,27 @@ components:
       - VersionId
       type: object
     DeletePolicyVersionResponse:
+      additionalProperties: false
+      properties:
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+      type: object
+    DeleteProductTypeRequest:
+      additionalProperties: false
+      properties:
+        DryRun:
+          description: If true, checks whether you have the required permissions to perform the action.
+          type: boolean
+        Force:
+          description: If true, forces the deletion of the product type associated with one or more OMIs.
+          type: boolean
+        ProductTypeId:
+          description: The ID of the product type you want to delete.
+          type: string
+      required:
+      - ProductTypeId
+      type: object
+    DeleteProductTypeResponse:
       additionalProperties: false
       properties:
         ResponseContext:
@@ -3595,32 +3622,32 @@ components:
       description: One or more filters.
       properties:
         InternetServiceIds:
-          description: The IDs of the Internet services.
+          description: The IDs of the internet services.
           items:
             type: string
           type: array
         LinkNetIds:
-          description: The IDs of the Nets the Internet services are attached to.
+          description: The IDs of the Nets the internet services are attached to.
           items:
             type: string
           type: array
         LinkStates:
-          description: The current states of the attachments between the Internet services and the Nets (only `available`, if the Internet gateway is attached to a Net).
+          description: The current states of the attachments between the internet services and the Nets (only `available`, if the internet gateway is attached to a Net).
           items:
             type: string
           type: array
         TagKeys:
-          description: The keys of the tags associated with the Internet services.
+          description: The keys of the tags associated with the internet services.
           items:
             type: string
           type: array
         TagValues:
-          description: The values of the tags associated with the Internet services.
+          description: The values of the tags associated with the internet services.
           items:
             type: string
           type: array
         Tags:
-          description: 'The key/value combination of the tags associated with the Internet services, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
+          description: 'The key/value combination of the tags associated with the internet services, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -3634,6 +3661,11 @@ components:
           items:
             type: string
           type: array
+        KeypairIds:
+          description: The IDs of the keypairs.
+          items:
+            type: string
+          type: array
         KeypairNames:
           description: The names of the keypairs.
           items:
@@ -3641,6 +3673,21 @@ components:
           type: array
         KeypairTypes:
           description: The types of the keypairs (`ssh-rsa`, `ssh-ed25519`, `ecdsa-sha2-nistp256`, `ecdsa-sha2-nistp384`, or `ecdsa-sha2-nistp521`).
+          items:
+            type: string
+          type: array
+        TagKeys:
+          description: The keys of the tags associated with the keypairs.
+          items:
+            type: string
+          type: array
+        TagValues:
+          description: The values of the tags associated with the keypairs.
+          items:
+            type: string
+          type: array
+        Tags:
+          description: 'The key/value combination of the tags associated with the keypairs, in the following format: &quot;Filters&quot;:{&quot;Tags&quot;:[&quot;TAGKEY=TAGVALUE&quot;]}.'
           items:
             type: string
           type: array
@@ -4487,7 +4534,7 @@ components:
             type: string
           type: array
         ResourceTypes:
-          description: The resource type (`vm` \| `image` \| `volume` \| `snapshot` \| `public-ip` \| `security-group` \| `route-table` \| `nic` \| `net` \| `subnet` \| `net-peering` \| `net-access-point` \| `nat-service` \| `internet-service` \| `client-gateway` \| `virtual-gateway` \| `vpn-connection` \| `dhcp-options` \| `task`).
+          description: The resource type (`customer-gateway` \| `dhcpoptions` \| `image` \| `instance` \| `keypair` \| `natgateway` \| `network-interface` \| `public-ip` \| `route-table` \| `security-group` \| `snapshot` \| `subnet` \| `task` \| `virtual-private-gateway` \| `volume` \| `vpc` \| `vpc-endpoint` \| `vpc-peering-connection`\| `vpn-connection`).
           items:
             type: string
           type: array
@@ -4792,7 +4839,7 @@ components:
             type: string
           type: array
         ReservationIds:
-          description: The IDs of the reservation of the VMs, created every time you launch VMs. These reservation IDs can be associated with several VMs when you lauch a group of VMs using the same launch request.
+          description: The IDs of the reservation of the VMs, created every time you launch VMs. These reservation IDs can be associated with several VMs when you launch a group of VMs using the same launch request.
           items:
             type: string
           type: array
@@ -5423,19 +5470,19 @@ components:
       type: object
     InternetService:
       additionalProperties: false
-      description: Information about the Internet service.
+      description: Information about the internet service.
       properties:
         InternetServiceId:
-          description: The ID of the Internet service.
+          description: The ID of the internet service.
           type: string
         NetId:
-          description: The ID of the Net attached to the Internet service.
+          description: The ID of the Net attached to the internet service.
           type: string
         State:
-          description: The state of the attachment of the Internet service to the Net (always `available`).
+          description: The state of the attachment of the internet service to the Net (always `available`).
           type: string
         Tags:
-          description: One or more tags associated with the Internet service.
+          description: One or more tags associated with the internet service.
           items:
             $ref: '#/components/schemas/ResourceTag'
           type: array
@@ -5447,12 +5494,20 @@ components:
         KeypairFingerprint:
           description: The MD5 public key fingerprint as specified in section 4 of RFC 4716.
           type: string
+        KeypairId:
+          description: The ID of the keypair.
+          type: string
         KeypairName:
           description: The name of the keypair.
           type: string
         KeypairType:
           description: The type of the keypair (`ssh-rsa`, `ssh-ed25519`, `ecdsa-sha2-nistp256`, `ecdsa-sha2-nistp384`, or `ecdsa-sha2-nistp521`).
           type: string
+        Tags:
+          description: One or more tags associated with the keypair.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
       type: object
     KeypairCreated:
       additionalProperties: false
@@ -5460,6 +5515,9 @@ components:
       properties:
         KeypairFingerprint:
           description: The MD5 public key fingerprint, as specified in section 4 of RFC 4716.
+          type: string
+        KeypairId:
+          description: The ID of the keypair.
           type: string
         KeypairName:
           description: The name of the keypair.
@@ -5470,6 +5528,11 @@ components:
         PrivateKey:
           description: The private key, returned only if you are creating a keypair (not if you are importing). When you save this private key in a .rsa file, make sure you replace the `\n` escape sequences with real line breaks.
           type: string
+        Tags:
+          description: One or more tags associated with the keypair.
+          items:
+            $ref: '#/components/schemas/ResourceTag'
+          type: array
       type: object
     LinkFlexibleGpuRequest:
       additionalProperties: false
@@ -5500,10 +5563,10 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         InternetServiceId:
-          description: The ID of the Internet service you want to attach.
+          description: The ID of the internet service you want to attach.
           type: string
         NetId:
-          description: The ID of the Net to which you want to attach the Internet service.
+          description: The ID of the Net to which you want to attach the internet service.
           type: string
       required:
       - InternetServiceId
@@ -6642,7 +6705,7 @@ components:
             type: string
           type: array
         Phase2LifetimeSeconds:
-          description: The lifetime for phase 2 of the Internet Key Exchange (IKE) negociation process, in seconds.
+          description: The lifetime for phase 2 of the Internet Key Exchange (IKE) negotiation process, in seconds.
           type: integer
         PreSharedKey:
           description: The pre-shared key to establish the initial authentication between the client gateway and the virtual gateway. This key can contain any character except line breaks and double quotes (&quot;).
@@ -7473,7 +7536,7 @@ components:
       additionalProperties: false
       properties:
         InternetServices:
-          description: Information about one or more Internet services.
+          description: Information about one or more internet services.
           items:
             $ref: '#/components/schemas/InternetService'
           type: array
@@ -7883,7 +7946,7 @@ components:
           description: The path prefix you can use to filter the results. If not specified, it is set to a slash (`/`).
           type: string
         Scope:
-          description: The scope to filter policies (`OWS` \| `LOCAL`).
+          description: The scope of the policies. A policy can either be created by Outscale (`OWS`), and therefore applies to all accounts, or be created by its users (`LOCAL`).
           enum:
           - LOCAL
           - OWS
@@ -8182,26 +8245,6 @@ components:
           items:
             $ref: '#/components/schemas/RouteTable'
           type: array
-      type: object
-    ReadSecretAccessKeyRequest:
-      additionalProperties: false
-      properties:
-        AccessKeyId:
-          description: The ID of the access key.
-          type: string
-        DryRun:
-          description: If true, checks whether you have the required permissions to perform the action.
-          type: boolean
-      required:
-      - AccessKeyId
-      type: object
-    ReadSecretAccessKeyResponse:
-      additionalProperties: false
-      properties:
-        AccessKey:
-          $ref: '#/components/schemas/AccessKeySecretKey'
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
       type: object
     ReadSecurityGroupsRequest:
       additionalProperties: false
@@ -9032,7 +9075,7 @@ components:
           description: The ID of the OUTSCALE service.
           type: string
         GatewayId:
-          description: The ID of the Internet service or virtual gateway attached to the Net.
+          description: The ID of the internet service or virtual gateway attached to the Net.
           type: string
         NatServiceId:
           description: The ID of a NAT service attached to the Net.
@@ -9575,10 +9618,10 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         InternetServiceId:
-          description: The ID of the Internet service you want to detach.
+          description: The ID of the internet service you want to detach.
           type: string
         NetId:
-          description: The ID of the Net from which you want to detach the Internet service.
+          description: The ID of the Net from which you want to detach the internet service.
           type: string
       required:
       - InternetServiceId
@@ -10260,7 +10303,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         GatewayId:
-          description: The ID of an Internet service or virtual gateway attached to your Net.
+          description: The ID of an internet service or virtual gateway attached to your Net.
           type: string
         NatServiceId:
           description: The ID of a NAT service.
@@ -11245,7 +11288,7 @@ info:
     > For example, if you use OSC CLI:
     > 1. You need to create an **~/.osc/config.json** file to specify your access key, secret key, and the Region of your account.
     > 2. You then specify the `--profile` option when executing OSC CLI commands.
-    > 
+    >
     > For more information, see [Installing and Configuring OSC CLI](https://docs.outscale.com/en/userguide/Installing-and-Configuring-OSC-CLI.html).
 
     See the code samples in each section of this documentation for specific examples in different programming languages.<br />
@@ -11280,8 +11323,10 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.33.1
-  x-osc-api-oapi: 1.33.1
+  version: 1.34.0
+  x-osc-api-oapi: 1.34.0
+  x-osc-api-osc-billing: 1.34.0
+  x-osc-api-osc-cloud-vision: 1.34.0
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -11892,7 +11937,7 @@ paths:
   /CreateImage:
     description: |-
       Creates an OUTSCALE machine image (OMI).<br />
-      You can use this method in different ways:
+      You can use this method for different use cases:
       * **Creating from a VM**: You create an OMI from one of your virtual machines (VMs).<br>
       * **Copying an OMI**: You copy an existing OMI. The source OMI can be one of your own OMIs, or an OMI owned by another account that has granted you permission via the [UpdateImage](#updateimage) method.<br>
       * **Registering from a snapshot**: You register an OMI from an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br>
@@ -12145,8 +12190,8 @@ paths:
       - Image
   /CreateInternetService:
     description: |-
-      Creates an Internet service you can use with a Net.<br />
-      An Internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IP addresses.<br /><br />
+      Creates an internet service you can use with a Net.<br />
+      An internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IP addresses.<br /><br />
       For more information, see [About Internet Services](https://docs.outscale.com/en/userguide/About-Internet-Services.html).
     post:
       operationId: CreateInternetService
@@ -12238,6 +12283,7 @@ paths:
                         -----END RSA PRIVATE KEY-----
                       KeypairType: ssh-rsa
                       KeypairName: create-keypair-example
+                      KeypairId: key-abcdef1234567890abcdef1234567890
                       KeypairFingerprint: 11:22:33:44:55:66:77:88:99:00:aa:bb:cc:dd:ee:ff
                 ex2:
                   summary: Importing a keypair created locally
@@ -12247,6 +12293,7 @@ paths:
                     Keypair:
                       KeypairType: ssh-rsa
                       KeypairName: create-keypair-example
+                      KeypairId: key-abcdef1234567890abcdef1234567890
                       KeypairFingerprint: 11:22:33:44:55:66:77:88:99:00:aa:bb:cc:dd:ee:ff
           description: The HTTP 200 response (OK).
         '400':
@@ -12947,10 +12994,16 @@ paths:
               $ref: '#/components/schemas/CreateNetPeeringRequest'
             examples:
               ex1:
+                summary: Creating a Net peering between two Nets belonging to you
                 value:
                   SourceNetId: vpc-12345678
                   AccepterNetId: vpc-87654321
-                  AccepterOwnerId: '123456789012'
+              ex2:
+                summary: Creating a Net peering with a Net that belongs to another account
+                value:
+                  SourceNetId: vpc-12345678
+                  AccepterNetId: vpc-87654321
+                  AccepterOwnerId: '987654321098'
       responses:
         '200':
           content:
@@ -12959,6 +13012,7 @@ paths:
                 $ref: '#/components/schemas/CreateNetPeeringResponse'
               examples:
                 ex1:
+                  summary: Creating a Net peering between two Nets belonging to you
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
@@ -12971,6 +13025,25 @@ paths:
                         NetId: vpc-12345678
                         IpRange: 172.16.0.0/16
                         AccountId: '123456789012'
+                      SourceNet:
+                        NetId: vpc-87654321
+                        IpRange: 10.0.0.0/16
+                        AccountId: '123456789012'
+                      NetPeeringId: pcx-12345678
+                ex2:
+                  summary: Creating a Net peering with a Net that belongs to another account
+                  value:
+                    ResponseContext:
+                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    NetPeering:
+                      Tags: []
+                      State:
+                        Name: pending-acceptance
+                        Message: Pending acceptance by 123456789012
+                      AccepterNet:
+                        NetId: vpc-87654321
+                        IpRange: 172.16.0.0/16
+                        AccountId: '987654321098'
                       SourceNet:
                         NetId: vpc-12345678
                         IpRange: 10.0.0.0/16
@@ -13871,26 +13944,28 @@ paths:
       If a tag with the same key already exists for the resource, the tag value is replaced.<br />
       You can tag the following resources using their IDs:<br /><br />
 
-      * Virtual machines (VMs) (i-xxxxxxxx)<br />
-      * OMIs (ami-xxxxxxxx)<br />
-      * Volumes (vol-xxxxxxxx)<br />
-      * Snapshots (snap-xxxxxxxx)<br />
-      * Public IPs (eipalloc-xxxxxxxx)<br />
-      * Security groups (sg-xxxxxxxx)<br />
-      * Route tables (rtb-xxxxxxxx)<br />
-      * Network interface cards (NIC) (eni-xxxxxxxx)<br />
-      * Nets (vpc-xxxxxxxx)<br />
-      * Subnets (subnet-xxxxxxxx)<br />
-      * Net peerings (vpcx-xxxxxxxx)<br />
-      * Net endpoints (vpce-xxxxxxxx)<br />
-      * NAT services (nat-xxxxxxxx)<br />
-      * Internet services (igw-xxxxxxxx)<br />
       * Client gateways (cgw-xxxxxxxx)<br />
-      * Virtual gateways (vgw-xxxxxxxx)<br />
-      * VPN connections (vpn-xxxxxxxx)<br />
       * DHCP options (dopt-xxxxxxxx)<br />
+      * Images (ami-xxxxxxxx)<br />
+      * Internet services (igw-xxxxxxxx)<br />
+      * Keypairs (key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx)<br />
+      * NAT services (nat-xxxxxxxx)<br />
+      * Net endpoints (vpce-xxxxxxxx)<br />
+      * Net peerings (vpcx-xxxxxxxx)<br />
+      * Nets (vpc-xxxxxxxx)<br />
+      * Network interface cards (NIC) (eni-xxxxxxxx)<br />
       * OMI export tasks (image-export-xxxxxxxx)<br />
+      * OMIs (ami-xxxxxxxx)<br />
+      * Public IPs (eipalloc-xxxxxxxx)<br />
+      * Route tables (rtb-xxxxxxxx)<br />
+      * Security groups (sg-xxxxxxxx)<br />
       * Snapshot export tasks (snap-export-xxxxxxxx)
+      * Snapshots (snap-xxxxxxxx)<br />
+      * Subnets (subnet-xxxxxxxx)<br />
+      * Virtual gateways (vgw-xxxxxxxx)<br />
+      * Virtual machines (VMs) (i-xxxxxxxx)<br />
+      * Volumes (vol-xxxxxxxx)<br />
+      * VPN connections (vpn-xxxxxxxx)<br />
 
       For more information, see [About Tags](https://docs.outscale.com/en/userguide/About-Tags.html).
     post:
@@ -13967,6 +14042,8 @@ paths:
                 ex1:
                   value:
                     User:
+                      CreationDate: 2010-10-01T12:34:56.789+0000
+                      LastModificationDate: 2017-05-10T12:34:56.789+0000
                       UserEmail: user@example.com
                       UserName: example-user
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
@@ -14734,7 +14811,7 @@ paths:
     description: |-
       Deletes a specified API access rule.<br /><br />
 
-      **[IMPORTANT]**<br /> 
+      **[IMPORTANT]**<br />
       You cannot delete the last remaining API access rule. However, if you delete all the API access rules that allow you to access the APIs, you need to contact the Support team to regain access. For more information, see [Technical Support](https://docs.outscale.com/en/userguide/Technical-Support.html).
     post:
       operationId: DeleteApiAccessRule
@@ -15088,8 +15165,8 @@ paths:
       - Image
   /DeleteInternetService:
     description: |-
-      Deletes an Internet service.<br />
-      Before deleting an Internet service, you must detach it from any Net it is attached to.
+      Deletes an internet service.<br />
+      Before deleting an internet service, you must detach it from any Net it is attached to.
     post:
       operationId: DeleteInternetService
       requestBody:
@@ -15146,8 +15223,13 @@ paths:
               $ref: '#/components/schemas/DeleteKeypairRequest'
             examples:
               ex1:
+                summary: Deleting a keypair with its name
                 value:
                   KeypairName: keypair-example
+              ex2:
+                summary: Deleting a keypair with its ID
+                value:
+                  KeypairId: key-abcdef1234567890abcdef1234567890
       responses:
         '200':
           content:
@@ -15447,7 +15529,7 @@ paths:
       * Custom route tables<br />
       * Public IPs allocated to resources in the Net<br />
       * Network Interface Cards (NICs) created in the Subnets<br />
-      * Virtual gateways, Internet services and NAT services<br />
+      * Virtual gateways, internet services and NAT services<br />
       * Load balancers<br />
       * Security groups<br />
       * Subnets
@@ -15628,7 +15710,7 @@ paths:
   /DeletePolicy:
     description: |-
       Deletes a managed policy.<br />
-      Before deleting a managed policy, you must unlink all users linked to it and delete all the versions of the policy using the `DeletePolicyVersion` method.
+      Before deleting a managed policy, you must unlink all users linked to it and delete all the versions of the policy, except the default one, using the `DeletePolicyVersion` method.
     post:
       operationId: DeletePolicy
       requestBody:
@@ -15682,6 +15764,56 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - Policy
+  /DeleteProductType:
+    description: |-
+      Deletes a specified product type that belongs to you.<br />
+
+      **[WARNING]**<br />
+      The product type must not be associated with one or more OMIs to be deleted. Otherwise, you need to force the deletion.<br />
+      If you force the deletion, the product type is deleted and remains associated with the OMIs.<br />
+    post:
+      operationId: DeleteProductType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteProductTypeRequest'
+            examples:
+              ex1:
+                value:
+                  ProductTypeId: pty-12345678
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProductTypeResponse'
+              examples:
+                ex1:
+                  value:
+                    ResponseContext:
+                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+          description: The HTTP 200 response (OK).
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 400 response (Bad Request).
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 401 response (Unauthorized).
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP 500 response (Internal Server Error).
+      tags:
+      - ProductType
   /DeletePublicIp:
     description: |-
       Releases a public IP.<br />
@@ -16577,8 +16709,8 @@ paths:
       - FlexibleGpu
   /LinkInternetService:
     description: |-
-      Attaches an Internet service to a Net.<br />
-      To enable the connection between the Internet and a Net, you must attach an Internet service to this Net.
+      Attaches an internet service to a Net.<br />
+      To enable the connection between the Internet and a Net, you must attach an internet service to this Net.
     post:
       operationId: LinkInternetService
       requestBody:
@@ -16832,7 +16964,7 @@ paths:
   /LinkPublicIp:
     description: |-
       Associates a public IP with a virtual machine (VM) or a network interface card (NIC), in the public Cloud or in a Net. You can associate a public IP with only one VM or network interface at a time.<br />
-      To associate a public IP in a Net, ensure that the Net has an Internet service attached. For more information, see the [LinkInternetService](#linkinternetservice) method.<br />
+      To associate a public IP in a Net, ensure that the Net has an internet service attached. For more information, see the [LinkInternetService](#linkinternetservice) method.<br />
       By default, the public IP is disassociated every time you stop and start the VM. For a persistent association, you can add the `osc.fcu.eip.auto-attach` tag to the VM with the public IP as value. For more information, see the [CreateTags](#createtags) method.<br /><br />
 
       **[IMPORTANT]**<br />
@@ -17497,7 +17629,7 @@ paths:
       - ClientGateway
   /ReadConsoleOutput:
     description: |-
-      Gets the console output for a virtual machine (VM). This console provides the most recent 64 KiB output.<br /><br />
+      Gets the console output for a virtual machine (VM). This console is not in real-time. It is refreshed every two seconds and provides the most recent 64 KiB output.<br /><br />
 
       **[IMPORTANT]**<br />
       On Windows VMs, the console is handled only on the first boot. It returns no output after the first boot.
@@ -18109,8 +18241,8 @@ paths:
       - Image
   /ReadInternetServices:
     description: |-
-      Lists one or more of your Internet services.<br />
-      An Internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IP addresses.
+      Lists one or more of your internet services.<br />
+      An internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IP addresses.
     post:
       operationId: ReadInternetServices
       requestBody:
@@ -18200,6 +18332,7 @@ paths:
                     Keypairs:
                     - KeypairType: ssh-rsa
                       KeypairName: keypair-example
+                      KeypairId: key-abcdef1234567890abcdef1234567890
                       KeypairFingerprint: 11:22:33:44:55:66:77:88:99:00:aa:bb:cc:dd:ee:ff
           description: The HTTP 200 response (OK).
         '400':
@@ -19345,47 +19478,6 @@ paths:
           description: The HTTP 500 response (Internal Server Error).
       tags:
       - RouteTable
-  /ReadSecretAccessKey:
-    description: |-
-      > [WARNING]<br />
-      > Deprecated: This call will be removed after October 1, 2024.<br />
-
-      Lists information about the specified access key of your root account, including its secret key.
-    post:
-      operationId: ReadSecretAccessKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReadSecretAccessKeyRequest'
-            examples:
-              ex1:
-                value:
-                  AccessKeyId: ABCDEFGHIJ0123456789
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReadSecretAccessKeyResponse'
-              examples:
-                ex1:
-                  value:
-                    ResponseContext:
-                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-                    AccessKey:
-                      State: ACTIVE
-                      AccessKeyId: ABCDEFGHIJ0123456789
-                      CreationDate: 2010-10-01T12:34:56.789+0000
-                      ExpirationDate: 2063-04-05T00:00:00.000+0000
-                      SecretKey: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                      LastModificationDate: 2010-10-01T12:34:56.789+0000
-          description: The HTTP 200 response (OK).
-      security:
-      - ApiKeyAuthSec: []
-      - BasicAuth: []
-      tags:
-      - AccessKey
   /ReadSecurityGroups:
     description: |-
       Lists one or more security groups.<br />
@@ -19949,8 +20041,8 @@ paths:
       - Policy
   /ReadUserGroups:
     description: |-
-      Lists the groups with the specified path prefix.<br />
-      If you do not specify any path prefix, this action returns all the groups (or an empty list if there are none).
+      Lists all the user groups of the account.<br />
+      The response can be filtered using either the PathPrefix or the UserGroupIds.
     post:
       operationId: ReadUserGroups
       requestBody:
@@ -20028,8 +20120,8 @@ paths:
       - UserGroup
   /ReadUsers:
     description: |-
-      Lists all EIM users that have a specified path.<br />
-      If you do not specify a path, this action returns a list of all users in the account (or an empty list if there are none).
+      Lists all EIM users in the account.<br />
+      The response can be filtered using the UserIds.
     post:
       operationId: ReadUsers
       requestBody:
@@ -20039,7 +20131,10 @@ paths:
               $ref: '#/components/schemas/ReadUsersRequest'
             examples:
               ex1:
-                value: {}
+                value:
+                  Filters:
+                    UserIds:
+                    - ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
       responses:
         '200':
           content:
@@ -21049,8 +21144,8 @@ paths:
       - FlexibleGpu
   /UnlinkInternetService:
     description: |-
-      Detaches an Internet service from a Net.<br />
-      This action disables and detaches an Internet service from a Net. The Net must not contain virtual machines (VMs) using public IPs nor internet-facing load balancers.
+      Detaches an internet service from a Net.<br />
+      This action disables and detaches an internet service from a Net. The Net must not contain virtual machines (VMs) using public IPs nor internet-facing load balancers.
     post:
       operationId: UnlinkInternetService
       requestBody:
@@ -21464,7 +21559,9 @@ paths:
       tags:
       - Volume
   /UpdateAccessKey:
-    description: Modifies the attributes of the specified access key of either your root account or an EIM user.
+    description: |-
+      Modifies the attributes of the specified access key of either your root account or an EIM user.<br /><br />
+      The parameter `ExpirationDate` is not required when updating the state of your access key. However, if you do not specify the expiration date of an access key when updating its state, it is then set to not expire.
     post:
       operationId: UpdateAccessKey
       requestBody:
@@ -21480,7 +21577,7 @@ paths:
                   State: ACTIVE
                   ExpirationDate: '2063-04-05'
               ex2:
-                summary: Updating one of your own access keys (if you are the root account or an EIM user)
+                summary: Updating the state of one of your own access keys (if you are the root account or an EIM user)
                 value:
                   AccessKeyId: ABCDEFGHIJ0123456789
                   State: ACTIVE
@@ -21498,6 +21595,7 @@ paths:
                 $ref: '#/components/schemas/UpdateAccessKeyResponse'
               examples:
                 ex1:
+                  summary: Updating an access key when using the parameter ExpirationDate
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
@@ -21506,6 +21604,16 @@ paths:
                       AccessKeyId: ABCDEFGHIJ0123456789
                       CreationDate: 2010-10-01T12:34:56.789+0000
                       ExpirationDate: 2063-04-05T00:00:00.000+0000
+                      LastModificationDate: 2017-05-10T12:34:56.789+0000
+                ex2:
+                  summary: Updating an access key when not using the parameter ExpirationDate
+                  value:
+                    ResponseContext:
+                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    AccessKey:
+                      State: ACTIVE
+                      AccessKeyId: ABCDEFGHIJ0123456789
+                      CreationDate: 2010-10-01T12:34:56.789+0000
                       LastModificationDate: 2017-05-10T12:34:56.789+0000
           description: The HTTP 200 response (OK).
       security:
@@ -21643,7 +21751,7 @@ paths:
     description: |-
       Modifies a specified API access rule.<br /><br />
 
-      **[WARNING]**<br /> 
+      **[WARNING]**<br />
       - The new rule you specify fully replaces the old rule. Therefore, for a parameter that is not specified, any previously set value is deleted.<br />
       - If, as result of your modification, you no longer have access to the APIs, you will need to contact the Support team to regain access. For more information, see [Technical Support](https://docs.outscale.com/en/userguide/Technical-Support.html).
     post:
@@ -23011,6 +23119,8 @@ paths:
                 ex1:
                   value:
                     User:
+                      CreationDate: 2010-10-01T12:34:56.789+0000
+                      LastModificationDate: 2017-05-10T12:34:56.789+0000
                       UserEmail: user@example.com
                       UserName: test-user
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
