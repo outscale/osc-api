@@ -3119,13 +3119,13 @@ components:
           description: The Region in which the DirectLink has been created.
           type: string
         State:
-          description: |-
-            The state of the DirectLink.<br />
-            * `requested`: The DirectLink is requested but the request has not been validated yet.<br />
-            * `pending`: The DirectLink request has been validated. It remains in the `pending` state until you establish the physical link.<br />
-            * `available`: The physical link is established and the connection is ready to use.<br />
-            * `deleting`: The deletion process is in progress.<br />
-            * `deleted`: The DirectLink is deleted.
+          description: |
+            The state of the DirectLink.
+            <ul><li>`pending`: The DirectLink request has been validated. It remains in the `pending` state until you establish the physical link.</li>
+            <li>`available`: The physical link is established and the connection is ready to use.</li>
+            <li>`disabled`: The network link is down.</li>
+            <li>`deleted`: The DirectLink is deleted.</li>
+            </ul>
           type: string
       type: object
     DirectLinkInterface:
@@ -3233,6 +3233,8 @@ components:
           items:
             type: string
           type: array
+      required:
+      - UserNames
       type: object
     DisableOutscaleLoginPerUsersResponse:
       additionalProperties: false
@@ -3277,6 +3279,8 @@ components:
           items:
             type: string
           type: array
+      required:
+      - UserNames
       type: object
     EnableOutscaleLoginPerUsersResponse:
       additionalProperties: false
@@ -6832,42 +6836,42 @@ components:
       type: object
     Phase1Options:
       additionalProperties: false
-      description: Information about Phase 1 of the Internet Key Exchange (IKE) negotiation. When Phase 1 finishes successfully, peers proceed to Phase 2 negotiations.
+      description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
       properties:
         DpdTimeoutAction:
-          description: The action to carry out after a Dead Peer Detection (DPD) timeout occurs.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: string
         DpdTimeoutSeconds:
-          description: The maximum waiting time for a Dead Peer Detection (DPD) response before considering the peer as dead, in seconds.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: integer
         IkeVersions:
-          description: The Internet Key Exchange (IKE) versions allowed for the VPN tunnel.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           items:
             type: string
           type: array
         Phase1DhGroupNumbers:
-          description: The Diffie-Hellman (DH) group numbers allowed for the VPN tunnel for phase 1.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           items:
             type: integer
           type: array
         Phase1EncryptionAlgorithms:
-          description: The encryption algorithms allowed for the VPN tunnel for phase 1.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           items:
             type: string
           type: array
         Phase1IntegrityAlgorithms:
-          description: The integrity algorithms allowed for the VPN tunnel for phase 1.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           items:
             type: string
           type: array
         Phase1LifetimeSeconds:
-          description: The lifetime for phase 1 of the IKE negotiation process, in seconds.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: integer
         ReplayWindowSize:
-          description: The number of packets in an IKE replay window.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: integer
         StartupAction:
-          description: The action to carry out when establishing tunnels for a VPN connection.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: string
       type: object
     Phase2Options:
@@ -6875,22 +6879,22 @@ components:
       description: Information about Phase 2 of the Internet Key Exchange (IKE) negotiation.
       properties:
         Phase2DhGroupNumbers:
-          description: The Diffie-Hellman (DH) group numbers allowed for the VPN tunnel for phase 2.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           items:
             type: integer
           type: array
         Phase2EncryptionAlgorithms:
-          description: The encryption algorithms allowed for the VPN tunnel for phase 2.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           items:
             type: string
           type: array
         Phase2IntegrityAlgorithms:
-          description: The integrity algorithms allowed for the VPN tunnel for phase 2.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           items:
             type: string
           type: array
         Phase2LifetimeSeconds:
-          description: The lifetime for phase 2 of the Internet Key Exchange (IKE) negotiation process, in seconds.
+          description: This parameter is not available. It is present in our API for the sake of historical compatibility with AWS.
           type: integer
         PreSharedKey:
           description: The pre-shared key to establish the initial authentication between the client gateway and the virtual gateway. This key can contain any character except line breaks and double quotes (&quot;).
@@ -9662,7 +9666,7 @@ components:
           description: The ID of the snapshot.
           type: string
         State:
-          description: The state of the snapshot (`in-queue` \| `pending` \| `completed` \| `error` \| `deleting`)).
+          description: The state of the snapshot (`in-queue` \| `pending` \| `completed` \| `error` \| `deleting`).
           type: string
         Tags:
           description: One or more tags associated with the snapshot.
@@ -11555,24 +11559,24 @@ components:
     ApiKeyAuth:
       description: |-
         With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://docs.outscale.com/en/userguide/About-Signatures-of-API-Requests.html).<br />
-          * In addition to your access key, you can configure API access rules with Certificate Authorities (CAs), requiring you to provide a certificate to perform actions. In that case, you can bypass systematically providing a certificate by activating a trusted session. For more information, see the [UpdateApiAccessPolicy](#updateapiaccesspolicy) method and [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).
+        * In addition to your access key, you can configure API access rules with Certificate Authorities (CAs), requiring you to provide a certificate to perform actions. In that case, you can bypass systematically providing a certificate by activating a trusted session. For more information, see the [UpdateApiAccessPolicy](#updateapiaccesspolicy) method and [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).
       in: header
       name: Authorization
       type: apiKey
     ApiKeyAuthSec:
       description: |-
         With this authentication scheme, you must use an access key to sign your API requests. For more information, see [About Signatures of API Requests](https://docs.outscale.com/en/userguide/About-Signatures-of-API-Requests.html).<br />
-          * In addition to your access key, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).
+        * In addition to your access key, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).
       in: header
       name: Authorization
       type: apiKey
     BasicAuth:
       description: |-
         With this authentication scheme, you must specify the following headers in your API request:<br />
-          * `Authorization: Basic XXXX`, where `XXXX` is your `email:password` encoded in Base64
-          * `X-Osc-Date` in the `YYYYMMDDTHHMMSSZ` format
-          * Example with Curl: ``$ curl -X POST https://api.eu-west-2.outscale.com/api/v1/ReadAccessKeys -H &quot;Authorization: Basic `echo -n &quot;MYEMAIL:MYPASSWORD&quot; | base64`&quot; -H &quot;X-Osc-Date: `TZ=GMT date &quot;+%Y%m%dT%H%M%SZ&quot;`&quot;``
-          * In addition to your email and password combination, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).
+        * `Authorization: Basic XXXX`, where `XXXX` is your `email:password` encoded in Base64
+        * `X-Osc-Date` in the `YYYYMMDDTHHMMSSZ` format
+        * Example with Curl: ``$ curl -X POST https://api.eu-west-2.outscale.com/api/v1/ReadAccessKeys -H &quot;Authorization: Basic `echo -n &quot;MYEMAIL:MYPASSWORD&quot; | base64`&quot; -H &quot;X-Osc-Date: `TZ=GMT date &quot;+%Y%m%dT%H%M%SZ&quot;`&quot;``
+        * In addition to your email and password combination, if you have configured API access rules with a Certificate Authority (CA), you cannot bypass systematically providing a certificate even if you activate a trusted session. For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).
       scheme: basic
       type: http
 info:
@@ -11585,7 +11589,7 @@ info:
     Brute force: To protect against brute force attacks, the number of failed authentication attempts in a given time period is limited.<br /><br />
     Note that the OUTSCALE Cloud is compatible with Amazon Web Services (AWS) APIs, but there are [differences in resource names](https://docs.outscale.com/en/userguide/About-the-APIs.html) between AWS and the OUTSCALE API.<br />
     You can also manage your resources using the [Cockpit](https://docs.outscale.com/en/userguide/About-Cockpit.html) web interface.<br /><br />
-    An OpenAPI description of the OUTSCALE API is also available in this [GitHub repository](https://github.com/outscale/osc-api).<br />
+    An OpenAPI description of this API is also available for download: <button>[GitHub repository](https://github.com/outscale/osc-api)</button><br />
     # Authentication Schemes
     ### Access Key/Secret Key
     The main way to authenticate your requests to the OUTSCALE API is to use an access key and a secret key.<br />
@@ -11630,10 +11634,10 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.35.4
+  version: 1.35.5
   x-osc-api-osc-billing: 1.35.0
   x-osc-api-osc-cloud-vision: 1.35.0
-  x-osc-api-osc-core-iaas: 1.35.4
+  x-osc-api-osc-core-iaas: 1.35.5
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -17038,7 +17042,11 @@ paths:
       - LoadBalancer
   /DisableOutscaleLogin:
     post:
-      description: Disables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
+      description: |-
+        > [WARNING]<br />
+        > This feature is currently in beta.<br />
+
+        Disables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
       operationId: DisableOutscaleLogin
       requestBody:
         content:
@@ -17064,7 +17072,11 @@ paths:
       - IdentityProvider
   /DisableOutscaleLoginForUsers:
     post:
-      description: Disables the possibility of logging in using the Outscale credentials of your EIM users when identity federation is activated.
+      description: |-
+        > [WARNING]<br />
+        > This feature is currently in beta.<br />
+
+        Disables the possibility of logging in using the Outscale credentials of your EIM users when identity federation is activated.
       operationId: DisableOutscaleLoginForUsers
       requestBody:
         content:
@@ -17090,7 +17102,11 @@ paths:
       - IdentityProvider
   /DisableOutscaleLoginPerUsers:
     post:
-      description: Disables the possibility for one or more specific users to log in using their Outscale credentials when identity federation is activated.
+      description: |-
+        > [WARNING]<br />
+        > This feature is currently in beta.<br />
+
+        Disables the possibility for one or more specific users to log in using their Outscale credentials when identity federation is activated.
       operationId: DisableOutscaleLoginPerUsers
       requestBody:
         content:
@@ -17119,7 +17135,11 @@ paths:
       - IdentityProvider
   /EnableOutscaleLogin:
     post:
-      description: Enables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
+      description: |-
+        > [WARNING]<br />
+        > This feature is currently in beta.<br />
+
+        Enables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
       operationId: EnableOutscaleLogin
       requestBody:
         content:
@@ -17145,7 +17165,11 @@ paths:
       - IdentityProvider
   /EnableOutscaleLoginForUsers:
     post:
-      description: Enables the possibility for all your EIM users to log in using their Outscale credentials when identity federation is activated.
+      description: |-
+        > [WARNING]<br />
+        > This feature is currently in beta.<br />
+
+        Enables the possibility for all your EIM users to log in using their Outscale credentials when identity federation is activated.
       operationId: EnableOutscaleLoginForUsers
       requestBody:
         content:
@@ -17171,7 +17195,11 @@ paths:
       - IdentityProvider
   /EnableOutscaleLoginPerUsers:
     post:
-      description: Enables the possibility for one or more specific users to log in using their Outscale credentials when identity federation is activated.
+      description: |-
+        > [WARNING]<br />
+        > This feature is currently in beta.<br />
+
+        Enables the possibility for one or more specific users to log in using their Outscale credentials when identity federation is activated.
       operationId: EnableOutscaleLoginPerUsers
       requestBody:
         content:
