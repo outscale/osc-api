@@ -390,6 +390,59 @@ components:
           description: The ID of the volume.
           type: string
       type: object
+    CO2CategoryDistribution:
+      additionalProperties: false
+      description: The allocation of the `Value` among categories.
+      properties:
+        Category:
+          description: The category of the resource (for example, `storage`).
+          type: string
+        Value:
+          description: The total CO2 emissions for the category.
+          format: double
+          type: number
+      type: object
+    CO2EmissionEntry:
+      additionalProperties: false
+      description: The CO2 emission by month and account, for the specified request.
+      properties:
+        AccountId:
+          description: The ID of the account associated with the consumption.
+          type: string
+        CategoryDistribution:
+          description: The allocation of the `Value` among categories.
+          items:
+            $ref: '#/components/schemas/CO2CategoryDistribution'
+          type: array
+        FactorDistribution:
+          description: The allocation of the `Value` among factors.
+          items:
+            $ref: '#/components/schemas/CO2FactorDistribution'
+          type: array
+        Month:
+          description: The month associated with the CO2 emission entry.
+          format: date
+          type: string
+        PayingAccountId:
+          description: The ID of the paying account related to the `AccountId` parameter.
+          type: string
+        Value:
+          description: The total CO2 emissions for the `Month` and `AccountId` specified. This value corresponds to the sum of all entries in `CategoryDistribution` and `FactorDistributionEntry`.
+          format: double
+          type: number
+      type: object
+    CO2FactorDistribution:
+      additionalProperties: false
+      description: The allocation of the `Value` among factors.
+      properties:
+        Factor:
+          description: The emission source (for example, `hardware`).
+          type: string
+        Value:
+          description: The total CO2 emissions for the factor.
+          format: double
+          type: number
+      type: object
     Ca:
       additionalProperties: false
       description: Information about the Client Certificate Authority (CA).
@@ -541,7 +594,7 @@ components:
           format: double
           type: number
         Service:
-          description: The service of the API call (`TinaOS-FCU`, `TinaOS-LBU`, `TinaOS-DirectLink`, `TinaOS-OOS`, or `TinaOS-OSU`).
+          description: The service of the API call (`TinaOS-FCU`, `TinaOS-LBU`, `TinaOS-DirectLink`, `TinaOS-OOS`, `TinaOS-OSU`, or `OKS`).
           type: string
         SubregionName:
           description: The name of the Subregion.
@@ -7569,6 +7622,50 @@ components:
           $ref: '#/components/schemas/ResponseContext'
           description: Information about the context of the response.
       type: object
+    ReadCO2EmissionAccountRequest:
+      additionalProperties: false
+      properties:
+        FromMonth:
+          description: The beginning of the time period, in ISO 8601 date format (for example, `2020-06-01`). This value must correspond to the first day of the month and is included in the time period.
+          oneOf:
+          - format: date
+            type: string
+          - format: date-time
+            type: string
+        Overall:
+          default: false
+          description: If false, returns only the CO2 emission of the specific account that sends the request. If true, returns either the overall CO2 emission of your paying account and all linked accounts (if the account that sends this request is a paying account) or returns nothing (if the account that sends this request is a linked account).
+          type: boolean
+        ToMonth:
+          description: The end of the time period, in ISO 8601 date format (for example, `2020-06-14`). This value must correspond to the first day of the month and is excluded from the time period. It must be set to a later date than `FromMonth`.
+          oneOf:
+          - format: date
+            type: string
+          - format: date-time
+            type: string
+      required:
+      - FromMonth
+      - ToMonth
+      type: object
+    ReadCO2EmissionAccountResponse:
+      additionalProperties: false
+      properties:
+        CO2EmissionEntries:
+          description: The CO2 emission by month and account, for the specified request.
+          items:
+            $ref: '#/components/schemas/CO2EmissionEntry'
+          type: array
+        ResponseContext:
+          $ref: '#/components/schemas/ResponseContext'
+          description: Information about the context of the response.
+        Unit:
+          description: The unit of all the `Value` fields of the response, expressed in kgCO₂e.
+          type: string
+        Value:
+          description: The total CO2 emission for the specified request.
+          format: double
+          type: number
+      type: object
     ReadCasRequest:
       additionalProperties: false
       properties:
@@ -7886,9 +7983,6 @@ components:
           description: The OUTSCALE Resource Name (ORN) of the policy. For more information, see [Resource Identifiers](https://docs.outscale.com/en/userguide/Resource-Identifiers.html).
           pattern: ^orn:ows:(iam|idauth):\S*:\d{12}:policy/\S+$
           type: string
-        ResponseContext:
-          $ref: '#/components/schemas/ResponseContext'
-          description: Information about the context of the response.
         ResultsPerPage:
           description: The maximum number of items that can be returned in a single response (by default, 100).
           type: integer
@@ -9884,7 +9978,7 @@ components:
           description: Information about the context of the response.
       type: object
     SecureBootAction:
-      description: One action to perform on the next boot of the VM. For more information, see [About Secure Boot](https://docs.outscale.com/en/userguide/About-Secure-Boot.html#_secure_boot_actions).
+      description: One action to perform on the next boot of the VM (`enable` | `disable` | `setup-mode` | `none`). For more information, see [About Secure Boot](https://docs.outscale.com/en/userguide/About-Secure-Boot.html#_secure_boot_actions).
       enum:
       - enable
       - disable
@@ -9986,8 +10080,8 @@ components:
       description: Information about the server certificate.
       properties:
         ExpirationDate:
-          description: The date on which the server certificate expires.
-          format: date
+          description: The date and time (UTC) on which the server certificate expires.
+          format: date-time
           type: string
         Id:
           description: The ID of the server certificate.
@@ -10002,8 +10096,8 @@ components:
           description: The path to the server certificate.
           type: string
         UploadDate:
-          description: The date on which the server certificate has been uploaded.
-          format: date
+          description: The date and time (UTC) on which the server certificate has been uploaded.
+          format: date-time
           type: string
       type: object
     Service:
@@ -12202,12 +12296,12 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.36.3
-  x-osc-api-osc-billing: 1.36.0
+  version: 1.37.1
+  x-osc-api-osc-billing: 1.37.0
   x-osc-api-osc-cloud-region: 1.36.0
   x-osc-api-osc-cloud-vision: 1.36.0
   x-osc-api-osc-core-iaas: 1.36.1
-  x-osc-api-osc-iam: 1.36.2
+  x-osc-api-osc-iam: 1.37.0
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -12584,9 +12678,6 @@ paths:
   /CreateDedicatedGroup:
     post:
       description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
         Creates a dedicated group for virtual machines (VMs).<br /><br />
         For more information, see [About Dedicated Groups](https://docs.outscale.com/en/userguide/About-Dedicated-Groups.html).
       operationId: CreateDedicatedGroup
@@ -15165,8 +15256,12 @@ paths:
         This action enables you to create a specified number of VMs using an OUTSCALE machine image (OMI) that you are allowed to use, and then to automatically launch them.<br />
         The VMs remain in the `pending` state until they are created and ready to be used. Once automatically launched, they are in the `running` state.<br />
         To check the state of your VMs, call the [ReadVms](#readvms) method.<br />
+        The metadata server enables you to get the public key provided when the VM is launched. Official OMIs contain a script to get this public key and put it inside the VM to provide secure access without password.<br />
         If not specified, the security group used by the service is the default one.<br />
-        The metadata server enables you to get the public key provided when the VM is launched. Official OMIs contain a script to get this public key and put it inside the VM to provide secure access without password.<br /><br />
+
+        **[NOTE]**<br />
+        When you attach a security group to a VM, it is actually attached to the primary network interface of the VM.<br />
+
         For more information, see [About VMs](https://docs.outscale.com/en/userguide/About-VMs.html).
       operationId: CreateVms
       requestBody:
@@ -15820,9 +15915,6 @@ paths:
   /DeleteDedicatedGroup:
     post:
       description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
         Deletes a specified dedicated group of virtual machines (VMs).<br />
 
         **[WARNING]**<br />
@@ -17625,11 +17717,7 @@ paths:
       - LoadBalancer
   /DisableOutscaleLogin:
     post:
-      description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
-        Disables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
+      description: Disables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
       operationId: DisableOutscaleLogin
       requestBody:
         content:
@@ -17655,11 +17743,7 @@ paths:
       - IdentityProvider
   /DisableOutscaleLoginForUsers:
     post:
-      description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
-        Disables the possibility of logging in using the Outscale credentials of your EIM users when identity federation is activated.
+      description: Disables the possibility of logging in using the Outscale credentials of your EIM users when identity federation is activated.
       operationId: DisableOutscaleLoginForUsers
       requestBody:
         content:
@@ -17685,11 +17769,7 @@ paths:
       - IdentityProvider
   /DisableOutscaleLoginPerUsers:
     post:
-      description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
-        Disables the possibility for one or more specific users to log in using their Outscale credentials when identity federation is activated.
+      description: Disables the possibility for one or more specific users to log in using their Outscale credentials when identity federation is activated.
       operationId: DisableOutscaleLoginPerUsers
       requestBody:
         content:
@@ -17718,11 +17798,7 @@ paths:
       - IdentityProvider
   /EnableOutscaleLogin:
     post:
-      description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
-        Enables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
+      description: Enables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
       operationId: EnableOutscaleLogin
       requestBody:
         content:
@@ -17748,11 +17824,7 @@ paths:
       - IdentityProvider
   /EnableOutscaleLoginForUsers:
     post:
-      description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
-        Enables the possibility for all your EIM users to log in using their Outscale credentials when identity federation is activated.
+      description: Enables the possibility for all your EIM users to log in using their Outscale credentials when identity federation is activated.
       operationId: EnableOutscaleLoginForUsers
       requestBody:
         content:
@@ -17778,11 +17850,7 @@ paths:
       - IdentityProvider
   /EnableOutscaleLoginPerUsers:
     post:
-      description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
-        Enables the possibility for one or more specific users to log in using their Outscale credentials when identity federation is activated.
+      description: Enables the possibility for one or more specific users to log in using their Outscale credentials when identity federation is activated.
       operationId: EnableOutscaleLoginPerUsers
       requestBody:
         content:
@@ -18634,6 +18702,48 @@ paths:
           description: The HTTP 200 response (OK).
       tags:
       - ApiLog
+  /ReadCO2EmissionAccount:
+    post:
+      description: Gets information about the estimated carbon footprint of your account for the current Region within the specified time period.
+      operationId: ReadCO2EmissionAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadCO2EmissionAccountRequest'
+            examples:
+              ex1:
+                value:
+                  FromMonth: '2025-05-01'
+                  ToMonth: '2025-06-01'
+                  Overall: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCO2EmissionAccountResponse'
+              examples:
+                ex1:
+                  value:
+                    Unit: KG
+                    Value: 2.469
+                    ResponseContext:
+                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    CO2EmissionEntries:
+                    - Value: 2.469
+                      AccountId: '123456789012'
+                      CategoryDistribution:
+                      - Value: 1.2345
+                        Category: compute
+                      Month: '2025-05-01'
+                      PayingAccountId: '123456789012'
+                      FactorDistribution:
+                      - Value: 1.2345
+                        Factor: electricity
+          description: The HTTP 200 response (OK).
+      tags:
+      - Account
   /ReadCas:
     post:
       description: Gets information about one or more of your Client Certificate Authorities (CAs).
@@ -18885,11 +18995,7 @@ paths:
       - Account
   /ReadDedicatedGroups:
     post:
-      description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
-        List one or more dedicated groups of virtual machines (VMs).
+      description: List one or more dedicated groups of virtual machines (VMs).
       operationId: ReadDedicatedGroups
       requestBody:
         content:
@@ -23133,11 +23239,7 @@ paths:
       - Ca
   /UpdateDedicatedGroup:
     post:
-      description: |-
-        > [WARNING]<br />
-        > This feature is currently in beta.<br />
-
-        Modifies the name of a specified dedicated group.<br />
+      description: Modifies the name of a specified dedicated group.
       operationId: UpdateDedicatedGroup
       requestBody:
         content:
@@ -24229,14 +24331,14 @@ paths:
                       AccountIds:
                       - '987654321098'
               ex3:
-                summary: Making an image public to everyone
+                summary: Making a snapshot public to everyone
                 value:
                   SnapshotId: snap-12345678
                   PermissionsToCreateVolume:
                     Additions:
                       GlobalPermission: true
               ex4:
-                summary: Making an image private to everyone
+                summary: Making a snapshot private to everyone
                 value:
                   SnapshotId: snap-12345678
                   PermissionsToCreateVolume:
@@ -24287,7 +24389,7 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                 ex3:
-                  summary: Making an image public to everyone
+                  summary: Making a snapshot public to everyone
                   value:
                     Snapshot:
                       VolumeSize: 10
@@ -24305,7 +24407,7 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                 ex4:
-                  summary: Making an image private to everyone
+                  summary: Making a snapshot private to everyone
                   value:
                     Snapshot:
                       VolumeSize: 10
@@ -24795,8 +24897,9 @@ paths:
       description: |-
         Modifies the specified attributes of a volume.<br />
 
-        **[NOTE]**<br />
-        When the modification is not instantaneous, the response displays the previous value. You can use the [ReadVolumeUpdateTasks](#readvolumeupdatetasks) method to see the progression of the update.
+        **[WARNING]**<br />
+        - Do not shut down or restart the virtual machine (VM) from within the guest operating system while a volume update is in progress. This interrupts the process and compromises the integrity of the volume.
+        - When the modification is not instantaneous, the response displays the previous value. You can use the [ReadVolumeUpdateTasks](#readvolumeupdatetasks) method to see the progression of the update.<br />
       operationId: UpdateVolume
       requestBody:
         content:
