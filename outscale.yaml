@@ -245,7 +245,7 @@ components:
       description: Information about the stickiness policy.
       properties:
         CookieName:
-          description: The name of the application cookie used for stickiness.
+          description: The name of the application cookie used for stickiness, between 1 and 255 characters.
           type: string
         PolicyName:
           description: The mnemonic name for the policy being created. The name must be unique within a set of policies for this load balancer.
@@ -996,7 +996,7 @@ components:
       additionalProperties: false
       properties:
         Architecture:
-          description: '**When registering from a snapshot:** The architecture of the OMI (`i386` or `x86_64`).'
+          description: '**When registering from a snapshot:** The architecture of the OMI (`i386` or `x86_64`). By default, set to `x86_64`.'
           type: string
         BlockDeviceMappings:
           description: '**(required) When registering from a snapshot:** One or more block device mappings.'
@@ -1165,7 +1165,8 @@ components:
           description: The lifetime of the cookie, in seconds. If not specified, the default value of this parameter is `1`, which means that the sticky session lasts for the duration of the browser session.
           type: integer
         CookieName:
-          description: The name of the application cookie used for stickiness. This parameter is required if you create a stickiness policy based on an application-generated cookie.
+          description: The name of the application cookie used for stickiness, between 1 and 255 characters. This parameter is required if you create a stickiness policy based on an application-generated cookie.
+          maxLength: 255
           type: string
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
@@ -1651,7 +1652,7 @@ components:
           description: The IP protocol name (`tcp`, `udp`, `icmp`, or `-1` for all protocols). By default, `-1`. In a Net, this can also be an IP protocol number. For more information, see the [IANA.org website](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml). If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
           type: string
         IpRange:
-          description: The IP range for the security group rule, in CIDR notation (for example, 10.0.0.0/16). If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
+          description: The IP range for the security group rule, in CIDR notation (for example, `10.0.0.0/16`). If you specify this parameter, you cannot specify the `Rules` parameter and its subparameters.
           type: string
         Rules:
           description: 'Information about the security group rule to create. If you specify this parent parameter and its subparameters, you cannot specify the following parent parameters: `FromPortRange`, `IpProtocol`, `IpRange`, and `ToPortRange`.'
@@ -9823,7 +9824,7 @@ components:
       description: Information about the tag.
       properties:
         Key:
-          description: The key of the tag, with a minimum of 1 character.
+          description: The key of the tag, between 1 and 255 characters.
           type: string
         Value:
           description: The value of the tag, between 0 and 255 characters.
@@ -10043,10 +10044,13 @@ components:
           description: The IP protocol name (`tcp`, `udp`, `icmp`, or `-1` for all protocols). By default, `-1`. In a Net, this can also be an IP protocol number. For more information, see the [IANA.org website](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
           type: string
         IpRanges:
-          description: One or more IP ranges for the security group rules, in CIDR notation (for example, `10.0.0.0/16`).
+          description: One or more IP ranges for the security group rules, in CIDR notation (for example, `[&quot;10.0.0.0/24&quot; , &quot;10.0.1.0/24&quot;]`).
           items:
             type: string
           type: array
+        SecurityGroupRuleId:
+          description: The ID of the security group rule.
+          type: string
         SecurityGroupsMembers:
           description: Information about one or more source or destination security groups.
           items:
@@ -10072,7 +10076,7 @@ components:
           description: The ID of a source or destination security group that you want to link to the security group of the rule.
           type: string
         SecurityGroupName:
-          description: (Public Cloud only) The name of a source or destination security group that you want to link to the security group of the rule.
+          description: The name of a source or destination security group that you want to link to the security group of the rule.
           type: string
       type: object
     ServerCertificate:
@@ -10355,7 +10359,7 @@ components:
       description: Information about the tag.
       properties:
         Key:
-          description: The key of the tag, with a minimum of 1 character.
+          description: The key of the tag, between 1 and 255 characters.
           type: string
         ResourceId:
           description: The ID of the resource.
@@ -12296,12 +12300,12 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.37.1
-  x-osc-api-osc-billing: 1.37.0
-  x-osc-api-osc-cloud-region: 1.36.0
+  version: 1.38.3
+  x-osc-api-osc-billing: 1.37.1
+  x-osc-api-osc-cloud-region: 1.36.1
   x-osc-api-osc-cloud-vision: 1.36.0
-  x-osc-api-osc-core-iaas: 1.36.1
-  x-osc-api-osc-iam: 1.37.0
+  x-osc-api-osc-core-iaas: 1.37.1
+  x-osc-api-osc-iam: 1.37.3
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -13184,7 +13188,7 @@ paths:
     post:
       description: |-
         Creates an internet service you can use with a Net.<br />
-        An internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IP addresses.<br /><br />
+        An internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IPs.<br /><br />
         For more information, see [About Internet Services](https://docs.outscale.com/en/userguide/About-Internet-Services.html).
       operationId: CreateInternetService
       requestBody:
@@ -14218,6 +14222,10 @@ paths:
       description: |-
         Creates a version of a specified managed policy.<br />
         A managed policy can have up to five versions.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when attaching, detaching, or updating a managed policy.
       operationId: CreatePolicyVersion
       requestBody:
         content:
@@ -14545,7 +14553,7 @@ paths:
 
         (Net only) An outbound rule works similarly but allows the security group to send traffic rather than receive traffic.<br />
 
-        Alternatively, you can use the `Rules` parameter to add several rules at the same time.
+        Alternatively, you can use the `Rules` parameter to add several rules at the same time. Note that the `SecurityGroupName` subparameter can only be used for security groups in the public Cloud.
 
         **[NOTE]**<br />
         * The modifications are effective as quickly as possible, but a small delay may occur.<br />
@@ -14948,7 +14956,6 @@ paths:
         * Nets (vpc-xxxxxxxx)<br />
         * Network interface cards (NIC) (eni-xxxxxxxx)<br />
         * OMI export tasks (image-export-xxxxxxxx)<br />
-        * OMIs (ami-xxxxxxxx)<br />
         * Public IPs (eipalloc-xxxxxxxx)<br />
         * Route tables (rtb-xxxxxxxx)<br />
         * Security groups (sg-xxxxxxxx)<br />
@@ -16747,7 +16754,12 @@ paths:
       - Policy
   /DeletePolicyVersion:
     post:
-      description: Deletes a specified version of a managed policy, if it is not set as the default one.
+      description: |-
+        Deletes a specified version of a managed policy, if it is not set as the default one.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when attaching, detaching, or updating a managed policy.
       operationId: DeletePolicyVersion
       requestBody:
         content:
@@ -17024,10 +17036,13 @@ paths:
   /DeleteSecurityGroupRule:
     post:
       description: |-
-        Deletes one or more inbound or outbound rules from a security group. For the rule to be deleted, the values specified in the deletion request must exactly match the value of the existing rule.<br />
+        Deletes one or more inbound or outbound rules from a security group.<br />
+        For the rule to be deleted, the values specified in the deletion request must exactly match the value of the existing rule.<br />
         In case of TCP and UDP protocols, you have to indicate the destination port or range of ports. In case of ICMP protocol, you have to specify the ICMP type and code numbers.<br />
         Rules (IP permissions) consist of the protocol, IP range or source security group.<br />
-        To remove outbound access to a destination security group, we recommend to use a set of IP permissions. We also recommend to specify the protocol in a set of IP permissions.
+        To remove outbound access to a destination security group, we recommend to use a set of IP permissions. We also recommend to specify the protocol in a set of IP permissions.<br />
+
+        Alternatively, you can use the `Rules` parameter to delete several rules at the same time.
       operationId: DeleteSecurityGroupRule
       requestBody:
         content:
@@ -17360,7 +17375,12 @@ paths:
       - UserGroup
   /DeleteUserGroupPolicy:
     post:
-      description: Deletes a specified inline policy from a specific group.
+      description: |-
+        Deletes a specified inline policy from a specific group.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when creating or deleting an inline policy.
       operationId: DeleteUserGroupPolicy
       requestBody:
         content:
@@ -17389,7 +17409,12 @@ paths:
       - Policy
   /DeleteUserPolicy:
     post:
-      description: Deletes a specified inline policy from a specific user.
+      description: |-
+        Deletes a specified inline policy from a specific user.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when creating or deleting an inline policy.
       operationId: DeleteUserPolicy
       requestBody:
         content:
@@ -18006,7 +18031,12 @@ paths:
       - LoadBalancer
   /LinkManagedPolicyToUserGroup:
     post:
-      description: Links a managed policy to a specific group. This policy applies to all the users contained in this group.
+      description: |-
+        Links a managed policy to a specific group. This policy applies to all the users contained in this group.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when attaching, detaching, or updating a managed policy.
       operationId: LinkManagedPolicyToUserGroup
       requestBody:
         content:
@@ -18084,7 +18114,12 @@ paths:
       - Nic
   /LinkPolicy:
     post:
-      description: Links a managed policy to a specific user.
+      description: |-
+        Links a managed policy to a specific user.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when attaching, detaching, or updating a managed policy.
       operationId: LinkPolicy
       requestBody:
         content:
@@ -18368,6 +18403,10 @@ paths:
       description: |-
         Creates or updates an inline policy included in a specified group.<br />
         The policy is automatically applied to all the users of the group after its creation.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when creating or deleting an inline policy.
       operationId: PutUserGroupPolicy
       requestBody:
         content:
@@ -18400,6 +18439,10 @@ paths:
       description: |-
         Creates or updates an inline policy included in a specified user.<br />
         The policy is automatically applied to the user after its creation.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when creating or deleting an inline policy.
       operationId: PutUserPolicy
       requestBody:
         content:
@@ -18982,8 +19025,8 @@ paths:
                       Type: BoxUsage:tinav5.c4r8p2
                     - FromDate: 2023-06-01T00:00:00.000+0000
                       SubregionName: eu-west-2a
-                      Value: 720
-                      Title: Instance - On demand - tinav4.c2r4 high performance - par heure
+                      Value: 1488
+                      Title: Instance - On demand - tinav5.c4r8 high performance - par heure
                       Category: compute
                       ToDate: 2023-06-30T00:00:00.000+0000
                       Service: TinaOS-FCU
@@ -19520,7 +19563,7 @@ paths:
     post:
       description: |-
         Lists one or more of your internet services.<br />
-        An internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows routing of incoming and outgoing Internet traffic and management of public IP addresses.
+        An internet service enables virtual machines (VMs) launched in a Net to connect to the Internet. It allows the routing of incoming and outgoing Internet traffic and management of public IPs.
       operationId: ReadInternetServices
       requestBody:
         content:
@@ -22392,6 +22435,10 @@ paths:
       description: |-
         Sets a specified version of a managed policy as the default (operative) one.<br />
         You can modify the default version of a policy at any time.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when attaching, detaching, or updating a managed policy.
       operationId: SetDefaultPolicyVersion
       requestBody:
         content:
@@ -22644,7 +22691,12 @@ paths:
       - LoadBalancer
   /UnlinkManagedPolicyFromUserGroup:
     post:
-      description: Unlinks a managed policy from a specific group.
+      description: |-
+        Unlinks a managed policy from a specific group.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when attaching, detaching, or updating a managed policy.
       operationId: UnlinkManagedPolicyFromUserGroup
       requestBody:
         content:
@@ -22719,7 +22771,12 @@ paths:
       - Nic
   /UnlinkPolicy:
     post:
-      description: Removes a managed policy from a specific user.
+      description: |-
+        Removes a managed policy from a specific user.
+        <br /><br />
+
+        **[IMPORTANT]**<br />
+        A delay of up to 15 seconds can occur when attaching, detaching, or updating a managed policy.
       operationId: UnlinkPolicy
       requestBody:
         content:
@@ -24898,6 +24955,7 @@ paths:
         Modifies the specified attributes of a volume.<br />
 
         **[WARNING]**<br />
+        - We recommend creating a snapshot of your volume before updating it, in case any issue occurs during the process. For more information, see [Creating a Snapshot of a Volume](https://docs.outscale.com/en/userguide/Creating-a-Snapshot-of-a-Volume.html).
         - Do not shut down or restart the virtual machine (VM) from within the guest operating system while a volume update is in progress. This interrupts the process and compromises the integrity of the volume.
         - When the modification is not instantaneous, the response displays the previous value. You can use the [ReadVolumeUpdateTasks](#readvolumeupdatetasks) method to see the progression of the update.<br />
       operationId: UpdateVolume
