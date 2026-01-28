@@ -593,6 +593,9 @@ components:
           description: The total price of the consumed resource during the specified time period, in the currency of the Region's catalog.
           format: double
           type: number
+        ResourceId:
+          description: The ID of the consumed resource.
+          type: string
         Service:
           description: The service of the API call (`TinaOS-FCU`, `TinaOS-LBU`, `TinaOS-DirectLink`, `TinaOS-OOS`, `TinaOS-OSU`, or `OKS`).
           type: string
@@ -7804,7 +7807,11 @@ components:
           description: If false, returns only the consumption of the specific account that sends this request. If true, returns either the overall consumption of your paying account and all linked accounts (if the account that sends this request is a paying account) or returns nothing (if the account that sends this request is a linked account).
           type: boolean
         ShowPrice:
-          description: If true, the response also includes the unit price of the consumed resource (`UnitPrice`) and the total price of the consumed resource during the specified time period (`Price`), in the currency of your account.
+          description: If true, the response also includes the unit price of the consumed resource (`UnitPrice`) and the total price of the consumed resource during the specified time period (`Price`), in the currency of the Region's catalog.
+          type: boolean
+        ShowResourceDetails:
+          default: false
+          description: By default or if false, returns the consumption aggregated by resource type. If true, the response returns the consumption per `ResourceId`.
           type: boolean
         ToDate:
           description: The end of the time period, in ISO 8601 date format (for example, `2020-06-30`). The date-time format is also accepted, but only with a time set to midnight (for example, `2020-06-30T00:00:00.000Z`). This value is excluded from the time period, and must be set to a later date than `FromDate`.
@@ -12300,12 +12307,12 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.38.3
-  x-osc-api-osc-billing: 1.37.1
+  version: 1.39.1
+  x-osc-api-osc-billing: 1.38.0
   x-osc-api-osc-cloud-region: 1.36.1
   x-osc-api-osc-cloud-vision: 1.36.0
   x-osc-api-osc-core-iaas: 1.37.1
-  x-osc-api-osc-iam: 1.37.3
+  x-osc-api-osc-iam: 1.37.4
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -19008,7 +19015,14 @@ paths:
                 value:
                   FromDate: '2023-06-01'
                   ToDate: '2023-07-01'
+                  ShowPrice: false
+                  ShowResourceDetails: false
+              ex2:
+                value:
+                  FromDate: '2023-06-01'
+                  ToDate: '2023-07-01'
                   ShowPrice: true
+                  ShowResourceDetails: true
       responses:
         '200':
           content:
@@ -19017,6 +19031,7 @@ paths:
                 $ref: '#/components/schemas/ReadConsumptionAccountResponse'
               examples:
                 ex1:
+                  summary: ReadConsumptionAccount with ShowPrice and ShowResourceDetails at false
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
@@ -19033,6 +19048,42 @@ paths:
                       AccountId: '123456789012'
                       PayingAccountId: '123456789012'
                       Operation: RunInstances-OD
+                      Type: BoxUsage:tinav5.c4r8p2
+                ex2:
+                  summary: ReadConsumptionAccount with ShowPrice and ShowResourceDetails at true
+                  value:
+                    ResponseContext:
+                      RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    Currency: EUR
+                    ConsumptionEntries:
+                    - FromDate: 2023-06-01T00:00:00.000+0000
+                      SubregionName: eu-west-2a
+                      Value: 720
+                      Title: Instance - On demand - tinav5.c4r8 high performance - par heure
+                      Category: compute
+                      ToDate: 2023-06-30T00:00:00.000+0000
+                      Service: TinaOS-FCU
+                      AccountId: '123456789012'
+                      PayingAccountId: '123456789012'
+                      Operation: RunInstances-OD
+                      Type: BoxUsage:tinav5.c4r8p2
+                      UnitPrice: 0.18
+                      Price: 267.84
+                      ResourceId: i-12345678
+                    - FromDate: 2023-06-01T00:00:00.000+0000
+                      SubregionName: eu-west-2a
+                      Value: 1488
+                      Title: Instance - On demand - tinav5.c4r8p2 high performance - par heure
+                      Category: compute
+                      ToDate: 2023-06-30T00:00:00.000+0000
+                      Service: TinaOS-FCU
+                      AccountId: '123456789012'
+                      PayingAccountId: '123456789012'
+                      Operation: RunInstances-OD
+                      Type: BoxUsage:tinav5.c4r8p2
+                      UnitPrice: 0.18
+                      Price: 267.84
+                      ResourceId: i-87654321
           description: The HTTP 200 response (OK).
       tags:
       - Account
