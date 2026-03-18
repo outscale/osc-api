@@ -27,7 +27,7 @@ components:
       description: Information about the accepter Net.
       properties:
         AccountId:
-          description: The account ID of the owner of the accepter Net.
+          description: The OUTSCALE account ID of the owner of the accepter Net.
           type: string
         IpRange:
           description: The IP range for the accepter Net, in CIDR notation (for example, `10.0.0.0/16`).
@@ -574,7 +574,7 @@ components:
       description: Information about the resources consumed during the specified time period.
       properties:
         AccountId:
-          description: The ID of your TINA account.
+          description: The ID of your OUTSCALE account.
           type: string
         Category:
           description: The category of the resource (for example, `network`).
@@ -587,7 +587,7 @@ components:
           description: The API call that triggered the resource consumption (for example, `RunInstances` or `CreateVolume`).
           type: string
         PayingAccountId:
-          description: The ID of the TINA account which is billed for your consumption. It can be different from your account in the `AccountId` parameter.
+          description: The ID of the OUTSCALE account which is billed for your consumption. It can be different from your account in the `AccountId` parameter.
           type: string
         Price:
           description: The total price of the consumed resource during the specified time period, in the currency of the Region's catalog.
@@ -628,7 +628,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         ExpirationDate:
-          description: The date and time, or the date, at which you want the access key to expire, in ISO 8601 format (for example, `2020-06-14T00:00:00.000Z`, or `2020-06-14`). To remove an existing expiration date, use the method without specifying this parameter.
+          description: The date and time, or the date, at which you want the access key to expire, in ISO 8601 format (for example, `2020-06-14T00:00:00.000Z`, or `2020-06-14`). If not specified, the access key is set to not expire.
           oneOf:
           - format: date-time
             type: string
@@ -638,7 +638,7 @@ components:
           description: A tag to add to the access key.
           type: string
         UserName:
-          description: The name of the EIM user that owns the key to be created. If you do not specify a user name, this action creates an access key for the user who sends the request (which can be the root account).
+          description: The name of the EIM user that owns the key to be created. If you do not specify a user name, this action creates an access key for the user who sends the request (which can be the root user).
           type: string
       type: object
     CreateAccessKeyResponse:
@@ -999,10 +999,10 @@ components:
       additionalProperties: false
       properties:
         Architecture:
-          description: '**When registering from a snapshot:** The architecture of the OMI (`i386` or `x86_64`). By default, set to `x86_64`.'
+          description: '**(when registering from a snapshot)** The architecture of the OMI (`i386` or `x86_64`). By default, set to `x86_64`.'
           type: string
         BlockDeviceMappings:
-          description: '**(required) When registering from a snapshot:** One or more block device mappings.'
+          description: '**(required when registering from a snapshot)** One or more block device mappings.'
           items:
             $ref: '#/components/schemas/BlockDeviceMappingImage'
           type: array
@@ -1018,7 +1018,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         FileLocation:
-          description: '**(required) When registering from a bucket by using a manifest file:** The pre-signed URL of the manifest file for the OMI you want to register. For more information, see [Creating a Pre-signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).'
+          description: '**(required when registering from a bucket by using a manifest file)** The pre-signed URL of the manifest file for the OMI you want to register. For more information, see [Creating a Pre-signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).'
           type: string
         ImageName:
           description: |-
@@ -1026,7 +1026,7 @@ components:
             Constraints: 3-128 alphanumeric characters, underscores (`_`), spaces (` `), parentheses (`()`), slashes (`/`), periods (`.`), or dashes (`-`).
           type: string
         NoReboot:
-          description: '**When creating from a VM:** If false, the VM shuts down before creating the OMI and then reboots. If true, the VM does not.'
+          description: '**(when creating from a VM)** If false, the VM shuts down before creating the OMI and then reboots. If true, the VM does not.'
           type: boolean
         ProductCodes:
           description: The product codes associated with the OMI.
@@ -1034,19 +1034,19 @@ components:
             type: string
           type: array
         RootDeviceName:
-          description: '**(required) When registering from a snapshot:** The name of the root device for the new OMI.'
+          description: '**(required when registering from a snapshot)** The name of the root device for the new OMI.'
           type: string
         SourceImageId:
-          description: '**(required) When copying an OMI:** The ID of the OMI you want to copy.'
+          description: '**(required when copying an OMI)** The ID of the OMI you want to copy.'
           type: string
         SourceRegionName:
-          description: '**(required) When copying an OMI:** The name of the source Region (always the same as the Region of your account).'
+          description: '**(required when copying an OMI)** The name of the source Region (always the same as the Region of your account).'
           type: string
         TpmMandatory:
           description: By default or if set to false, a virtual Trusted Platform Module (vTPM) is not mandatory on VMs created from this OMI. If true, VMs created from this OMI must have a vTPM enabled.
           type: boolean
         VmId:
-          description: '**(required) When creating from a VM:** The ID of the VM from which you want to create the OMI.'
+          description: '**(required when creating from a VM)** The ID of the VM from which you want to create the OMI.'
           type: string
       type: object
     CreateImageResponse:
@@ -1347,11 +1347,11 @@ components:
         AccepterNetId:
           description: |-
             The ID of the Net you want to connect with. <br/ > <br/ >
-            If the Net does not belong to you, you must also specify the `AccepterOwnerId` parameter with the account ID owning the Net you want to connect with.
+            If the Net does not belong to you, you must also specify the `AccepterOwnerId` parameter with the OUTSCALE account ID owning the Net you want to connect with.
           type: string
         AccepterOwnerId:
           description: |-
-            The account ID of the owner of the Net you want to connect with. By default, the account ID of the owner of the Net from which the peering request is sent. <br /><br/ >
+            The OUTSCALE account ID of the owner of the Net you want to connect with. By default, the account ID of the owner of the Net from which the peering request is sent. <br /><br/ >
             This parameter is required if the Net you want to connect with does not belong to you.
           type: string
         DryRun:
@@ -1413,10 +1413,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         PrivateIps:
-          description: |-
-            The primary private IP for the NIC.<br />
-            This IP must be within the IP range of the Subnet that you specify with the `SubnetId` attribute.<br />
-            If you do not specify this attribute, a random private IP is selected within the IP range of the Subnet.
+          description: Information about the private IP or IPs of the NIC. If you do not specify a primary private IP, one is still created, with an IP randomly selected within the IP range of the Subnet.
           items:
             $ref: '#/components/schemas/PrivateIpLight'
           type: array
@@ -1663,7 +1660,7 @@ components:
             $ref: '#/components/schemas/SecurityGroupRule'
           type: array
         SecurityGroupAccountIdToLink:
-          description: The account ID that owns the source or destination security group specified in the `SecurityGroupNameToLink` parameter.
+          description: The OUTSCALE account ID that owns the source or destination security group specified in the `SecurityGroupNameToLink` parameter.
           type: string
         SecurityGroupId:
           description: The ID of the security group for which you want to create a rule.
@@ -2082,7 +2079,7 @@ components:
           description: (dedicated tenancy only) If true, nested virtualization is enabled. If false, it is disabled.
           type: boolean
         Nics:
-          description: One or more NICs. If you specify this parameter, you must not specify the `SubnetId` and `SubregionName` parameters. You also must define one NIC as the primary network interface of the VM with `0` as its device number.
+          description: One or more NICs. If you specify this parameter, you must define one NIC as the primary network interface of the VM with `0` as its device number.
           items:
             $ref: '#/components/schemas/NicForVmCreation'
           type: array
@@ -2098,7 +2095,7 @@ components:
           $ref: '#/components/schemas/Placement'
           description: Information about the placement of the VM.
         PrivateIps:
-          description: One or more private IPs of the VM.
+          description: One or more private IPs of the VM. These IPs must be within the IP range of the Subnet that you specify with the `SubnetId` parameter. However, they cannot be one of the first four IPs (ending in `.0`, `.1`, `.2`, `.3`) or the last IP (ending in `.255`) of the Subnet, as these are reserved by 3DS OUTSCALE. For more information, see [About Nets](https://docs.outscale.com/en/userguide/About-Nets.html).
           items:
             type: string
           type: array
@@ -2113,10 +2110,10 @@ components:
             type: string
           type: array
         SubnetId:
-          description: The ID of the Subnet in which you want to create the VM. If you specify this parameter, you must not specify the `Nics` parameter.
+          description: The ID of the Subnet in which you want to create the VM.
           type: string
         TpmEnabled:
-          description: If true, a virtual Trusted Platform Module (vTPM) is enabled on the VM. If false, it is not.
+          description: If true, a virtual Trusted Platform Module (vTPM) is enabled on the VM. If false, it is not.<br />The default behavior for this parameter varies depending on the source OMI of the VM.<br />If the `TpmMandatory` parameter of the source OMI is true, a vTPM has to be attached to the VM and it will be created by default. Setting `TpmEnabled` to false will cause the creation request to fail.<br />If the `TpmMandatory` parameter of the source OMI is false, only setting `TpmEnabled` to true will create and attach a vTPM to the VM.
           type: boolean
         UserData:
           description: Data or script used to add a specific configuration to the VM. It must be Base64-encoded and is limited to 500 kibibytes (KiB). For more information about user data, see [Configuring a VM with User Data and OUTSCALE Tags](https://docs.outscale.com/en/userguide/Configuring-a-VM-with-User-Data-and-OUTSCALE-Tags.html).
@@ -2245,7 +2242,7 @@ components:
       description: Information about the dedicated group.
       properties:
         AccountId:
-          description: The account ID of the owners of the dedicated group.
+          description: The OUTSCALE account ID of the owners of the dedicated group.
           type: string
         CpuGeneration:
           description: The processor generation.
@@ -2280,7 +2277,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         UserName:
-          description: The name of the EIM user the access key you want to delete is associated with. By default, the user who sends the request (which can be the root account).
+          description: The name of the EIM user the access key you want to delete is associated with. By default, the user who sends the request (which can be the root user).
           type: string
       required:
       - AccessKeyId
@@ -2612,6 +2609,9 @@ components:
     DeleteLoadBalancerResponse:
       additionalProperties: false
       properties:
+        LoadBalancer:
+          $ref: '#/components/schemas/LoadBalancer'
+          description: Information about the load balancer.
         ResponseContext:
           $ref: '#/components/schemas/ResponseContext'
           description: Information about the context of the response.
@@ -2910,7 +2910,7 @@ components:
             $ref: '#/components/schemas/SecurityGroupRule'
           type: array
         SecurityGroupAccountIdToUnlink:
-          description: The account ID of the owner of the security group you want to delete a rule from.
+          description: The OUTSCALE account ID of the owner of the security group you want to delete a rule from.
           type: string
         SecurityGroupId:
           description: The ID of the security group you want to delete a rule from.
@@ -3320,7 +3320,7 @@ components:
       description: Information about the DirectLink.
       properties:
         AccountId:
-          description: The account ID of the owner of the DirectLink.
+          description: The OUTSCALE account ID of the owner of the DirectLink.
           type: string
         Bandwidth:
           description: The physical link bandwidth (either 1 Gbps or 10 Gbps).
@@ -3386,7 +3386,7 @@ components:
       description: Information about the DirectLink interfaces.
       properties:
         AccountId:
-          description: The account ID of the owner of the DirectLink interface.
+          description: The OUTSCALE account ID of the owner of the DirectLink interface.
           type: string
         BgpAsn:
           description: The BGP (Border Gateway Protocol) ASN (Autonomous System Number) on the customer's side of the DirectLink interface.
@@ -3830,16 +3830,6 @@ components:
             type: string
           type: array
       type: object
-    FiltersExportTask:
-      additionalProperties: false
-      description: One or more filters.
-      properties:
-        TaskIds:
-          description: The IDs of the export tasks.
-          items:
-            type: string
-          type: array
-      type: object
     FiltersFlexibleGpu:
       additionalProperties: false
       description: One or more filters.
@@ -3893,7 +3883,7 @@ components:
             type: string
           type: array
         AccountIds:
-          description: The account IDs of the owners of the OMIs. By default, all the OMIs for which you have launch permissions are described.
+          description: The OUTSCALE account IDs of the owners of the OMIs. By default, all the OMIs for which you have launch permissions are described.
           items:
             type: string
           type: array
@@ -3956,7 +3946,7 @@ components:
             type: string
           type: array
         PermissionsToLaunchAccountIds:
-          description: The account IDs which have launch permissions for the OMIs.
+          description: The OUTSCALE account IDs which have launch permissions for the OMIs.
           items:
             type: string
           type: array
@@ -4109,6 +4099,11 @@ components:
           items:
             type: string
           type: array
+        States:
+          description: The states of the load balancer (`provisioning` \| `starting` \| `reloading` \| `active` \| `reconfiguring` \| `deleting` \| `deleted`).
+          items:
+            type: string
+          type: array
       type: object
     FiltersNatService:
       additionalProperties: false
@@ -4243,7 +4238,7 @@ components:
       description: One or more filters.
       properties:
         AccepterNetAccountIds:
-          description: The account IDs of the owners of the peer Nets.
+          description: The OUTSCALE account IDs of the owners of the peer Nets.
           items:
             type: string
           type: array
@@ -4269,7 +4264,7 @@ components:
             type: string
           type: array
         SourceNetAccountIds:
-          description: The account IDs of the owners of the peer Nets.
+          description: The OUTSCALE account IDs of the owners of the peer Nets.
           items:
             type: string
           type: array
@@ -4340,7 +4335,7 @@ components:
             type: string
           type: array
         LinkNicVmAccountIds:
-          description: The account IDs of the owners of the VMs the NICs are attached to.
+          description: The OUTSCALE account IDs of the owners of the VMs the NICs are attached to.
           items:
             type: string
           type: array
@@ -4350,7 +4345,7 @@ components:
             type: string
           type: array
         LinkPublicIpAccountIds:
-          description: The account IDs of the owners of the public IPs associated with the NICs.
+          description: The OUTSCALE account IDs of the owners of the public IPs associated with the NICs.
           items:
             type: string
           type: array
@@ -4395,7 +4390,7 @@ components:
             type: string
           type: array
         PrivateIpsLinkPublicIpAccountIds:
-          description: The account IDs of the owner of the public IPs associated with the private IPs.
+          description: The OUTSCALE account IDs of the owner of the public IPs associated with the private IPs.
           items:
             type: string
           type: array
@@ -4473,7 +4468,7 @@ components:
             type: string
           type: array
         NicAccountIds:
-          description: The account IDs of the owners of the NICs.
+          description: The OUTSCALE account IDs of the owners of the NICs.
           items:
             type: string
           type: array
@@ -4544,6 +4539,36 @@ components:
           type: array
         ShortDescriptions:
           description: The description of the quotas.
+          items:
+            type: string
+          type: array
+      type: object
+    FiltersReadImageExportTask:
+      additionalProperties: false
+      description: One or more filters.
+      properties:
+        ImageIds:
+          description: The IDs of the OMIs used for the snapshot export tasks.
+          items:
+            type: string
+          type: array
+        TaskIds:
+          description: The IDs of the snapshot export tasks.
+          items:
+            type: string
+          type: array
+      type: object
+    FiltersReadVolumeUpdateTask:
+      additionalProperties: false
+      description: One or more filters.
+      properties:
+        TaskIds:
+          description: The IDs of the snapshot export tasks.
+          items:
+            type: string
+          type: array
+        VolumeIds:
+          description: The IDs of the volumes used for the snapshot export tasks.
           items:
             type: string
           type: array
@@ -4646,7 +4671,7 @@ components:
             type: string
           type: array
         InboundRuleAccountIds:
-          description: The account IDs that have been granted permissions.
+          description: The OUTSCALE account IDs that have been granted permissions.
           items:
             type: string
           type: array
@@ -4686,7 +4711,7 @@ components:
             type: string
           type: array
         OutboundRuleAccountIds:
-          description: The account IDs that have been granted permissions.
+          description: The OUTSCALE account IDs that have been granted permissions.
           items:
             type: string
           type: array
@@ -4781,7 +4806,7 @@ components:
             type: string
           type: array
         AccountIds:
-          description: The account IDs of the owners of the snapshots.
+          description: The OUTSCALE account IDs of the owners of the snapshots.
           items:
             type: string
           type: array
@@ -4800,7 +4825,7 @@ components:
           format: date-time
           type: string
         PermissionsToCreateVolumeAccountIds:
-          description: The account IDs which have permissions to create volumes.
+          description: The OUTSCALE account IDs which have permissions to create volumes.
           items:
             type: string
           type: array
@@ -4850,6 +4875,21 @@ components:
           description: The sizes of the volumes used to create the snapshots, in gibibytes (GiB).
           items:
             type: integer
+          type: array
+      type: object
+    FiltersSnapshotExportTask:
+      additionalProperties: false
+      description: One or more filters.
+      properties:
+        SnapshotIds:
+          description: The IDs of the snapshots used with the snapshot export tasks
+          items:
+            type: string
+          type: array
+        TaskIds:
+          description: The IDs of the snapshot export tasks.
+          items:
+            type: string
           type: array
       type: object
     FiltersSubnet:
@@ -4943,16 +4983,6 @@ components:
           type: array
         Values:
           description: The values of the tags that are assigned to the resources. You can use this filter alongside the `TagKeys` filter. In that case, you filter the resources corresponding to each tag, regardless of the other filter.
-          items:
-            type: string
-          type: array
-      type: object
-    FiltersUpdateVolumeTask:
-      additionalProperties: false
-      description: One or more filters.
-      properties:
-        TaskIds:
-          description: The IDs of the volume update tasks.
           items:
             type: string
           type: array
@@ -5149,7 +5179,7 @@ components:
             type: string
           type: array
         NicLinkNicVmAccountIds:
-          description: The account IDs of the owners of the VMs the NICs are attached to.
+          description: The OUTSCALE account IDs of the owners of the VMs the NICs are attached to.
           items:
             type: string
           type: array
@@ -5159,7 +5189,7 @@ components:
             type: string
           type: array
         NicLinkPublicIpAccountIds:
-          description: The account IDs of the owners of the public IPs associated with the NICs.
+          description: The OUTSCALE account IDs of the owners of the public IPs associated with the NICs.
           items:
             type: string
           type: array
@@ -5194,7 +5224,7 @@ components:
             type: string
           type: array
         NicPrivateIpsLinkPublicIpAccountIds:
-          description: The account IDs of the owner of the public IPs associated with the private IPs.
+          description: The OUTSCALE account IDs of the owner of the public IPs associated with the private IPs.
           items:
             type: string
           type: array
@@ -5546,14 +5576,20 @@ components:
         MaintenanceEventsNotAfter:
           description: The latest date and time (UTC) the event can end.
           items:
-            format: date
-            type: string
+            oneOf:
+            - format: date
+              type: string
+            - format: date-time
+              type: string
           type: array
         MaintenanceEventsNotBefore:
           description: The earliest date and time (UTC) the event can start.
           items:
-            format: date
-            type: string
+            oneOf:
+            - format: date
+              type: string
+            - format: date-time
+              type: string
           type: array
         SubregionNames:
           description: The names of the Subregions of the VMs.
@@ -6094,7 +6130,7 @@ components:
           description: The state of the attachment (`attaching` \| `attached` \| `detaching` \| `detached`).
           type: string
         VmAccountId:
-          description: The account ID of the owner of the VM.
+          description: The OUTSCALE account ID of the owner of the VM.
           type: string
         VmId:
           description: The ID of the VM.
@@ -6195,7 +6231,7 @@ components:
           description: The ID of the NIC.
           type: string
         PrivateIps:
-          description: The secondary private IP or IPs you want to assign to the NIC within the IP range of the Subnet.
+          description: The secondary private IP or IPs you want to assign to the NIC within the IP range of the Subnet. They cannot be one of the first four IPs (ending in `.0`, `.1`, `.2`, `.3`) or the last IP (ending in `.255`) of the Subnet, as these are reserved by 3DS OUTSCALE. For more information, see [About Nets](https://docs.outscale.com/en/userguide/About-Nets.html).
           items:
             type: string
           type: array
@@ -6226,7 +6262,7 @@ components:
           description: The public IP associated with the NIC.
           type: string
         PublicIpAccountId:
-          description: The account ID of the owner of the public IP.
+          description: The OUTSCALE account ID of the owner of the public IP.
           type: string
         PublicIpId:
           description: The allocation ID of the public IP.
@@ -6243,7 +6279,7 @@ components:
           description: The public IP associated with the NIC.
           type: string
         PublicIpAccountId:
-          description: The account ID of the owner of the public IP.
+          description: The OUTSCALE account ID of the owner of the public IP.
           type: string
       type: object
     LinkPublicIpRequest:
@@ -6596,6 +6632,9 @@ components:
           description: |-
             Information about the source security group of the load balancer, which you can use as part of your inbound rules for your registered VMs.<br />
             To only allow traffic from load balancers, add a security group rule that specifies this source security group as the inbound source.
+        State:
+          description: The state of the load balancer (`provisioning` \| `starting` \| `reloading` \| `active` \| `reconfiguring` \| `deleting` \| `deleted`).
+          type: string
         Subnets:
           description: The ID of the Subnet in which the load balancer was created.
           items:
@@ -6669,7 +6708,7 @@ components:
       description: Information about the log.
       properties:
         AccountId:
-          description: The account ID of the logged call.
+          description: The OUTSCALE account ID of the logged call.
           type: string
         CallDuration:
           description: The duration of the logged call, in microseconds.
@@ -6730,11 +6769,11 @@ components:
           type: string
         NotAfter:
           description: The latest scheduled end date and time (UTC) for the event.
-          format: date
+          format: date-time
           type: string
         NotBefore:
           description: The earliest scheduled start date and time (UTC) for the event.
-          format: date
+          format: date-time
           type: string
       type: object
     MinimalPolicy:
@@ -6887,7 +6926,7 @@ components:
       description: Information about the NIC.
       properties:
         AccountId:
-          description: The account ID of the owner of the NIC.
+          description: The OUTSCALE account ID of the owner of the NIC.
           type: string
         Description:
           description: The description of the NIC.
@@ -6976,7 +7015,7 @@ components:
       description: Information about the network interface card (NIC).
       properties:
         AccountId:
-          description: The account ID of the owner of the NIC.
+          description: The OUTSCALE account ID of the owner of the NIC.
           type: string
         Description:
           description: The description of the NIC.
@@ -7095,7 +7134,7 @@ components:
       description: Permissions for the resource.
       properties:
         AccountIds:
-          description: One or more account IDs that the permission is associated with.
+          description: One or more OUTSCALE account IDs that the permission is associated with.
           items:
             type: string
           type: array
@@ -7190,7 +7229,7 @@ components:
       description: Information about the placement of the VM.
       properties:
         SubregionName:
-          description: The name of the Subregion. If you specify this parameter, you must not specify the `Nics` parameter.
+          description: The name of the Subregion.
           type: string
         Tenancy:
           description: The tenancy of the VM (`default`, `dedicated`, or a dedicated group ID).
@@ -7297,7 +7336,7 @@ components:
           description: The name of the private DNS.
           type: string
         PrivateIp:
-          description: The private IP of the NIC.
+          description: A private IP for the NIC.
           type: string
       type: object
     PrivateIpLight:
@@ -7308,7 +7347,7 @@ components:
           description: If true, the IP is the primary private IP of the NIC.
           type: boolean
         PrivateIp:
-          description: The private IP of the NIC.
+          description: A private IP for the NIC. This IP must be within the IP range of the Subnet that you specify with the `SubnetId` parameter. However, it cannot be one of the first four IPs (ending in `.0`, `.1`, `.2`, `.3`) or the last IP (ending in `.255`) of the Subnet, as these are reserved by 3DS OUTSCALE. For more information, see [About Nets](https://docs.outscale.com/en/userguide/About-Nets.html).
           type: string
       type: object
     PrivateIpLightForVm:
@@ -7325,7 +7364,7 @@ components:
           description: The name of the private DNS.
           type: string
         PrivateIp:
-          description: The private IP.
+          description: A private IP for the NIC.
           type: string
       type: object
     ProductType:
@@ -7350,7 +7389,7 @@ components:
           description: (Required in a Net) The ID representing the association of the public IP with the VM or the NIC.
           type: string
         NicAccountId:
-          description: The account ID of the owner of the NIC.
+          description: The OUTSCALE account ID of the owner of the NIC.
           type: string
         NicId:
           description: The ID of the NIC the public IP is associated with (if any).
@@ -7446,7 +7485,7 @@ components:
       description: Information about the quota.
       properties:
         AccountId:
-          description: The account ID of the owner of the quotas.
+          description: The OUTSCALE account ID of the owner of the quotas.
           type: string
         Description:
           description: The description of the quota.
@@ -7493,7 +7532,7 @@ components:
           description: The tag added to the access key.
           type: string
         UserName:
-          description: The name of the EIM user. By default, the user who sends the request (which can be the root account).
+          description: The name of the EIM user. By default, the user who sends the request (which can be the root user).
           type: string
       type: object
     ReadAccessKeysResponse:
@@ -8055,7 +8094,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Filters:
-          $ref: '#/components/schemas/FiltersExportTask'
+          $ref: '#/components/schemas/FiltersReadImageExportTask'
           description: One or more filters.
         NextPageToken:
           description: The token to request the next page of results. Each token refers to a specific page.
@@ -8962,7 +9001,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Filters:
-          $ref: '#/components/schemas/FiltersExportTask'
+          $ref: '#/components/schemas/FiltersSnapshotExportTask'
           description: One or more filters.
         NextPageToken:
           description: The token to request the next page of results. Each token refers to a specific page.
@@ -9617,7 +9656,7 @@ components:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         Filters:
-          $ref: '#/components/schemas/FiltersUpdateVolumeTask'
+          $ref: '#/components/schemas/FiltersReadVolumeUpdateTask'
           description: One or more filters.
         NextPageToken:
           description: The token to request the next page of results. Each token refers to a specific page.
@@ -9880,7 +9919,7 @@ components:
           description: The state of a route in the route table (always `active`).
           type: string
         VmAccountId:
-          description: The account ID of the owner of the VM.
+          description: The OUTSCALE account ID of the owner of the VM.
           type: string
         VmId:
           description: The ID of a VM specified in a route in the table.
@@ -9999,7 +10038,7 @@ components:
       description: Information about the security group.
       properties:
         AccountId:
-          description: The account ID that has been granted permission.
+          description: The OUTSCALE account ID that has been granted permission.
           type: string
         Description:
           description: The description of the security group.
@@ -10077,7 +10116,7 @@ components:
       description: Information about a source or destination security group.
       properties:
         AccountId:
-          description: The account ID that owns the source or destination security group.
+          description: The OUTSCALE account ID that owns the source or destination security group.
           type: string
         SecurityGroupId:
           description: The ID of a source or destination security group that you want to link to the security group of the rule.
@@ -10156,7 +10195,7 @@ components:
           description: The account alias of the owner of the snapshot.
           type: string
         AccountId:
-          description: The account ID of the owner of the snapshot.
+          description: The OUTSCALE account ID of the owner of the snapshot.
           type: string
         ClientToken:
           description: The idempotency token provided when creating the snapshot.
@@ -10225,7 +10264,7 @@ components:
       description: Information about the source Net.
       properties:
         AccountId:
-          description: The account ID of the owner of the source Net.
+          description: The OUTSCALE account ID of the owner of the source Net.
           type: string
         IpRange:
           description: The IP range for the source Net, in CIDR notation (for example, `10.0.0.0/16`).
@@ -10241,7 +10280,7 @@ components:
         To only allow traffic from load balancers, add a security group rule that specifies this source security group as the inbound source.
       properties:
         SecurityGroupAccountId:
-          description: The account ID of the owner of the security group.
+          description: The OUTSCALE account ID of the owner of the security group.
           type: string
         SecurityGroupName:
           description: The name of the security group.
@@ -10654,11 +10693,17 @@ components:
         AccessKeyId:
           description: The ID of the access key.
           type: string
+        ClearExpirationDate:
+          description: If true, the current expiration date is deleted and the access key is set to not expire.
+          type: boolean
+        ClearTag:
+          description: If true, the current tag of the access key is deleted.
+          type: boolean
         DryRun:
           description: If true, checks whether you have the required permissions to perform the action.
           type: boolean
         ExpirationDate:
-          description: The date and time, or the date, at which you want the access key to expire, in ISO 8601 format (for example, `2020-06-14T00:00:00.000Z` or `2020-06-14`). If not specified, the access key is set to not expire.
+          description: The date and time, or the date, at which you want the access key to expire, in ISO 8601 format (for example, `2020-06-14T00:00:00.000Z` or `2020-06-14`). If not specified, the access key is set to not expire. If the `ClearExpirationDate` parameter is set to true, the expiration date is ignored.
           oneOf:
           - format: date-time
             type: string
@@ -10667,12 +10712,14 @@ components:
         State:
           description: The new state for the access key (`ACTIVE` \| `INACTIVE`). When set to `ACTIVE`, the access key is enabled and can be used to send requests. When set to `INACTIVE`, the access key is disabled.
           type: string
+        Tag:
+          description: A new tag to add to the access key. If the access key already had a tag, this replaces it. If the `ClearTag` parameter is set to true, the tag is ignored.
+          type: string
         UserName:
-          description: The name of the EIM user that the access key you want to modify is associated with. If you do not specify a user name, this action modifies the access key of the user who sends the request (which can be the root account).
+          description: The name of the EIM user that the access key you want to modify is associated with. If you do not specify a user name, this action modifies the access key of the user who sends the request (which can be the root user).
           type: string
       required:
       - AccessKeyId
-      - State
       type: object
     UpdateAccessKeyResponse:
       additionalProperties: false
@@ -11779,7 +11826,7 @@ components:
             $ref: '#/components/schemas/ResourceTag'
           type: array
         TpmEnabled:
-          description: If true, a virtual Trusted Platform Module (vTPM) is enabled on the VM. If false, it is not.
+          description: If true, a virtual Trusted Platform Module (vTPM) is enabled on the VM. If false, it is not.<br />The default behavior for this parameter varies depending on the source OMI of the VM.<br />If the `TpmMandatory` parameter of the source OMI is true, a vTPM has to be attached to the VM and it will be created by default. Setting `TpmEnabled` to false will cause the creation request to fail.<br />If the `TpmMandatory` parameter of the source OMI is false, only setting `TpmEnabled` to true will create and attach a vTPM to the VM.
           type: boolean
         UserData:
           description: The Base64-encoded MIME user data.
@@ -12165,7 +12212,7 @@ components:
       properties:
         AccountId:
           default: true
-          description: If true, the account ID is displayed.
+          description: If true, the OUTSCALE account ID is displayed.
           type: boolean
         CallDuration:
           default: true
@@ -12281,7 +12328,7 @@ info:
     > If you try to sign requests with an invalid access key four times in a row, further authentication attempts will be prevented for 1 minute. This lockout time increases 1 minute every four failed attempts, for up to 10 minutes.
 
     ### Login/Password
-    For certain API actions, you can also use basic authentication with the login (email address) and password of your TINA account.<br />
+    For certain API actions, you can also use basic authentication with the login (email address) and password of your OUTSCALE account.<br />
     This is useful only in special circumstances, for example if you do not know your access key/secret key and want to retrieve them programmatically.<br />
     In most cases, however, you can use the Cockpit web interface to retrieve them.<br />
 
@@ -12307,12 +12354,12 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.39.1
+  version: 1.40.1
   x-osc-api-osc-billing: 1.38.0
-  x-osc-api-osc-cloud-region: 1.36.1
+  x-osc-api-osc-cloud-region: 1.37.0
   x-osc-api-osc-cloud-vision: 1.36.0
-  x-osc-api-osc-core-iaas: 1.37.1
-  x-osc-api-osc-iam: 1.37.4
+  x-osc-api-osc-core-iaas: 1.38.1
+  x-osc-api-osc-iam: 1.37.5
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -12419,7 +12466,7 @@ paths:
       - UserGroup
   /CheckAuthentication:
     post:
-      description: Validates the authenticity of the account.
+      description: Validates the authenticity of the OUTSCALE account.
       operationId: CheckAuthentication
       requestBody:
         content:
@@ -12448,7 +12495,7 @@ paths:
   /CreateAccessKey:
     post:
       description: |-
-        Creates an access key for either your root account or an EIM user. The new key is automatically set to `ACTIVE`.<br /><br />
+        Creates an access key for either the root user or an EIM user. The new key is automatically set to `ACTIVE`.<br /><br />
         For more information, see [About Access Keys](https://docs.outscale.com/en/userguide/About-Access-Keys.html).
       operationId: CreateAccessKey
       requestBody:
@@ -12496,7 +12543,7 @@ paths:
         * You need OUTSCALE credentials and the appropriate quotas to create an account via API. To get quotas, you can send an email to sales@outscale.com.<br />
         * If you want to pass a numeral value as a string instead of an integer, you must wrap your string in additional quotes (for example, `'&quot;92000&quot;'`).
 
-        For more information, see [About Your Account](https://docs.outscale.com/en/userguide/About-Your-Account.html).
+        For more information, see [About Your Account](https://docs.outscale.com/en/userguide/About-Your-OUTSCALE-Account.html).
       operationId: CreateAccount
       requestBody:
         content:
@@ -12540,7 +12587,7 @@ paths:
   /CreateApiAccessRule:
     post:
       description: |-
-        Creates a rule to allow access to the API from your account.<br />
+        Creates a rule to allow access to the API from your OUTSCALE account.<br />
         You need to specify at least the `CaIds` or the `IpRanges` parameter.<br /><br />
 
         **[NOTE]**<br />
@@ -12883,7 +12930,7 @@ paths:
   /CreateFlexibleGpu:
     post:
       description: |-
-        Allocates a flexible GPU (fGPU) to your account.<br />
+        Allocates a flexible GPU (fGPU) to your OUTSCALE account.<br />
         You can then attach this fGPU to a virtual machine (VM).<br /><br />
         For more information, see [About Flexible GPUs](https://docs.outscale.com/en/userguide/About-Flexible-GPUs.html).
       operationId: CreateFlexibleGpu
@@ -12927,8 +12974,8 @@ paths:
         Creates an OUTSCALE machine image (OMI).<br />
         You can use this method for different use cases:
         * **Creating from a VM**: You create an OMI from one of your virtual machines (VMs).<br>
-        * **Copying an OMI**: You copy an existing OMI. The source OMI can be one of your own OMIs, or an OMI owned by another account that has granted you permission via the [UpdateImage](#updateimage) method.<br>
-        * **Registering from a snapshot**: You register an OMI from an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br>
+        * **Copying an OMI**: You copy an existing OMI. The source OMI can be one of your own OMIs, or an OMI owned by another OUTSCALE account that has granted you permission via the [UpdateImage](#updateimage) method.<br>
+        * **Registering from a snapshot**: You register an OMI from an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another OUTSCALE account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br>
         * **Registering from a bucket by using a manifest file**: You register an OMI from the manifest file of an OMI that was exported to an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source OMI must export it to the bucket by using the [CreateImageExportTask](#createimageexporttask) method. Then, they must grant you permission to read the manifest file via a pre-signed URL. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).
 
         **[TIP]**<br />
@@ -13145,12 +13192,14 @@ paths:
     post:
       description: |-
         Exports an OUTSCALE machine image (OMI) to an OUTSCALE Object Storage (OOS) bucket.<br />
-        This enables you to copy an OMI between accounts in different Regions.<br /><br />
+        This enables you to copy an OMI between OUTSCALE accounts in different Regions.<br /><br />
         This action creates the necessary snapshots and manifest file in the bucket. The OMI can then be imported to another account using a pre-signed URL of its manifest file. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).<br /><br />
         To copy an OMI in the same Region, you can also use the [CreateImage](#createimage) method.<br />
 
         **[IMPORTANT]**<br />
-        You cannot export a shared or public OMI, as they do not belong to you. To do so, you must first copy it to your account. The copy then belongs to you and you can export it.<br /><br />
+        * You cannot export a shared or public OMI, as they do not belong to you. To do so, you must first copy it to your account. The copy then belongs to you and you can export it.<br />
+        * Export tasks can only be canceled while in the `pending/queued` state.
+
         For more information, see [About OMIs](https://docs.outscale.com/en/userguide/About-OMIs.html).
       operationId: CreateImageExportTask
       requestBody:
@@ -13246,7 +13295,7 @@ paths:
       description: |-
         Creates a keypair to use with your virtual machines (VMs).<br />
         You can use this method in two different ways:
-        * **Creating a keypair**: In that case, 3DS OUTSCALE creates a 2048-bit RSA keypair, stores its public key in your account, and returns its private key in the response of the call so that you can save it in a file.<br />
+        * **Creating a keypair**: In that case, 3DS OUTSCALE creates a 2048-bit RSA keypair, stores its public key in your OUTSCALE account, and returns its private key in the response of the call so that you can save it in a file.<br />
         When you save the returned private key, make sure you replace the `\n` escape sequences with real line breaks.
         * **Importing a keypair created locally**: If you already have a keypair that you have created locally with a third-party tool, you can import its public key in your account. The following types of key can be imported: RSA (2048 bits or preferably 4096 bits), Ed25519, and ECDSA (256 bits, 384 bits, or 521 bits). The following formats can be used: PEM, PKCS8, RFC4716, and OpenSSH.
 
@@ -13940,7 +13989,7 @@ paths:
         Creates a Net access point to access an OUTSCALE service from this Net without using the Internet and public IPs.<br />
         You specify the service using its name. For more information about the available services, see [ReadNetAccessPointServices](#readnetaccesspointservices).<br /> <br />
         To control the routing of traffic between the Net and the specified service, you can specify one or more route tables. Virtual machines placed in Subnets associated with the specified route table thus use the Net access point to access the service. When you specify a route table, a route is automatically added to it with the destination set to the prefix list ID of the service, and the target set to the ID of the access point.<br /><br />
-        When a Net access point is created, a public IP is automatically allocated to your account and used for the Net access point. This public IP is not connected to the Internet. It is counted in your quota, but it is not billed.<br /> <br />
+        When a Net access point is created, a public IP is automatically allocated to your OUTSCALE account and used for the Net access point. This public IP is not connected to the Internet. It is counted in your quota, but it is not billed.<br /> <br />
         For more information, see [About Net Access Points](https://docs.outscale.com/en/userguide/About-Net-Access-Points.html).
       operationId: CreateNetAccessPoint
       requestBody:
@@ -13980,7 +14029,7 @@ paths:
   /CreateNetPeering:
     post:
       description: |-
-        Requests a Net peering between a Net you own and a peer Net that belongs to you or another account.<br />
+        Requests a Net peering between a Net you own and a peer Net that belongs to you or another OUTSCALE account.<br />
         This action creates a Net peering that remains in the `pending-acceptance` state until it is accepted by the owner of the peer Net. If the owner of the peer Net does not accept the request within 7 days, the state of the Net peering becomes `expired`. For more information, see [AcceptNetPeering](#acceptnetpeering).<br /><br />
 
         **[IMPORTANT]**<br />
@@ -14722,7 +14771,7 @@ paths:
         Creates a snapshot. Snapshots are point-in-time images of a volume that you can use to back up your data or to create replicas of this volume.<br />
         You can use this method in three different ways:
         * **Creating from a volume**: You create a snapshot from one of your volumes.<br />
-        * **Copying a snapshot**: You copy an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br />
+        * **Copying a snapshot**: You copy an existing snapshot. The source snapshot can be one of your own snapshots, or a snapshot owned by another OUTSCALE account that has granted you permission via the [UpdateSnapshot](#updatesnapshot) method.<br />
         * **Importing from a bucket**: You import a snapshot located in an OUTSCALE Object Storage (OOS) bucket. First, the owner of the source snapshot must export it to a bucket by using the [CreateSnapshotExportTask](#createsnapshotexporttask) method. Then, they must grant you permission to read the snapshot via a pre-signed URL. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).
 
         **[NOTE]**<br />
@@ -14839,7 +14888,9 @@ paths:
     post:
       description: |-
         Exports a snapshot to an OUTSCALE Object Storage (OOS) bucket that belongs to you. This action enables you to create a backup of your snapshot.<br /><br />
-        You can share this snapshot with others accounts by granting permission to read it via pre-signed URLs. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).<br /><br />
+        You can share this snapshot with others OUTSCALE accounts by granting permission to read it via pre-signed URLs. For more information, see [Creating a Pre-Signed URL](https://docs.outscale.com/en/userguide/Creating-a-Pre-Signed-URL.html).<br /><br />
+        **[IMPORTANT]**<br />
+        Export tasks can only be canceled while in the `pending/queued` state.<br /><br />
         For more information, see [About Snapshots](https://docs.outscale.com/en/userguide/About-Snapshots.html).
       operationId: CreateSnapshotExportTask
       requestBody:
@@ -15024,7 +15075,7 @@ paths:
   /CreateUser:
     post:
       description: |-
-        Creates an EIM user for your account.<br /><br />
+        Creates an EIM user for your OUTSCALE account.<br /><br />
         For more information, see [About EIM Users](https://docs.outscale.com/en/userguide/About-EIM-Users.html).
       operationId: CreateUser
       requestBody:
@@ -15139,7 +15190,7 @@ paths:
         > This feature is currently under development and may not function properly.<br />
 
         Creates a group of virtual machines (VMs) containing the same characteristics as a specified VM template, and then launches them.<br />
-        You can create up to 100 VM groups in your account.
+        You can create up to 100 VM groups in your OUTSCALE account.
       operationId: CreateVmGroup
       requestBody:
         content:
@@ -15215,7 +15266,7 @@ paths:
         > This feature is currently under development and may not function properly.<br />
 
         Creates a virtual machine (VM) template. You can then use the VM template to create VM groups.<br />
-        You can create up to 50 VM templates in your account.
+        You can create up to 50 VM templates in your OUTSCALE account.
       operationId: CreateVmTemplate
       requestBody:
         content:
@@ -15798,7 +15849,7 @@ paths:
   /DeleteAccessKey:
     post:
       description: |-
-        Deletes the specified access key of either your root account or an EIM user.<br /><br />
+        Deletes the specified access key of either the root user or an EIM user.<br /><br />
         The access key of an EIM user must be in the `INACTIVE` state to be deleted.
       operationId: DeleteAccessKey
       requestBody:
@@ -15808,7 +15859,7 @@ paths:
               $ref: '#/components/schemas/DeleteAccessKeyRequest'
             examples:
               ex1:
-                summary: Deleting one of your own access keys (if you are the root account or an EIM user)
+                summary: Deleting one of your own access keys (if you are the root user or an EIM user)
                 value:
                   AccessKeyId: ABCDEFGHIJ0123456789
               ex2:
@@ -16115,7 +16166,7 @@ paths:
   /DeleteFlexibleGpu:
     post:
       description: |-
-        Releases a flexible GPU (fGPU) from your account.<br />
+        Releases a flexible GPU (fGPU) from your OUTSCALE account.<br />
         The fGPU becomes free to be used by someone else.
       operationId: DeleteFlexibleGpu
       requestBody:
@@ -16338,6 +16389,42 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
+                    LoadBalancer:
+                      Tags: []
+                      SourceSecurityGroup:
+                        SecurityGroupName: security-group-example
+                        SecurityGroupAccountId: '123456789012'
+                      SecuredCookies: false
+                      PublicIp: 192.0.2.0
+                      Subnets:
+                      - subnet-12345678
+                      NetId: vpc-12345678
+                      BackendVmIds: []
+                      ApplicationStickyCookiePolicies: []
+                      SecurityGroups:
+                      - sg-12345678
+                      LoadBalancerType: internet-facing
+                      AccessLog:
+                        PublicationInterval: 60
+                        IsEnabled: false
+                      DnsName: private-lb-example.123456789.eu-west-2.lbu.outscale.com
+                      HealthCheck:
+                        UnhealthyThreshold: 2
+                        Timeout: 5
+                        CheckInterval: 30
+                        Protocol: TCP
+                        HealthyThreshold: 10
+                        Port: 80
+                      LoadBalancerStickyCookiePolicies: []
+                      SubregionNames:
+                      - eu-west-2a
+                      Listeners:
+                      - ServerCertificateId: orn:ows:idauth::012345678910:server-certificate/Certificate
+                        BackendPort: 80
+                        BackendProtocol: HTTP
+                        LoadBalancerPort: 443
+                        LoadBalancerProtocol: HTTPS
+                      LoadBalancerName: private-lb-example
           description: The HTTP 200 response (OK).
       tags:
       - LoadBalancer
@@ -16499,7 +16586,7 @@ paths:
     post:
       description: |-
         Deletes a specified network address translation (NAT) service.<br />
-        This action disassociates the public IP from the NAT service, but does not release this public IP from your account. However, it does not delete any NAT service routes in your route tables.
+        This action disassociates the public IP from the NAT service, but does not release this public IP from your OUTSCALE account. However, it does not delete any NAT service routes in your route tables.
       operationId: DeleteNatService
       requestBody:
         content:
@@ -16846,7 +16933,7 @@ paths:
     post:
       description: |-
         Releases a public IP.<br />
-        You can release a public IP associated with your account. This address is released in the public IP pool and can be used by someone else. Before releasing a public IP, ensure you updated all your resources communicating with this address.
+        You can release a public IP associated with your OUTSCALE account. This address is released in the public IP pool and can be used by someone else. Before releasing a public IP, ensure you updated all your resources communicating with this address.
       operationId: DeletePublicIp
       requestBody:
         content:
@@ -17451,7 +17538,8 @@ paths:
     post:
       description: |-
         Deletes a specified virtual gateway.<br />
-        Before deleting a virtual gateway, we recommend to detach it from the Net and delete the VPN connection.
+        **[IMPORTANT]**<br />
+        Before deleting a virtual gateway, we recommend detaching it from any associated Net, DirectLink, and DirectLink interface, and deleting the VPN connection.
       operationId: DeleteVirtualGateway
       requestBody:
         content:
@@ -17749,7 +17837,7 @@ paths:
       - LoadBalancer
   /DisableOutscaleLogin:
     post:
-      description: Disables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
+      description: Disables the possibility of logging in using the Outscale credentials of your root user when identity federation is activated.
       operationId: DisableOutscaleLogin
       requestBody:
         content:
@@ -17830,7 +17918,7 @@ paths:
       - IdentityProvider
   /EnableOutscaleLogin:
     post:
-      description: Enables the possibility of logging in using the Outscale credentials of your root account when identity federation is activated.
+      description: Enables the possibility of logging in using the Outscale credentials of your root user when identity federation is activated.
       operationId: EnableOutscaleLogin
       requestBody:
         content:
@@ -18478,7 +18566,7 @@ paths:
       - Policy
   /ReadAccessKeys:
     post:
-      description: Lists the access key IDs of either your root account or an EIM user.
+      description: Lists the access key IDs of either your root user or an EIM user.
       operationId: ReadAccessKeys
       requestBody:
         content:
@@ -18609,7 +18697,7 @@ paths:
   /ReadApiAccessPolicy:
     post:
       description: |-
-        Gets information about the API access policy of your account.<br /><br />
+        Gets information about the API access policy of your OUTSCALE account.<br /><br />
         For more information, see [About Your API Access Policy](https://docs.outscale.com/en/userguide/About-Your-API-Access-Policy.html).
       operationId: ReadApiAccessPolicy
       requestBody:
@@ -18700,7 +18788,7 @@ paths:
   /ReadApiLogs:
     post:
       description: |-
-        Lists the logs of the API calls you have performed with this account.
+        Lists the logs of the API calls you have performed with this OUTSCALE account.
 
         **[IMPORTANT]**<br />
         Past logs are accessible for up to 32 days.<br />
@@ -19003,7 +19091,7 @@ paths:
       - Vm
   /ReadConsumptionAccount:
     post:
-      description: Gets information about the consumption of your account for each billable resource within the specified time period.
+      description: Gets information about the consumption of your OUTSCALE account for each billable resource within the specified time period.
       operationId: ReadConsumptionAccount
       requestBody:
         content:
@@ -19375,7 +19463,7 @@ paths:
       - FlexibleGpu
   /ReadFlexibleGpus:
     post:
-      description: Lists one or more flexible GPUs (fGPUs) allocated to your account.
+      description: Lists one or more flexible GPUs (fGPUs) allocated to your OUTSCALE account.
       operationId: ReadFlexibleGpus
       requestBody:
         content:
@@ -19768,7 +19856,7 @@ paths:
       - Policy
   /ReadListenerRules:
     post:
-      description: Lists one or more listener rules. By default, this action returns the full list of listener rules for the account.
+      description: Lists one or more listener rules. By default, this action returns the full list of listener rules for the OUTSCALE account.
       operationId: ReadListenerRules
       requestBody:
         content:
@@ -20357,7 +20445,7 @@ paths:
       - Nic
   /ReadPolicies:
     post:
-      description: Lists all the managed policies available for your account.
+      description: Lists all the managed policies available for your OUTSCALE account.
       operationId: ReadPolicies
       requestBody:
         content:
@@ -20610,7 +20698,7 @@ paths:
   /ReadPublicIps:
     post:
       description: |-
-        Lists one or more public IPs allocated to your account.<br />
+        Lists one or more public IPs allocated to your OUTSCALE account.<br />
         By default, this action returns information about all your public IPs: available or associated with a virtual machine (VM), a network interface card (NIC) or a NAT service.
       operationId: ReadPublicIps
       requestBody:
@@ -20674,7 +20762,7 @@ paths:
     post:
       description: |-
         Lists one or more of your quotas.<br /><br />
-        For more information, see [About Your Account](https://docs.outscale.com/en/userguide/About-Your-Account.html).
+        For more information, see [About Your Account](https://docs.outscale.com/en/userguide/About-Your-OUTSCALE-Account.html).
       operationId: ReadQuotas
       requestBody:
         content:
@@ -21413,7 +21501,7 @@ paths:
   /ReadUserGroups:
     post:
       description: |-
-        Lists all the user groups of the account.<br />
+        Lists all the user groups of the OUTSCALE account.<br />
         The response can be filtered using either the PathPrefix or the UserGroupIds.
       operationId: ReadUserGroups
       requestBody:
@@ -21550,7 +21638,7 @@ paths:
   /ReadUsers:
     post:
       description: |-
-        Lists all EIM users in the account.<br />
+        Lists all EIM users in the OUTSCALE account.<br />
         The response can be filtered using the UserIds.
       operationId: ReadUsers
       requestBody:
@@ -23077,7 +23165,7 @@ paths:
   /UpdateAccessKey:
     post:
       description: |-
-        Modifies the attributes of the specified access key of either your root account or an EIM user.<br /><br />
+        Modifies the attributes of the specified access key of either the root user or an EIM user.<br /><br />
         The parameter `ExpirationDate` is not required when updating the state of your access key. However, if you do not specify the expiration date of an access key when updating its state, it is then set to not expire.
       operationId: UpdateAccessKey
       requestBody:
@@ -23093,7 +23181,7 @@ paths:
                   State: ACTIVE
                   ExpirationDate: '2063-04-05'
               ex2:
-                summary: Updating the state of one of your own access keys (if you are the root account or an EIM user)
+                summary: Updating the state of one of your own access keys (if you are the root user or an EIM user)
                 value:
                   AccessKeyId: ABCDEFGHIJ0123456789
                   State: ACTIVE
@@ -23141,7 +23229,7 @@ paths:
       - AccessKey
   /UpdateAccount:
     post:
-      description: Updates the account information for the account that sends the request.
+      description: Updates the OUTSCALE account information for the account that sends the request.
       operationId: UpdateAccount
       requestBody:
         content:
@@ -23184,7 +23272,7 @@ paths:
   /UpdateApiAccessPolicy:
     post:
       description: |-
-        Updates the API access policy of your account.<br /><br />
+        Updates the API access policy of your OUTSCALE account.<br /><br />
 
         **[IMPORTANT]**<br />
         Only one API access policy can be associated with your account.
@@ -23484,7 +23572,7 @@ paths:
       description: |-
         Modifies the access permissions for an OUTSCALE machine image (OMI).<br />
         You must specify either the `Additions` or the `Removals` parameter.<br />
-        After sharing an OMI with an account, the other account can create a copy of it that they own. For more information about copying OMIs, see [CreateImage](#createimage).
+        After sharing an OMI with an OUTSCALE account, the other account can create a copy of it that they own. For more information about copying OMIs, see [CreateImage](#createimage).
       operationId: UpdateImage
       requestBody:
         content:
@@ -24414,7 +24502,7 @@ paths:
       description: |-
         Modifies the permissions for a specified snapshot.<br />
         You must specify either the `Additions` or the `Removals` parameter.<br />
-        After sharing a snapshot with an account, the other account can create a copy of it that they own. For more information about copying snapshots, see [CreateSnapshot](#createsnapshot).
+        After sharing a snapshot with an OUTSCALE account, the other account can create a copy of it that they own. For more information about copying snapshots, see [CreateSnapshot](#createsnapshot).
       operationId: UpdateSnapshot
       requestBody:
         content:
