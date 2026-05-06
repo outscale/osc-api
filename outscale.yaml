@@ -6616,8 +6616,13 @@ components:
         NetId:
           description: The ID of the Net for the load balancer.
           type: string
+        PrivateIp:
+          description: The primary private IP of the load balancer.
+          nullable: true
+          type: string
         PublicIp:
           description: (internet-facing only) The public IP associated with the load balancer.
+          nullable: true
           type: string
         SecuredCookies:
           description: Whether secure cookies are enabled for the load balancer.
@@ -7388,14 +7393,27 @@ components:
         LinkPublicIpId:
           description: (Required in a Net) The ID representing the association of the public IP with the VM or the NIC.
           type: string
+        NatServiceId:
+          description: The ID of the NAT service associated with the public IP (if any).
+          nullable: true
+          type: string
+        NetAccessPointIds:
+          description: The IDs of the Net access points associated with the public IP (if any).
+          items:
+            type: string
+          nullable: true
+          type: array
         NicAccountId:
           description: The OUTSCALE account ID of the owner of the NIC.
+          nullable: true
           type: string
         NicId:
           description: The ID of the NIC the public IP is associated with (if any).
+          nullable: true
           type: string
         PrivateIp:
-          description: The private IP associated with the public IP.
+          description: The private IP associated with the NIC or load balancer.
+          nullable: true
           type: string
         PublicIp:
           description: The public IP.
@@ -7410,6 +7428,7 @@ components:
           type: array
         VmId:
           description: The ID of the VM the public IP is associated with (if any).
+          nullable: true
           type: string
       type: object
     PublicIpLight:
@@ -12354,12 +12373,12 @@ info:
     url: https://opensource.org/licenses/BSD-3-Clause
   termsOfService: https://en.outscale.com/terms-of-service/
   title: 3DS OUTSCALE API
-  version: 1.40.1
-  x-osc-api-osc-billing: 1.38.0
+  version: 1.41.0
+  x-osc-api-osc-billing: 1.39.0
   x-osc-api-osc-cloud-region: 1.37.0
-  x-osc-api-osc-cloud-vision: 1.36.0
-  x-osc-api-osc-core-iaas: 1.38.1
-  x-osc-api-osc-iam: 1.37.5
+  x-osc-api-osc-cloud-vision: 1.37.0
+  x-osc-api-osc-core-iaas: 1.39.0
+  x-osc-api-osc-iam: 1.37.6
   x-osc-api-type: external
 openapi: 3.0.0
 paths:
@@ -12407,31 +12426,31 @@ paths:
                         IpRange: 10.0.0.0/16
                         AccountId: '123456789012'
                       NetPeeringId: pcx-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '409':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 409 response (Conflict).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - NetPeering
   /AddUserToUserGroup:
@@ -12461,7 +12480,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - UserGroup
   /CheckAuthentication:
@@ -12489,7 +12508,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Account
   /CreateAccessKey:
@@ -12528,7 +12547,7 @@ paths:
                       SecretKey: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                       LastModificationDate: 2010-10-01T12:34:56.789+0000
                       Tag: Group1
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -12581,7 +12600,7 @@ paths:
                       LastName: DUPONT
                       AccountId: '123456789012'
                       Email: example@example.com
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Account
   /CreateApiAccessRule:
@@ -12650,7 +12669,7 @@ paths:
                       - ca-fedcba0987654321fedcba0987654321
                       Cns: []
                       Description: API Access Rule with IPs and CA
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -12687,7 +12706,7 @@ paths:
                       Description: CA example
                       CaId: ca-fedcba0987654321fedcba0987654321
                       CaFingerprint: 1234567890abcdef1234567890abcdef12345678
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -12730,7 +12749,7 @@ paths:
                       ClientGatewayId: cgw-12345678
                       ConnectionType: ipsec.1
                       PublicIp: 192.0.2.0
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ClientGateway
   /CreateDedicatedGroup:
@@ -12769,25 +12788,25 @@ paths:
                       Name: dedicated-group-example
                       SubregionName: eu-west-2a
                       DedicatedGroupId: ded-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - DedicatedGroup
   /CreateDhcpOptions:
@@ -12833,7 +12852,7 @@ paths:
                       DomainNameServers:
                       - 192.0.2.0
                       - 198.51.100.0
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DhcpOption
   /CreateDirectLink:
@@ -12872,7 +12891,7 @@ paths:
                       Location: PAR1
                       RegionName: eu-west-2
                       State: requested
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DirectLink
   /CreateDirectLinkInterface:
@@ -12924,7 +12943,7 @@ paths:
                       State: pending
                       InterfaceType: private
                       Location: PAR1
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DirectLinkInterface
   /CreateFlexibleGpu:
@@ -12965,7 +12984,7 @@ paths:
                       State: allocated
                       FlexibleGpuId: fgpu-12345678
                       Tags: []
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - FlexibleGpu
   /CreateImage:
@@ -13167,25 +13186,25 @@ paths:
                       FileLocation: https://oos.eu-west-2.outscale.com/BUCKET/KEY?AWSAccessKeyId=ABCDEFGHIJ0123456789&Expires=1493372309&Signature=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                       Architecture: x86_64
                       ImageName: register-image-from-bucket-example
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Image
   /CreateImageExportTask:
@@ -13237,7 +13256,7 @@ paths:
                         DiskImageFormat: qcow2
                       State: pending/queued
                       Progress: 0
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Image
   /CreateInternetService:
@@ -13269,25 +13288,25 @@ paths:
                     InternetService:
                       Tags: []
                       InternetServiceId: igw-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - InternetService
   /CreateKeypair:
@@ -13347,31 +13366,31 @@ paths:
                       KeypairName: create-keypair-example
                       KeypairId: key-abcdef1234567890abcdef1234567890
                       KeypairFingerprint: 11:22:33:44:55:66:77:88:99:00:aa:bb:cc:dd:ee:ff
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '409':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 409 response (Conflict).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Keypair
   /CreateListenerRule:
@@ -13448,7 +13467,7 @@ paths:
                       ListenerId: 123456
                       PathPattern: /docs/*
                       ListenerRuleId: 1234
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Listener
   /CreateLoadBalancer:
@@ -13629,7 +13648,7 @@ paths:
                         LoadBalancerPort: 8080
                         LoadBalancerProtocol: HTTP
                       LoadBalancerName: public-lb-example
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /CreateLoadBalancerListeners:
@@ -13701,7 +13720,7 @@ paths:
                         LoadBalancerPort: 80
                         LoadBalancerProtocol: TCP
                       LoadBalancerName: example-lbu
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Listener
   /CreateLoadBalancerPolicy:
@@ -13822,7 +13841,7 @@ paths:
                         LoadBalancerPort: 80
                         LoadBalancerProtocol: HTTP
                       LoadBalancerName: example-lbu
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancerPolicy
   /CreateLoadBalancerTags:
@@ -13856,7 +13875,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /CreateNatService:
@@ -13901,25 +13920,25 @@ paths:
                         PublicIp: 192.0.2.0
                       NetId: vpc-12345678
                       State: available
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - NatService
   /CreateNet:
@@ -13956,37 +13975,37 @@ paths:
                       Tenancy: default
                       NetId: vpc-12345678
                       State: available
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '409':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 409 response (Conflict).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Net
   /CreateNetAccessPoint:
     post:
       description: |-
-        Creates a Net access point to access an OUTSCALE service from this Net without using the Internet and public IPs.<br />
+        Creates a Net access point to access an OUTSCALE service from this Net without using the Internet or public IPs.<br />
         You specify the service using its name. For more information about the available services, see [ReadNetAccessPointServices](#readnetaccesspointservices).<br /> <br />
         To control the routing of traffic between the Net and the specified service, you can specify one or more route tables. Virtual machines placed in Subnets associated with the specified route table thus use the Net access point to access the service. When you specify a route table, a route is automatically added to it with the destination set to the prefix list ID of the service, and the target set to the ID of the access point.<br /><br />
         When a Net access point is created, a public IP is automatically allocated to your OUTSCALE account and used for the Net access point. This public IP is not connected to the Internet. It is counted in your quota, but it is not billed.<br /> <br />
@@ -14023,7 +14042,7 @@ paths:
                       State: pending
                       NetId: vpc-12345678
                       ServiceName: com.outscale.eu-west-2.oos
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - NetAccessPoint
   /CreateNetPeering:
@@ -14100,25 +14119,25 @@ paths:
                         IpRange: 10.0.0.0/16
                         AccountId: '123456789012'
                       NetPeeringId: pcx-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - NetPeering
   /CreateNic:
@@ -14209,25 +14228,25 @@ paths:
                       - PrivateDnsName: ip-10-0-0-5.eu-west-2.compute.internal
                         PrivateIp: 10.0.0.5
                         IsPrimary: false
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Nic
   /CreatePolicy:
@@ -14270,7 +14289,7 @@ paths:
                       Orn: orn:ows:idauth::012345678910:policy/example/example-user-policy
                       IsLinkable: true
                       LastModificationDate: 2010-10-01T12:34:56.789+0000
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /CreatePolicyVersion:
@@ -14310,7 +14329,7 @@ paths:
                       DefaultVersion: true
                       CreationDate: 2017-05-10T12:34:56.789+0000
                       Body: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /CreateProductType:
@@ -14342,7 +14361,7 @@ paths:
                       Vendor: vendor-name
                       ProductTypeId: pty-12345678
                       Description: Example of description
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ProductType
   /CreatePublicIp:
@@ -14375,25 +14394,25 @@ paths:
                       Tags: []
                       PublicIpId: eipalloc-12345678
                       PublicIp: 192.0.2.0
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - PublicIp
   /CreateRoute:
@@ -14450,25 +14469,25 @@ paths:
                       RouteTableId: rtb-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Route
   /CreateRouteTable:
@@ -14508,25 +14527,25 @@ paths:
                       RouteTableId: rtb-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - RouteTable
   /CreateSecurityGroup:
@@ -14576,25 +14595,25 @@ paths:
                       NetId: vpc-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - SecurityGroup
   /CreateSecurityGroupRule:
@@ -14701,25 +14720,25 @@ paths:
                       NetId: vpc-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - SecurityGroupRule
   /CreateServerCertificate:
@@ -14762,7 +14781,7 @@ paths:
                       Name: server-cert-example
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ServerCertificate
   /CreateSnapshot:
@@ -14863,25 +14882,25 @@ paths:
                       Tags: []
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Snapshot
   /CreateSnapshotExportTask:
@@ -14928,7 +14947,7 @@ paths:
                       Progress: 0
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Snapshot
   /CreateSubnet:
@@ -14968,31 +14987,31 @@ paths:
                       NetId: vpc-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '409':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 409 response (Conflict).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Subnet
   /CreateTags:
@@ -15051,25 +15070,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Tag
   /CreateUser:
@@ -15107,7 +15126,7 @@ paths:
                       Path: /documentation/
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - User
   /CreateUserGroup:
@@ -15144,7 +15163,7 @@ paths:
                       Orn: orn:ows:idauth::012345678910:usergroup/example/usergroup-example
                       Path: /example/
                       UserGroupId: ug-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - UserGroup
   /CreateVirtualGateway:
@@ -15180,7 +15199,7 @@ paths:
                       Tags: []
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VirtualGateway
   /CreateVmGroup:
@@ -15238,25 +15257,25 @@ paths:
                       VmTemplateId: vmtemplate-98765432109876543210987654321012
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - VmGroup
   /CreateVmTemplate:
@@ -15311,7 +15330,7 @@ paths:
                       Ram: 2
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VmTemplate
   /CreateVms:
@@ -15656,25 +15675,25 @@ paths:
                       PrivateDnsName: ip-10-0-0-4.eu-west-2.compute.internal
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /CreateVolume:
@@ -15743,25 +15762,25 @@ paths:
                       Size: 10
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Volume
   /CreateVpnConnection:
@@ -15812,7 +15831,7 @@ paths:
                       VpnConnectionId: vpn-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VpnConnection
   /CreateVpnConnectionRoute:
@@ -15843,7 +15862,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VpnConnection
   /DeleteAccessKey:
@@ -15878,7 +15897,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -15912,7 +15931,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -15942,7 +15961,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -15974,7 +15993,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ClientGateway
   /DeleteDedicatedGroup:
@@ -16014,25 +16033,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - DedicatedGroup
   /DeleteDhcpOptions:
@@ -16064,7 +16083,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DhcpOption
   /DeleteDirectLink:
@@ -16093,7 +16112,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DirectLink
   /DeleteDirectLinkInterface:
@@ -16120,7 +16139,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DirectLinkInterface
   /DeleteExportTask:
@@ -16160,7 +16179,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Task
   /DeleteFlexibleGpu:
@@ -16189,7 +16208,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - FlexibleGpu
   /DeleteImage:
@@ -16216,25 +16235,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Image
   /DeleteInternetService:
@@ -16263,25 +16282,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - InternetService
   /DeleteKeypair:
@@ -16315,25 +16334,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Keypair
   /DeleteListenerRule:
@@ -16362,7 +16381,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Listener
   /DeleteLoadBalancer:
@@ -16425,7 +16444,7 @@ paths:
                         LoadBalancerPort: 443
                         LoadBalancerProtocol: HTTPS
                       LoadBalancerName: private-lb-example
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /DeleteLoadBalancerListeners:
@@ -16484,7 +16503,7 @@ paths:
                       - eu-west-2a
                       Listeners: []
                       LoadBalancerName: example-lbu
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Listener
   /DeleteLoadBalancerPolicy:
@@ -16549,7 +16568,7 @@ paths:
                         LoadBalancerPort: 80
                         LoadBalancerProtocol: HTTP
                       LoadBalancerName: example-lbu
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancerPolicy
   /DeleteLoadBalancerTags:
@@ -16579,7 +16598,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /DeleteNatService:
@@ -16608,25 +16627,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - NatService
   /DeleteNet:
@@ -16665,25 +16684,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Net
   /DeleteNetAccessPoint:
@@ -16712,7 +16731,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - NetAccessPoint
   /DeleteNetPeering:
@@ -16743,31 +16762,31 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '409':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 409 response (Conflict).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - NetPeering
   /DeleteNic:
@@ -16796,25 +16815,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Nic
   /DeletePolicy:
@@ -16843,7 +16862,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /DeletePolicyVersion:
@@ -16876,7 +16895,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /DeleteProductType:
@@ -16908,25 +16927,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - ProductType
   /DeletePublicIp:
@@ -16955,25 +16974,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - PublicIp
   /DeleteRoute:
@@ -17011,25 +17030,25 @@ paths:
                       RouteTableId: rtb-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Route
   /DeleteRouteTable:
@@ -17058,25 +17077,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - RouteTable
   /DeleteSecurityGroup:
@@ -17106,25 +17125,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - SecurityGroup
   /DeleteSecurityGroupRule:
@@ -17210,25 +17229,25 @@ paths:
                       NetId: vpc-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - SecurityGroupRule
   /DeleteServerCertificate:
@@ -17255,7 +17274,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ServerCertificate
   /DeleteSnapshot:
@@ -17284,25 +17303,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Snapshot
   /DeleteSubnet:
@@ -17336,25 +17355,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Subnet
   /DeleteTags:
@@ -17385,25 +17404,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Tag
   /DeleteUser:
@@ -17430,7 +17449,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - User
   /DeleteUserGroup:
@@ -17464,7 +17483,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - UserGroup
   /DeleteUserGroupPolicy:
@@ -17498,7 +17517,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /DeleteUserPolicy:
@@ -17531,7 +17550,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /DeleteVirtualGateway:
@@ -17561,7 +17580,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VirtualGateway
   /DeleteVmGroup:
@@ -17592,25 +17611,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - VmGroup
   /DeleteVmTemplate:
@@ -17642,7 +17661,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VmTemplate
   /DeleteVms:
@@ -17676,25 +17695,25 @@ paths:
                       CurrentState: shutting-down
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /DeleteVolume:
@@ -17723,25 +17742,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Volume
   /DeleteVpnConnection:
@@ -17770,7 +17789,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VpnConnection
   /DeleteVpnConnectionRoute:
@@ -17798,7 +17817,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VpnConnection
   /DeregisterVmsInLoadBalancer:
@@ -17832,7 +17851,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /DisableOutscaleLogin:
@@ -17858,7 +17877,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - IdentityProvider
   /DisableOutscaleLoginForUsers:
@@ -17884,7 +17903,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - IdentityProvider
   /DisableOutscaleLoginPerUsers:
@@ -17913,7 +17932,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - IdentityProvider
   /EnableOutscaleLogin:
@@ -17939,7 +17958,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - IdentityProvider
   /EnableOutscaleLoginForUsers:
@@ -17965,7 +17984,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - IdentityProvider
   /EnableOutscaleLoginPerUsers:
@@ -17994,7 +18013,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - IdentityProvider
   /LinkFlexibleGpu:
@@ -18027,7 +18046,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - FlexibleGpu
   /LinkInternetService:
@@ -18057,25 +18076,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - InternetService
   /LinkLoadBalancerBackendMachines:
@@ -18121,7 +18140,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /LinkManagedPolicyToUserGroup:
@@ -18154,7 +18173,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /LinkNic:
@@ -18186,25 +18205,25 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     LinkNicId: eni-attach-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Nic
   /LinkPolicy:
@@ -18237,7 +18256,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /LinkPrivateIps:
@@ -18273,25 +18292,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Nic
   /LinkPublicIp:
@@ -18339,25 +18358,25 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     LinkPublicIpId: eipassoc-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - PublicIp
   /LinkRouteTable:
@@ -18388,25 +18407,25 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     LinkRouteTableId: rtbassoc-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - RouteTable
   /LinkVirtualGateway:
@@ -18441,7 +18460,7 @@ paths:
                     NetToVirtualGatewayLink:
                       State: attached
                       NetId: vpc-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VirtualGateway
   /LinkVolume:
@@ -18472,25 +18491,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Volume
   /PutUserGroupPolicy:
@@ -18526,7 +18545,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /PutUserPolicy:
@@ -18561,7 +18580,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadAccessKeys:
@@ -18599,7 +18618,7 @@ paths:
                       ExpirationDate: 2063-04-05T00:00:00.000+0000
                       LastModificationDate: 2010-10-01T12:34:56.789+0000
                       Tag: Group1
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -18638,7 +18657,7 @@ paths:
                       AccountId: '123456789012'
                       CustomerId: '87654321'
                       Email: example@example.com
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Account
   /ReadAdminPassword:
@@ -18673,25 +18692,25 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     AdminPassword: ...
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /ReadApiAccessPolicy:
@@ -18722,25 +18741,25 @@ paths:
                     ApiAccessPolicy:
                       RequireTrustedEnv: false
                       MaxAccessKeyExpirationSeconds: 0
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -18779,7 +18798,7 @@ paths:
                       CaIds: []
                       Cns: []
                       Description: Allows all IPv4 domain
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -18837,7 +18856,7 @@ paths:
                       QueryHeaderSize: 287
                       QueryDate: '2017-05-10T12:34:56.789Z'
                       QueryHeaderRaw: 'Host: api.eu-west-2.outscale.com\nAccept: */*\nConnection: close\nUser-Agent: oAPI CLI v0.1 - 2018-09-28\nX-Osc-Date: 20170510T000000Z\nContent-Type: application/json; charset=utf-8\nAuthorization: *****\nContent-Length: 2\nAccept-Encoding: gzip, deflate\nX-Forwarded-For: 192.0.2.0'
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ApiLog
   /ReadCO2EmissionAccount:
@@ -18879,7 +18898,7 @@ paths:
                       FactorDistribution:
                       - Value: 1.2345
                         Factor: electricity
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Account
   /ReadCas:
@@ -18912,7 +18931,7 @@ paths:
                     - Description: CA example
                       CaId: ca-fedcba0987654321fedcba0987654321
                       CaFingerprint: 1234567890abcdef1234567890abcdef12345678
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -18950,7 +18969,7 @@ paths:
                         Category: compute
                         Service: TinaOS-FCU
                         Operation: RunInstances-OD
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Catalog
   /ReadCatalogs:
@@ -18991,7 +19010,7 @@ paths:
                         Category: compute
                         Service: TinaOS-FCU
                         Operation: RunInstances-OD
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Catalog
   /ReadClientGateways:
@@ -19035,7 +19054,7 @@ paths:
                       ClientGatewayId: cgw-12345678
                       ConnectionType: ipsec.1
                       PublicIp: 192.0.2.0
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ClientGateway
   /ReadConsoleOutput:
@@ -19068,25 +19087,25 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     ConsoleOutput: ...
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /ReadConsumptionAccount:
@@ -19172,7 +19191,7 @@ paths:
                       UnitPrice: 0.18
                       Price: 267.84
                       ResourceId: i-87654321
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Account
   /ReadDedicatedGroups:
@@ -19219,25 +19238,25 @@ paths:
                       Name: dedicated-group-example
                       SubregionName: eu-west-2a
                       DedicatedGroupId: ded-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - DedicatedGroup
   /ReadDhcpOptions:
@@ -19285,7 +19304,7 @@ paths:
                       DomainNameServers:
                       - 192.0.2.0
                       - 198.51.100.0
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DhcpOption
   /ReadDirectLinkInterfaces:
@@ -19328,7 +19347,7 @@ paths:
                       State: available
                       InterfaceType: private
                       Location: PAR1
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DirectLinkInterface
   /ReadDirectLinks:
@@ -19365,7 +19384,7 @@ paths:
                       Location: PAR1
                       RegionName: eu-west-2
                       State: available
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DirectLink
   /ReadEntitiesLinkedToPolicy:
@@ -19424,7 +19443,7 @@ paths:
                       - Id: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
                         Name: example-user
                         Orn: orn:ows:idauth::012345678910:user/example/user-example
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadFlexibleGpuCatalog:
@@ -19457,7 +19476,7 @@ paths:
                       MaxCpu: 80
                       MaxRam: 512
                       ModelName: nvidia-p100
-          description: The HTTP 200 response (OK).
+          description: ''
       security: []
       tags:
       - FlexibleGpu
@@ -19504,7 +19523,7 @@ paths:
                       SubregionName: eu-west-2a
                       VmId: i-12345678
                       Tags: []
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - FlexibleGpu
   /ReadImageExportTasks:
@@ -19544,7 +19563,7 @@ paths:
                         DiskImageFormat: qcow2
                       State: pending/queued
                       Progress: 0
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Image
   /ReadImages:
@@ -19677,25 +19696,25 @@ paths:
                       FileLocation: Outscale/RockyLinux-2010.10.01-0
                       Architecture: x86_64
                       ImageName: RockyLinux-2010.10.01-0
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Image
   /ReadInternetServices:
@@ -19741,25 +19760,25 @@ paths:
                       State: available
                       NetId: vpc-12345678
                       InternetServiceId: igw-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - InternetService
   /ReadKeypairs:
@@ -19793,25 +19812,25 @@ paths:
                       KeypairName: keypair-example
                       KeypairId: key-abcdef1234567890abcdef1234567890
                       KeypairFingerprint: 11:22:33:44:55:66:77:88:99:00:aa:bb:cc:dd:ee:ff
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Keypair
   /ReadLinkedPolicies:
@@ -19851,7 +19870,7 @@ paths:
                       PolicyId: ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
                     MaxResultsLimit: 30
                     MaxResultsTruncated: false
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadListenerRules:
@@ -19889,7 +19908,7 @@ paths:
                       ListenerId: 123456
                       HostNamePattern: '*.example.com'
                       ListenerRuleId: 1234
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Listener
   /ReadLoadBalancerTags:
@@ -19921,7 +19940,7 @@ paths:
                       Key: key1
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /ReadLoadBalancers:
@@ -19986,7 +20005,7 @@ paths:
                         LoadBalancerPort: 443
                         LoadBalancerProtocol: HTTPS
                       LoadBalancerName: private-lb-example
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /ReadLocations:
@@ -20019,7 +20038,7 @@ paths:
                       Code: PAR1
                     - Name: Equinix Pantin, France
                       Code: PAR4
-          description: The HTTP 200 response (OK).
+          description: ''
       security: []
       tags:
       - Location
@@ -20062,7 +20081,7 @@ paths:
                       Orn: orn:ows:idauth::012345678910:policy/example/example-user-policy
                       PolicyId: ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
                       PolicyName: example-policy
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadNatServices:
@@ -20108,25 +20127,25 @@ paths:
                         PublicIp: 192.0.2.0
                       NetId: vpc-12345678
                       State: available
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - NatService
   /ReadNetAccessPointServices:
@@ -20187,7 +20206,7 @@ paths:
                       - 192.0.2.0
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       security: []
       tags:
       - NetAccessPoint
@@ -20232,7 +20251,7 @@ paths:
                       State: available
                       NetId: vpc-12345678
                       ServiceName: com.outscale.eu-west-2.oos
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - NetAccessPoint
   /ReadNetPeerings:
@@ -20283,25 +20302,25 @@ paths:
                         IpRange: 10.0.0.0/16
                         AccountId: '123456789012'
                       NetPeeringId: pcx-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - NetPeering
   /ReadNets:
@@ -20342,25 +20361,25 @@ paths:
                       Tenancy: default
                       NetId: vpc-12345678
                       State: available
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Net
   /ReadNics:
@@ -20422,25 +20441,25 @@ paths:
                       - PrivateDnsName: ip-10-0-0-4.eu-west-2.compute.internal
                         PrivateIp: 10.0.0.4
                         IsPrimary: true
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Nic
   /ReadPolicies:
@@ -20486,7 +20505,7 @@ paths:
                       LastModificationDate: 2010-10-01T12:34:56.789+0000
                     MaxResultsLimit: 30
                     MaxResultsTruncated: false
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadPolicy:
@@ -20524,7 +20543,7 @@ paths:
                       LastModificationDate: 2010-10-01T12:34:56.789+0000
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadPolicyVersion:
@@ -20557,7 +20576,7 @@ paths:
                       DefaultVersion: true
                       CreationDate: 2010-10-01T12:34:56.789+0000
                       Body: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadPolicyVersions:
@@ -20593,7 +20612,7 @@ paths:
                       CreationDate: 2010-10-01T12:34:56.789+0000
                       Body: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
                     HasMoreItems: true
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadProductTypes:
@@ -20625,7 +20644,7 @@ paths:
                     ProductTypes:
                     - ProductTypeId: '0001'
                       Description: Linux
-          description: The HTTP 200 response (OK).
+          description: ''
       security: []
       tags:
       - ProductType
@@ -20661,7 +20680,7 @@ paths:
                         Category: compute
                         Service: TinaOS-FCU
                         Operation: RunInstances-OD
-          description: The HTTP 200 response (OK).
+          description: ''
       security: []
       tags:
       - PublicCatalog
@@ -20691,7 +20710,7 @@ paths:
                     PublicIps:
                     - 198.51.100.0/24
                     - 203.0.113.0/24
-          description: The HTTP 200 response (OK).
+          description: ''
       security: []
       tags:
       - PublicIp
@@ -20737,25 +20756,25 @@ paths:
                       NicAccountId: '123456789012'
                       NicId: eni-12345678
                       PrivateIp: 10.0.0.4
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - PublicIp
   /ReadQuotas:
@@ -20828,7 +20847,7 @@ paths:
                         UsedValue: 1
                         Name: other_example_limit
                       QuotaType: vpc-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Quota
   /ReadRegions:
@@ -20863,7 +20882,7 @@ paths:
                       Endpoint: api.us-east-2.outscale.com
                     - RegionName: us-west-1
                       Endpoint: api.us-west-1.outscale.com
-          description: The HTTP 200 response (OK).
+          description: ''
       security: []
       tags:
       - Region
@@ -20916,25 +20935,25 @@ paths:
                       RouteTableId: rtb-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - RouteTable
   /ReadSecurityGroups:
@@ -20990,25 +21009,25 @@ paths:
                       NetId: vpc-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - SecurityGroup
   /ReadServerCertificates:
@@ -21042,7 +21061,7 @@ paths:
                       Name: server-cert-example
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ServerCertificate
   /ReadSnapshotExportTasks:
@@ -21082,7 +21101,7 @@ paths:
                       Progress: 99
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Snapshot
   /ReadSnapshots:
@@ -21151,25 +21170,25 @@ paths:
                         Key: env
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Snapshot
   /ReadSubnets:
@@ -21217,25 +21236,25 @@ paths:
                       NetId: vpc-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Subnet
   /ReadSubregions:
@@ -21295,7 +21314,7 @@ paths:
                       LocationCode: PAR4
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Subregion
   /ReadTags:
@@ -21331,25 +21350,25 @@ paths:
                       Key: key1
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Tag
   /ReadUnitPrice:
@@ -21385,7 +21404,7 @@ paths:
                       Operation: CreateVolume
                       Type: BSU:VolumeIOPS:io1
                       Service: TinaOS-FCU
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Catalog
   /ReadUserGroup:
@@ -21427,7 +21446,7 @@ paths:
                       UserEmail: user@example.com
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
                       UserName: example-user
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - UserGroup
   /ReadUserGroupPolicies:
@@ -21463,7 +21482,7 @@ paths:
                     Policies:
                     - Body: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
                       Name: example-policy
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadUserGroupPolicy:
@@ -21495,7 +21514,7 @@ paths:
                     Policy:
                       Body: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
                       Name: example-policy
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadUserGroups:
@@ -21539,7 +21558,7 @@ paths:
                       Orn: orn:ows:idauth::012345678910:usergroup/example/usergroup-example
                       Path: /example/
                       UserGroupId: ug-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - UserGroup
   /ReadUserGroupsPerUser:
@@ -21574,7 +21593,7 @@ paths:
                       Orn: orn:ows:idauth::012345678910:usergroup/example/usergroup-example
                       Path: /example/
                       UserGroupId: ug-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - UserGroup
   /ReadUserPolicies:
@@ -21603,7 +21622,7 @@ paths:
                     - example-policy
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadUserPolicy:
@@ -21632,7 +21651,7 @@ paths:
                     PolicyDocument: '{"Statement": [ {"Effect": "Allow", "Action": ["*"], "Resource": ["*"]} ]}'
                     PolicyName: example-user-policy
                     UserName: example-user
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /ReadUsers:
@@ -21668,7 +21687,7 @@ paths:
                       Path: /documentation/
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - User
   /ReadVirtualGateways:
@@ -21723,7 +21742,7 @@ paths:
                       Tags: []
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VirtualGateway
   /ReadVmGroups:
@@ -21771,25 +21790,25 @@ paths:
                       Tags:
                       - Value: value1
                         Key: key1
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - VmGroup
   /ReadVmTemplates:
@@ -21840,7 +21859,7 @@ paths:
                       Ram: 2
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VmTemplate
   /ReadVmTypes:
@@ -21876,7 +21895,7 @@ paths:
                       VcoreCount: 1
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       security: []
       tags:
       - Vm
@@ -21985,25 +22004,25 @@ paths:
                       PrivateDnsName: ip-10-0-0-4.eu-west-2.compute.internal
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /ReadVmsHealth:
@@ -22040,7 +22059,7 @@ paths:
                       StateReason: ELB
                       State: DOWN
                       Description: Instance registration is pending
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /ReadVmsState:
@@ -22090,25 +22109,25 @@ paths:
                       MaintenanceEvents: []
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /ReadVolumeUpdateTasks:
@@ -22155,25 +22174,25 @@ paths:
                       Progress: 100
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       summary: Lists one or more update tasks of volumes
       tags:
       - Volume
@@ -22226,25 +22245,25 @@ paths:
                       Size: 10
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Volume
   /ReadVpnConnections:
@@ -22296,7 +22315,7 @@ paths:
                       VpnConnectionId: vpn-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VpnConnection
   /RebootVms:
@@ -22326,25 +22345,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /RegisterVmsInLoadBalancer:
@@ -22379,7 +22398,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /RejectNetPeering:
@@ -22408,31 +22427,31 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '409':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 409 response (Conflict).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - NetPeering
   /RemoveUserFromUserGroup:
@@ -22462,7 +22481,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - UserGroup
   /ScaleDownVmGroup:
@@ -22496,25 +22515,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - VmGroup
   /ScaleUpVmGroup:
@@ -22548,25 +22567,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - VmGroup
   /SetDefaultPolicyVersion:
@@ -22600,7 +22619,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /StartVms:
@@ -22634,25 +22653,25 @@ paths:
                       CurrentState: pending
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /StopVms:
@@ -22686,25 +22705,25 @@ paths:
                       CurrentState: stopping
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /UnlinkFlexibleGpu:
@@ -22733,7 +22752,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - FlexibleGpu
   /UnlinkInternetService:
@@ -22763,25 +22782,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - InternetService
   /UnlinkLoadBalancerBackendMachines:
@@ -22825,7 +22844,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /UnlinkManagedPolicyFromUserGroup:
@@ -22858,7 +22877,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /UnlinkNic:
@@ -22887,25 +22906,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Nic
   /UnlinkPolicy:
@@ -22938,7 +22957,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Policy
   /UnlinkPrivateIps:
@@ -22968,25 +22987,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Nic
   /UnlinkPublicIp:
@@ -23017,25 +23036,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - PublicIp
   /UnlinkRouteTable:
@@ -23064,25 +23083,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - RouteTable
   /UnlinkVirtualGateway:
@@ -23112,7 +23131,7 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VirtualGateway
   /UnlinkVolume:
@@ -23141,25 +23160,25 @@ paths:
                   value:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Volume
   /UpdateAccessKey:
@@ -23221,7 +23240,7 @@ paths:
                       CreationDate: 2010-10-01T12:34:56.789+0000
                       LastModificationDate: 2017-05-10T12:34:56.789+0000
                       Tag: Group1
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -23266,7 +23285,7 @@ paths:
                       AccountId: '123456789012'
                       CustomerId: '87654321'
                       Email: example@example.com
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Account
   /UpdateApiAccessPolicy:
@@ -23329,25 +23348,25 @@ paths:
                     ApiAccessPolicy:
                       RequireTrustedEnv: false
                       MaxAccessKeyExpirationSeconds: 0
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -23392,7 +23411,7 @@ paths:
                       CaIds: []
                       Cns: []
                       Description: Allows all IPv4 domain
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -23427,7 +23446,7 @@ paths:
                       Description: New description
                       CaId: ca-fedcba0987654321fedcba0987654321
                       CaFingerprint: 1234567890abcdef1234567890abcdef12345678
-          description: The HTTP 200 response (OK).
+          description: ''
       security:
       - ApiKeyAuthSec: []
       - BasicAuth: []
@@ -23468,25 +23487,25 @@ paths:
                       Name: New-dedicated-group-name
                       SubregionName: eu-west-2a
                       DedicatedGroupId: ded-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - DedicatedGroup
   /UpdateDirectLinkInterface:
@@ -23528,7 +23547,7 @@ paths:
                       State: available
                       InterfaceType: private
                       Location: PAR1
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - DirectLinkInterface
   /UpdateFlexibleGpu:
@@ -23564,7 +23583,7 @@ paths:
                       State: allocated
                       SubregionName: eu-west-2a
                       Tags: []
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - FlexibleGpu
   /UpdateImage:
@@ -23743,25 +23762,25 @@ paths:
                       FileLocation: 123456789012/image-example
                       Architecture: x86_64
                       ImageName: image-example
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Image
   /UpdateListenerRule:
@@ -23800,7 +23819,7 @@ paths:
                       ListenerId: 123456
                       HostNamePattern: '*.newhost.com'
                       ListenerRuleId: 1234
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - Listener
   /UpdateLoadBalancer:
@@ -24030,7 +24049,7 @@ paths:
                         LoadBalancerPort: 443
                         LoadBalancerProtocol: HTTPS
                       LoadBalancerName: private-lb-example
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - LoadBalancer
   /UpdateNet:
@@ -24065,25 +24084,25 @@ paths:
                       Tenancy: default
                       NetId: vpc-12345678
                       State: available
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Net
   /UpdateNetAccessPoint:
@@ -24143,7 +24162,7 @@ paths:
                       State: available
                       NetId: vpc-12345678
                       ServiceName: com.outscale.eu-west-2.oos
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - NetAccessPoint
   /UpdateNic:
@@ -24274,25 +24293,25 @@ paths:
                       - PrivateDnsName: ip-10-0-0-4.eu-west-2.compute.internal
                         PrivateIp: 10.0.0.4
                         IsPrimary: true
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Nic
   /UpdateRoute:
@@ -24352,25 +24371,25 @@ paths:
                       RouteTableId: rtb-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Route
   /UpdateRoutePropagation:
@@ -24413,7 +24432,7 @@ paths:
                       RouteTableId: rtb-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VirtualGateway
   /UpdateRouteTableLink:
@@ -24444,25 +24463,25 @@ paths:
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
                     LinkRouteTableId: rtbassoc-12345678
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - RouteTable
   /UpdateServerCertificate:
@@ -24494,7 +24513,7 @@ paths:
                       Name: new-name
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - ServerCertificate
   /UpdateSnapshot:
@@ -24620,25 +24639,25 @@ paths:
                       Tags: []
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Snapshot
   /UpdateSubnet:
@@ -24675,25 +24694,25 @@ paths:
                       NetId: vpc-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Subnet
   /UpdateUser:
@@ -24730,7 +24749,7 @@ paths:
                       Path: /product/
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - User
   /UpdateUserGroup:
@@ -24774,7 +24793,7 @@ paths:
                       UserEmail: user@example.com
                       UserId: ABCDEFGHIJKLMNOPQRSTUVWXYZ12345
                       UserName: example-user
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - UserGroup
   /UpdateVm:
@@ -24952,25 +24971,25 @@ paths:
                         SecureBoot: none
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Vm
   /UpdateVmGroup:
@@ -25023,25 +25042,25 @@ paths:
                       Tags: []
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - VmGroup
   /UpdateVmTemplate:
@@ -25085,7 +25104,7 @@ paths:
                       Ram: 2
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
       tags:
       - VmTemplate
   /UpdateVolume:
@@ -25154,25 +25173,25 @@ paths:
                       TaskId: vol-update-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - Volume
   /UpdateVpnConnection:
@@ -25218,25 +25237,25 @@ paths:
                       VpnConnectionId: vpn-12345678
                     ResponseContext:
                       RequestId: 0475ca1e-d0c5-441d-712a-da55a4175157
-          description: The HTTP 200 response (OK).
+          description: ''
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 400 response (Bad Request).
+          description: ''
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 401 response (Unauthorized).
+          description: ''
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-          description: The HTTP 500 response (Internal Server Error).
+          description: ''
       tags:
       - VpnConnection
 security:
