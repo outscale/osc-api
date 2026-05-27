@@ -3,6 +3,9 @@ on:
   release:
     types: [released]
 
+permissions:
+  contents: read
+
 jobs:
   osc-api-deploy:
     runs-on: ubuntu-latest
